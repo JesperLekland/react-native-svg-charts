@@ -1,11 +1,31 @@
 {
 	"name": "exopen-react-native-charts",
-	"version": "0.1.2",
+	"version": "0.1.1",
 	"private": false,
+	"description": "Customizable Icons for React Native with support for NavBar/TabBar/ToolbarAndroid, image source and full styling.",
+	"main": "src/index.js",
 	"scripts": {
 		"start": "node node_modules/react-native/local-cli/cli.js start",
 		"test": "jest"
 	},
+	"keywords": [
+		"react-native",
+		"react-component",
+		"react-native-component",
+		"react",
+		"mobile",
+		"ios",
+		"android",
+		"vector",
+		"charts",
+		"chart",
+		"d3"
+	],
+	"author": {
+		"name": "Jesper Lekland",
+		"email": "jesper.lekland@push2prod.se"
+	},
+	"license": "MIT",
 	"dependencies": {
 		"art": "^0.10.1",
 		"d3": "^4.8.0",
