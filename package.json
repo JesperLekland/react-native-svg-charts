@@ -1,6 +1,6 @@
 {
 	"name": "exopen-react-native-charts",
-	"version": "0.1.3",
+	"version": "0.1.4",
 	"private": false,
 	"description": "Customizable Icons for React Native with support for NavBar/TabBar/ToolbarAndroid, image source and full styling.",
 	"main": "src/index.js",
