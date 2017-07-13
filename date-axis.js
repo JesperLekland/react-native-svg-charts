@@ -65,7 +65,6 @@ class DateAxis extends Component {
                 x          = () => {}
         }
 
-
         return (
             <View style={[ style ]}>
                 <View

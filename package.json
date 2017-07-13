@@ -1,5 +1,5 @@
 {
-	"name": "react-native-charts",
+	"name": "exopen-react-native-charts",
 	"version": "0.1.1",
 	"private": false,
 	"scripts": {
@@ -22,10 +22,20 @@
 		"react-native": "0.44.0"
 	},
 	"devDependencies": {
+		"babel-eslint": "^7.2.3",
 		"babel-jest": "20.0.1",
 		"babel-preset-react-native": "1.9.1",
+		"babel-plugin-module-alias": "^1.6.0",
 		"jest": "20.0.1",
-		"react-test-renderer": "16.0.0-alpha.6"
+		"react-test-renderer": "16.0.0-alpha.6",
+		"eslint": "^3.19.0",
+		"eslint-config-standard": "^10.2.1",
+		"eslint-plugin-import": "^2.6.0",
+		"eslint-plugin-node": "^5.1.0",
+		"eslint-plugin-promise": "^3.5.0",
+		"eslint-plugin-react": "^7.1.0",
+		"eslint-plugin-react-native": "^2.3.2",
+		"eslint-plugin-standard": "^3.0.1"
 	},
 	"jest": {
 		"preset": "react-native"

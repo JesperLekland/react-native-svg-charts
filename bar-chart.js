@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { ART, View } from 'react-native'
+import { ART, StyleSheet, View } from 'react-native'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
 import * as array from 'd3-array'
@@ -36,7 +36,6 @@ class BarChart extends Component {
                   animationDuration,
                   yRatio,
                   style,
-                  onBarMeasure,
               } = this.props
 
         const { height, width } = this.state
@@ -55,22 +54,19 @@ class BarChart extends Component {
             .paddingInner([ spacing ])
             .paddingOuter([ spacing ])
 
-        onBarMeasure(x.bandwidth())
-
         const bars = dataPoints.map((point, index) => {
-                const area = shape.area()
-                    .x((point, _index) => _index === 0 ? x(index) : x(index) + x.bandwidth())
-                    .y0(-y(0))
-                    .y1(point => -y(point))
-                    .defined(value => value)
-                    ([ point, point ])
+            const area = shape.area()
+                .x((point, _index) => _index === 0 ? x(index) : x(index) + x.bandwidth())
+                .y0(-y(0))
+                .y1(point => -y(point))
+                .defined(value => value)
+                ([ point, point ])
 
-                return {
-                    value: point,
-                    area,
-                }
-            },
-        )
+            return {
+                value: point,
+                area,
+            }
+        })
 
         return (
             <View style={style}>
@@ -93,15 +89,7 @@ class BarChart extends Component {
                             )}
                         </Group>
                     </Surface>
-                    <View style={{
-                        position: 'absolute',
-                        bottom: y(0) - 1,
-                        left: 0,
-                        right: 0,
-                        height: 1,
-                        // backgroundColor: 'rgba(0,0,0,0.5)',
-                        backgroundColor: 'black',
-                    }}/>
+                    <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>
                 </View>
             </View>
         )
@@ -119,7 +107,6 @@ BarChart.propTypes = {
     animationDuration: PropTypes.number,
     fillColorNegative: PropTypes.string,
     strokeColorNegative: PropTypes.string,
-    onBarMeasure: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -132,8 +119,17 @@ BarChart.defaultProps = {
     width: 100,
     height: 100,
     yRatio: 1,
-    onBarMeasure: () => {
-    },
 }
+
+const styles = StyleSheet.create({
+    zeroAxis: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        height: 1,
+        // backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'black',
+    },
+})
 
 export default BarChart

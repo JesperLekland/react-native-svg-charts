@@ -78,8 +78,7 @@ class PieChart extends Component {
 
 PieChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.shape({
-        // value: PropTypes.number.isRequired,
-        // color: PropTypes.string.isRequired,
+        color: PropTypes.string.isRequired,
     })).isRequired,
     innerRadius: PropTypes.number,
     padAngle: PropTypes.number,

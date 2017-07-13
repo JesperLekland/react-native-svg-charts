@@ -23,6 +23,22 @@ class AreaChart extends Component {
         this.setState({ height, width })
     }
 
+    _getPointStyle(value, x, y) {
+        const { pointSize, pointWidth, pointColor } = this.props
+
+        return {
+            position: 'absolute',
+            left: x - pointSize,
+            bottom: y - pointSize,
+            height: pointSize * 2,
+            width: pointSize * 2,
+            borderRadius: pointSize,
+            borderWidth: pointWidth,
+            // backgroundColor: value >= 0 ? pointColor : 'red',
+            borderColor: value >= 0 ? pointColor : 'red',
+        }
+    }
+
     render() {
 
         const {
@@ -30,9 +46,6 @@ class AreaChart extends Component {
                   strokeColor,
                   fillColor,
                   showPoints,
-                  pointColor,
-                  pointSize,
-                  pointWidth,
                   animate,
                   animationDuration,
                   style,
@@ -57,13 +70,6 @@ class AreaChart extends Component {
             .curve(shape.curveCardinal)
             (dataPoints)
 
-        const circle = shape.arc()
-            .startAngle(0)
-            .endAngle(360)
-            .innerRadius(0)
-            .outerRadius(pointSize)
-            ()
-
         return (
             <View style={style}>
                 <View
@@ -82,21 +88,13 @@ class AreaChart extends Component {
                             />
                         </Group>
                     </Surface>
-                    {showPoints && dataPoints.map((value, index) => {
+                    {
+                        showPoints &&
+                        dataPoints.map((value, index) => {
                             if (typeof value === 'number') {
                                 return (
                                     <View
-                                        style={{
-                                            position: 'absolute',
-                                            left: x(index) - pointSize,
-                                            bottom: y(value) - pointSize,
-                                            height: pointSize * 2,
-                                            width: pointSize * 2,
-                                            borderRadius: pointSize,
-                                            borderWidth: pointWidth,
-                                            // backgroundColor: value >= 0 ? pointColor : 'red',
-                                            borderColor: value >= 0 ? pointColor : 'red',
-                                        }}
+                                        style={this._getPointStyle(value, x(value), y(value))}
                                         key={index}
                                     />
                                 )

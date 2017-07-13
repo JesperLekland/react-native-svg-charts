@@ -7,45 +7,44 @@ import YAxis from './y-axis'
 import LineChart from './line-chart'
 import PieChart from './pie-chart'
 
-
 const _data =
-          [
-              [
-                  { "value": 80, "name": 'Fun activities', color: 'blue', date: new Date(2016, 7) },
-                  { "value": 15, "name": 'Dog', color: 'green', date: new Date(2016, 8) },
-                  { "value": 150, "name": 'Food', color: 'purple', date: new Date(2016, 9) },
-                  { "value": undefined, "name": 'YouFood', color: 'purple', date: new Date(2016, 10) },
-                  { "value": 0, "name": 'barfoo', color: 'purple', date: new Date(2016, 11) },
-                  { "value": -23, "name": 'Car', color: 'gray', date: new Date(2016, 12) },
-                  { "value": 220, "name": 'Rent', color: 'red', date: new Date(2017, 1) },
-                  { "value": undefined, "foo": 'Rent', color: 'red', date: new Date(2017, 2) },
-                  { "value": 0, "name": 'bar', color: 'red', date: new Date(2017, 3) },
-                  { "value": -40, "name": 'baz', color: 'orange', date: new Date(2017, 4) },
-                  { "value": -100, "name": 'foobar', color: 'orange', date: new Date(2017, 5) },
-              ],
-              [
-                  { "value": 60, "name": 'Fun activities', color: 'blue', date: new Date(2016, 7) },
-                  { "value": 150, "name": 'Dog', color: 'green', date: new Date(2016, 8) },
-                  { "value": 15, "name": 'Food', color: 'purple', date: new Date(2016, 9) },
-                  { "value": undefined, "name": 'YouFood', color: 'purple', date: new Date(2016, 10) },
-                  { "value": 10, "name": 'barfoo', color: 'purple', date: new Date(2016, 11) },
-                  { "value": -23, "name": 'Car', color: 'gray', date: new Date(2016, 12) },
-                  { "value": 220, "name": 'Rent', color: 'red', date: new Date(2017, 1) },
-                  { "value": undefined, "foo": 'Rent', color: 'red', date: new Date(2017, 2) },
-                  { "value": 0, "name": 'bar', color: 'red', date: new Date(2017, 3) },
-                  { "value": -40, "name": 'baz', color: 'orange', date: new Date(2017, 4) },
-                  { "value": -100, "name": 'foobar', color: 'orange', date: new Date(2017, 5) },
-              ],
-              [
-                  { "value": 30, "name": 'Fun activities', color: 'blue', date: new Date(2017, 10) },
-                  { "value": 65, "name": 'Dog', color: 'green', date: new Date(2017, 11) },
-                  { "value": -20, "name": 'Foo', color: 'green', date: new Date(2017, 12) },
-                  { "value": 10, "name": 'Food', color: 'purple', date: new Date(2018, 1) },
-                  { "value": 230, "name": 'Car', color: 'gray', date: new Date(2018, 2) },
-                  { "value": 20, "name": 'Rent', color: 'red', date: new Date(2018, 3) },
-                  { "value": 410, "name": 'Misc', color: 'orange', date: new Date(2018, 4) },
-              ],
-          ]
+    [
+        [
+                  { 'value': 80, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
+                  { 'value': 15, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
+                  { 'value': 150, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
+                  { 'value': undefined, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
+                  { 'value': 0, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
+                  { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
+                  { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
+                  { 'value': undefined, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
+                  { 'value': 0, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
+                  { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
+                  { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
+        ],
+        [
+                  { 'value': 60, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
+                  { 'value': 150, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
+                  { 'value': 15, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
+                  { 'value': undefined, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
+                  { 'value': 10, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
+                  { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
+                  { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
+                  { 'value': undefined, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
+                  { 'value': 0, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
+                  { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
+                  { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
+        ],
+        [
+                  { 'value': 30, 'name': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
+                  { 'value': 65, 'name': 'Dog', color: 'green', date: new Date(2017, 11) },
+                  { 'value': -20, 'name': 'Foo', color: 'green', date: new Date(2017, 12) },
+                  { 'value': 10, 'name': 'Food', color: 'purple', date: new Date(2018, 1) },
+                  { 'value': 230, 'name': 'Car', color: 'gray', date: new Date(2018, 2) },
+                  { 'value': 20, 'name': 'Rent', color: 'red', date: new Date(2018, 3) },
+                  { 'value': 410, 'name': 'Misc', color: 'orange', date: new Date(2018, 4) },
+        ],
+    ]
 
 class App extends Component {
 
@@ -64,7 +63,6 @@ class App extends Component {
             index: newIndex,
         })
     }
-
 
     render() {
         const { data } = this.state
@@ -164,7 +162,7 @@ class App extends Component {
                     </View>
                 </TouchableOpacity>
             </View>
-        );
+        )
     }
 }
 
@@ -191,6 +189,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'blue',
         borderRadius: 5,
     },
-});
+})
 
 export default App

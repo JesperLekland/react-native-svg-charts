@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ART, View } from 'react-native'
+import { ART, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
@@ -8,7 +8,6 @@ import AnimShape from './anim-shape'
 
 const {
           Group,
-          Shape,
           Surface,
       } = ART
 
@@ -33,15 +32,28 @@ class LineChart extends Component {
             (dataPoints)
     }
 
+    _getPointStyle(value, x, y) {
+        const { pointSize, pointWidth, pointColor } = this.props
+
+        return {
+            position: 'absolute',
+            left: x - pointSize,
+            bottom: y - pointSize,
+            height: pointSize * 2,
+            width: pointSize * 2,
+            borderRadius: pointSize,
+            borderWidth: pointWidth,
+            // backgroundColor: value >= 0 ? pointColor : 'red',
+            borderColor: value >= 0 ? pointColor : 'red',
+        }
+    }
+
     render() {
 
         let {
                 dataPoints,
                 strokeColor,
                 showPoints,
-                pointColor,
-                pointSize,
-                pointWidth,
                 dashSize,
                 shadowColor,
                 style,
@@ -71,13 +83,6 @@ class LineChart extends Component {
             value => -(y(value) - 3),
             (value, index) => x(index),
         )
-
-        const circle = shape.arc()
-            .startAngle(0)
-            .endAngle(360)
-            .innerRadius(0)
-            .outerRadius(pointSize)
-            ()
 
         return (
             <View style={style}>
@@ -109,30 +114,13 @@ class LineChart extends Component {
                         if (typeof value === 'number') {
                             return (
                                 <View
-                                    style={{
-                                        position: 'absolute',
-                                        left: x(index) - pointSize,
-                                        bottom: y(value) - pointSize,
-                                        height: pointSize * 2,
-                                        width: pointSize * 2,
-                                        borderRadius: pointSize,
-                                        borderWidth: pointWidth,
-                                        // backgroundColor: value >= 0 ? pointColor : 'red',
-                                        borderColor: value >= 0 ? pointColor : 'red',
-                                    }}
+                                    style={this._getPointStyle(value, x(index), y(value))}
                                     key={`${index}-${value}`}
                                 />
                             )
                         }
                     })}
-                    <View style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        bottom: y(0) - 1,
-                        height: 1,
-                        backgroundColor: 'black',
-                    }}/>
+                    <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>
                 </View>
             </View>
         )
@@ -167,5 +155,15 @@ LineChart.defaultProps = {
     height: 100,
     yRatio: 1,
 }
+
+const styles = StyleSheet.create({
+    zeroAxis: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        height: 1,
+        backgroundColor: 'black',
+    },
+})
 
 export default LineChart
