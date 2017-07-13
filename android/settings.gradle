@@ -1,0 +1,3 @@
+rootProject.name = 'd3Playground'
+
+include ':app'

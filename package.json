@@ -1,0 +1,33 @@
+{
+	"name": "react-native-charts",
+	"version": "0.1.1",
+	"private": false,
+	"scripts": {
+		"start": "node node_modules/react-native/local-cli/cli.js start",
+		"test": "jest"
+	},
+	"dependencies": {
+		"art": "^0.10.1",
+		"d3": "^4.8.0",
+		"d3-array": "^1.2.0",
+		"d3-scale": "^1.0.6",
+		"d3-shape": "^1.0.6",
+		"date-fns": "^1.28.5",
+		"prop-types": "^15.5.10",
+		"react": "16.0.0-alpha.6",
+		"react-native": "0.44.0"
+	},
+	"peerDependencies": {
+		"react": "16.0.0-alpha.6",
+		"react-native": "0.44.0"
+	},
+	"devDependencies": {
+		"babel-jest": "20.0.1",
+		"babel-preset-react-native": "1.9.1",
+		"jest": "20.0.1",
+		"react-test-renderer": "16.0.0-alpha.6"
+	},
+	"jest": {
+		"preset": "react-native"
+	}
+}
