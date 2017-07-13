@@ -60,6 +60,7 @@ class LineChart extends Component {
                 yRatio,
                 animate,
                 animationDuration,
+                showZeroAxis,
             } = this.props
 
         const { width, height } = this.state
@@ -120,7 +121,7 @@ class LineChart extends Component {
                             )
                         }
                     })}
-                    <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>
+                    {showZeroAxis && <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>}
                 </View>
             </View>
         )
@@ -143,6 +144,7 @@ LineChart.propTypes = {
     yRatio: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
+    showZeroAxis: PropTypes.bool,
 }
 
 LineChart.defaultProps = {
@@ -154,6 +156,7 @@ LineChart.defaultProps = {
     width: 100,
     height: 100,
     yRatio: 1,
+    showZeroAxis: true,
 }
 
 const styles = StyleSheet.create({

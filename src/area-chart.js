@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ART, View } from 'react-native'
+import { ART, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
@@ -50,6 +50,7 @@ class AreaChart extends Component {
                   animationDuration,
                   style,
                   yRatio,
+                  showZeroAxis,
               } = this.props
 
         const { height, width } = this.state
@@ -102,13 +103,7 @@ class AreaChart extends Component {
                             return <View key={index}/>
                         },
                     )}
-                    <View style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        bottom: y(0),
-                        borderWidth: 0.5,
-                    }}/>
+                    {showZeroAxis && <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>}
                 </View>
             </View>
         )
@@ -129,6 +124,7 @@ AreaChart.propTypes = {
     animationDuration: PropTypes.number,
     style: PropTypes.any,
     yRatio: PropTypes.number,
+    showZeroAxis: PropTypes.bool,
 }
 
 AreaChart.defaultProps = {
@@ -140,6 +136,18 @@ AreaChart.defaultProps = {
     width: 100,
     height: 100,
     yRatio: 1,
+    showZeroAxis: true,
 }
+
+const styles = StyleSheet.create({
+    zeroAxis: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        height: 1,
+        // backgroundColor: 'rgba(0,0,0,0.5)',
+        backgroundColor: 'black',
+    },
+})
 
 export default AreaChart

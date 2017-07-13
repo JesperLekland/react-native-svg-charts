@@ -47,7 +47,7 @@ class YAxis extends Component {
                     onLayout={event => this._onLayout(event)}
                 >
                     {/*This invisible component allows for parent sizing*/}
-                    <Text style={[ styles.text, labelStyle, { color: 'transparent', position: 'relative' } ]}>
+                    <Text style={[ styles.text, labelStyle, styles.invisibleText ]}>
                         {longestValue}
                     </Text>
                     {ticks.map((value, index) => {
@@ -98,6 +98,11 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 0,
         right: 0,
+    },
+    invisibleText: {
+        paddingHorizontal: 2,
+        color: 'transparent',
+        position: 'relative',
     },
 })
 

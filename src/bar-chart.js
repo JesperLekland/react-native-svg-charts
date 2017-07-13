@@ -36,6 +36,7 @@ class BarChart extends Component {
                   animationDuration,
                   yRatio,
                   style,
+                  showZeroAxis,
               } = this.props
 
         const { height, width } = this.state
@@ -89,7 +90,7 @@ class BarChart extends Component {
                             )}
                         </Group>
                     </Surface>
-                    <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>
+                    {showZeroAxis && <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>}
                 </View>
             </View>
         )
@@ -107,6 +108,7 @@ BarChart.propTypes = {
     animationDuration: PropTypes.number,
     fillColorNegative: PropTypes.string,
     strokeColorNegative: PropTypes.string,
+    showZeroAxis: PropTypes.bool,
 }
 
 BarChart.defaultProps = {
@@ -119,6 +121,7 @@ BarChart.defaultProps = {
     width: 100,
     height: 100,
     yRatio: 1,
+    showZeroAxis: true,
 }
 
 const styles = StyleSheet.create({
