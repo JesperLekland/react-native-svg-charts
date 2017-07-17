@@ -98,7 +98,7 @@ class App extends Component {
                                     spacing={0.05}
                                     style={{ height: 20, justifyContent: 'center' }}
                                     values={data.map(data => data.date)}
-                                    formatLabel={date => dateFns.format(date, 'MMM')}
+                                    formatValue={date => dateFns.format(date, 'MMM')}
                                     labelStyle={{ color: 'grey' }}
                                 />
                             </View>
@@ -125,7 +125,7 @@ class App extends Component {
                                     spacing={0.05}
                                     style={{ height: 20, justifyContent: 'center', marginHorizontal: -10 }}
                                     values={data.map(data => data.date)}
-                                    formatLabel={date => dateFns.format(date, 'MMM')}
+                                    formatValue={date => dateFns.format(date, 'MMM')}
                                 />
                             </View>
                         </View>
@@ -158,7 +158,7 @@ class App extends Component {
                                 <XAxis
                                     style={{ marginHorizontal: -5 }}
                                     values={data.map(data => data.date)}
-                                    formatLabel={date => dateFns.format(date, 'MMM')}
+                                    formatValue={date => dateFns.format(date, 'MMM')}
                                 />
                             </View>
                         </View>
