@@ -2,10 +2,9 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, View } from 'react-native'
 import * as scale from 'd3-scale'
-import * as dateFns from 'date-fns'
 import * as array from 'd3-array'
 
-class DateAxis extends Component {
+class XAxis extends Component {
 
     state = {
         width: 0,
@@ -30,8 +29,8 @@ class DateAxis extends Component {
 
     render() {
 
-        const { style, dates, dateFormat, labelStyle, spacing, chartType } = this.props
-        const { width, height }                                            = this.state
+        const { style, values, labelStyle, spacing, chartType, formatLabel } = this.props
+        const { width, height }                                              = this.state
 
         let labelWidth
         let x
@@ -40,27 +39,32 @@ class DateAxis extends Component {
             case 'bar': {
 
                 x = scale.scaleBand()
-                    .domain(dates)
+                    .domain(values)
                     .range([ 0, width ])
                     .paddingInner([ spacing ])
                     .paddingOuter([ spacing ])
 
-                labelWidth = x.bandwidth() //+ x.bandwidth() * spacing
+                labelWidth = x.bandwidth()
 
                 break
 
             }
             case 'line': {
 
-                labelWidth = Math.floor(width / dates.length - 1)
+                labelWidth = Math.floor(width / values.length - 1)
 
                 x = scale.scaleTime()
-                    .domain(array.extent(dates))
+                    .domain(array.extent(values))
                     .range([ 0, width - labelWidth ])
 
                 break
             }
             default:
+                console.warn(
+                    `invalid chartType "${chartType}"
+                    Must be one of "XAxis.Type.LINE" or "XAxis.type.BAR `,
+                )
+
                 labelWidth = 0
                 x          = () => {}
         }
@@ -71,25 +75,25 @@ class DateAxis extends Component {
                     style={{ height }}
                     onLayout={event => this._onLayout(event)}
                 >
-                    {dates.map(date => {
+                    {values.map(value => {
                         return (
                             <Text
                                 numberOfLines={1}
                                 //'clip' not supported on android
                                 // ellipsizeMode={'clip'}
                                 onLayout={event => this._onTextLayout(event)}
-                                key={date}
+                                key={value}
                                 style={[
                                     styles.text,
                                     labelStyle,
                                     {
                                         width: labelWidth,
                                         position: 'absolute',
-                                        left: x(date),
+                                        left: x(value),
                                     },
                                 ]}
                             >
-                                {dateFns.format(date, dateFormat)}
+                                {formatLabel(value)}
                             </Text>
                         )
                     })}
@@ -99,24 +103,24 @@ class DateAxis extends Component {
     }
 }
 
-DateAxis.Type = {
+XAxis.Type = {
     LINE: 'line',
     BAR: 'bar',
 }
 
-DateAxis.propTypes = {
-    dates: PropTypes.arrayOf(PropTypes.instanceOf(Date)).isRequired,
-    dateFormat: PropTypes.string,
+XAxis.propTypes = {
+    values: PropTypes.array.isRequired,
     labelStyle: PropTypes.any,
-    chartType: PropTypes.oneOf([ DateAxis.Type.LINE, DateAxis.Type.BAR ]),
+    chartType: PropTypes.oneOf([ XAxis.Type.LINE, XAxis.Type.BAR ]),
     spacing: PropTypes.number,
+    formatLabel: PropTypes.func,
 }
 
-DateAxis.defaultProps = {
-    dateFormat: 'MMM',
+XAxis.defaultProps = {
     type: 'line',
     spacing: 0.05,
-    chartType: DateAxis.Type.LINE,
+    chartType: XAxis.Type.LINE,
+    formatLabel: label => label,
 }
 
 const styles = StyleSheet.create({
@@ -127,4 +131,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default DateAxis
+export default XAxis

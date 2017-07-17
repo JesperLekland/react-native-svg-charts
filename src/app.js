@@ -2,10 +2,11 @@ import React, { Component } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AreaChart from './area-chart'
 import BarChart from './bar-chart'
-import DateAxis from './date-axis'
+import XAxis from './x-axis'
 import YAxis from './y-axis'
 import LineChart from './line-chart'
 import PieChart from './pie-chart'
+import * as dateFns from 'date-fns'
 
 const _data =
     [
@@ -75,6 +76,7 @@ class App extends Component {
                                 style={{ paddingBottom: 20, paddingRight: 5 }}
                                 dataPoints={data.map(data => data.value)}
                                 yRatio={0.95}
+                                labelStyle={{ color: 'grey' }}
                             />
                             <View style={{ flex: 1 }}>
                                 <BarChart
@@ -84,12 +86,13 @@ class App extends Component {
                                     spacing={0.05}
                                     yRatio={0.95}
                                 />
-                                <DateAxis
-                                    chartType={DateAxis.Type.BAR}
+                                <XAxis
+                                    chartType={XAxis.Type.BAR}
                                     spacing={0.05}
                                     style={{ height: 20, justifyContent: 'center' }}
-                                    dates={data.map(data => data.date)}
-                                    dateFormat={'MMM'}
+                                    values={data.map(data => data.date)}
+                                    formatLabel={date => dateFns.format(date, 'MMM')}
+                                    labelStyle={{ color: 'grey' }}
                                 />
                             </View>
                         </View>
@@ -110,12 +113,12 @@ class App extends Component {
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
                                     yRatio={0.92}
                                 />
-                                <DateAxis
-                                    chartType={DateAxis.Type.BAR}
+                                <XAxis
+                                    chartType={XAxis.Type.BAR}
                                     spacing={0.05}
                                     style={{ height: 20, justifyContent: 'center', marginHorizontal: -10 }}
-                                    dates={data.map(data => data.date)}
-                                    dateFormat={'MMM'}
+                                    values={data.map(data => data.date)}
+                                    formatLabel={date => dateFns.format(date, 'MMM')}
                                 />
                             </View>
                         </View>
@@ -145,10 +148,10 @@ class App extends Component {
                                     animate={true}
                                     yRatio={0.95}
                                 />
-                                <DateAxis
+                                <XAxis
                                     style={{ marginHorizontal: -5 }}
-                                    dates={data.map(data => data.date)}
-                                    dateFormat={'MMM'}
+                                    values={data.map(data => data.date)}
+                                    formatLabel={date => dateFns.format(date, 'MMM')}
                                 />
                             </View>
                         </View>
