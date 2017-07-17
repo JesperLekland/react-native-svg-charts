@@ -7,6 +7,7 @@ import YAxis from './y-axis'
 import LineChart from './line-chart'
 import PieChart from './pie-chart'
 import * as dateFns from 'date-fns'
+import ProgressCircle from './progress-circle'
 
 const _data =
     [
@@ -14,12 +15,12 @@ const _data =
                   { 'value': 80, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
                   { 'value': 15, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
                   { 'value': 150, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
-                  { 'value': undefined, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
-                  { 'value': 0, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
+            { 'value': 10, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
+            { 'value': 100, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
                   { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
                   { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
-                  { 'value': undefined, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
-                  { 'value': 0, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
+            { 'value': 20, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
+            { 'value': 30, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
                   { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
                   { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
         ],
@@ -70,6 +71,12 @@ class App extends Component {
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={styles.container}>
+                    <View style={styles.card}>
+                        <ProgressCircle
+                            style={{ height: 100 }}
+                            progress={0.3}
+                        />
+                    </View>
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis
