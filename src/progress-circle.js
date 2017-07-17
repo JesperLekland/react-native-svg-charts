@@ -58,8 +58,6 @@ class ProgressCircle extends Component {
                 (pieSlices[ index ]),
         }))
 
-        console.log('shapes', shapes)
-
         return (
             <View
                 style={style}
