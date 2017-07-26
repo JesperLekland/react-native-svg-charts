@@ -49,15 +49,16 @@ class AreaChart extends Component {
                   animate,
                   animationDuration,
                   style,
-                  yRatio,
                   showZeroAxis,
               } = this.props
 
         const { height, width } = this.state
 
+        const extent = array.extent([ ...dataPoints, 0 ])
+
         const y = scale.scaleLinear()
-            .domain(array.extent(dataPoints))
-            .range([ height - (height * yRatio), height * yRatio ])
+            .domain(extent)
+            .range([ 10, height - 10 ])
 
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
@@ -123,7 +124,6 @@ AreaChart.propTypes = {
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     style: PropTypes.any,
-    yRatio: PropTypes.number,
     showZeroAxis: PropTypes.bool,
 }
 
@@ -135,7 +135,6 @@ AreaChart.defaultProps = {
     pointSize: 4,
     width: 100,
     height: 100,
-    yRatio: 1,
     showZeroAxis: true,
 }
 

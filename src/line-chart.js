@@ -57,7 +57,6 @@ class LineChart extends Component {
                 dashSize,
                 shadowColor,
                 style,
-                yRatio,
                 animate,
                 animationDuration,
                 showZeroAxis,
@@ -66,8 +65,8 @@ class LineChart extends Component {
         const { width, height } = this.state
 
         const y = scale.scaleLinear()
-            .domain(array.extent(dataPoints))
-            .range([ height - (height * yRatio), height * yRatio ])
+            .domain(array.extent([ ...dataPoints, 0 ]))
+            .range([ 10 , height - 10 ])
 
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
@@ -141,7 +140,6 @@ LineChart.propTypes = {
     dashSize: PropTypes.number,
     style: PropTypes.any,
     shadowColor: PropTypes.string,
-    yRatio: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     showZeroAxis: PropTypes.bool,
@@ -155,7 +153,6 @@ LineChart.defaultProps = {
     dashSize: 0,
     width: 100,
     height: 100,
-    yRatio: 1,
     showZeroAxis: true,
 }
 

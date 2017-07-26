@@ -26,19 +26,19 @@ class YAxis extends Component {
 
     render() {
 
-        const { style, dataPoints, numberOfTicks, labelStyle, yRatio } = this.props
-        const { height, textHeight }                                   = this.state
+        const { style, dataPoints, numberOfTicks, labelStyle } = this.props
+        const { height, textHeight }                           = this.state
 
-        const extent = array.extent(dataPoints)
+        const extent = array.extent([ ...dataPoints, 0 ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const y = scale.scaleLinear()
-            .domain(array.extent(dataPoints))
-            .range([ height * yRatio, height - (height * yRatio) ])
+            .domain(extent)
+            .range([ 10, height - 10 ])
 
-        const longestValue = ticks.reduce((prev, curr) =>
-                prev.toString().length > curr.toString().length ? prev : curr
-            , 0)
+        const longestValue = ticks.reduce(
+            (prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0
+        )
 
         return (
             <View style={[ style ]}>
@@ -61,7 +61,7 @@ class YAxis extends Component {
                                 style={[
                                     styles.text,
                                     labelStyle,
-                                    { top: y(value) - (textHeight / 2) },
+                                    { bottom: y(value) - (textHeight / 2) },
                                 ]}
                             >
                                 {value}
@@ -79,12 +79,10 @@ YAxis.propTypes = {
     style: PropTypes.any,
     labelStyle: PropTypes.any,
     numberOfTicks: PropTypes.number,
-    yRatio: PropTypes.number,
 }
 
 YAxis.defaultProps = {
     numberOfTicks: 10,
-    yRatio: 1,
 }
 
 const styles = StyleSheet.create({
