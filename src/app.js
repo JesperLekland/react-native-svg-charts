@@ -1,58 +1,81 @@
 import React, { Component } from 'react'
 import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AreaChart from './area-chart'
-import BarChart from './bar-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
 import LineChart from './line-chart'
 import PieChart from './pie-chart'
+import MultipleBarChart from './bar-chart'
 import * as dateFns from 'date-fns'
 import ProgressCircle from './progress-circle'
 
-const _data =
+const _data = [
     [
-        [
-                  { 'value': 80, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
-                  { 'value': 15, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
-                  { 'value': 150, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
-            { 'value': 10, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
-            { 'value': 100, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
-                  { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
-                  { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
-            { 'value': 20, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
-            { 'value': 30, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
-                  { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
-                  { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
-        ],
-        [
-                  { 'value': 60, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
-                  { 'value': 150, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
-                  { 'value': 15, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
-                  { 'value': undefined, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
-                  { 'value': 10, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
-                  { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
-                  { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
-                  { 'value': undefined, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
-                  { 'value': 0, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
-                  { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
-                  { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
-        ],
-        [
-                  { 'value': 30, 'name': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
-                  { 'value': 65, 'name': 'Dog', color: 'green', date: new Date(2017, 11) },
-                  { 'value': -20, 'name': 'Foo', color: 'green', date: new Date(2017, 12) },
-                  { 'value': 10, 'name': 'Food', color: 'purple', date: new Date(2018, 1) },
-                  { 'value': 230, 'name': 'Car', color: 'gray', date: new Date(2018, 2) },
-                  { 'value': 20, 'name': 'Rent', color: 'red', date: new Date(2018, 3) },
-                  { 'value': 410, 'name': 'Misc', color: 'orange', date: new Date(2018, 4) },
-        ],
-    ]
+        { 'value': 80, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
+        { 'value': 15, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
+        { 'value': 150, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
+        { 'value': 10, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
+        { 'value': 100, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
+        { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
+        { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
+        { 'value': 20, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
+        { 'value': 30, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
+        { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
+        { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
+    ],
+    [
+        { 'value': 60, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
+        { 'value': 150, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
+        { 'value': 15, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
+        { 'value': undefined, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
+        { 'value': 10, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
+        { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
+        { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
+        { 'value': undefined, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
+        { 'value': 0, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
+        { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
+        { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
+    ],
+    [
+        { 'value': 30, 'name': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
+        { 'value': 65, 'name': 'Dog', color: 'green', date: new Date(2017, 11) },
+        // { 'value': -20, 'name': 'Foo', color: 'green', date: new Date(2017, 12) },
+        { 'value': 10, 'name': 'Food', color: 'purple', date: new Date(2018, 1) },
+        { 'value': 230, 'name': 'Car', color: 'gray', date: new Date(2018, 2) },
+        { 'value': 20, 'name': 'Rent', color: 'red', date: new Date(2018, 3) },
+        { 'value': 410, 'name': 'Misc', color: 'orange', date: new Date(2018, 4) },
+    ],
+]
+
+const _progressData = [
+    0.4,
+    0.8,
+    0.2,
+]
+
+const _multipleBarData = [
+    {
+        fillColor: 'green',
+        strokeColor: 'green',
+        strokeColorNegative: 'red',
+        fillColorNegative: 'red',
+        values: _data[ 0 ].map(obj => obj.value),
+    },
+    {
+        fillColor: 'blue',
+        strokeColor: 'blue',
+        strokeColorNegative: 'orange',
+        fillColorNegative: 'orange',
+        values: _data[ 1 ].map(obj => obj.value),
+    },
+]
 
 class App extends Component {
 
     state = {
         index: 0,
         data: _data[ 0 ],
+        progress: _progressData[ 0 ],
     }
 
     _toggleData() {
@@ -62,19 +85,44 @@ class App extends Component {
 
         this.setState({
             data: _data[ newIndex ],
+            progress: _progressData[ newIndex ],
             index: newIndex,
         })
     }
 
     render() {
-        const { data } = this.state
+        const { data, progress } = this.state
         return (
             <View style={{ flex: 1 }}>
                 <ScrollView contentContainerStyle={styles.container}>
                     <View style={styles.card}>
+                        <View style={{ flexDirection: 'row', height: 200 }}>
+                            <YAxis
+                                style={{ paddingBottom: 20, paddingRight: 5 }}
+                                dataPoints={_multipleBarData[ 0 ].values}
+                                labelStyle={{ color: 'grey' }}
+                            />
+                            <View style={{ flex: 1 }}>
+                                <MultipleBarChart
+                                    dataPoints={_multipleBarData}
+                                    style={{ flex: 1 }}
+                                    spacing={0.3}
+                                />
+                                <XAxis
+                                    chartType={XAxis.Type.BAR}
+                                    spacing={0.3}
+                                    style={{ height: 20, justifyContent: 'center' }}
+                                    values={_data[ 0 ].map(data => data.date)}
+                                    formatValue={date => dateFns.format(date, 'MMM')}
+                                    labelStyle={{ color: 'grey', fontSize: 8 }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.card}>
                         <ProgressCircle
                             style={{ height: 100 }}
-                            progress={0.3}
+                            progress={progress}
                         />
                     </View>
                     <View style={styles.card}>
@@ -82,16 +130,13 @@ class App extends Component {
                             <YAxis
                                 style={{ paddingBottom: 20, paddingRight: 5 }}
                                 dataPoints={data.map(data => data.value)}
-                                yRatio={0.95}
                                 labelStyle={{ color: 'grey' }}
                             />
                             <View style={{ flex: 1 }}>
-                                <BarChart
-                                    dataPoints={data.map(data => data.value)}
-                                    labels={data.map(data => data.name)}
+                                <MultipleBarChart
+                                    dataPoints={[ { values: data.map(data => data.value) } ]}
                                     style={{ flex: 1 }}
                                     spacing={0.05}
-                                    yRatio={0.95}
                                 />
                                 <XAxis
                                     chartType={XAxis.Type.BAR}
@@ -108,7 +153,6 @@ class App extends Component {
                         <View style={{ height: 200, flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                yRatio={0.92}
                                 style={{ marginBottom: 20 }}
                             />
                             <View style={{ flex: 1 }}>
@@ -118,7 +162,6 @@ class App extends Component {
                                     dashSize={5}
                                     showPoints={true}
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
-                                    yRatio={0.92}
                                 />
                                 <XAxis
                                     chartType={XAxis.Type.BAR}
@@ -143,20 +186,17 @@ class App extends Component {
                         <View style={{ flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                style={{ height: 200, marginRight: 10 }}
+                                style={{ paddingRight: 10, marginBottom: 20 }}
                                 numberOfTicks={data.length / 2}
-                                yRatio={0.95}
                             />
                             <View style={{ flex: 1 }}>
                                 <AreaChart
                                     dataPoints={data.map(data => data.value)}
                                     style={{ height: 200, paddingHorizontal: 5 }}
                                     showPoints={true}
-                                    animate={true}
-                                    yRatio={0.95}
                                 />
                                 <XAxis
-                                    style={{ marginHorizontal: -5 }}
+                                    style={{ height: 20, marginHorizontal: -5 }}
                                     values={data.map(data => data.date)}
                                     formatValue={date => dateFns.format(date, 'MMM')}
                                 />
@@ -197,7 +237,6 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'blue',
-        borderRadius: 5,
     },
 })
 
