@@ -95,7 +95,7 @@ class AreaChart extends Component {
                             if (typeof value === 'number') {
                                 return (
                                     <View
-                                        style={this._getPointStyle(value, x(value), y(value))}
+                                        style={this._getPointStyle(value, x(index), y(value))}
                                         key={index}
                                     />
                                 )

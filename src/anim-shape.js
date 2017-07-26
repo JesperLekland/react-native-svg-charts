@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { ART } from 'react-native'
+import { ART, Platform } from 'react-native'
 import Morph from 'art/morph/path'
 
 const {
@@ -74,8 +74,6 @@ class AnimShape extends Component {
 
     render() {
 
-        // eslint-disable-next-line no-unused-vars
-        const { d: originalD, ...other } = this.props
         const { d }                      = this.state
 
         if (!d) {
@@ -84,8 +82,8 @@ class AnimShape extends Component {
 
         return (
             <Shape
+                {...this.props}
                 d={d}
-                {...other}
             />
         )
     }
@@ -98,7 +96,7 @@ AnimShape.propTypes = {
 }
 
 AnimShape.defaultProps = {
-    animate: true,
+    animate: __DEV__ && Platform.OS === 'ios',
     animationDuration: 300,
 }
 
