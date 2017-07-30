@@ -34,7 +34,7 @@ class YAxis extends Component {
 
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ 10, height - 10 ])
+            .range([ 0, height ])
 
         const longestValue = ticks.reduce(
             (prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0
