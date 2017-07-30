@@ -26,8 +26,8 @@ class YAxis extends Component {
 
     render() {
 
-        const { style, dataPoints, numberOfTicks, labelStyle } = this.props
-        const { height, textHeight }                           = this.state
+        const { style, dataPoints, numberOfTicks, labelStyle, formatLabel } = this.props
+        const { height, textHeight }                                        = this.state
 
         const extent = array.extent([ ...dataPoints, 0 ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
@@ -64,7 +64,7 @@ class YAxis extends Component {
                                     { bottom: y(value) - (textHeight / 2) },
                                 ]}
                             >
-                                {value}
+                                {formatLabel(value)}
                             </Text>
                         )
                     })}
