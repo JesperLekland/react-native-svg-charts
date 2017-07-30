@@ -53,6 +53,12 @@ class BarChart extends Component {
                   strokeColor,
                   strokeColorNegative,
                   fillColorNegative,
+                  contentInset: {
+                      top    = 0,
+                      bottom = 0,
+                      left   = 0,
+                      right  = 0,
+                  },
               } = this.props
 
         const { height, width } = this.state
@@ -70,13 +76,13 @@ class BarChart extends Component {
         //add zero to extent to always start from at least 0
         const y = scale.scaleLinear()
             .domain(array.extent([ ...values, 0 ]))
-            .range([ 10, height - 10 ])
+            .range([ bottom, height - top ])
 
         // use index as domain identifier instead of value since
         // same value can occur at several places in dataPoints
         const x = scale.scaleBand()
             .domain(dataPoints[ 0 ].values.map((_, index) => index))
-            .range([ 0, width ])
+            .range([ left, width - right ])
             .paddingInner([ spacing ])
             .paddingOuter([ spacing ])
 
@@ -154,6 +160,12 @@ BarChart.propTypes = {
     fillColorNegative: PropTypes.string,
     strokeColorNegative: PropTypes.string,
     showZeroAxis: PropTypes.bool,
+    contentInset: PropTypes.shape({
+        top: PropTypes.number,
+        left: PropTypes.number,
+        right: PropTypes.number,
+        bottom: PropTypes.number,
+    }),
 }
 
 BarChart.defaultProps = {
@@ -165,6 +177,7 @@ BarChart.defaultProps = {
     width: 100,
     height: 100,
     showZeroAxis: true,
+    contentInset: {},
 }
 
 const

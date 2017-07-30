@@ -39,7 +39,7 @@ const _data = [
     [
         { 'value': 30, 'name': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
         { 'value': 65, 'name': 'Dog', color: 'green', date: new Date(2017, 11) },
-        // { 'value': -20, 'name': 'Foo', color: 'green', date: new Date(2017, 12) },
+        { 'value': -20, 'name': 'Foo', color: 'green', date: new Date(2017, 12) },
         { 'value': 10, 'name': 'Food', color: 'purple', date: new Date(2018, 1) },
         { 'value': 230, 'name': 'Car', color: 'gray', date: new Date(2018, 2) },
         { 'value': 20, 'name': 'Rent', color: 'red', date: new Date(2018, 3) },
@@ -162,6 +162,7 @@ class App extends Component {
                                     dashSize={5}
                                     showPoints={true}
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
+                                    contentInset={{ bottom: 10, left: 10, right: 10, top: 10 }}
                                 />
                                 <XAxis
                                     chartType={XAxis.Type.BAR}
@@ -194,9 +195,10 @@ class App extends Component {
                                     dataPoints={data.map(data => data.value)}
                                     style={{ height: 200, paddingHorizontal: 5 }}
                                     showPoints={true}
+                                    contentInset={{ bottom: 10, right: 10, left: 10, }}
                                 />
                                 <XAxis
-                                    style={{ height: 20, marginHorizontal: -5 }}
+                                    style={{ height: 20, marginHorizontal: 0 }}
                                     values={data.map(data => data.date)}
                                     formatValue={date => dateFns.format(date, 'MMM')}
                                 />

@@ -50,6 +50,13 @@ class AreaChart extends Component {
                   animationDuration,
                   style,
                   showZeroAxis,
+                  curve,
+                  contentInset: {
+                      top    = 0,
+                      bottom = 0,
+                      left   = 0,
+                      right  = 0,
+                  },
               } = this.props
 
         const { height, width } = this.state
@@ -58,18 +65,18 @@ class AreaChart extends Component {
 
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ 10, height - 10 ])
+            .range([ bottom, height - top ])
 
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
-            .range([ 0, width ])
+            .range([ left, width - right ])
 
         const area = shape.area()
             .x((d, index) => x(index))
             .y0(-y(0))
             .y1(d => -y(d))
             .defined(value => typeof value === 'number')
-            .curve(shape.curveCardinal)
+            .curve(curve)
             (dataPoints)
 
         return (
@@ -125,6 +132,13 @@ AreaChart.propTypes = {
     animationDuration: PropTypes.number,
     style: PropTypes.any,
     showZeroAxis: PropTypes.bool,
+    curve: PropTypes.func,
+    contentInset: PropTypes.shape({
+        top: PropTypes.number,
+        left: PropTypes.number,
+        right: PropTypes.number,
+        bottom: PropTypes.number,
+    }),
 }
 
 AreaChart.defaultProps = {
@@ -136,6 +150,8 @@ AreaChart.defaultProps = {
     width: 100,
     height: 100,
     showZeroAxis: true,
+    curve: shape.curveCardinal,
+    contentInset: {},
 }
 
 const styles = StyleSheet.create({

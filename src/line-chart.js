@@ -24,11 +24,13 @@ class LineChart extends Component {
     }
 
     _createLine(dataPoints, yAccessor, xAccessor) {
+        const { curve } = this.props
+
         return shape.line()
             .x(xAccessor)
             .y(yAccessor)
             .defined(value => typeof value === 'number')
-            .curve(shape.curveNatural)
+            .curve(curve)
             (dataPoints)
     }
 
@@ -50,27 +52,33 @@ class LineChart extends Component {
 
     render() {
 
-        let {
-                dataPoints,
-                strokeColor,
-                showPoints,
-                dashSize,
-                shadowColor,
-                style,
-                animate,
-                animationDuration,
-                showZeroAxis,
-            } = this.props
+        const {
+                  dataPoints,
+                  strokeColor,
+                  showPoints,
+                  dashSize,
+                  shadowColor,
+                  style,
+                  animate,
+                  animationDuration,
+                  showZeroAxis,
+                  contentInset: {
+                      top    = 0,
+                      bottom = 0,
+                      left   = 0,
+                      right  = 0,
+                  },
+              } = this.props
 
         const { width, height } = this.state
 
         const y = scale.scaleLinear()
             .domain(array.extent([ ...dataPoints, 0 ]))
-            .range([ 10 , height - 10 ])
+            .range([ bottom, height - top ])
 
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
-            .range([ 0, width ])
+            .range([ left, width - right ])
 
         const line = this._createLine(
             dataPoints,
@@ -143,6 +151,13 @@ LineChart.propTypes = {
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     showZeroAxis: PropTypes.bool,
+    curve: PropTypes.func,
+    contentInset: PropTypes.shape({
+        top: PropTypes.number,
+        left: PropTypes.number,
+        right: PropTypes.number,
+        bottom: PropTypes.number,
+    }),
 }
 
 LineChart.defaultProps = {
@@ -154,6 +169,8 @@ LineChart.defaultProps = {
     width: 100,
     height: 100,
     showZeroAxis: true,
+    curve: shape.curveCardinal,
+    contentInset: {},
 }
 
 const styles = StyleSheet.create({
