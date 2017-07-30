@@ -79,10 +79,12 @@ YAxis.propTypes = {
     style: PropTypes.any,
     labelStyle: PropTypes.any,
     numberOfTicks: PropTypes.number,
+    formatLabel: PropTypes.func,
 }
 
 YAxis.defaultProps = {
     numberOfTicks: 10,
+    formatLabel: value => value && value.toString(),
 }
 
 const styles = StyleSheet.create({

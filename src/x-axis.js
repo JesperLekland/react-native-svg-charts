@@ -29,7 +29,7 @@ class XAxis extends Component {
 
     render() {
 
-        const { style, values, labelStyle, spacing, chartType, formatValue } = this.props
+        const { style, values, labelStyle, spacing, chartType, formatLabel } = this.props
         const { width, height }                                              = this.state
 
         let labelWidth
@@ -93,7 +93,7 @@ class XAxis extends Component {
                                     },
                                 ]}
                             >
-                                {formatValue(value)}
+                                {formatLabel(value)}
                             </Text>
                         )
                     })}
@@ -120,7 +120,7 @@ XAxis.defaultProps = {
     type: 'line',
     spacing: 0.05,
     chartType: XAxis.Type.LINE,
-    formatValue: value => value && value.toString,
+    formatLabel: value => value && value.toString,
 }
 
 const styles = StyleSheet.create({

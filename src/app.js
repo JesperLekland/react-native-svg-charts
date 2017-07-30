@@ -113,7 +113,7 @@ class App extends Component {
                                     spacing={0.3}
                                     style={{ height: 20, justifyContent: 'center' }}
                                     values={_data[ 0 ].map(data => data.date)}
-                                    formatValue={date => dateFns.format(date, 'MMM')}
+                                    formatLabel={date => dateFns.format(date, 'MMM')}
                                     labelStyle={{ color: 'grey', fontSize: 8 }}
                                 />
                             </View>
@@ -143,7 +143,7 @@ class App extends Component {
                                     spacing={0.05}
                                     style={{ height: 20, justifyContent: 'center' }}
                                     values={data.map(data => data.date)}
-                                    formatValue={date => dateFns.format(date, 'MMM')}
+                                    formatLabel={date => dateFns.format(date, 'MMM')}
                                     labelStyle={{ color: 'grey' }}
                                 />
                             </View>
@@ -169,7 +169,7 @@ class App extends Component {
                                     spacing={0.05}
                                     style={{ height: 20, justifyContent: 'center', marginHorizontal: -10 }}
                                     values={data.map(data => data.date)}
-                                    formatValue={date => dateFns.format(date, 'MMM')}
+                                    formatLabel={date => dateFns.format(date, 'MMM')}
                                 />
                             </View>
                         </View>
@@ -200,7 +200,7 @@ class App extends Component {
                                 <XAxis
                                     style={{ height: 20, marginHorizontal: 0 }}
                                     values={data.map(data => data.date)}
-                                    formatValue={date => dateFns.format(date, 'MMM')}
+                                    formatLabel={date => dateFns.format(date, 'MMM')}
                                 />
                             </View>
                         </View>
