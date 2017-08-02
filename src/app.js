@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AreaChart from './area-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
@@ -8,42 +8,43 @@ import PieChart from './pie-chart'
 import MultipleBarChart from './bar-chart'
 import * as dateFns from 'date-fns'
 import ProgressCircle from './progress-circle'
+import Label from './assets/d3.png'
 
 const _data = [
     [
-        { 'value': 80, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
-        { 'value': 15, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
-        { 'value': 150, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
-        { 'value': 10, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
-        { 'value': 100, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
-        { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
-        { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
-        { 'value': 20, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
-        { 'value': 30, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
-        { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
-        { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
+        { 'value': 80, 'key': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
+        { 'value': 15, 'key': 'Dog', color: 'green', date: new Date(2016, 8) },
+        { 'value': 150, 'key': 'Food', color: 'purple', date: new Date(2016, 9) },
+        { 'value': 10, 'key': 'YouFood', color: 'purple', date: new Date(2016, 10) },
+        { 'value': 100, 'key': 'barfoo', color: 'purple', date: new Date(2016, 11) },
+        { 'value': -23, 'key': 'Car', color: 'gray', date: new Date(2016, 12) },
+        { 'value': 220, 'key': 'Rent', color: 'red', date: new Date(2017, 1) },
+        { 'value': 20, 'key': 'Rent2', color: 'red', date: new Date(2017, 2) },
+        { 'value': 30, 'key': 'bar', color: 'red', date: new Date(2017, 3) },
+        { 'value': -40, 'key': 'baz', color: 'orange', date: new Date(2017, 4) },
+        { 'value': -100, 'key': 'foobar', color: 'orange', date: new Date(2017, 5) },
     ],
     [
-        { 'value': 60, 'name': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
-        { 'value': 150, 'name': 'Dog', color: 'green', date: new Date(2016, 8) },
-        { 'value': 15, 'name': 'Food', color: 'purple', date: new Date(2016, 9) },
-        { 'value': undefined, 'name': 'YouFood', color: 'purple', date: new Date(2016, 10) },
-        { 'value': 10, 'name': 'barfoo', color: 'purple', date: new Date(2016, 11) },
-        { 'value': -23, 'name': 'Car', color: 'gray', date: new Date(2016, 12) },
-        { 'value': 220, 'name': 'Rent', color: 'red', date: new Date(2017, 1) },
-        { 'value': undefined, 'foo': 'Rent', color: 'red', date: new Date(2017, 2) },
-        { 'value': 0, 'name': 'bar', color: 'red', date: new Date(2017, 3) },
-        { 'value': -40, 'name': 'baz', color: 'orange', date: new Date(2017, 4) },
-        { 'value': -100, 'name': 'foobar', color: 'orange', date: new Date(2017, 5) },
+        { 'value': 60, 'key': 'Fun activities', color: 'blue', date: new Date(2016, 7) },
+        { 'value': 150, 'key': 'Dog', color: 'green', date: new Date(2016, 8) },
+        { 'value': 15, 'key': 'Food', color: 'purple', date: new Date(2016, 9) },
+        { 'value': undefined, 'key': 'YouFood', color: 'purple', date: new Date(2016, 10) },
+        { 'value': 10, 'key': 'barfoo', color: 'purple', date: new Date(2016, 11) },
+        { 'value': -23, 'key': 'Car', color: 'gray', date: new Date(2016, 12) },
+        { 'value': 220, 'key': 'Rent', color: 'red', date: new Date(2017, 1) },
+        { 'value': undefined, 'key': 'Rent2', color: 'red', date: new Date(2017, 2) },
+        { 'value': 0, 'key': 'bar', color: 'red', date: new Date(2017, 3) },
+        { 'value': -40, 'key': 'baz', color: 'orange', date: new Date(2017, 4) },
+        { 'value': -100, 'key': 'foobar', color: 'orange', date: new Date(2017, 5) },
     ],
     [
-        { 'value': 30, 'name': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
-        { 'value': 65, 'name': 'Dog', color: 'green', date: new Date(2017, 11) },
-        { 'value': -20, 'name': 'Foo', color: 'green', date: new Date(2017, 12) },
-        { 'value': 10, 'name': 'Food', color: 'purple', date: new Date(2018, 1) },
-        { 'value': 230, 'name': 'Car', color: 'gray', date: new Date(2018, 2) },
-        { 'value': 20, 'name': 'Rent', color: 'red', date: new Date(2018, 3) },
-        { 'value': 410, 'name': 'Misc', color: 'orange', date: new Date(2018, 4) },
+        { 'value': 30, 'key': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
+        { 'value': 65, 'key': 'Dog', color: 'green', date: new Date(2017, 11) },
+        { 'value': -20, 'key': 'Foo', color: 'green', date: new Date(2017, 12) },
+        { 'value': 10, 'key': 'Food', color: 'purple', date: new Date(2018, 1) },
+        { 'value': 230, 'key': 'Car', color: 'gray', date: new Date(2018, 2) },
+        { 'value': 20, 'key': 'Rent', color: 'red', date: new Date(2018, 3) },
+        { 'value': 410, 'key': 'Misc', color: 'orange', date: new Date(2018, 4) },
     ],
 ]
 
@@ -174,13 +175,16 @@ class App extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={[ styles.card, { alignItems: 'center' } ]}>
+                    <View style={[ styles.card, { alignItems: 'center', padding: 48 } ]}>
                         <PieChart
-                            style={{ height: 200, width: 100 }}
-                            dataPoints={data}
-                            width={100}
-                            height={200}
-                            innerRadius={40}
+                            style={{ height: 200, width: 200 }}
+                            dataPoints={data.filter(data => data.value >= 0)}
+                            labelDistance={15}
+                            renderLabel={item => (
+                                <View style={[ styles.pieLabelContainer, { borderColor: item.color } ]}>
+                                    <Image source={Label} style={styles.pieLabelImage}/>
+                                </View>
+                            )}
                         />
                     </View>
                     <View style={styles.card}>
@@ -239,6 +243,15 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'blue',
+    },
+    pieLabelContainer: {
+        padding: 5,
+        borderWidth: 2,
+        borderRadius: 30,
+    },
+    pieLabelImage: {
+        height: 15,
+        width: 15,
     },
 })
 
