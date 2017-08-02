@@ -41,6 +41,10 @@ class AnimShape extends Component {
         }, () => this._animate())
     }
 
+    componentWillUnmount() {
+        cancelAnimationFrame(this.animation)
+    }
+
     _animate(start) {
         cancelAnimationFrame(this.animation)
         this.animation = requestAnimationFrame((timestamp) => {
@@ -62,7 +66,7 @@ class AnimShape extends Component {
                 return
             }
             // Tween the SVG path value according to what delta we're currently at.
-            this.state.d.tween(delta)
+            this.state.d.tween && this.state.d.tween(delta)
 
             // Update our state with the new tween value and then jump back into
             // this loop.
