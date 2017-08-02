@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ART, View } from 'react-native'
+import { ART, View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import AnimShape from './anim-shape'
@@ -82,7 +82,7 @@ class PieChart extends Component {
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
                 >
-                <Surface width={width} height={height}>
+                <Surface width={width} height={height} style={styles.surface}>
                     <Group x={width / 2} y={height / 2}>
                         {shapes.map((shape) => {
                             const { path, point: { key, color } } = shape
@@ -107,7 +107,7 @@ class PieChart extends Component {
                                 onLayout={event => this._onLabelLayout(event, index)}
                                 style={{
                                     top: (height / 2) - this.state[ `labelHeight_${index}` ] / 2,
-                                    left: width / 2 - this.state[ `labelWidth_${index}` ] / 2,
+                                    left: (width / 2) - this.state[ `labelWidth_${index}` ] / 2,
                                     position: 'absolute',
                                     transform: [ { translate } ],
                                 }}
@@ -143,5 +143,11 @@ PieChart.defaultProps = {
     labelDistance: 10,
     renderLabel: () => <View/>,
 }
+
+const styles = StyleSheet.create({
+    surface: {
+        backgroundColor: 'transparent',
+    },
+})
 
 export default PieChart

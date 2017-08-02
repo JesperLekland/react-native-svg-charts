@@ -48,11 +48,12 @@ class BarChart extends Component {
                   animate,
                   animationDuration,
                   style,
-                  showZeroAxis,
+                  showGrid,
                   fillColor,
                   strokeColor,
                   strokeColorNegative,
                   fillColorNegative,
+                  numberOfTicks,
                   contentInset: {
                       top    = 0,
                       bottom = 0,
@@ -73,9 +74,12 @@ class BarChart extends Component {
 
         const values = array.merge(Object.values(dataPoints).map(obj => obj.values))
 
+        const extent = array.extent([ ...values, 0 ])
+        const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
+
         //add zero to extent to always start from at least 0
         const y = scale.scaleLinear()
-            .domain(array.extent([ ...values, 0 ]))
+            .domain(extent)
             .range([ bottom, height - top ])
 
         // use index as domain identifier instead of value since
@@ -121,7 +125,16 @@ class BarChart extends Component {
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
                 >
-                    <Surface width={width} height={height}>
+                    {
+                        showGrid &&
+                        ticks.map((tick, index) => (
+                            <View
+                                key={index}
+                                style={[ styles.grid, { bottom: y(tick) } ]}
+                            />
+                        ))
+                    }
+                    <Surface width={width} height={height} style={styles.surface}>
                         <Group x={0} y={height}>
                             {areas.map((bar, index) =>
                                 <AnimShape
@@ -136,7 +149,6 @@ class BarChart extends Component {
                             )}
                         </Group>
                     </Surface>
-                    {showZeroAxis && <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>}
                 </View>
             </View>
         )
@@ -159,13 +171,14 @@ BarChart.propTypes = {
     animationDuration: PropTypes.number,
     fillColorNegative: PropTypes.string,
     strokeColorNegative: PropTypes.string,
-    showZeroAxis: PropTypes.bool,
     contentInset: PropTypes.shape({
         top: PropTypes.number,
         left: PropTypes.number,
         right: PropTypes.number,
         bottom: PropTypes.number,
     }),
+    numberOfTicks: PropTypes.number,
+    showGrid: PropTypes.bool,
 }
 
 BarChart.defaultProps = {
@@ -178,18 +191,21 @@ BarChart.defaultProps = {
     height: 100,
     showZeroAxis: true,
     contentInset: {},
+    numberOfTicks: 10,
+    showGrid: true,
 }
 
-const
-    styles = StyleSheet.create({
-        zeroAxis: {
-            position: 'absolute',
-            left: 0,
-            right: 0,
-            height: 1,
-            // backgroundColor: 'rgba(0,0,0,0.5)',
-            backgroundColor: 'black',
-        },
-    })
+const styles = StyleSheet.create({
+    grid: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        height: 0.5,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+    },
+    surface: {
+        backgroundColor: 'transparent',
+    },
+})
 
 export default BarChart

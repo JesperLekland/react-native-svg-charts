@@ -5,7 +5,7 @@ import XAxis from './x-axis'
 import YAxis from './y-axis'
 import LineChart from './line-chart'
 import PieChart from './pie-chart'
-import MultipleBarChart from './bar-chart'
+import BarChart from './bar-chart'
 import * as dateFns from 'date-fns'
 import ProgressCircle from './progress-circle'
 import Label from './assets/d3.png'
@@ -104,7 +104,7 @@ class App extends Component {
                                 labelStyle={{ color: 'grey' }}
                             />
                             <View style={{ flex: 1 }}>
-                                <MultipleBarChart
+                                <BarChart
                                     dataPoints={_multipleBarData}
                                     style={{ flex: 1 }}
                                     spacing={0.3}
@@ -134,7 +134,7 @@ class App extends Component {
                                 labelStyle={{ color: 'grey' }}
                             />
                             <View style={{ flex: 1 }}>
-                                <MultipleBarChart
+                                <BarChart
                                     dataPoints={[ { values: data.map(data => data.value) } ]}
                                     style={{ flex: 1 }}
                                     spacing={0.05}
@@ -154,7 +154,7 @@ class App extends Component {
                         <View style={{ height: 200, flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                style={{ marginBottom: 20 }}
+                                style={{ marginBottom: 30, marginTop: 10 }}
                             />
                             <View style={{ flex: 1 }}>
                                 <LineChart
@@ -191,7 +191,7 @@ class App extends Component {
                         <View style={{ flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                style={{ paddingRight: 10, marginBottom: 20 }}
+                                style={{ paddingRight: 10, marginBottom: 30 }}
                                 numberOfTicks={data.length / 2}
                             />
                             <View style={{ flex: 1 }}>
@@ -199,7 +199,7 @@ class App extends Component {
                                     dataPoints={data.map(data => data.value)}
                                     style={{ height: 200, paddingHorizontal: 5 }}
                                     showPoints={true}
-                                    contentInset={{ bottom: 10, right: 10, left: 10, }}
+                                    contentInset={{ bottom: 10 }}
                                 />
                                 <XAxis
                                     style={{ height: 20, marginHorizontal: 0 }}

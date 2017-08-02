@@ -34,7 +34,7 @@ class AreaChart extends Component {
             width: pointSize * 2,
             borderRadius: pointSize,
             borderWidth: pointWidth,
-            // backgroundColor: value >= 0 ? pointColor : 'red',
+            backgroundColor: 'white',
             borderColor: value >= 0 ? pointColor : 'red',
         }
     }
@@ -49,8 +49,9 @@ class AreaChart extends Component {
                   animate,
                   animationDuration,
                   style,
-                  showZeroAxis,
                   curve,
+                  showGrid,
+                  numberOfTicks,
                   contentInset: {
                       top    = 0,
                       bottom = 0,
@@ -62,6 +63,7 @@ class AreaChart extends Component {
         const { height, width } = this.state
 
         const extent = array.extent([ ...dataPoints, 0 ])
+        const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const y = scale.scaleLinear()
             .domain(extent)
@@ -85,7 +87,16 @@ class AreaChart extends Component {
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
                 >
-                    <Surface width={width} height={height}>
+                    {
+                        showGrid &&
+                        ticks.map((tick, index) => (
+                            <View
+                                key={index}
+                                style={[ styles.grid, { bottom: y(tick) } ]}
+                            />
+                        ))
+                    }
+                    <Surface width={width} height={height} style={styles.surface}>
                         <Group x={0} y={height}>
                             <AnimShape
                                 stroke={strokeColor}
@@ -111,7 +122,6 @@ class AreaChart extends Component {
                             return <View key={index}/>
                         },
                     )}
-                    {showZeroAxis && <View style={[ styles.zeroAxis, { bottom: y(0) - 1 } ]}/>}
                 </View>
             </View>
         )
@@ -131,7 +141,6 @@ AreaChart.propTypes = {
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     style: PropTypes.any,
-    showZeroAxis: PropTypes.bool,
     curve: PropTypes.func,
     contentInset: PropTypes.shape({
         top: PropTypes.number,
@@ -139,6 +148,8 @@ AreaChart.propTypes = {
         right: PropTypes.number,
         bottom: PropTypes.number,
     }),
+    numberOfTicks: PropTypes.number,
+    showGrid: PropTypes.bool,
 }
 
 AreaChart.defaultProps = {
@@ -152,16 +163,20 @@ AreaChart.defaultProps = {
     showZeroAxis: true,
     curve: shape.curveCardinal,
     contentInset: {},
+    numberOfTicks: 10,
+    showGrid: true,
 }
 
 const styles = StyleSheet.create({
-    zeroAxis: {
+    grid: {
         position: 'absolute',
         left: 0,
         right: 0,
-        height: 1,
-        // backgroundColor: 'rgba(0,0,0,0.5)',
-        backgroundColor: 'black',
+        height: 0.5,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+    },
+    surface: {
+        backgroundColor: 'transparent',
     },
 })
 
