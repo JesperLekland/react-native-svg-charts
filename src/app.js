@@ -175,15 +175,19 @@ class App extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={[ styles.card, { alignItems: 'center', padding: 48 } ]}>
+                    <View style={[ styles.card, { height: 250 } ]}>
                         <PieChart
-                            style={{ height: 200, width: 200 }}
                             dataPoints={data.filter(data => data.value >= 0)}
-                            labelDistance={15}
+                            labelDistance={5}
+                            innerRadius={0.7}
+                            labelSpacing={40}
                             renderLabel={item => (
-                                <View style={[ styles.pieLabelContainer, { borderColor: item.color } ]}>
+                                <TouchableOpacity
+                                    style={[ styles.pieLabelContainer, { borderColor: item.color } ]}
+                                    onPress={() => console.log('clicked!', item)}
+                                >
                                     <Image source={Label} style={styles.pieLabelImage}/>
-                                </View>
+                                </TouchableOpacity>
                             )}
                         />
                     </View>
@@ -248,6 +252,7 @@ const styles = StyleSheet.create({
         padding: 5,
         borderWidth: 2,
         borderRadius: 30,
+        backgroundColor: 'white',
     },
     pieLabelImage: {
         height: 15,

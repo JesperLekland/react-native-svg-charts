@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ART, View, StyleSheet } from 'react-native'
+import { ART, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import AnimShape from './anim-shape'
@@ -18,15 +18,19 @@ class PieChart extends Component {
 
     _onLayout(event) {
         const { nativeEvent: { layout: { height, width } } } = event
+
         this.setState({ height, width })
     }
 
     _onLabelLayout(event, key) {
         const { nativeEvent: { layout: { height, width } } } = event
+
         this.setState({
             [`labelHeight_${key}`]: height,
             [`labelWidth_${key}`]: width,
         })
+
+        console.log('onLabelLayout', key, height, width)
     }
 
     render() {
@@ -38,46 +42,53 @@ class PieChart extends Component {
                   animationDuration,
                   style,
                   renderLabel,
-                  labelDistance,
+                  labelSpacing = 0,
+
               } = this.props
 
         const { height, width } = this.state
 
-        const outerRadius  = Math.min(width, height) / 2
-        const _innerRadius = innerRadius >= 0 ? innerRadius : outerRadius / 2
+        const maxRadius = Math.min(width, height) / 2
 
-        dataPoints.forEach(point => {
-            if (point.value < 0) {
-                console.warn('don\'t pass negative numbers to pie-chart')
-            }
-        })
+        if (Math.min(...dataPoints) < 0) {
+            console.warn('don\'t pass negative numbers to pie-chart')
+        }
 
-        if (outerRadius > 0 && _innerRadius >= outerRadius) {
+        const pieOuterRadius = maxRadius - labelSpacing
+        const pieInnerRadius = pieOuterRadius * innerRadius
+
+        if (pieOuterRadius > 0 && pieInnerRadius >= pieOuterRadius) {
             console.warn('innerRadius is equal to or greater than outerRadius')
         }
 
-        const pieSlices = shape
-            .pie()
+        const labelOuterRadius = maxRadius
+        const labelInnerRadius = labelSpacing > 0 ? pieOuterRadius : pieInnerRadius
+
+        const arc = shape.arc()
+            .outerRadius(pieOuterRadius)
+            .innerRadius(pieInnerRadius)
+            .padAngle(padAngle) // Angle between sections
+
+        const labelArc = shape.arc()
+            .outerRadius(labelOuterRadius)
+            .innerRadius(labelInnerRadius)
+
+        const pieSlices = shape.pie()
             .value(d => d.value)
             (dataPoints)
 
-        const labelArc = shape.arc()
-            .outerRadius(outerRadius + labelDistance)
-            .innerRadius(outerRadius + labelDistance)
-
-        const arc = shape.arc()
-            .outerRadius(outerRadius * 0.9)  // Radius of the pie
-            .innerRadius(_innerRadius * 0.9)  // Inner radius: to create a donut or pie
-            .padAngle(padAngle) // Angle between sections
-
         const shapes = pieSlices.map((slice, index) => ({
             point: dataPoints[ index ],
-            label: { translate: labelArc.centroid(slice) },
             path: arc(slice),
         }))
 
+        const labels = pieSlices.map((slice, index) => ({
+            point: dataPoints[ index ],
+            translate: labelArc.centroid(slice),
+        }))
+
         return (
-            <View style={style}>
+            <View style={[ styles.container, style ]}>
                 <View
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
@@ -98,16 +109,23 @@ class PieChart extends Component {
                         })}
                     </Group>
                 </Surface>
-                    {shapes.map((shape, index) => {
-                        const { label: { translate }, point } = shape
-                        const { key }                         = point
+                    {labels.map((label, index) => {
+                        const { point } = label
+                        const { key }   = point
+
+                        //Translate center of label - hence the width and height divided by 2
+                        const translate = [
+                            label.translate[ 0 ] - (this.state[ `labelWidth_${index}` ] / 2 || 0),
+                            label.translate[ 1 ] - (this.state[ `labelHeight_${index}` ] / 2 || 0),
+                        ]
+
                         return (
                             <View
                                 key={key}
                                 onLayout={event => this._onLabelLayout(event, index)}
                                 style={{
-                                    top: (height / 2) - this.state[ `labelHeight_${index}` ] / 2,
-                                    left: (width / 2) - this.state[ `labelWidth_${index}` ] / 2,
+                                    top: (height / 2),
+                                    left: (width / 2),
                                     position: 'absolute',
                                     transform: [ { translate } ],
                                 }}
@@ -128,23 +146,29 @@ PieChart.propTypes = {
         key: PropTypes.string.isRequired,
     })).isRequired,
     innerRadius: PropTypes.number,
+    outerRadius: PropTypes.number,
     padAngle: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     style: PropTypes.any,
     renderLabel: PropTypes.func,
     labelDistance: PropTypes.number,
+    labelSpacing: PropTypes.number,
 }
 
 PieChart.defaultProps = {
     width: 100,
     height: 100,
     padAngle: 0.05,
-    labelDistance: 10,
+    labelSpacing: 0,
+    innerRadius: 0.5,
     renderLabel: () => <View/>,
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
     surface: {
         backgroundColor: 'transparent',
     },
