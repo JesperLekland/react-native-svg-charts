@@ -46,12 +46,21 @@ const _data = [
         { 'value': 20, 'key': 'Rent', color: 'red', date: new Date(2018, 3) },
         { 'value': 410, 'key': 'Misc', color: 'orange', date: new Date(2018, 4) },
     ],
+    [
+        { 'value': 30, 'key': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
+        { 'value': 65, 'key': 'Dog', color: 'green', date: new Date(2017, 11) },
+    ],
+    [
+        { 'value': 30, 'key': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
+    ],
 ]
 
 const _progressData = [
     0.4,
     0.8,
     0.2,
+    1,
+    0,
 ]
 
 const _multipleBarData = [
@@ -156,22 +165,23 @@ class App extends Component {
                         <View style={{ height: 200, flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                style={{ marginTop: 10 }}
+                                style={{ marginTop: 10, marginRight: 5 }}
                                 contentInset={{ bottom: 30 }}
                             />
                             <View style={{ flex: 1 }}>
                                 <LineChart
-                                    style={{ flex: 1, marginLeft: 5 }}
+                                    style={{ flex: 1 }}
                                     dataPoints={data.map(data => data.value)}
                                     dashSize={5}
                                     showPoints={true}
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
-                                    contentInset={{ bottom: 10, left: 10, right: 10, top: 10 }}
+                                    contentInset={{ bottom: 10, left: 15, right: 15, top: 10 }}
                                 />
                                 <XAxis
-                                    chartType={XAxis.Type.BAR}
+                                    chartType={XAxis.Type.LINE}
                                     spacing={0.05}
-                                    style={{ height: 20, justifyContent: 'center', marginHorizontal: -10 }}
+                                    style={{ height: 20, justifyContent: 'center' }}
+                                    contentInset={{ left: 15, right: 15 }}
                                     values={data.map(data => data.date)}
                                     formatLabel={date => dateFns.format(date, 'MMM')}
                                 />
@@ -205,14 +215,16 @@ class App extends Component {
                             <View style={{ flex: 1 }}>
                                 <AreaChart
                                     dataPoints={data.map(data => data.value)}
-                                    style={{ height: 200, paddingHorizontal: 5 }}
+                                    style={{ height: 200 }}
                                     showPoints={true}
-                                    contentInset={{ bottom: 10 }}
+                                    contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}
                                 />
                                 <XAxis
-                                    style={{ height: 20, marginHorizontal: 0 }}
+                                    style={{ height: 20 }}
                                     values={data.map(data => data.date)}
+                                    contentInset={{ left: 15, right: 15 }}
                                     formatLabel={date => dateFns.format(date, 'MMM')}
+                                    spacing={0}
                                 />
                             </View>
                         </View>

@@ -29,8 +29,6 @@ class PieChart extends Component {
             [`labelHeight_${key}`]: height,
             [`labelWidth_${key}`]: width,
         })
-
-        console.log('onLabelLayout', key, height, width)
     }
 
     render() {

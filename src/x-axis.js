@@ -2,7 +2,6 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, View } from 'react-native'
 import * as scale from 'd3-scale'
-import * as array from 'd3-array'
 
 class XAxis extends Component {
 
@@ -19,43 +18,53 @@ class XAxis extends Component {
         }
     }
 
-    _onTextLayout(event) {
-        const { nativeEvent: { layout: { height } } } = event
-
-        if (height !== this.state.height) {
-            this.setState({ height })
-        }
-    }
-
     render() {
 
-        const { style, values, labelStyle, spacing, chartType, formatLabel } = this.props
-        const { width, height }                                              = this.state
+        const {
+                  style,
+                  values,
+                  labelStyle,
+                  spacing,
+                  chartType,
+                  formatLabel,
+                  contentInset: {
+                      left  = 0,
+                      right = 0,
+                  },
+              } = this.props
+
+        const { width } = this.state
 
         let labelWidth
         let x
+        let transform
+        const domain = [ 0, values.length - 1 ]
 
         switch (chartType) {
             case 'bar': {
 
+                // use index as domain identifier instead of value since
+                // same value can occur at several places in dataPoints
                 x = scale.scaleBand()
-                    .domain(values)
-                    .range([ 0, width ])
+                    .domain(values.map((_, index) => index))
+                    .range([ left, width - right ])
                     .paddingInner([ spacing ])
                     .paddingOuter([ spacing ])
 
                 labelWidth = x.bandwidth()
+                transform  = []
 
                 break
 
             }
             case 'line': {
 
-                labelWidth = Math.floor(width / values.length - 1)
+                labelWidth = ((width - left - right) / values.length )
+                transform  = [ { translateX: -labelWidth / 2 } ]
 
-                x = scale.scaleTime()
-                    .domain(array.extent(values))
-                    .range([ 0, width - labelWidth ])
+                x = scale.scaleLinear()
+                    .domain(domain)
+                    .range([ left, width - right ])
 
                 break
             }
@@ -67,21 +76,25 @@ class XAxis extends Component {
 
                 labelWidth = 0
                 x          = () => {}
+                transform  = []
         }
 
         return (
             <View style={[ style ]}>
                 <View
-                    style={{ height }}
+                    style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
                 >
-                    {values.map(value => {
+                    {/*invisible text to allow for parent resizing*/}
+                    <Text style={{ color: 'transparent' }}>
+                        {formatLabel(values[ 0 ])}
+                    </Text>
+                    {values.map((value, index) => {
                         return (
                             <Text
                                 numberOfLines={1}
                                 //'clip' not supported on android
                                 // ellipsizeMode={'clip'}
-                                onLayout={event => this._onTextLayout(event)}
                                 key={value}
                                 style={[
                                     styles.text,
@@ -89,7 +102,8 @@ class XAxis extends Component {
                                     {
                                         width: labelWidth,
                                         position: 'absolute',
-                                        left: x(value),
+                                        left: x(index),
+                                        transform,
                                     },
                                 ]}
                             >
@@ -114,12 +128,17 @@ XAxis.propTypes = {
     chartType: PropTypes.oneOf([ XAxis.Type.LINE, XAxis.Type.BAR ]),
     spacing: PropTypes.number,
     formatLabel: PropTypes.func,
+    contentInset: PropTypes.shape({
+        left: PropTypes.number,
+        right: PropTypes.number,
+    }),
 }
 
 XAxis.defaultProps = {
     type: 'line',
     spacing: 0.05,
     chartType: XAxis.Type.LINE,
+    contentInset: {},
     formatLabel: value => value && value.toString,
 }
 

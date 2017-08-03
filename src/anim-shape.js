@@ -100,7 +100,7 @@ AnimShape.propTypes = {
 }
 
 AnimShape.defaultProps = {
-    animate: __DEV__ && Platform.OS === 'ios',
+    animate: Platform.OS === 'ios',
     animationDuration: 300,
 }
 
