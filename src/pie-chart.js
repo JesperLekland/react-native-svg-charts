@@ -86,7 +86,7 @@ class PieChart extends Component {
         }))
 
         return (
-            <View style={[ styles.container, style ]}>
+            <View style={style}>
                 <View
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
@@ -160,6 +160,7 @@ PieChart.defaultProps = {
     padAngle: 0.05,
     labelSpacing: 0,
     innerRadius: 0.5,
+    style: { flex: 1 },
     renderLabel: () => <View/>,
 }
 

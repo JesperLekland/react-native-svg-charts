@@ -99,7 +99,7 @@ class LineChart extends Component {
         )
 
         return (
-            <View style={[ styles.container, style ]}>
+            <View style={style}>
                 <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
                     {
                         showGrid &&
@@ -187,6 +187,7 @@ LineChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    style: { flex: 1 },
 }
 
 const styles = StyleSheet.create({

@@ -60,7 +60,7 @@ class ProgressCircle extends Component {
 
         return (
             <View
-                style={[ styles.container, style ]}
+                style={style}
                 onLayout={event => this._onLayout(event)}
             >
                 <Surface width={width} height={height} style={styles.surface}>
@@ -83,10 +83,6 @@ class ProgressCircle extends Component {
 
 ProgressCircle.propTypes = {
     progress: PropTypes.number.isRequired,
-    innerRadius: PropTypes.number,
-    padAngle: PropTypes.number,
-    animate: PropTypes.bool,
-    animationDuration: PropTypes.number,
     style: PropTypes.any,
     progressColor: PropTypes.any,
 }
@@ -95,7 +91,7 @@ ProgressCircle.defaultProps = {
     progressColor: '#22B6B0',
     width: 100,
     height: 100,
-    padAngle: 0.05,
+    style: { flex: 1 },
 }
 
 const styles = StyleSheet.create({
