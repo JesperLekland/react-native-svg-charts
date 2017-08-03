@@ -25,7 +25,8 @@ class AreaChart extends Component {
     }
 
     _getPointStyle(value, x, y) {
-        const { pointSize, pointWidth, pointColor } = this.props
+        const { pointSize, pointWidth, strokeColor } = this.props
+        const { pointColor = strokeColor }           = this.props
 
         return {
             position: 'absolute',
@@ -156,7 +157,6 @@ AreaChart.propTypes = {
 AreaChart.defaultProps = {
     fillColor: 'rgba(34, 182, 176, 0.2)',
     strokeColor: '#22B6B0',
-    pointColor: 'rgb(34, 182, 176)',
     pointWidth: 1,
     pointSize: 4,
     width: 100,

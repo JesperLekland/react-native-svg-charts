@@ -36,7 +36,8 @@ class LineChart extends Component {
     }
 
     _getPointStyle(value, x, y) {
-        const { pointSize, pointWidth, pointColor } = this.props
+        const { pointSize, pointWidth, strokeColor } = this.props
+        const { pointColor = strokeColor }           = this.props
 
         return {
             position: 'absolute',
@@ -176,7 +177,6 @@ LineChart.propTypes = {
 
 LineChart.defaultProps = {
     strokeColor: '#22B6B0',
-    pointColor: '#22B6B0',
     pointWidth: 1,
     pointSize: 4,
     dashSize: 0,
