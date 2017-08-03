@@ -116,7 +116,6 @@ class App extends Component {
                             <View style={{ flex: 1 }}>
                                 <BarChart
                                     dataPoints={_multipleBarData}
-                                    style={{ flex: 1 }}
                                     spacing={0.3}
                                 />
                                 <XAxis
@@ -130,9 +129,8 @@ class App extends Component {
                             </View>
                         </View>
                     </View>
-                    <View style={styles.card}>
+                    <View style={[ styles.card, { height: 120 } ]}>
                         <ProgressCircle
-                            style={{ height: 100 }}
                             progress={progress}
                         />
                     </View>
@@ -147,7 +145,6 @@ class App extends Component {
                             <View style={{ flex: 1 }}>
                                 <BarChart
                                     dataPoints={[ { values: data.map(data => data.value) } ]}
-                                    style={{ flex: 1 }}
                                     spacing={0.05}
                                 />
                                 <XAxis
@@ -170,7 +167,6 @@ class App extends Component {
                             />
                             <View style={{ flex: 1 }}>
                                 <LineChart
-                                    style={{ flex: 1 }}
                                     dataPoints={data.map(data => data.value)}
                                     dashSize={5}
                                     showPoints={true}
@@ -205,7 +201,7 @@ class App extends Component {
                         />
                     </View>
                     <View style={styles.card}>
-                        <View style={{ flexDirection: 'row' }}>
+                        <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
                                 style={{ width: 40 }}
@@ -214,7 +210,6 @@ class App extends Component {
                             <View style={{ flex: 1 }}>
                                 <AreaChart
                                     dataPoints={data.map(data => data.value)}
-                                    style={{ height: 200 }}
                                     showPoints={true}
                                     contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}
                                 />

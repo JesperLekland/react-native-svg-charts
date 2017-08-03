@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ART, View } from 'react-native'
+import { ART, View, StyleSheet } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import AnimShape from './anim-shape'
@@ -60,10 +60,10 @@ class ProgressCircle extends Component {
 
         return (
             <View
-                style={style}
+                style={[ styles.container, style ]}
                 onLayout={event => this._onLayout(event)}
             >
-                <Surface width={width} height={height}>
+                <Surface width={width} height={height} style={styles.surface}>
                     <Group x={width / 2} y={height / 2}>
                         {shapes.map(shape => {
                             return (
@@ -97,5 +97,14 @@ ProgressCircle.defaultProps = {
     height: 100,
     padAngle: 0.05,
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+    },
+    surface: {
+        backgroundColor: 'transparent',
+    },
+})
 
 export default ProgressCircle

@@ -5,6 +5,7 @@ import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
 import AnimShape from './anim-shape'
 import * as array from 'd3-array'
+import { Constants } from './util'
 
 const {
           Group,
@@ -82,7 +83,7 @@ class AreaChart extends Component {
             (dataPoints)
 
         return (
-            <View style={style}>
+            <View style={[ styles.container, style ]}>
                 <View
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
@@ -168,13 +169,10 @@ AreaChart.defaultProps = {
 }
 
 const styles = StyleSheet.create({
-    grid: {
-        position: 'absolute',
-        left: 0,
-        right: 0,
-        height: 0.5,
-        backgroundColor: 'rgba(0,0,0,0.2)',
+    container: {
+        flex: 1,
     },
+    grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
     },

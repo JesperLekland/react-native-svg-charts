@@ -15,4 +15,14 @@ const util = {
 
 }
 
+export const Constants = {
+    gridStyle: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        height: 0.5,
+        backgroundColor: 'rgba(0,0,0,0.2)',
+    },
+}
+
 export default util
