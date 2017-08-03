@@ -187,7 +187,6 @@ LineChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
-    style: { flex: 1 },
 }
 
 const styles = StyleSheet.create({

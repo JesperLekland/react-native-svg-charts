@@ -160,7 +160,6 @@ PieChart.defaultProps = {
     padAngle: 0.05,
     labelSpacing: 0,
     innerRadius: 0.5,
-    style: { flex: 1 },
     renderLabel: () => <View/>,
 }
 

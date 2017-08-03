@@ -115,6 +115,7 @@ class App extends Component {
                             />
                             <View style={{ flex: 1 }}>
                                 <BarChart
+                                    style={{ flex: 1 }}
                                     dataPoints={_multipleBarData}
                                     spacing={0.3}
                                 />
@@ -131,6 +132,7 @@ class App extends Component {
                     </View>
                     <View style={[ styles.card, { height: 120 } ]}>
                         <ProgressCircle
+                            style={{ flex: 1 }}
                             progress={progress}
                         />
                     </View>
@@ -144,6 +146,7 @@ class App extends Component {
                             />
                             <View style={{ flex: 1 }}>
                                 <BarChart
+                                    style={{ flex: 1 }}
                                     dataPoints={[ { values: data.map(data => data.value) } ]}
                                     spacing={0.05}
                                 />
@@ -167,6 +170,7 @@ class App extends Component {
                             />
                             <View style={{ flex: 1 }}>
                                 <LineChart
+                                    style={{ flex: 1 }}
                                     dataPoints={data.map(data => data.value)}
                                     dashSize={5}
                                     showPoints={true}
@@ -186,6 +190,7 @@ class App extends Component {
                     </View>
                     <View style={[ styles.card, { height: 250 } ]}>
                         <PieChart
+                            style={{ flex: 1 }}
                             dataPoints={data.filter(data => data.value >= 0)}
                             labelDistance={5}
                             innerRadius={0.7}
@@ -209,6 +214,7 @@ class App extends Component {
                             />
                             <View style={{ flex: 1 }}>
                                 <AreaChart
+                                    style={{ flex: 1 }}
                                     dataPoints={data.map(data => data.value)}
                                     showPoints={true}
                                     contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}

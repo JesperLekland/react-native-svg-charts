@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { ART, View, StyleSheet } from 'react-native'
+import { ART, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import AnimShape from './anim-shape'
@@ -89,9 +89,6 @@ ProgressCircle.propTypes = {
 
 ProgressCircle.defaultProps = {
     progressColor: '#22B6B0',
-    width: 100,
-    height: 100,
-    style: { flex: 1 },
 }
 
 const styles = StyleSheet.create({
