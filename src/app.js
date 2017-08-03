@@ -99,7 +99,8 @@ class App extends Component {
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis
-                                style={{ paddingBottom: 20, paddingRight: 5 }}
+                                style={{ paddingRight: 5 }}
+                                contentInset={{ bottom: 20 }}
                                 dataPoints={_multipleBarData[ 0 ].values}
                                 labelStyle={{ color: 'grey' }}
                             />
@@ -129,7 +130,8 @@ class App extends Component {
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis
-                                style={{ paddingBottom: 20, paddingRight: 5 }}
+                                style={{ paddingRight: 5 }}
+                                contentInset={{ bottom: 20 }}
                                 dataPoints={data.map(data => data.value)}
                                 labelStyle={{ color: 'grey' }}
                             />
@@ -154,7 +156,8 @@ class App extends Component {
                         <View style={{ height: 200, flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                style={{ marginBottom: 30, marginTop: 10 }}
+                                style={{ marginTop: 10 }}
+                                contentInset={{ bottom: 30 }}
                             />
                             <View style={{ flex: 1 }}>
                                 <LineChart
@@ -195,7 +198,8 @@ class App extends Component {
                         <View style={{ flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                style={{ paddingRight: 10, marginBottom: 30 }}
+                                style={{ paddingRight: 10 }}
+                                contentInset={{ bottom: 30 }}
                                 numberOfTicks={data.length / 2}
                             />
                             <View style={{ flex: 1 }}>

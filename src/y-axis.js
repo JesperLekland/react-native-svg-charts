@@ -26,15 +26,25 @@ class YAxis extends Component {
 
     render() {
 
-        const { style, dataPoints, numberOfTicks, labelStyle, formatLabel } = this.props
-        const { height, textHeight }                                        = this.state
+        const {
+                  style,
+                  dataPoints,
+                  numberOfTicks,
+                  labelStyle,
+                  formatLabel,
+                  contentInset: {
+                      top    = 0,
+                      bottom = 0,
+                  },
+              }                      = this.props
+        const { height, textHeight } = this.state
 
         const extent = array.extent([ ...dataPoints, 0 ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ 0, height ])
+            .range([ bottom, height - top ])
 
         const longestValue = ticks.reduce(
             (prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0
@@ -80,10 +90,15 @@ YAxis.propTypes = {
     labelStyle: PropTypes.any,
     numberOfTicks: PropTypes.number,
     formatLabel: PropTypes.func,
+    contentInset: PropTypes.shape({
+        top: PropTypes.number,
+        bottom: PropTypes.number,
+    }),
 }
 
 YAxis.defaultProps = {
     numberOfTicks: 10,
+    contentInset: {},
     formatLabel: value => value && value.toString(),
 }
 
