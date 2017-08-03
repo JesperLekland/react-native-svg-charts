@@ -72,7 +72,7 @@ class YAxis extends Component {
                                     styles.text,
                                     labelStyle,
                                     { bottom: y(value) },
-                                    { transform: [ { translateY: -textHeight / 2 } ] },
+                                    { transform: [ { translateY: textHeight / 2 } ] },
                                 ]}
                             >
                                 {formatLabel(value)}
