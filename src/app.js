@@ -139,7 +139,7 @@ class App extends Component {
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis
-                                style={{ paddingRight: 5 }}
+                                style={{ width: 30 }}
                                 contentInset={{ bottom: 20 }}
                                 dataPoints={data.map(data => data.value)}
                                 labelStyle={{ color: 'grey' }}
@@ -208,9 +208,8 @@ class App extends Component {
                         <View style={{ flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
-                                style={{ paddingRight: 10 }}
-                                contentInset={{ bottom: 30 }}
-                                numberOfTicks={data.length / 2}
+                                style={{ width: 40 }}
+                                contentInset={{ bottom: 30, top: 10 }}
                             />
                             <View style={{ flex: 1 }}>
                                 <AreaChart
