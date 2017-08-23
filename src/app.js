@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { AppState, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AreaChart from './area-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
@@ -80,6 +80,7 @@ const _multipleBarData = [
     },
 ]
 
+const FLEX_1 = { flex: 1 }
 class App extends Component {
 
     state = {
@@ -103,7 +104,7 @@ class App extends Component {
     render() {
         const { data, progress } = this.state
         return (
-            <View style={{ flex: 1 }}>
+            <View style={styles.flex1}>
                 <ScrollView contentContainerStyle={styles.container}>
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
@@ -113,9 +114,9 @@ class App extends Component {
                                 dataPoints={_multipleBarData[ 0 ].values}
                                 labelStyle={{ color: 'grey' }}
                             />
-                            <View style={{ flex: 1 }}>
+                            <View style={styles.flex1}>
                                 <BarChart
-                                    style={{ flex: 1 }}
+                                    style={FLEX_1}
                                     dataPoints={_multipleBarData}
                                     spacing={0.3}
                                 />
@@ -132,7 +133,7 @@ class App extends Component {
                     </View>
                     <View style={[ styles.card, { height: 120 } ]}>
                         <ProgressCircle
-                            style={{ flex: 1 }}
+                            style={styles.flex1}
                             progress={progress}
                         />
                     </View>
@@ -144,9 +145,9 @@ class App extends Component {
                                 dataPoints={data.map(data => data.value)}
                                 labelStyle={{ color: 'grey' }}
                             />
-                            <View style={{ flex: 1 }}>
+                            <View style={styles.flex1}>
                                 <BarChart
-                                    style={{ flex: 1 }}
+                                    style={FLEX_1}
                                     dataPoints={[ { values: data.map(data => data.value) } ]}
                                     spacing={0.05}
                                 />
@@ -168,9 +169,9 @@ class App extends Component {
                                 style={{ marginTop: 10, marginRight: 5 }}
                                 contentInset={{ bottom: 30 }}
                             />
-                            <View style={{ flex: 1 }}>
+                            <View style={styles.flex1}>
                                 <LineChart
-                                    style={{ flex: 1 }}
+                                    style={styles.flex1}
                                     dataPoints={data.map(data => data.value)}
                                     dashSize={5}
                                     showPoints={true}
@@ -190,7 +191,7 @@ class App extends Component {
                     </View>
                     <View style={[ styles.card, { height: 250 } ]}>
                         <PieChart
-                            style={{ flex: 1 }}
+                            style={styles.flex1}
                             dataPoints={data.filter(data => data.value >= 0)}
                             labelDistance={5}
                             innerRadius={0.7}
@@ -212,9 +213,9 @@ class App extends Component {
                                 style={{ width: 40 }}
                                 contentInset={{ bottom: 30, top: 10 }}
                             />
-                            <View style={{ flex: 1 }}>
+                            <View style={styles.flex1}>
                                 <AreaChart
-                                    style={{ flex: 1 }}
+                                    style={styles.flex1}
                                     dataPoints={data.map(data => data.value)}
                                     showPoints={true}
                                     contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}
@@ -245,6 +246,9 @@ class App extends Component {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#F5FCFF',
+    },
+    flex1: {
+        flex: 1,
     },
     card: {
         backgroundColor: 'white',
