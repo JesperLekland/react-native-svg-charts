@@ -36,7 +36,7 @@
 		"prop-types": "^15.5.10"
 	},
 	"peerDependencies": {
-		"react": ">14.0.0",
+		"react": "16.0.*",
 		"react-native": ">0.40.0"
 	},
 	"devDependencies": {
