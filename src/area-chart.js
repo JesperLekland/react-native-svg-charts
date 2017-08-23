@@ -1,5 +1,5 @@
-import React, { Component } from 'react'
-import { ART, StyleSheet, View } from 'react-native'
+import React, { PureComponent } from 'react'
+import { ART, Platform, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
@@ -10,9 +10,10 @@ import { Constants } from './util'
 const {
           Group,
           Surface,
+          LinearGradient,
       } = ART
 
-class AreaChart extends Component {
+class AreaChart extends PureComponent {
 
     state = {
         height: 0,
@@ -82,6 +83,27 @@ class AreaChart extends Component {
             .defined(value => typeof value === 'number')
             .curve(curve)
             (dataPoints)
+
+        /*
+        * TODO - this is a proof of concept of a working gradient.
+        * TODO Think of a good API and make sure it works on both platforms.
+        * TODO Maybe use https://github.com/react-native-community/react-native-svg?
+        * */
+
+        // const zeroAxis = height === 0 ? 0 : 1 - (y(0) / height)
+
+        // const fill = Platform.OS === 'ios' ?
+        //     new LinearGradient(
+        //         {
+        //             '0.0': 'rgba(34, 182, 176)',
+        //             [`${zeroAxis}`]: 'rgba(34, 182, 176, 0.5)',
+        //             [`${zeroAxis + 0.001}`]: 'rgba(255,0,0,0.5)',
+        //             '1': 'red',
+        //         },
+        //         '0', `-${height}`, `0`, `0`,
+        //         // `${width / 2}`, `${height / -2}`, `${width}`, `${height / 2}`,
+        //     ) :
+        //     fillColor
 
         return (
             <View style={style}>

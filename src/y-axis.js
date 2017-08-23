@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, View } from 'react-native'
 import * as scale from 'd3-scale'
 import * as array from 'd3-array'
 
-class YAxis extends Component {
+class YAxis extends PureComponent {
 
     state = {
         height: 0,

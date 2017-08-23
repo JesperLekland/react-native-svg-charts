@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { ART, StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
@@ -9,7 +9,7 @@ const {
           Surface,
       } = ART
 
-class PieChart extends Component {
+class PieChart extends PureComponent {
 
     state = {
         height: 0,

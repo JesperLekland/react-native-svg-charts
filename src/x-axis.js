@@ -1,9 +1,9 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, View } from 'react-native'
 import * as scale from 'd3-scale'
 
-class XAxis extends Component {
+class XAxis extends PureComponent {
 
     state = {
         width: 0,

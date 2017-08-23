@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { ART, StyleSheet, View } from 'react-native'
 import * as shape from 'd3-shape'
@@ -12,7 +12,7 @@ const {
           Surface,
       } = ART
 
-class BarChart extends Component {
+class BarChart extends PureComponent {
 
     state = {
         width: 0,
@@ -42,7 +42,6 @@ class BarChart extends Component {
     }
 
     render() {
-
         const {
                   dataPoints,
                   spacing,
