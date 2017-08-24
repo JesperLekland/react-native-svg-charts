@@ -1,15 +1,8 @@
 import React, { Component } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import AreaChart from './area-chart'
-import XAxis from './x-axis'
-import YAxis from './y-axis'
-import LineChart from './line-chart'
-import PieChart from './pie-chart'
-import BarChart from './bar-chart'
 import * as dateFns from 'date-fns'
-import ProgressCircle from './progress-circle'
 import Label from './assets/d3.png'
-import WaterfallChart from './waterfall-chart'
+import { AreaChart, BarChart, LineChart, PieChart, ProgressCircle, WaterfallChart, XAxis, YAxis } from './index'
 
 const _data = [
     [

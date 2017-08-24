@@ -1,7 +1,19 @@
-export { default as LineChart } from './line-chart'
-export { default as PieChart } from './pie-chart'
-export { default as AreaChart } from './area-chart'
-export { default as BarChart } from './bar-chart'
-export { default as XAxis } from './x-axis'
-export { default as YAxis } from './y-axis'
-export { default as ProgressCircle } from './progress-circle'
+import LineChart from './line-chart'
+import PieChart from './pie-chart'
+import AreaChart from './area-chart'
+import BarChart from './bar-chart'
+import XAxis from './x-axis'
+import YAxis from './y-axis'
+import ProgressCircle from './progress-circle'
+import WaterfallChart from './waterfall-chart'
+
+export {
+    LineChart,
+    PieChart,
+    AreaChart,
+    BarChart,
+    XAxis,
+    YAxis,
+    ProgressCircle,
+    WaterfallChart,
+}
