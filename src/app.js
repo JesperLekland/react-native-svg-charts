@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { AppState, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import AreaChart from './area-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
@@ -9,6 +9,7 @@ import BarChart from './bar-chart'
 import * as dateFns from 'date-fns'
 import ProgressCircle from './progress-circle'
 import Label from './assets/d3.png'
+import WaterfallChart from './waterfall-chart'
 
 const _data = [
     [
@@ -80,6 +81,8 @@ const _multipleBarData = [
     },
 ]
 
+const WATERFALL_DATA = [ 0, -2, 0, 0, 5, 5, 5, 0, 0, -1, -1, -2, -2, 1, 1, 0, 0, 2, 4, 6, -4, -4, -4, 10, 10, 10 ]
+
 const FLEX_1 = { flex: 1 }
 class App extends Component {
 
@@ -106,6 +109,33 @@ class App extends Component {
         return (
             <View style={styles.flex1}>
                 <ScrollView contentContainerStyle={styles.container}>
+                    <View style={styles.card}>
+                        <View style={{ height: 200, flexDirection: 'row' }}>
+                            <YAxis
+                                dataPoints={WATERFALL_DATA}
+                                contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
+                                numberOfTicks={4}
+                            />
+                            <View style={{ flex: 1 }}>
+                                <WaterfallChart
+                                    style={{ flex: 1 }}
+                                    dataPoints={WATERFALL_DATA}
+                                    dashSize={[ 0.5, 5 ]}
+                                    numberOfTicks={4}
+                                    contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
+                                />
+                                <XAxis
+                                    values={WATERFALL_DATA}
+                                    spacing={0}
+                                    style={{ height: 20 }}
+                                    chartType={XAxis.Type.BAR}
+                                    contentInset={{ left: 10, right: 10 }}
+                                    formatLabel={(value, index) => index}
+                                    labelStyle={{ fontSize: 6 }}
+                                />
+                            </View>
+                        </View>
+                    </View>
                     <View style={styles.card}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis

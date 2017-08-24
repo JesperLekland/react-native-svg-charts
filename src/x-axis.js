@@ -95,7 +95,7 @@ class XAxis extends PureComponent {
                                 numberOfLines={1}
                                 //'clip' not supported on android
                                 // ellipsizeMode={'clip'}
-                                key={value}
+                                key={`${value}-${index}`}
                                 style={[
                                     styles.text,
                                     labelStyle,
@@ -107,7 +107,7 @@ class XAxis extends PureComponent {
                                     },
                                 ]}
                             >
-                                {formatLabel(value)}
+                                {formatLabel(value, index)}
                             </Text>
                         )
                     })}

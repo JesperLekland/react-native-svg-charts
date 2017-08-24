@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react'
-import { ART, StyleSheet, View } from 'react-native'
+import { ART, StyleSheet, TouchableOpacity, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
@@ -12,7 +12,7 @@ const {
           Surface,
       } = ART
 
-class LineChart extends PureComponent {
+class WaterfallChart extends PureComponent {
 
     state = {
         width: 0,
@@ -24,47 +24,19 @@ class LineChart extends PureComponent {
         this.setState({ height, width })
     }
 
-    _createLine(dataPoints, yAccessor, xAccessor) {
-        const { curve } = this.props
-
-        return shape.line()
-            .x(xAccessor)
-            .y(yAccessor)
-            .defined(value => typeof value === 'number')
-            .curve(curve)
-            (dataPoints)
-    }
-
-    _getPointStyle(value, x, y) {
-        const { pointSize, pointWidth, strokeColor } = this.props
-        const { pointColor = strokeColor }           = this.props
-
-        return {
-            position: 'absolute',
-            left: x - pointSize,
-            bottom: y - pointSize,
-            height: pointSize * 2,
-            width: pointSize * 2,
-            borderRadius: pointSize,
-            borderWidth: pointWidth,
-            backgroundColor: 'white',
-            borderColor: value >= 0 ? pointColor : 'red',
-        }
-    }
-
     render() {
 
         const {
                   dataPoints,
                   strokeColor,
-                  showPoints,
                   dashSize,
-                  shadowColor,
                   style,
                   animate,
                   animationDuration,
                   showGrid,
+                  curve,
                   numberOfTicks,
+                  onItemPress,
                   contentInset: {
                       top    = 0,
                       bottom = 0,
@@ -75,6 +47,23 @@ class LineChart extends PureComponent {
 
         const { width, height } = this.state
 
+        const changes = []
+        for (let i = 0; i < dataPoints.length - 1; i++) {
+            const point1 = dataPoints[ i ]
+            const point2 = dataPoints[ i + 1 ]
+            const diff   = point2 - point1
+            if (diff !== 0) {
+                const top    = diff > 0 ? point2 : point1
+                const bottom = diff > 0 ? point1 : point2
+                changes.push({
+                    index: i + 1,
+                    diff,
+                    top,
+                    bottom,
+                })
+            }
+        }
+
         const extent = array.extent([ ...dataPoints, 0 ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
@@ -82,21 +71,22 @@ class LineChart extends PureComponent {
             .domain(extent)
             .range([ bottom, height - top ])
 
+        // use index as domain identifier instead of value since
+        // same value can occur at several places in dataPoints
+        const band = scale.scaleBand()
+            .domain(dataPoints.map((_, index) => index))
+            .range([ left, width - right ])
+
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
             .range([ left, width - right ])
 
-        const line = this._createLine(
-            dataPoints,
-            value => -y(value),
-            (value, index) => x(index),
-        )
-
-        const shadow = this._createLine(
-            dataPoints,
-            value => -(y(value) - 3),
-            (value, index) => x(index),
-        )
+        const line = shape.line()
+            .x((d, index) => x(index))
+            .y(d => -y(d))
+            .defined(value => typeof value === 'number')
+            .curve(curve)
+            (dataPoints)
 
         return (
             <View style={style}>
@@ -112,20 +102,10 @@ class LineChart extends PureComponent {
                     }
                     <Surface width={width} height={height} style={styles.surface}>
                         <Group x={0} y={height}>
-                            {
-                                shadowColor &&
-                                <AnimShape
-                                    stroke={shadowColor}
-                                    strokeWidth={5}
-                                    d={shadow}
-                                    animate={animate}
-                                    animationDuration={animationDuration}
-                                />
-                            }
                             <AnimShape
                                 stroke={strokeColor}
                                 strokeWidth={2}
-                                strokeDash={[ dashSize, dashSize ]}
+                                strokeDash={Array.isArray(dashSize) ? dashSize : [ dashSize, dashSize ]}
                                 d={line}
                                 animate={animate}
                                 animationDuration={animationDuration}
@@ -133,35 +113,39 @@ class LineChart extends PureComponent {
 
                         </Group>
                     </Surface>
-                    {showPoints && dataPoints.map((value, index) => {
-                        if (typeof value === 'number') {
+                    {
+                        changes.map((change, index) => {
                             return (
-                                <View
-                                    style={this._getPointStyle(value, x(index), y(value))}
-                                    key={`${index}-${value}`}
+                                <TouchableOpacity
+                                    onPress={() => onItemPress(dataPoints[ change.index ])}
+                                    disabled={!onItemPress}
+                                    key={index}
+                                    style={{
+                                        position: 'absolute',
+                                        width: band.bandwidth(),
+                                        left: band(change.index),
+                                        top: height - y(change.top),
+                                        bottom: y(change.bottom),
+                                        backgroundColor: change.diff > 0 ? 'rgba(34,128,176, 0.4)' : 'rgba(89,11,157,0.4)',
+                                    }}
                                 />
                             )
-                        }
-                    })}
+                        })
+                    }
                 </View>
             </View>
         )
     }
 }
 
-LineChart.propTypes = {
+WaterfallChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
     strokeColor: PropTypes.string,
-    fillColor: PropTypes.string,
-    showPoints: PropTypes.bool,
-    pointColor: PropTypes.string,
-    pointSize: PropTypes.number,
-    pointWidth: PropTypes.number,
-    dashSize: PropTypes.number,
+    dashSize: PropTypes.oneOfType([ PropTypes.number, PropTypes.array ]),
     style: PropTypes.any,
-    shadowColor: PropTypes.string,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
+    onItemPress: PropTypes.func,
     curve: PropTypes.func,
     contentInset: PropTypes.shape({
         top: PropTypes.number,
@@ -173,15 +157,10 @@ LineChart.propTypes = {
     showGrid: PropTypes.bool,
 }
 
-LineChart.defaultProps = {
+WaterfallChart.defaultProps = {
     strokeColor: '#22B6B0',
-    pointWidth: 1,
-    pointSize: 4,
-    dashSize: 0,
-    width: 100,
-    height: 100,
-    showZeroAxis: true,
-    curve: shape.curveCardinal,
+    dashSize: [ 0, 0 ],
+    curve: shape.curveLinear,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
@@ -197,4 +176,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default LineChart
+export default WaterfallChart
