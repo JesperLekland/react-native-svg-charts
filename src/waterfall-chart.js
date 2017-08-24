@@ -37,6 +37,7 @@ class WaterfallChart extends PureComponent {
                   curve,
                   numberOfTicks,
                   onItemPress,
+                  spacing,
                   contentInset: {
                       top    = 0,
                       bottom = 0,
@@ -76,6 +77,7 @@ class WaterfallChart extends PureComponent {
         const band = scale.scaleBand()
             .domain(dataPoints.map((_, index) => index))
             .range([ left, width - right ])
+            .paddingInner([ spacing ])
 
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
@@ -147,6 +149,7 @@ WaterfallChart.propTypes = {
     animationDuration: PropTypes.number,
     onItemPress: PropTypes.func,
     curve: PropTypes.func,
+    spacing: PropTypes.number,
     contentInset: PropTypes.shape({
         top: PropTypes.number,
         left: PropTypes.number,
@@ -164,6 +167,7 @@ WaterfallChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    spacing: 0.05,
 }
 
 const styles = StyleSheet.create({

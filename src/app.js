@@ -74,7 +74,7 @@ const _multipleBarData = [
     },
 ]
 
-const WATERFALL_DATA = [ 0, -2, 0, 0, 5, 5, 5, 0, 0, -1, -1, -2, -2, 1, 1, 0, 0, 2, 4, 6, -4, -4, -4, 10, 10, 10 ]
+const WATERFALL_DATA = [ 5, -2, 0, 0, 5, 5, 5, 0, 0, -1, -1, -2, -2, 1, 1, 0, 0, 2, 4, 6, -4, -4, -4, 10, 10, 10 ]
 
 const FLEX_1 = { flex: 1 }
 class App extends Component {
@@ -119,7 +119,6 @@ class App extends Component {
                                 />
                                 <XAxis
                                     values={WATERFALL_DATA}
-                                    spacing={0}
                                     style={{ height: 20 }}
                                     chartType={XAxis.Type.BAR}
                                     contentInset={{ left: 10, right: 10 }}
