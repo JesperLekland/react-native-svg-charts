@@ -71,11 +71,13 @@ class LineChart extends PureComponent {
                       left   = 0,
                       right  = 0,
                   },
+                  gridMax,
+                  gridMin,
               } = this.props
 
         const { width, height } = this.state
 
-        const extent = array.extent([ ...dataPoints, 0 ])
+        const extent = array.extent([ ...dataPoints, gridMax, gridMin ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const y = scale.scaleLinear()
@@ -171,6 +173,8 @@ LineChart.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
+    gridMin: PropTypes.number,
+    gridMax: PropTypes.number,
 }
 
 LineChart.defaultProps = {
@@ -185,6 +189,8 @@ LineChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    gridMin: 0,
+    gtidMax: 0,
 }
 
 const styles = StyleSheet.create({

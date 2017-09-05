@@ -60,6 +60,8 @@ class BarChart extends PureComponent {
                       left   = 0,
                       right  = 0,
                   },
+                  gridMax,
+                  gridMin,
               } = this.props
 
         const { height, width } = this.state
@@ -74,7 +76,7 @@ class BarChart extends PureComponent {
 
         const values = array.merge(Object.values(dataPoints).map(obj => obj.values))
 
-        const extent = array.extent([ ...values, 0 ])
+        const extent = array.extent([ ...values, gridMax, gridMin ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         //add zero to extent to always start from at least 0
@@ -179,6 +181,8 @@ BarChart.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
+    gridMin: PropTypes.number,
+    gridMax: PropTypes.number,
 }
 
 BarChart.defaultProps = {
@@ -193,6 +197,8 @@ BarChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    gridMin: 0,
+    gridMax: 0,
 }
 
 const styles = StyleSheet.create({

@@ -44,6 +44,8 @@ class WaterfallChart extends PureComponent {
                       left   = 0,
                       right  = 0,
                   },
+                  gridMax,
+                  gridMin,
               } = this.props
 
         const { width, height } = this.state
@@ -65,7 +67,7 @@ class WaterfallChart extends PureComponent {
             }
         }
 
-        const extent = array.extent([ ...dataPoints, 0 ])
+        const extent = array.extent([ ...dataPoints, gridMax, gridMin ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const y = scale.scaleLinear()
@@ -158,6 +160,8 @@ WaterfallChart.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
+    gridMin: PropTypes.number,
+    gridMax: PropTypes.number,
 }
 
 WaterfallChart.defaultProps = {
@@ -168,6 +172,8 @@ WaterfallChart.defaultProps = {
     numberOfTicks: 10,
     showGrid: true,
     spacing: 0.05,
+    gridMin: 0,
+    gridMax: 0,
 }
 
 const styles = StyleSheet.create({

@@ -61,11 +61,13 @@ class AreaChart extends PureComponent {
                       left   = 0,
                       right  = 0,
                   },
+                  gridMin,
+                  gridMax,
               } = this.props
 
         const { height, width } = this.state
 
-        const extent = array.extent([ ...dataPoints, 0 ])
+        const extent = array.extent([ ...dataPoints, gridMin, gridMax ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const y = scale.scaleLinear()
@@ -174,6 +176,8 @@ AreaChart.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
+    gridMin: PropTypes.number,
+    gridMax: PropTypes.number,
 }
 
 AreaChart.defaultProps = {
@@ -188,6 +192,8 @@ AreaChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    gridMin: 0,
+    gridMax: 0,
 }
 
 const styles = StyleSheet.create({
