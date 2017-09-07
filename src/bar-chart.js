@@ -204,7 +204,7 @@ BarChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    intersections: PropTypes.arrayOf(PropTypes.number).isRequired,
+    intersections: PropTypes.arrayOf(PropTypes.number),
     renderIntersection: PropTypes.func,
 }
 
