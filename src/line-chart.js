@@ -52,6 +52,14 @@ class LineChart extends PureComponent {
         }
     }
 
+    getY(value) {
+        return this.y(value)
+    }
+
+    getX(index) {
+        return this.x(index)
+    }
+
     render() {
 
         const {
@@ -73,6 +81,8 @@ class LineChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
+                  intersections,
+                  renderIntersection,
               } = this.props
 
         const { width, height } = this.state
@@ -84,9 +94,13 @@ class LineChart extends PureComponent {
             .domain(extent)
             .range([ bottom, height - top ])
 
+        this.y = y
+
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
             .range([ left, width - right ])
+
+        this.x = x
 
         const line = this._createLine(
             dataPoints,
@@ -145,6 +159,14 @@ class LineChart extends PureComponent {
                             )
                         }
                     })}
+                    {intersections.map((intersection) => (
+                        <View
+                            key={intersection}
+                            style={[ styles.intersection, { transform: [ { translateY: -y(intersection) } ] } ]}
+                        >
+                            {renderIntersection(intersection)}
+                        </View>
+                    ))}
                 </View>
             </View>
         )
@@ -175,6 +197,8 @@ LineChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    intersections: PropTypes.arrayOf(PropTypes.number).isRequired,
+    renderIntersection: PropTypes.func,
 }
 
 LineChart.defaultProps = {
@@ -191,6 +215,9 @@ LineChart.defaultProps = {
     showGrid: true,
     gridMin: 0,
     gtidMax: 0,
+    intersections: [],
+    renderIntersection: () => {
+    },
 }
 
 const styles = StyleSheet.create({
@@ -200,6 +227,12 @@ const styles = StyleSheet.create({
     grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
+    },
+    intersection: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
     },
 })
 

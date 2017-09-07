@@ -199,7 +199,17 @@ class App extends Component {
                                     showPoints={true}
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
                                     contentInset={{ bottom: 10, left: 15, right: 15, top: 10 }}
+                                    intersections={[ 125, -25 ]}
+                                    renderIntersection={value => (
+                                        <View
+                                            style={[
+                                                StyleSheet.absoluteFill,
+                                                { height: 1, backgroundColor: 'blue' } ]
+                                            }/>
+                                    )
+                                    }
                                 />
+
                                 <XAxis
                                     chartType={XAxis.Type.LINE}
                                     spacing={0.05}

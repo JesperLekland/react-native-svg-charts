@@ -41,6 +41,14 @@ class BarChart extends PureComponent {
         }
     }
 
+    getY(value) {
+        return this.y(value)
+    }
+
+    getX(index) {
+        return this.x(index)
+    }
+
     render() {
         const {
                   dataPoints,
@@ -62,6 +70,8 @@ class BarChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
+                  intersections,
+                  renderIntersection,
               } = this.props
 
         const { height, width } = this.state
@@ -79,10 +89,11 @@ class BarChart extends PureComponent {
         const extent = array.extent([ ...values, gridMax, gridMin ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
-        //add zero to extent to always start from at least 0
         const y = scale.scaleLinear()
             .domain(extent)
             .range([ bottom, height - top ])
+
+        this.y = y
 
         // use index as domain identifier instead of value since
         // same value can occur at several places in dataPoints
@@ -91,6 +102,8 @@ class BarChart extends PureComponent {
             .range([ left, width - right ])
             .paddingInner([ spacing ])
             .paddingOuter([ spacing ])
+
+        this.x = x
 
         const numberOfDifferentBars = Object.keys(dataPoints).length
         const barWidth              = x.bandwidth() / numberOfDifferentBars
@@ -151,6 +164,14 @@ class BarChart extends PureComponent {
                             )}
                         </Group>
                     </Surface>
+                    {intersections.map((intersection) => (
+                        <View
+                            key={intersection}
+                            style={[ styles.intersection, { transform: [ { translateY: -y(intersection) } ] } ]}
+                        >
+                            {renderIntersection(intersection)}
+                        </View>
+                    ))}
                 </View>
             </View>
         )
@@ -183,6 +204,8 @@ BarChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    intersections: PropTypes.arrayOf(PropTypes.number).isRequired,
+    renderIntersection: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -199,6 +222,9 @@ BarChart.defaultProps = {
     showGrid: true,
     gridMin: 0,
     gridMax: 0,
+    intersections: [],
+    renderIntersection: () => {
+    },
 }
 
 const styles = StyleSheet.create({

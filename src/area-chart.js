@@ -42,6 +42,14 @@ class AreaChart extends PureComponent {
         }
     }
 
+    getY(value) {
+        return this.y(value)
+    }
+
+    getX(index) {
+        return this.x(index)
+    }
+
     render() {
 
         const {
@@ -63,6 +71,8 @@ class AreaChart extends PureComponent {
                   },
                   gridMin,
                   gridMax,
+                  intersections,
+                  renderIntersection,
               } = this.props
 
         const { height, width } = this.state
@@ -74,9 +84,13 @@ class AreaChart extends PureComponent {
             .domain(extent)
             .range([ bottom, height - top ])
 
+        this.y = y
+
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
             .range([ left, width - right ])
+
+        this.x = x
 
         const area = shape.area()
             .x((d, index) => x(index))
@@ -148,6 +162,14 @@ class AreaChart extends PureComponent {
                             return <View key={index}/>
                         },
                     )}
+                    {intersections.map((intersection) => (
+                        <View
+                            key={intersection}
+                            style={[ styles.intersection, { transform: [ { translateY: -y(intersection) } ] } ]}
+                        >
+                            {renderIntersection(intersection)}
+                        </View>
+                    ))}
                 </View>
             </View>
         )
@@ -178,6 +200,8 @@ AreaChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    intersections: PropTypes.arrayOf(PropTypes.number).isRequired,
+    renderIntersection: PropTypes.func,
 }
 
 AreaChart.defaultProps = {
@@ -194,6 +218,9 @@ AreaChart.defaultProps = {
     showGrid: true,
     gridMin: 0,
     gridMax: 0,
+    intersections: [],
+    renderIntersection: () => {
+    },
 }
 
 const styles = StyleSheet.create({
@@ -203,6 +230,12 @@ const styles = StyleSheet.create({
     grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
+    },
+    intersection: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        right: 0,
     },
 })
 
