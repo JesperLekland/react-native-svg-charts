@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { ART, Platform } from 'react-native'
+import { AppState, ART, Platform } from 'react-native'
 import Morph from 'art/morph/path'
 
 const {
@@ -14,7 +14,27 @@ class AnimShape extends Component {
 
         this.state = {
             d: props.d,
+            appState: AppState.currentState,
         }
+    }
+
+    componentDidMount() {
+        if (Platform.OS === 'android') {
+            AppState.addEventListener('change', this._onAppStateChange)
+        }
+    }
+
+    _onAppStateChange = (state) => {
+        const { appState } = this.state
+        const regex        = /inactive|background/
+
+        if (appState.match(regex) && state === 'active') {
+            this.setState({ d: this.props.d })
+        } else if (appState === 'active' && state.match(regex)) {
+            this.setState({ d: null })
+        }
+
+        this.setState({ appState: state })
     }
 
     componentWillReceiveProps(props) {
@@ -42,6 +62,7 @@ class AnimShape extends Component {
     }
 
     componentWillUnmount() {
+        AppState.removeListener('change', this._onAppStateChange)
         cancelAnimationFrame(this.animation)
     }
 
