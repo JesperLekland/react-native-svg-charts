@@ -23,14 +23,20 @@ class ProgressCircle extends PureComponent {
 
     render() {
         const {
-                  progress,
                   style,
                   progressColor,
               } = this.props
 
+        let { progress } = this.props
+
         const { height, width } = this.state
 
         const outerDiameter = Math.min(width, height)
+
+        if (!isFinite(progress) || isNaN(progress)) {
+            progress = 0
+        }
+
         const data          = [
             {
                 key: 'progress',
