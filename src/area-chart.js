@@ -100,6 +100,13 @@ class AreaChart extends PureComponent {
             .curve(curve)
             (dataPoints)
 
+        const line = shape.line()
+            .x((d, index) => x(index))
+            .y(d => -y(d))
+            .defined(value => typeof value === 'number')
+            .curve(curve)
+            (dataPoints)
+
         /*
         * TODO - this is a proof of concept of a working gradient.
         * TODO Think of a good API and make sure it works on both platforms.
@@ -139,10 +146,15 @@ class AreaChart extends PureComponent {
                     <Surface width={width} height={height} style={styles.surface}>
                         <Group x={0} y={height}>
                             <AnimShape
-                                stroke={strokeColor}
-                                strokeWidth={2}
                                 fill={fillColor}
                                 d={area}
+                                animate={animate}
+                                animationDuration={animationDuration}
+                            />
+                            <AnimShape
+                                strokeWidth={2}
+                                stroke={strokeColor}
+                                d={line}
                                 animate={animate}
                                 animationDuration={animationDuration}
                             />
