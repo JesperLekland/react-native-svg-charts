@@ -1,40 +1,14 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
-import { AppState, ART, Platform } from 'react-native'
-import Morph from 'art/morph/path'
+import { Path } from 'react-native-svg'
+import * as interpolate from 'd3-interpolate-path'
 
-const {
-          Shape,
-      } = ART
-
-class AnimShape extends Component {
+class AnimatedPath extends Component {
 
     constructor(props) {
         super(props)
 
-        this.state = {
-            d: props.d,
-            appState: AppState.currentState,
-        }
-    }
-
-    componentDidMount() {
-        if (Platform.OS === 'android') {
-            AppState.addEventListener('change', this._onAppStateChange)
-        }
-    }
-
-    _onAppStateChange = (state) => {
-        const { appState } = this.state
-        const regex        = /inactive|background/
-
-        if (appState.match(regex) && state === 'active') {
-            this.setState({ d: this.props.d })
-        } else if (appState === 'active' && state.match(regex)) {
-            this.setState({ d: null })
-        }
-
-        this.setState({ appState: state })
+        this.state = { d: props.d }
     }
 
     componentWillReceiveProps(props) {
@@ -48,21 +22,16 @@ class AnimShape extends Component {
         }
 
         if (!animate || newD === null || oldD === null) {
-            this.setState({
-                d: this.newD,
-            })
             return
         }
 
-        this.newD = newD
+        this.newD         = newD
+        this.interpolator = interpolate.interpolatePath(oldD, newD)
 
-        this.setState({
-            d: Morph.Tween(oldD, newD),
-        }, () => this._animate())
+        this._animate()
     }
 
     componentWillUnmount() {
-        AppState.removeListener('change', this._onAppStateChange)
         cancelAnimationFrame(this.animation)
     }
 
@@ -79,15 +48,16 @@ class AnimShape extends Component {
             // If we're above 1 then our animation should be complete.
             if (delta > 1) {
                 // Just to be safe set our final value to the new graph path.
-                this.setState({
-                    d: this.newD,
-                })
-
+                this.component.setNativeProps({ d: this.newD })
                 // Stop our animation loop.
                 return
             }
+
+            const d = this.interpolator(delta)
+            this.component.setNativeProps({ d })
+            // console.log(this.interpolator)
+            // this.tween && console.log(this.tween.tween(delta))
             // Tween the SVG path value according to what delta we're currently at.
-            this.state.d.tween && this.state.d.tween(delta)
 
             // Update our state with the new tween value and then jump back into
             // this loop.
@@ -99,30 +69,30 @@ class AnimShape extends Component {
 
     render() {
 
-        const { d }                      = this.state
+        const { d } = this.props
 
         if (!d) {
-            return <Shape/>
+            return
         }
 
         return (
-            <Shape
+            <Path
+                ref={ref => this.component = ref}
                 {...this.props}
-                d={d}
             />
         )
     }
 }
 
-AnimShape.propTypes = {
+AnimatedPath.propTypes = {
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
-    ...Shape.propTypes,
+    ...Path.propTypes,
 }
 
-AnimShape.defaultProps = {
-    animate: Platform.OS === 'ios',
+AnimatedPath.defaultProps = {
+    animate: true,
     animationDuration: 300,
 }
 
-export default AnimShape
+export default AnimatedPath

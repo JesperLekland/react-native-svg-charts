@@ -40,7 +40,7 @@
     "eol-last": [ "error", "always" ],
     "react/display-name": 0,
     "no-unexpected-multiline": "off",
-    "max-len": [ "error", 120 ],
+    "max-len": [ "error", 120, { "ignoreStrings": true, "ignoreTemplateLiterals": true } ],
     "space-infix-ops": "error"
   }
 }

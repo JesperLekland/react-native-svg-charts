@@ -1,17 +1,12 @@
 import React, { PureComponent } from 'react'
-import { ART, Platform, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
-import AnimShape from './anim-shape'
 import * as array from 'd3-array'
 import { Constants } from './util'
-
-const {
-          Group,
-          Surface,
-          LinearGradient,
-      } = ART
+import Path from './animated-path'
+import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg'
 
 class AreaChart extends PureComponent {
 
@@ -59,6 +54,7 @@ class AreaChart extends PureComponent {
                   showPoints,
                   animate,
                   animationDuration,
+                  pointSize,
                   style,
                   curve,
                   showGrid,
@@ -82,7 +78,7 @@ class AreaChart extends PureComponent {
 
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ bottom, height - top ])
+            .range([ height - top, bottom ])
 
         this.y = y
 
@@ -94,39 +90,18 @@ class AreaChart extends PureComponent {
 
         const area = shape.area()
             .x((d, index) => x(index))
-            .y0(-y(0))
-            .y1(d => -y(d))
+            .y0(y(0))
+            .y1(d => y(d))
             .defined(value => typeof value === 'number')
             .curve(curve)
             (dataPoints)
 
         const line = shape.line()
             .x((d, index) => x(index))
-            .y(d => -y(d))
+            .y(d => y(d))
             .defined(value => typeof value === 'number')
             .curve(curve)
             (dataPoints)
-
-        /*
-        * TODO - this is a proof of concept of a working gradient.
-        * TODO Think of a good API and make sure it works on both platforms.
-        * TODO Maybe use https://github.com/react-native-community/react-native-svg?
-        * */
-
-        // const zeroAxis = height === 0 ? 0 : 1 - (y(0) / height)
-
-        // const fill = Platform.OS === 'ios' ?
-        //     new LinearGradient(
-        //         {
-        //             '0.0': 'rgba(34, 182, 176)',
-        //             [`${zeroAxis}`]: 'rgba(34, 182, 176, 0.5)',
-        //             [`${zeroAxis + 0.001}`]: 'rgba(255,0,0,0.5)',
-        //             '1': 'red',
-        //         },
-        //         '0', `-${height}`, `0`, `0`,
-        //         // `${width / 2}`, `${height / -2}`, `${width}`, `${height / 2}`,
-        //     ) :
-        //     fillColor
 
         return (
             <View style={style}>
@@ -139,41 +114,50 @@ class AreaChart extends PureComponent {
                         ticks.map((tick, index) => (
                             <View
                                 key={index}
-                                style={[ styles.grid, { bottom: y(tick) } ]}
+                                style={[ styles.grid, { top: y(tick) } ]}
                             />
                         ))
                     }
-                    <Surface width={width} height={height} style={styles.surface}>
-                        <Group x={0} y={height}>
-                            <AnimShape
-                                fill={fillColor}
-                                d={area}
-                                animate={animate}
-                                animationDuration={animationDuration}
-                            />
-                            <AnimShape
-                                strokeWidth={2}
-                                stroke={strokeColor}
-                                d={line}
-                                animate={animate}
-                                animationDuration={animationDuration}
-                            />
-                        </Group>
-                    </Surface>
-                    {
-                        showPoints &&
-                        dataPoints.map((value, index) => {
-                            if (typeof value === 'number') {
+                    <Svg style={{ flex: 1 }}>
+                        <Defs>
+                            <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
+                                <Stop offset={'0%'} stopColor={fillColor} stopOpacity={0.5}/>
+                                <Stop offset={'100%'} stopColor={fillColor} stopOpacity={0.1}/>
+                            </LinearGradient>
+                        </Defs>
+                        <Path
+                            d={area}
+                            fill={'url(#gradient)'}
+                            animate={animate}
+                            animationDuration={animationDuration}
+                        />
+                        <Path
+                            d={line}
+                            stroke={strokeColor}
+                            fill={'none'}
+                            animate={animate}
+                            animationDuration={animationDuration}
+                        />
+                        {
+                            showPoints &&
+                            dataPoints.map((value, index) => {
+                                if (isNaN(value)) {
+                                    return
+                                }
+
                                 return (
-                                    <View
-                                        style={this._getPointStyle(value, x(index), y(value))}
+                                    <Circle
+                                        cx={x(index)}
+                                        cy={y(value)}
+                                        r={pointSize}
+                                        stroke={strokeColor}
+                                        fill={'white'}
                                         key={index}
                                     />
                                 )
-                            }
-                            return <View key={index}/>
-                        },
-                    )}
+                            })
+                        }
+                    </Svg>
                     {intersections.map((intersection) => (
                         <View
                             key={intersection}
@@ -190,8 +174,6 @@ class AreaChart extends PureComponent {
 
 AreaChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
-    width: PropTypes.number.isRequired,
-    height: PropTypes.number.isRequired,
     strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
     showPoints: PropTypes.bool,

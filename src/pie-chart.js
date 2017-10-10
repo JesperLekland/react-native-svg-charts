@@ -1,13 +1,8 @@
 import React, { PureComponent } from 'react'
-import { ART, StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
-import AnimShape from './anim-shape'
-
-const {
-          Group,
-          Surface,
-      } = ART
+import Svg, { G, Path } from 'react-native-svg'
 
 class PieChart extends PureComponent {
 
@@ -91,22 +86,23 @@ class PieChart extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
                 >
-                <Surface width={width} height={height} style={styles.surface}>
-                    <Group x={width / 2} y={height / 2}>
-                        {shapes.map((shape) => {
-                            const { path, point: { key, color } } = shape
-                            return (
-                                <AnimShape
-                                    key={key}
-                                    fill={color}
-                                    d={path}
-                                    animate={animate}
-                                    animationDuration={animationDuration}
-                                />
-                            )
-                        })}
-                    </Group>
-                </Surface>
+                    <Svg style={{ flex: 1 }}>
+                        <G x={width / 2} y={height / 2}>
+                            {shapes.map((shape) => {
+                                const { path, point: { key, color } } = shape
+                                return (
+                                    <Path
+                                        key={key}
+                                        fill={color}
+                                        d={path}
+                                        animate={animate}
+                                        animationDuration={animationDuration}
+                                        onPress={() => console.log(shape)}
+                                    />
+                                )
+                            })}
+                        </G>
+                    </Svg>
                     {labels.map((label, index) => {
                         const { point } = label
                         const { key }   = point
@@ -162,14 +158,5 @@ PieChart.defaultProps = {
     innerRadius: 0.5,
     renderLabel: () => <View/>,
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    surface: {
-        backgroundColor: 'transparent',
-    },
-})
 
 export default PieChart

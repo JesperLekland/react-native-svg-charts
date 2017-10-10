@@ -1,13 +1,9 @@
 import React, { PureComponent } from 'react'
-import { ART, StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
-import AnimShape from './anim-shape'
-
-const {
-          Group,
-          Surface,
-      } = ART
+import Path from './animated-path'
+import Svg, { G } from 'react-native-svg'
 
 class ProgressCircle extends PureComponent {
 
@@ -25,6 +21,10 @@ class ProgressCircle extends PureComponent {
         const {
                   style,
                   progressColor,
+                  startAngle,
+                  endAngle,
+                  animate,
+                  animateDuration,
               } = this.props
 
         let { progress } = this.props
@@ -37,7 +37,7 @@ class ProgressCircle extends PureComponent {
             progress = 0
         }
 
-        const data          = [
+        const data = [
             {
                 key: 'progress',
                 value: progress,
@@ -53,35 +53,48 @@ class ProgressCircle extends PureComponent {
         const pieSlices = shape
             .pie()
             .sort(null)
+            .startAngle(startAngle)
+            .endAngle(endAngle)
             (data.map(d => d.value))
 
-        const shapes = data.map((dataPoint, index) => ({
-            ...dataPoint,
-            path: shape.arc()
-                .outerRadius(outerDiameter / 2)  // Radius of the pie
-                .innerRadius((outerDiameter / 2) - 5)  // Inner radius: to create a donut or pie
-                .padAngle(0)    // Angle between sections
-                (pieSlices[ index ]),
-        }))
+        const arcs = pieSlices.map((slice, index) => (
+            {
+                ...data[ index ],
+                ...slice,
+                path: shape.arc()
+                    .outerRadius(outerDiameter / 2)  // Radius of the pie
+                    .innerRadius((outerDiameter / 2) - 5)  // Inner radius: to create a donut or pie
+                    .startAngle(slice.startAngle)
+                    .endAngle(slice.endAngle)
+                    .cornerRadius(45)
+                    (),
+            }
+        ))
 
         return (
             <View
                 style={style}
                 onLayout={event => this._onLayout(event)}
             >
-                <Surface width={width} height={height} style={styles.surface}>
-                    <Group x={width / 2} y={height / 2}>
-                        {shapes.map(shape => {
+                <Svg style={{ flex: 1 }}>
+                    <G
+                        x={width / 2}
+                        y={height / 2}
+                    >
+                        {arcs.map((shape, index) => {
                             return (
-                                <AnimShape
-                                    key={shape.key}
+                                <Path
+                                    key={index}
                                     fill={shape.color}
                                     d={shape.path}
+                                    onPress={() => console.log(shape)}
+                                    animate={animate}
+                                    animationDuration={animateDuration}
                                 />
                             )
                         })}
-                    </Group>
-                </Surface>
+                    </G>
+                </Svg>
             </View>
         )
     }
@@ -91,19 +104,16 @@ ProgressCircle.propTypes = {
     progress: PropTypes.number.isRequired,
     style: PropTypes.any,
     progressColor: PropTypes.any,
+    startAngle: PropTypes.number,
+    endAngle: PropTypes.number,
+    animate: PropTypes.bool,
+    animateDuration: PropTypes.number,
 }
 
 ProgressCircle.defaultProps = {
     progressColor: '#22B6B0',
+    startAngle: -Math.PI * 0.8,
+    endAngle: Math.PI * 0.8,
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    surface: {
-        backgroundColor: 'transparent',
-    },
-})
 
 export default ProgressCircle

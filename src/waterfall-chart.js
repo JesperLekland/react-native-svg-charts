@@ -1,16 +1,12 @@
 import React, { PureComponent } from 'react'
-import { ART, StyleSheet, TouchableOpacity, View } from 'react-native'
+import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
 import * as array from 'd3-array'
-import AnimShape from './anim-shape'
 import { Constants } from './util'
-
-const {
-          Group,
-          Surface,
-      } = ART
+import Path from './animated-path'
+import Svg from 'react-native-svg'
 
 class WaterfallChart extends PureComponent {
 
@@ -29,9 +25,10 @@ class WaterfallChart extends PureComponent {
         const {
                   dataPoints,
                   strokeColor,
-                  dashSize,
+                  dashArray,
                   style,
                   animate,
+                  strokeWidth,
                   animationDuration,
                   showGrid,
                   curve,
@@ -72,7 +69,7 @@ class WaterfallChart extends PureComponent {
 
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ bottom, height - top ])
+            .range([ height - top, bottom ])
 
         // use index as domain identifier instead of value since
         // same value can occur at several places in dataPoints
@@ -87,7 +84,7 @@ class WaterfallChart extends PureComponent {
 
         const line = shape.line()
             .x((d, index) => x(index))
-            .y(d => -y(d))
+            .y(d => y(d))
             .defined(value => typeof value === 'number')
             .curve(curve)
             (dataPoints)
@@ -100,23 +97,21 @@ class WaterfallChart extends PureComponent {
                         ticks.map((tick, index) => (
                             <View
                                 key={index}
-                                style={[ styles.grid, { bottom: y(tick) } ]}
+                                style={[ styles.grid, { top: y(tick) } ]}
                             />
                         ))
                     }
-                    <Surface width={width} height={height} style={styles.surface}>
-                        <Group x={0} y={height}>
-                            <AnimShape
-                                stroke={strokeColor}
-                                strokeWidth={2}
-                                strokeDash={Array.isArray(dashSize) ? dashSize : [ dashSize, dashSize ]}
-                                d={line}
-                                animate={animate}
-                                animationDuration={animationDuration}
-                            />
-
-                        </Group>
-                    </Surface>
+                    <Svg style={{ flex: 1 }}>
+                        <Path
+                            d={line}
+                            stroke={strokeColor}
+                            fill={'none'}
+                            strokeDasharray={dashArray}
+                            strokeWidth={strokeWidth}
+                            animate={animate}
+                            animationDuration={animationDuration}
+                        />
+                    </Svg>
                     {
                         changes.map((change, index) => {
                             return (
@@ -128,8 +123,8 @@ class WaterfallChart extends PureComponent {
                                         position: 'absolute',
                                         width: band.bandwidth(),
                                         left: band(change.index),
-                                        top: height - y(change.top),
-                                        bottom: y(change.bottom),
+                                        top: y(change.top),
+                                        bottom: height - y(change.bottom),
                                         backgroundColor: change.diff > 0 ? 'rgba(34,128,176, 0.4)' : 'rgba(89,11,157,0.4)',
                                     }}
                                 />
@@ -145,7 +140,8 @@ class WaterfallChart extends PureComponent {
 WaterfallChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
     strokeColor: PropTypes.string,
-    dashSize: PropTypes.oneOfType([ PropTypes.number, PropTypes.array ]),
+    strokeWidth: PropTypes.number,
+    dashArray: PropTypes.arrayOf(PropTypes.number),
     style: PropTypes.any,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
@@ -166,11 +162,11 @@ WaterfallChart.propTypes = {
 
 WaterfallChart.defaultProps = {
     strokeColor: '#22B6B0',
-    dashSize: [ 0, 0 ],
     curve: shape.curveLinear,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    strokeWidth: 3,
     spacing: 0.05,
     gridMin: 0,
     gridMax: 0,

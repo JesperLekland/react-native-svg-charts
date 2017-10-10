@@ -1,16 +1,12 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { ART, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
 import * as array from 'd3-array'
-import AnimShape from './anim-shape'
 import { Constants } from './util'
-
-const {
-          Group,
-          Surface,
-      } = ART
+import Path from './animated-path'
+import Svg, { Defs, G, LinearGradient, Stop } from 'react-native-svg'
 
 class BarChart extends PureComponent {
 
@@ -34,8 +30,8 @@ class BarChart extends PureComponent {
                         x(valueIndex) + (barWidth * barIndex) :
                         x(valueIndex) + barWidth + (barWidth * barIndex),
                 )
-                .y0(-y(0))
-                .y1(point => -y(point))
+                .y0(y(0))
+                .y1(point => y(point))
                 .defined(value => value)
                 ([ value, value ]),
         }
@@ -91,7 +87,7 @@ class BarChart extends PureComponent {
 
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ bottom, height - top ])
+            .range([ height - top, bottom ])
 
         this.y = y
 
@@ -145,25 +141,39 @@ class BarChart extends PureComponent {
                         ticks.map((tick, index) => (
                             <View
                                 key={index}
-                                style={[ styles.grid, { bottom: y(tick) } ]}
+                                style={[ styles.grid, { top: y(tick) } ]}
                             />
                         ))
                     }
-                    <Surface width={width} height={height} style={styles.surface}>
-                        <Group x={0} y={height}>
-                            {areas.map((bar, index) =>
-                                <AnimShape
-                                    key={index}
-                                    stroke={bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor}
-                                    strokeWidth={1}
-                                    fill={bar.value < 0 ? bar.fillColorNegative : bar.fillColor}
-                                    d={bar.area}
-                                    animate={animate}
-                                    animationDuration={animationDuration}
-                                />,
-                            )}
-                        </Group>
-                    </Surface>
+                    <Svg style={{ flex: 1 }}>
+                        {
+                            areas.map((bar, index) => {
+                                const color = bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor
+                                if (!bar.area) {
+                                    return
+                                }
+                                return (
+                                    <G key={index}>
+                                        <Defs>
+                                            <LinearGradient id={`gradient-${index}`} x1={'0%'} y={'0%'} x2={'0%'}
+                                                            y2={'100%'}>
+                                                <Stop offset={'0%'} stopColor={color} stopOpacity={0.8}/>
+                                                <Stop offset={'100%'} stopColor={color} stopOpacity={0.2}/>
+                                            </LinearGradient>
+                                        </Defs>
+                                        <Path
+                                            // stroke={bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor}
+                                            // strokeWidth={1}
+                                            fill={`url(#gradient-${index})`}
+                                            d={bar.area || null}
+                                            animate={animate}
+                                            animationDuration={animationDuration}
+                                        />
+                                    </G>
+                                )
+                            })
+                        }
+                    </Svg>
                     {intersections.map((intersection) => (
                         <View
                             key={intersection}

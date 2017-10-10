@@ -1,16 +1,12 @@
 import React, { PureComponent } from 'react'
-import { ART, StyleSheet, View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
 import * as array from 'd3-array'
-import AnimShape from './anim-shape'
 import { Constants } from './util'
-
-const {
-          Group,
-          Surface,
-      } = ART
+import Path from './animated-path'
+import Svg, { Circle } from 'react-native-svg'
 
 class LineChart extends PureComponent {
 
@@ -73,6 +69,7 @@ class LineChart extends PureComponent {
                   animationDuration,
                   showGrid,
                   numberOfTicks,
+                  pointSize,
                   contentInset: {
                       top    = 0,
                       bottom = 0,
@@ -92,7 +89,7 @@ class LineChart extends PureComponent {
 
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ bottom, height - top ])
+            .range([ height - top, bottom ])
 
         this.y = y
 
@@ -104,13 +101,13 @@ class LineChart extends PureComponent {
 
         const line = this._createLine(
             dataPoints,
-            value => -y(value),
+            value => y(value),
             (value, index) => x(index),
         )
 
         const shadow = this._createLine(
             dataPoints,
-            value => -(y(value) - 3),
+            value => y(value) + 3,
             (value, index) => x(index),
         )
 
@@ -122,43 +119,46 @@ class LineChart extends PureComponent {
                         ticks.map((tick, index) => (
                             <View
                                 key={index}
-                                style={[ styles.grid, { bottom: y(tick) } ]}
+                                style={[ styles.grid, { top: y(tick) } ]}
                             />
                         ))
                     }
-                    <Surface width={width} height={height} style={styles.surface}>
-                        <Group x={0} y={height}>
-                            {
-                                shadowColor &&
-                                <AnimShape
-                                    stroke={shadowColor}
-                                    strokeWidth={5}
-                                    d={shadow}
-                                    animate={animate}
-                                    animationDuration={animationDuration}
-                                />
-                            }
-                            <AnimShape
-                                stroke={strokeColor}
-                                strokeWidth={2}
-                                strokeDash={[ dashSize, dashSize ]}
-                                d={line}
-                                animate={animate}
-                                animationDuration={animationDuration}
-                            />
-
-                        </Group>
-                    </Surface>
-                    {showPoints && dataPoints.map((value, index) => {
-                        if (typeof value === 'number') {
-                            return (
-                                <View
-                                    style={this._getPointStyle(value, x(index), y(value))}
-                                    key={`${index}-${value}`}
-                                />
-                            )
+                    <Svg style={{ flex: 1 }}>
+                        <Path
+                            d={line}
+                            stroke={strokeColor}
+                            fill={'none'}
+                            strokeWidth={2}
+                            strokeDasharray={[ dashSize, dashSize ]}
+                            animate={animate}
+                            animationDuration={animationDuration}
+                        />
+                        <Path
+                            d={shadow}
+                            stroke={shadowColor}
+                            fill={'none'}
+                            strokeWidth={5}
+                            animate={animate}
+                            animationDuration={animationDuration}
+                        />
+                        {
+                            showPoints && dataPoints.map((value, index) => {
+                                if (isNaN(value)) {
+                                    return
+                                }
+                                return (
+                                    <Circle
+                                        key={index}
+                                        cx={x(index)}
+                                        cy={y(value)}
+                                        r={pointSize}
+                                        stroke={strokeColor}
+                                        fill={'white'}
+                                    />
+                                )
+                            })
                         }
-                    })}
+                    </Svg>
                     {intersections.map((intersection) => (
                         <View
                             key={intersection}

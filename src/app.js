@@ -106,15 +106,15 @@ class App extends Component {
                         <View style={{ height: 200, flexDirection: 'row' }}>
                             <YAxis
                                 dataPoints={WATERFALL_DATA}
-                                contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
-                                numberOfTicks={4}
+                                contentInset={{ top: 20, bottom: 40, left: 10, right: 10 }}
+                                numberOfTicks={6}
                             />
                             <View style={{ flex: 1 }}>
                                 <WaterfallChart
                                     style={{ flex: 1 }}
                                     dataPoints={WATERFALL_DATA}
-                                    dashSize={[ 0.5, 5 ]}
-                                    numberOfTicks={4}
+                                    dashArray={[ 3, 5 ]}
+                                    numberOfTicks={6}
                                     contentInset={{ top: 20, bottom: 20, left: 10, right: 10 }}
                                 />
                                 <XAxis
