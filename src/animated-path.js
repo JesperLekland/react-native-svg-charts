@@ -72,7 +72,7 @@ class AnimatedPath extends Component {
         const { d } = this.props
 
         if (!d) {
-            return
+            return null
         }
 
         return (
