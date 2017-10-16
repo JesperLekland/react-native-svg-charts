@@ -221,6 +221,12 @@ class App extends Component {
                                     contentInset={{ bottom: 10, left: 15, right: 15, top: 10 }}
                                     intersections={[ 125, -25 ]}
                                     renderIntersection={() => <View style={{ height: 1, backgroundColor: 'blue' }}/>}
+                                    projections={[ {
+                                        x1: 2,
+                                        x2: 6,
+                                        y1: 150,
+                                        y2: 220,
+                                    } ]}
                                 />
 
                                 <XAxis

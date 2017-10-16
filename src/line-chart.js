@@ -6,7 +6,7 @@ import * as scale from 'd3-scale'
 import * as array from 'd3-array'
 import { Constants } from './util'
 import Path from './animated-path'
-import Svg, { Circle } from 'react-native-svg'
+import Svg, { Circle, Line } from 'react-native-svg'
 
 class LineChart extends PureComponent {
 
@@ -80,6 +80,7 @@ class LineChart extends PureComponent {
                   gridMin,
                   intersections,
                   renderIntersection,
+                  projections,
               } = this.props
 
         const { width, height } = this.state
@@ -159,6 +160,17 @@ class LineChart extends PureComponent {
                                 )
                             })
                         }
+                        {projections.map(({ x1, x2, y1, y2 }, index) => (
+                            <Line
+                                key={index}
+                                x1={x(x1)}
+                                x2={x(x2)}
+                                y1={y(y1)}
+                                y2={y(y2)}
+                                stroke={strokeColor}
+                                strokeWidth={2}
+                            />
+                        ))}
                     </Svg>
                     {intersections.map((intersection) => (
                         <View
@@ -195,6 +207,13 @@ LineChart.propTypes = {
         bottom: PropTypes.number,
     }),
     numberOfTicks: PropTypes.number,
+    projections: PropTypes.arrayOf(
+        PropTypes.shape({
+            x1: PropTypes.number,
+            x2: PropTypes.number,
+            y1: PropTypes.number,
+            y2: PropTypes.number,
+        })),
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
@@ -216,6 +235,7 @@ LineChart.defaultProps = {
     gridMin: 0,
     gtidMax: 0,
     intersections: [],
+    projections: [],
     renderIntersection: () => {
     },
 }
