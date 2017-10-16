@@ -15,7 +15,7 @@ class AnimatedPath extends Component {
         const { d: newD, animate } = props
         const { d: oldD }          = this.props
 
-        this.newD = newD || ''
+        this.newD = newD
 
         if (newD === oldD) {
             return
@@ -68,13 +68,6 @@ class AnimatedPath extends Component {
     }
 
     render() {
-
-        const { d } = this.props
-
-        if (!d) {
-            return null
-        }
-
         return (
             <Path
                 ref={ref => this.component = ref}

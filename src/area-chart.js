@@ -104,6 +104,14 @@ class AreaChart extends PureComponent {
             .curve(curve)
             (dataPoints)
 
+        if (dataPoints.length === 0) {
+            return (
+                <View style={style}>
+
+                </View>
+            )
+        }
+
         return (
             <View style={style}>
                 <View

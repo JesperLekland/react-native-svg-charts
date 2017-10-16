@@ -3,6 +3,7 @@ import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'rea
 import * as dateFns from 'date-fns'
 import Label from './assets/d3.png'
 import { AreaChart, BarChart, LineChart, PieChart, ProgressCircle, WaterfallChart, XAxis, YAxis } from './index'
+import Card from './card'
 
 const _data = [
     [
@@ -47,6 +48,7 @@ const _data = [
     [
         { 'value': 30, 'key': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
     ],
+    [],
 ]
 
 const _progressData = [
@@ -231,7 +233,7 @@ class App extends Component {
                             )}
                         />
                     </View>
-                    <View style={styles.card}>
+                    <Card style={{ margin: 16 }}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
@@ -254,7 +256,7 @@ class App extends Component {
                                 />
                             </View>
                         </View>
-                    </View>
+                    </Card>
                 </ScrollView>
                 <TouchableOpacity
                     onPress={() => this._toggleData()}
