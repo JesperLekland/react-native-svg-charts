@@ -195,7 +195,7 @@ class App extends Component {
                                 <LineChart
                                     style={styles.flex1}
                                     dataPoints={data.map(data => data.value)}
-                                    dashSize={5}
+                                    dashArray={[ 5, 5 ]}
                                     showPoints={true}
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
                                     contentInset={{ bottom: 10, left: 15, right: 15, top: 10 }}

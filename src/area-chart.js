@@ -53,6 +53,7 @@ class AreaChart extends PureComponent {
                   fillColor,
                   showPoints,
                   animate,
+                  dashArray,
                   animationDuration,
                   pointSize,
                   style,
@@ -135,6 +136,7 @@ class AreaChart extends PureComponent {
                             d={line}
                             stroke={strokeColor}
                             fill={'none'}
+                            strokeDasharray={dashArray}
                             animate={animate}
                             animationDuration={animationDuration}
                         />
@@ -176,6 +178,7 @@ AreaChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
     strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
+    dashArray: PropTypes.arrayOf(PropTypes.number),
     showPoints: PropTypes.bool,
     pointColor: PropTypes.string,
     pointSize: PropTypes.number,

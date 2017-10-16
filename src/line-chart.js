@@ -62,7 +62,7 @@ class LineChart extends PureComponent {
                   dataPoints,
                   strokeColor,
                   showPoints,
-                  dashSize,
+                  dashArray,
                   shadowColor,
                   style,
                   animate,
@@ -129,7 +129,7 @@ class LineChart extends PureComponent {
                             stroke={strokeColor}
                             fill={'none'}
                             strokeWidth={2}
-                            strokeDasharray={[ dashSize, dashSize ]}
+                            strokeDasharray={dashArray}
                             animate={animate}
                             animationDuration={animationDuration}
                         />
@@ -138,6 +138,7 @@ class LineChart extends PureComponent {
                             stroke={shadowColor}
                             fill={'none'}
                             strokeWidth={5}
+                            strokeDasharray={dashArray}
                             animate={animate}
                             animationDuration={animationDuration}
                         />
@@ -181,7 +182,7 @@ LineChart.propTypes = {
     pointColor: PropTypes.string,
     pointSize: PropTypes.number,
     pointWidth: PropTypes.number,
-    dashSize: PropTypes.number,
+    dashArray: PropTypes.arrayOf(PropTypes.number),
     style: PropTypes.any,
     shadowColor: PropTypes.string,
     animate: PropTypes.bool,
@@ -205,7 +206,6 @@ LineChart.defaultProps = {
     strokeColor: '#22B6B0',
     pointWidth: 1,
     pointSize: 4,
-    dashSize: 0,
     width: 100,
     height: 100,
     showZeroAxis: true,
