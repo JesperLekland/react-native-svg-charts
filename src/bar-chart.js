@@ -6,7 +6,7 @@ import * as scale from 'd3-scale'
 import * as array from 'd3-array'
 import { Constants } from './util'
 import Path from './animated-path'
-import Svg, { Defs, G, LinearGradient, Stop } from 'react-native-svg'
+import Svg, { Defs, G } from 'react-native-svg'
 
 class BarChart extends PureComponent {
 
@@ -56,6 +56,7 @@ class BarChart extends PureComponent {
                   fillColor,
                   strokeColor,
                   strokeColorNegative,
+                  renderGradient,
                   fillColorNegative,
                   numberOfTicks,
                   contentInset: {
@@ -148,23 +149,30 @@ class BarChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         {
                             areas.map((bar, index) => {
-                                const color = bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor
                                 if (!bar.area) {
-                                    return
+                                    return null
                                 }
+
+                                const strokeColor = bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor
+                                const fillColor   = bar.value < 0 ? bar.fillColorNegative : bar.fillColor
+
                                 return (
                                     <G key={index}>
                                         <Defs>
-                                            <LinearGradient id={`gradient-${index}`} x1={'0%'} y={'0%'} x2={'0%'}
-                                                            y2={'100%'}>
-                                                <Stop offset={'0%'} stopColor={color} stopOpacity={0.8}/>
-                                                <Stop offset={'100%'} stopColor={color} stopOpacity={0.2}/>
-                                            </LinearGradient>
+                                            {
+                                                renderGradient && renderGradient({
+                                                    id: `gradient-${index}`,
+                                                    ...bar,
+                                                    fillColor,
+                                                    strokeColor,
+                                                })
+                                            }
                                         </Defs>
                                         <Path
                                             // stroke={bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor}
                                             // strokeWidth={1}
-                                            fill={`url(#gradient-${index})`}
+                                            fill={renderGradient ? `url(#gradient-${index})` : fillColor}
+                                            stroke={strokeColor}
                                             d={bar.area || null}
                                             animate={animate}
                                             animationDuration={animationDuration}
@@ -199,6 +207,7 @@ BarChart.propTypes = {
     style: PropTypes.any,
     strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
+    renderGradient: PropTypes.func,
     spacing: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
@@ -219,8 +228,8 @@ BarChart.propTypes = {
 }
 
 BarChart.defaultProps = {
-    fillColor: 'rgba(34, 182, 176, 0.2)',
-    fillColorNegative: 'rgba(255, 0, 0, 0.2',
+    fillColor: 'rgba(34, 182, 176)',
+    fillColorNegative: 'rgba(255, 0, 0)',
     strokeColor: '#22B6B0',
     strokeColorNegative: '#ff0000',
     spacing: 0.05,

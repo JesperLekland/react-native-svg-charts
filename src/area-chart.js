@@ -57,6 +57,7 @@ class AreaChart extends PureComponent {
                   animationDuration,
                   pointSize,
                   style,
+                  renderGradient,
                   curve,
                   showGrid,
                   numberOfTicks,
@@ -129,10 +130,15 @@ class AreaChart extends PureComponent {
                     }
                     <Svg style={{ flex: 1 }}>
                         <Defs>
-                            <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
-                                <Stop offset={'0%'} stopColor={fillColor} stopOpacity={0.5}/>
-                                <Stop offset={'100%'} stopColor={fillColor} stopOpacity={0.1}/>
-                            </LinearGradient>
+                            {
+                                renderGradient ? renderGradient({ id: 'gradient' }) :
+                                    (
+                                        <LinearGradient id={'gradient'} x1={'0'} y={`${top}`} x2={'0'} y2={`100%`}>
+                                            <Stop offset={'0'} stopColor={fillColor} stopOpacity={0.5}/>
+                                            <Stop offset={`1`} stopColor={fillColor} stopOpacity={0.1}/>
+                                        </LinearGradient>
+                                    )
+                            }
                         </Defs>
                         <Path
                             d={area}
@@ -189,6 +195,8 @@ AreaChart.propTypes = {
     dashArray: PropTypes.arrayOf(PropTypes.number),
     showPoints: PropTypes.bool,
     pointColor: PropTypes.string,
+    // see https://github.com/react-native-community/react-native-svg#lineargradient for more info
+    renderGradient: PropTypes.func,
     pointSize: PropTypes.number,
     pointWidth: PropTypes.number,
     animate: PropTypes.bool,
@@ -211,6 +219,7 @@ AreaChart.propTypes = {
 
 AreaChart.defaultProps = {
     fillColor: 'rgba(34, 182, 176, 0.2)',
+    gradientColors: 'rgba(34, 182, 176)',
     strokeColor: '#22B6B0',
     pointWidth: 1,
     pointSize: 4,

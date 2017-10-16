@@ -2,7 +2,18 @@ import React, { Component } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import * as dateFns from 'date-fns'
 import Label from './assets/d3.png'
-import { AreaChart, BarChart, LineChart, PieChart, ProgressCircle, WaterfallChart, XAxis, YAxis } from './index'
+import {
+    AreaChart,
+    BarChart,
+    LinearGradient,
+    LineChart,
+    PieChart,
+    ProgressCircle,
+    Stop,
+    WaterfallChart,
+    XAxis,
+    YAxis,
+} from './index'
 import Card from './card'
 
 const _data = [
@@ -174,6 +185,13 @@ class App extends Component {
                                     style={FLEX_1}
                                     dataPoints={[ { values: data.map(data => data.value) } ]}
                                     spacing={0.05}
+                                    renderGradient={({ id, fillColor }) => (
+                                        <LinearGradient id={id} x1={'0%'} y={'0%'} x2={'0%'}
+                                                        y2={'100%'}>
+                                            <Stop offset={'0%'} stopColor={fillColor} stopOpacity={0.8}/>
+                                            <Stop offset={'100%'} stopColor={fillColor} stopOpacity={0.2}/>
+                                        </LinearGradient>
+                                    )}
                                 />
                                 <XAxis
                                     chartType={XAxis.Type.BAR}
@@ -245,6 +263,12 @@ class App extends Component {
                                     style={styles.flex1}
                                     dataPoints={data.map(data => data.value)}
                                     showPoints={true}
+                                    renderGradient={({ id }) => (
+                                        <LinearGradient id={id} x1={'0'} y={'0'} x2={'0'} y2={`100%`}>
+                                            <Stop offset={'0'} stopColor={'blue'} stopOpacity={0.5}/>
+                                            <Stop offset={`1`} stopColor={'red'} stopOpacity={0.1}/>
+                                        </LinearGradient>
+                                    )}
                                     contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}
                                 />
                                 <XAxis

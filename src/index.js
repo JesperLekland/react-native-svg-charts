@@ -7,6 +7,8 @@ import YAxis from './y-axis'
 import ProgressCircle from './progress-circle'
 import WaterfallChart from './waterfall-chart'
 
+import { LinearGradient, Stop } from 'react-native-svg'
+
 export {
     LineChart,
     PieChart,
@@ -16,4 +18,6 @@ export {
     YAxis,
     ProgressCircle,
     WaterfallChart,
+    LinearGradient,
+    Stop,
 }
