@@ -68,6 +68,12 @@ class AnimatedPath extends Component {
     }
 
     render() {
+        const { d, renderPlaceholder } = this.props
+
+        if (!d) {
+            return renderPlaceholder()
+        }
+
         return (
             <Path
                 ref={ref => this.component = ref}
@@ -80,12 +86,15 @@ class AnimatedPath extends Component {
 AnimatedPath.propTypes = {
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
+    renderPlaceholder: PropTypes.func,
     ...Path.propTypes,
+    d: PropTypes.string,
 }
 
 AnimatedPath.defaultProps = {
     animate: true,
     animationDuration: 300,
+    renderPlaceholder: () => null,
 }
 
 export default AnimatedPath

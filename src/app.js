@@ -68,6 +68,7 @@ const _progressData = [
     0.2,
     1,
     0,
+    0.95,
 ]
 
 const _multipleBarData = [
