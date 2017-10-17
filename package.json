@@ -1,6 +1,6 @@
 {
 	"name": "exopen-react-native-charts",
-	"version": "3.3.0",
+	"version": "3.4.0",
 	"private": false,
 	"description": "Customizable charts (Line, Bar, Area, Pie, Circle) for React Native",
 	"main": "src/index.js",
