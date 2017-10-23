@@ -78,9 +78,10 @@ class AreaChart extends PureComponent {
         const extent = array.extent([ ...dataPoints, gridMin, gridMax ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
+        //invert range to support svg coordinate system
         const y = scale.scaleLinear()
             .domain(extent)
-            .range([ height - top, bottom ])
+            .range([ height - bottom, top ])
 
         this.y = y
 
