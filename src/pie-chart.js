@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
-import Svg, { G, Path } from 'react-native-svg'
+import Svg, { G, Path, Line } from 'react-native-svg'
 
 class PieChart extends PureComponent {
 
@@ -74,6 +74,22 @@ class PieChart extends PureComponent {
             point: dataPoints[ index ],
             path: arc(slice),
         }))
+        
+        const links = pieSlices.map((d,i)=>{
+            let source = arc.centroid(d)
+            let target = labelArc.centroid(d)
+            let color = dataPoints[ i ].color
+            return (
+                <Line
+                    key={i}
+                    x1={source[0]}
+                    y1={source[1]}
+                    x2={target[0]}
+                    y2={target[1]}
+                    stroke={color}
+                />
+            )
+        })
 
         const labels = pieSlices.map((slice, index) => ({
             point: dataPoints[ index ],
@@ -88,6 +104,7 @@ class PieChart extends PureComponent {
                 >
                     <Svg style={{ flex: 1 }}>
                         <G x={width / 2} y={height / 2}>
+                            {links}
                             {shapes.map((shape) => {
                                 const { path, point: { key, color } } = shape
                                 return (
