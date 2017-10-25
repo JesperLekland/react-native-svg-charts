@@ -5,6 +5,7 @@ import Label from './assets/d3.png'
 import {
     AreaChart,
     BarChart,
+    HorizontalLabeledBarChart,
     LinearGradient,
     LineChart,
     PieChart,
@@ -46,7 +47,7 @@ const _data = [
     [
         { 'value': 30, 'key': 'Fun activities', color: 'blue', date: new Date(2017, 10) },
         { 'value': 65, 'key': 'Dog', color: 'green', date: new Date(2017, 11) },
-        { 'value': -20, 'key': 'Foo', color: 'green', date: new Date(2017, 12) },
+        { 'value': -200, 'key': 'Foo', color: 'green', date: new Date(2017, 12) },
         { 'value': 10, 'key': 'Food', color: 'purple', date: new Date(2018, 1) },
         { 'value': 230, 'key': 'Car', color: 'gray', date: new Date(2018, 2) },
         { 'value': 20, 'key': 'Rent', color: 'red', date: new Date(2018, 3) },
@@ -201,6 +202,20 @@ class App extends Component {
                                     values={data.map(data => data.date)}
                                     formatLabel={date => dateFns.format(date, 'MMM')}
                                     labelStyle={{ color: 'grey' }}
+                                />
+                            </View>
+                        </View>
+                    </View>
+                    <View style={styles.card}>
+                        <View style={{ flexDirection: 'row', height: 200 }}>
+                            <View style={styles.flex1}>
+                                <HorizontalLabeledBarChart
+                                    style={FLEX_1}
+                                    dataPoints={data.slice(0, 3).map(obj => ({
+                                        ...obj,
+                                        renderLabel: () => <Text style={{ alignSelf: 'flex-start' }}>{obj.key}</Text>,
+                                        renderValue: () => <Text style={{ fontSize: 24, alignSelf: 'flex-end' }}>{obj.value}</Text>,
+                                    }))}
                                 />
                             </View>
                         </View>
