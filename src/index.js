@@ -1,6 +1,7 @@
 import LineChart from './line-chart'
 import PieChart from './pie-chart'
 import AreaChart from './area-chart'
+import AreaChartTooltip from './area-chart-tooltip'
 import BarChart from './bar-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
@@ -14,6 +15,7 @@ export {
     LineChart,
     PieChart,
     AreaChart,
+    AreaChartTooltip,
     BarChart,
     XAxis,
     YAxis,

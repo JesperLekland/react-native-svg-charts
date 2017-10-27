@@ -6,7 +6,7 @@ import * as scale from 'd3-scale'
 import * as array from 'd3-array'
 import { Constants } from './util'
 import Path from './animated-path'
-import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg'
+import Svg, { G, Rect, Text, Circle, Line, Defs, LinearGradient, Stop } from 'react-native-svg'
 
 class AreaChart extends PureComponent {
 
@@ -73,6 +73,11 @@ class AreaChart extends PureComponent {
                   gridStyle,
                   intersections,
                   renderIntersection,
+                  showTooltip,
+                  tooltipIndex,
+                  tooltipDotColor,
+                  tooltipLable,
+                  tooltipLableOffset,
               } = this.props
 
         const { height, width } = this.state
@@ -115,6 +120,70 @@ class AreaChart extends PureComponent {
                 </View>
             )
         }
+        
+        let tooltip = null
+        let tooltiplable = null
+        if (showTooltip) {
+            tooltip = (
+                <G>
+                    <Line
+                        x1={x(tooltipIndex)}
+                        y1={top - 40}
+                        x2={x(tooltipIndex)}
+                        y2={height - bottom + 10}
+                        stroke={'white'}
+                    />
+                    <Circle
+                        cx={x(tooltipIndex)}
+                        cy={y(dataPoints[tooltipIndex])}
+                        r={pointSize}
+                        stroke={strokeColor}
+                        strokeWidth={strokeWidth}
+                        fill={tooltipDotColor}
+                    />
+                </G>
+            )
+            
+            let xval = x(tooltipIndex)
+            let xpos = 0
+            
+            if (xval < 40) {
+                xpos = 40
+            } else if (xval > width - 40) {
+                xpos = width - 40
+            } else {
+                xpos = xval
+            }
+            
+            tooltiplable = (
+                <G x={xpos} y={top - 40}>
+                    <Rect
+                        x={-40}
+                        y={1}
+                        width={80}
+                        height={20}
+                        fill={'rgba(0,0,0,.2)'}
+                        rx={2}
+                        ry={2}
+                    />
+                    <Rect
+                        x={-40}
+                        y={0}
+                        width={80}
+                        height={20}
+                        fill={'white'}
+                        rx={2}
+                        ry={2}
+                    />
+                    <Text 
+                        fontSize="12"
+                        textAnchor="middle"
+                    >
+                        {tooltipLable(tooltipIndex)}
+                    </Text>
+                </G>
+            )
+        }
 
         return (
             <View style={style}>
@@ -127,7 +196,7 @@ class AreaChart extends PureComponent {
                         ticks.map((tick, index) => (
                             <View
                                 key={index}
-                                style={[ styles.grid, gridStyle, { top: y(tick) } ]}
+                                style={[ styles.grid, { top: y(tick) }, gridStyle ]}
                             />
                         ))
                     }
@@ -177,6 +246,8 @@ class AreaChart extends PureComponent {
                                 )
                             })
                         }
+                        {tooltip}
+                        {tooltiplable}
                     </Svg>
                     {intersections.map((intersection) => (
                         <View
@@ -220,6 +291,7 @@ AreaChart.propTypes = {
     gridMax: PropTypes.number,
     intersections: PropTypes.arrayOf(PropTypes.number),
     renderIntersection: PropTypes.func,
+    tooltipLableOffset: PropTypes.number,
 }
 
 AreaChart.defaultProps = {
@@ -242,6 +314,11 @@ AreaChart.defaultProps = {
     intersections: [],
     renderIntersection: () => {
     },
+    showTooltip: true,
+    tooltipIndex: 0,
+    tooltipDotColor: 'white',
+    tooltipLable: () => {},
+    tooltipLableOffset: 0,
 }
 
 const styles = StyleSheet.create({

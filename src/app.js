@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import * as dateFns from 'date-fns'
+import * as shape from 'd3-shape'
 import Label from './assets/d3.png'
 import {
     AreaChart,
+    AreaChartTooltip,
     BarChart,
     HorizontalLabeledBarChart,
     LinearGradient,
@@ -91,6 +93,39 @@ const _multipleBarData = [
 
 const WATERFALL_DATA = [ 5, -2, 0, 0, 5, 5, 5, 0, 0, -1, -1, -2, -2, 1, 1, 0, 0, 2, 4, 6, -4, -4, -4, 10, 10, 10 ]
 
+const CASHFLOW_DATA = [
+    { date: '2017-10-25T12:23:00.388Z', amount: 470986.05999999994 },
+    { date: '2017-10-26T12:23:00.388Z', amount: 395114.05999999994 },
+    { date: '2017-10-27T12:23:00.388Z', amount: 564537.0599999999 },
+    { date: '2017-10-28T12:23:00.388Z', amount: 552047.0599999999 },
+    { date: '2017-10-29T13:23:00.388Z', amount: 470884.05999999994 },
+    { date: '2017-10-30T13:23:00.388Z', amount: 536444.8399999999 },
+    { date: '2017-10-31T13:23:00.388Z', amount: -2516492.84 },
+    { date: '2017-11-01T13:23:00.388Z', amount: -2507596.84 },
+    { date: '2017-11-02T13:23:00.388Z', amount: 2531371.84 },
+    { date: '2017-11-03T13:23:00.388Z', amount: 2577592.84 },
+    { date: '2017-11-04T13:23:00.388Z', amount: 2577592.84 },
+    { date: '2017-11-05T13:23:00.388Z', amount: 2565873.84 },
+    { date: '2017-11-06T13:23:00.388Z', amount: 2541708.84 },
+    { date: '2017-11-07T13:23:00.388Z', amount: 2541708.84 },
+    { date: '2017-11-08T13:23:00.388Z', amount: 2487333.84 },
+    { date: '2017-11-09T13:23:00.389Z', amount: 2470303.84 },
+    { date: '2017-11-10T13:23:00.389Z', amount: 2675255.84 },
+    { date: '2017-11-11T13:23:00.389Z', amount: 2675255.84 },
+    { date: '2017-11-12T13:23:00.389Z', amount: 1592701.8399999999 },
+    { date: '2017-11-13T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-14T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-15T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-16T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-17T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-18T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-19T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-20T13:23:00.389Z', amount: 1100572.8399999999 }, 
+    { date: '2017-11-21T13:23:00.390Z', amount: 1100572.8399999999 }, 
+    { date: '2017-11-22T13:23:00.390Z', amount: 1100572.8399999999 }, 
+    { date: '2017-11-23T13:23:00.390Z', amount: 1100572.8399999999 },
+]
+
 const FLEX_1 = { flex: 1 }
 class App extends Component {
 
@@ -117,6 +152,49 @@ class App extends Component {
         return (
             <View style={styles.flex1}>
                 <ScrollView contentContainerStyle={styles.container}>
+                    <Card style={{ margin: 0, marginBottom: 15, padding: 0, backgroundColor: '#227FBB' }}>
+                        <View style={{ flexDirection: 'row', height: 200 }}>
+                            <View style={styles.flex1}>
+                                <AreaChartTooltip
+                                    style={[ styles.flex1, { } ]}
+                                    dataPoints={CASHFLOW_DATA.map(data => data.amount)}
+                                    showPoints={false}
+                                    strokeColor={'white'}
+                                    strokeWidth={2}
+                                    curve={shape.curveLinear}
+                                    dashArray={[ 8, 4 ]}
+                                    numberOfTicks={4}
+                                    renderGradient={({ id }) => (
+                                        <LinearGradient id={id} x1={'0'} y={'0'} x2={'0'} y2={`50%`}>
+                                            <Stop offset={'0'} stopColor={'white'} stopOpacity={0.5}/>
+                                            <Stop offset={`1`} stopColor={'white'} stopOpacity={0.1}/>
+                                        </LinearGradient>
+                                    )}
+                                    gridStyle={{ backgroundColor: 'rgba(255,255,255,.5)' }}
+                                    contentInset={{ bottom: 20, left: 0, top: 60, right: 0 }}
+                                    tooltipIndex={4}
+                                    tooltipDotColor={'#227FBB'}
+                                    tooltipLable={i=> dateFns.format(CASHFLOW_DATA[i].date, 'D MMM, YYYY')}
+                                    showTooltip
+                                />
+                                <XAxis
+                                    style={{ height: 10, position: 'absolute', bottom: 0, left: 0, right: 0, justifyContent: 'center', paddingTop: 0 }}
+                                    values={[ 0, 15, 30 ]}
+                                    contentInset={{ left: 20, right: 20 }}
+                                    formatLabel={date => `dag ${date}`}
+                                    spacing={0}
+                                    labelStyle={{ color: 'rgba(255,255,255,.5)' }}
+                                />
+                                <YAxis
+                                    dataPoints={CASHFLOW_DATA.map(data => Math.round( data.amount / 1000 ))}
+                                    style={{ width: 40, position: 'absolute', bottom: 0, left: 0, top: 0 }}
+                                    contentInset={{ bottom: 12, top: 67 }}
+                                    labelStyle={{ color: 'rgba(255,255,255,.5)' }}
+                                    numberOfTicks={4}
+                                />
+                            </View>
+                        </View>
+                    </Card>
                     <View style={styles.card}>
                         <View style={{ height: 200, flexDirection: 'row' }}>
                             <YAxis
@@ -273,24 +351,28 @@ class App extends Component {
                             )}
                         />
                     </View>
-                    <Card style={{ margin: 16 }}>
+                    <Card style={{ margin: 16, backgroundColor: '#1AB6B1' }}>
                         <View style={{ flexDirection: 'row', height: 200 }}>
                             <YAxis
                                 dataPoints={data.map(data => data.value)}
                                 style={{ width: 40 }}
                                 contentInset={{ bottom: 30, top: 10 }}
+                                labelStyle={{ color: 'rgba(255,255,255,.5)' }}
                             />
                             <View style={styles.flex1}>
                                 <AreaChart
                                     style={styles.flex1}
                                     dataPoints={data.map(data => data.value)}
-                                    showPoints={true}
+                                    showPoints={false}
+                                    strokeColor={'white'}
+                                    strokeWidth={2}
                                     renderGradient={({ id }) => (
-                                        <LinearGradient id={id} x1={'0'} y={'0'} x2={'0'} y2={`100%`}>
-                                            <Stop offset={'0'} stopColor={'blue'} stopOpacity={0.5}/>
-                                            <Stop offset={`1`} stopColor={'red'} stopOpacity={0.1}/>
+                                        <LinearGradient id={id} x1={'0'} y={'0'} x2={'0'} y2={`50%`}>
+                                            <Stop offset={'0'} stopColor={'white'} stopOpacity={0.5}/>
+                                            <Stop offset={`1`} stopColor={'white'} stopOpacity={0.1}/>
                                         </LinearGradient>
                                     )}
+                                    gridStyle={{ backgroundColor: 'rgba(255,255,255,.5)' }}
                                     contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}
                                 />
                                 <XAxis
@@ -299,6 +381,7 @@ class App extends Component {
                                     contentInset={{ left: 15, right: 15 }}
                                     formatLabel={date => dateFns.format(date, 'MMM')}
                                     spacing={0}
+                                    labelStyle={{ color: 'rgba(255,255,255,.5)' }}
                                 />
                             </View>
                         </View>
