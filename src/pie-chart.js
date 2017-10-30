@@ -43,7 +43,7 @@ class PieChart extends PureComponent {
 
         const maxRadius = Math.min(width, height) / 2
 
-        if (Math.min(...dataPoints) < 0) {
+        if (Math.min(...dataPoints.map(obj => obj.value)) < 0) {
             console.warn('don\'t pass negative numbers to pie-chart')
         }
 
@@ -155,15 +155,14 @@ PieChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.shape({
         color: PropTypes.string.isRequired,
         key: PropTypes.string.isRequired,
+        value: PropTypes.number.isRequired,
     })).isRequired,
     innerRadius: PropTypes.number,
-    outerRadius: PropTypes.number,
     padAngle: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     style: PropTypes.any,
     renderLabel: PropTypes.func,
-    labelDistance: PropTypes.number,
     labelSpacing: PropTypes.number,
 }
 
