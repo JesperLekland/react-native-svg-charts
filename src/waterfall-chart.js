@@ -1,12 +1,12 @@
+import * as array from 'd3-array'
+import * as scale from 'd3-scale'
+import * as shape from 'd3-shape'
+import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import PropTypes from 'prop-types'
-import * as shape from 'd3-shape'
-import * as scale from 'd3-scale'
-import * as array from 'd3-array'
-import { Constants } from './util'
-import Path from './animated-path'
 import Svg from 'react-native-svg'
+import Path from './animated-path'
+import { Constants } from './util'
 
 class WaterfallChart extends PureComponent {
 
@@ -43,6 +43,9 @@ class WaterfallChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
+                  extras,
+                  renderExtra,
+                  renderAccessory,
               } = this.props
 
         const { width, height } = this.state
@@ -112,6 +115,17 @@ class WaterfallChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
+                        { extras.map(item => renderExtra({ item, x, y, width, height })) }
+                        { dataPoints.map((value, index) => renderAccessory(
+                            {
+                                value,
+                                x,
+                                y,
+                                index,
+                                width,
+                                height,
+                            }
+                        )) }
                     </Svg>
                     {
                         changes.map((change, index) => {
@@ -159,6 +173,9 @@ WaterfallChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    extras: PropTypes.array,
+    renderExtra: PropTypes.func,
+    renderAccessory: PropTypes.func,
 }
 
 WaterfallChart.defaultProps = {
@@ -171,6 +188,11 @@ WaterfallChart.defaultProps = {
     spacing: 0.05,
     gridMin: 0,
     gridMax: 0,
+    extras: [],
+    renderExtra: () => {
+    },
+    renderAccessory: () => {
+    },
 }
 
 const styles = StyleSheet.create({

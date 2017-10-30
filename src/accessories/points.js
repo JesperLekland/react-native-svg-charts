@@ -3,7 +3,7 @@ import React from 'react'
 import { Circle } from 'react-native-svg'
 
 const Point = ({ x, y, value, index, radius, color }) => {
-    if (!value) {
+    if (isNaN(value)) {
         return <Circle/>
     }
 

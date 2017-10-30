@@ -290,14 +290,14 @@ class App extends Component {
                                             ],
                                         },
                                     ] }
-                                    renderAccessories={ layout => (
+                                    renderAccessory={ layout => (
                                         <Point
                                             color={ '#22B6B0' }
                                             key={ layout.index }
                                             { ...layout }
                                         />
                                     ) }
-                                    renderExtras={ ({ item, x, y, width }) => (
+                                    renderExtra={ ({ item, x, y, width }) => (
                                         item.obj.map((obj, index) => (
                                             <Line
                                                 key={ `${item.key}-${index}` }
@@ -345,7 +345,7 @@ class App extends Component {
                             <YAxis
                                 dataPoints={ CASHFLOW_DATA.map(data => data.amount) }
                                 style={{ width: 40 }}
-                                contentInset={ { bottom: 30, top: 40 } }
+                                contentInset={ { bottom: 10, top: 40 } }
                                 labelStyle={ { color: 'rgba(255, 255, 255, 0.5)' } }
                                 numberOfTicks={ 4 }
                                 formatLabel={ value => value / 1000 }
@@ -368,7 +368,7 @@ class App extends Component {
                                         </LinearGradient>
                                     )}
                                     contentInset={ { bottom: 10, left: 15, top: 40, right: 15 } }
-                                    renderAccessories={ obj => {
+                                    renderAccessory={ obj => {
                                         if (obj.index === 5) {
                                             return (
                                                 <Tooltip
@@ -383,13 +383,43 @@ class App extends Component {
                                         return <G key={ obj.index }/>
                                     } }
                                 />
+                            </View>
+                        </View>
+                    </Card>
+                    <Card style={ { margin: 16 } }>
+                        <View style={ { flexDirection: 'row', height: 200 } }>
+                            <YAxis
+                                dataPoints={ data.map(data => data.value) }
+                                style={ { width: 40 } }
+                                contentInset={ { bottom: 30, top: 10 } }
+                            />
+                            <View style={ styles.flex1 }>
+                                <AreaChart
+                                    style={ styles.flex1 }
+                                    dataPoints={ data.map(data => data.value) }
+                                    strokeColor={ 'white' }
+                                    strokeWidth={ 2 }
+                                    renderGradient={ ({ id }) => (
+                                        <LinearGradient id={ id } x1={ '0' } y={ '0' } x2={ '0' } y2={ `50%` }>
+                                            <Stop offset={ '0' } stopColor={ 'blue' } stopOpacity={ 0.9 }/>
+                                            <Stop offset={ `1` } stopColor={ 'blue' } stopOpacity={ 0.3 }/>
+                                        </LinearGradient>
+                                    ) }
+                                    contentInset={ { bottom: 10, left: 15, top: 10, right: 15 } }
+                                    renderAccessory={ obj => (
+                                        <Point
+                                            key={ obj.index }
+                                            color={ 'blue' }
+                                            { ...obj }
+                                        />
+                                    ) }
+                                />
                                 <XAxis
-                                    style={{ height: 20 }}
-                                    values={data.map(data => data.date)}
-                                    contentInset={{ left: 15, right: 15 }}
+                                    style={ { height: 20 } }
+                                    values={ data.map(data => data.date) }
+                                    contentInset={ { left: 15, right: 15 } }
                                     formatLabel={ date => dateFns.format(date, 'MMM') }
-                                    labelStyle={ { color: 'rgba(255, 255, 255, 0.5)' } }
-                                    spacing={0}
+                                    spacing={ 0 }
                                 />
                             </View>
                         </View>

@@ -1,12 +1,12 @@
-import React, { PureComponent } from 'react'
-import PropTypes from 'prop-types'
-import { StyleSheet, View } from 'react-native'
-import * as shape from 'd3-shape'
-import * as scale from 'd3-scale'
 import * as array from 'd3-array'
-import { Constants } from './util'
-import Path from './animated-path'
+import * as scale from 'd3-scale'
+import * as shape from 'd3-shape'
+import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
+import { StyleSheet, View } from 'react-native'
 import Svg, { Defs, G } from 'react-native-svg'
+import Path from './animated-path'
+import { Constants } from './util'
 
 class BarChart extends PureComponent {
 
@@ -37,14 +37,6 @@ class BarChart extends PureComponent {
         }
     }
 
-    getY(value) {
-        return this.y(value)
-    }
-
-    getX(index) {
-        return this.x(index)
-    }
-
     render() {
         const {
                   dataPoints,
@@ -67,8 +59,9 @@ class BarChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
-                  intersections,
-                  renderIntersection,
+                  extras,
+                  renderExtra,
+                  renderAccessory,
               } = this.props
 
         const { height, width } = this.state
@@ -91,8 +84,6 @@ class BarChart extends PureComponent {
             .domain(extent)
             .range([ height - bottom, top ])
 
-        this.y = y
-
         // use index as domain identifier instead of value since
         // same value can occur at several places in dataPoints
         const x = scale.scaleBand()
@@ -100,8 +91,6 @@ class BarChart extends PureComponent {
             .range([ left, width - right ])
             .paddingInner([ spacing ])
             .paddingOuter([ spacing ])
-
-        this.x = x
 
         const numberOfDifferentBars = Object.keys(dataPoints).length
         const barWidth              = x.bandwidth() / numberOfDifferentBars
@@ -182,15 +171,19 @@ class BarChart extends PureComponent {
                                 )
                             })
                         }
+                        { extras.map(item => renderExtra({ item, x, y, width, height })) }
+                        { dataPoints[ 0 ].values.map((value, index) => renderAccessory(
+                            {
+                                value,
+                                x,
+                                y,
+                                index,
+                                width,
+                                height,
+                                bandwidth: x.bandwidth(),
+                            }
+                        )) }
                     </Svg>
-                    {intersections.map((intersection) => (
-                        <View
-                            key={intersection}
-                            style={[ styles.intersection, { transform: [ { translateY: -y(intersection) } ] } ]}
-                        >
-                            {renderIntersection(intersection)}
-                        </View>
-                    ))}
                 </View>
             </View>
         )
@@ -226,6 +219,9 @@ BarChart.propTypes = {
     gridMax: PropTypes.number,
     intersections: PropTypes.arrayOf(PropTypes.number),
     renderIntersection: PropTypes.func,
+    extras: PropTypes.array,
+    renderExtra: PropTypes.func,
+    renderAccessory: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -242,8 +238,10 @@ BarChart.defaultProps = {
     showGrid: true,
     gridMin: 0,
     gridMax: 0,
-    intersections: [],
-    renderIntersection: () => {
+    extras: [],
+    renderAccessory: () => {
+    },
+    renderExtra: () => {
     },
 }
 

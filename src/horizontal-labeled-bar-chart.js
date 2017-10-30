@@ -82,6 +82,7 @@ HorizontalLabeledBarChart.propTypes = {
     barStyle: PropTypes.any,
     spacing: PropTypes.number,
     animationDuration: PropTypes.number,
+    maxValue: PropTypes.number,
 }
 
 HorizontalLabeledBarChart.defaultProps = {

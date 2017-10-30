@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Svg, { Line } from 'react-native-svg'
+import Svg from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 
@@ -36,7 +36,6 @@ class LineChart extends PureComponent {
         const {
                   dataPoints,
                   strokeColor,
-                  showPoints,
                   dashArray,
                   shadowColor,
                   style,
@@ -44,7 +43,6 @@ class LineChart extends PureComponent {
                   animationDuration,
                   showGrid,
                   numberOfTicks,
-                  pointSize,
                   contentInset: {
                       top    = 0,
                       bottom = 0,
@@ -53,12 +51,9 @@ class LineChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
-                  intersections,
-                  renderIntersection,
-                  projections,
-                  renderAccessories,
+                  renderAccessory,
                   extras,
-                  renderExtras,
+                  renderExtra,
               } = this.props
 
         const { width, height } = this.state
@@ -118,12 +113,8 @@ class LineChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        {
-                            dataPoints.map((value, index) => renderAccessories({ x, y, value, index, width, height }))
-                        }
-                        {
-                            extras.map((item, index) => renderExtras({ x, y, item, index, width, height }))
-                        }
+                        { dataPoints.map((value, index) => renderAccessory({ x, y, value, index, width, height })) }
+                        { extras.map((item, index) => renderExtra({ x, y, item, index, width, height })) }
                     </Svg>
                 </View>
             </View>
@@ -135,8 +126,6 @@ LineChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
     strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
-    showPoints: PropTypes.bool,
-    pointSize: PropTypes.number,
     dashArray: PropTypes.arrayOf(PropTypes.number),
     style: PropTypes.any,
     shadowColor: PropTypes.string,
@@ -150,25 +139,15 @@ LineChart.propTypes = {
         bottom: PropTypes.number,
     }),
     numberOfTicks: PropTypes.number,
-    projections: PropTypes.arrayOf(
-        PropTypes.shape({
-            x1: PropTypes.number,
-            x2: PropTypes.number,
-            y1: PropTypes.number,
-            y2: PropTypes.number,
-        })),
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    intersections: PropTypes.arrayOf(PropTypes.number),
-    renderIntersection: PropTypes.func,
-    renderAccessories: PropTypes.func,
-    renderExtras: PropTypes.func,
+    renderAccessory: PropTypes.func,
+    renderExtra: PropTypes.func,
 }
 
 LineChart.defaultProps = {
     strokeColor: '#22B6B0',
-    pointSize: 4,
     width: 100,
     height: 100,
     curve: shape.curveCardinal,
@@ -177,13 +156,9 @@ LineChart.defaultProps = {
     showGrid: true,
     gridMin: 0,
     gtidMax: 0,
-    intersections: [],
-    projections: [],
-    renderIntersection: () => {
+    renderAccessory: () => {
     },
-    renderAccessories: () => {
-    },
-    renderExtras: () => {
+    renderExtra: () => {
     },
 }
 
