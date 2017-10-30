@@ -1,12 +1,12 @@
+import * as array from 'd3-array'
+import * as scale from 'd3-scale'
+import * as shape from 'd3-shape'
+import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import * as shape from 'd3-shape'
-import * as scale from 'd3-scale'
-import * as array from 'd3-array'
-import { Constants } from './util'
+import Svg, { Line } from 'react-native-svg'
 import Path from './animated-path'
-import Svg, { Circle, Line } from 'react-native-svg'
+import { Constants } from './util'
 
 class LineChart extends PureComponent {
 
@@ -29,31 +29,6 @@ class LineChart extends PureComponent {
             .defined(value => typeof value === 'number')
             .curve(curve)
             (dataPoints)
-    }
-
-    _getPointStyle(value, x, y) {
-        const { pointSize, pointWidth, strokeColor } = this.props
-        const { pointColor = strokeColor }           = this.props
-
-        return {
-            position: 'absolute',
-            left: x - pointSize,
-            bottom: y - pointSize,
-            height: pointSize * 2,
-            width: pointSize * 2,
-            borderRadius: pointSize,
-            borderWidth: pointWidth,
-            backgroundColor: 'white',
-            borderColor: value >= 0 ? pointColor : 'red',
-        }
-    }
-
-    getY(value) {
-        return this.y(value)
-    }
-
-    getX(index) {
-        return this.x(index)
     }
 
     render() {
@@ -81,6 +56,9 @@ class LineChart extends PureComponent {
                   intersections,
                   renderIntersection,
                   projections,
+                  renderAccessories,
+                  extras,
+                  renderExtras,
               } = this.props
 
         const { width, height } = this.state
@@ -93,13 +71,9 @@ class LineChart extends PureComponent {
             .domain(extent)
             .range([ height - bottom, top ])
 
-        this.y = y
-
         const x = scale.scaleLinear()
             .domain([ 0, dataPoints.length - 1 ])
             .range([ left, width - right ])
-
-        this.x = x
 
         const line = this._createLine(
             dataPoints,
@@ -145,42 +119,12 @@ class LineChart extends PureComponent {
                             animationDuration={animationDuration}
                         />
                         {
-                            showPoints && dataPoints.map((value, index) => {
-                                if (isNaN(value)) {
-                                    return
-                                }
-                                return (
-                                    <Circle
-                                        key={index}
-                                        cx={x(index)}
-                                        cy={y(value)}
-                                        r={pointSize}
-                                        stroke={strokeColor}
-                                        fill={'white'}
-                                    />
-                                )
-                            })
+                            dataPoints.map((value, index) => renderAccessories({ x, y, value, index, width, height }))
                         }
-                        {projections.map(({ x1, x2, y1, y2 }, index) => (
-                            <Line
-                                key={index}
-                                x1={x(x1)}
-                                x2={x(x2)}
-                                y1={y(y1)}
-                                y2={y(y2)}
-                                stroke={strokeColor}
-                                strokeWidth={2}
-                            />
-                        ))}
+                        {
+                            extras.map((item, index) => renderExtras({ x, y, item, index, width, height }))
+                        }
                     </Svg>
-                    {intersections.map((intersection) => (
-                        <View
-                            key={intersection}
-                            style={[ styles.intersection, { transform: [ { translateY: -y(intersection) } ] } ]}
-                        >
-                            {renderIntersection(intersection)}
-                        </View>
-                    ))}
                 </View>
             </View>
         )
@@ -192,9 +136,7 @@ LineChart.propTypes = {
     strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
     showPoints: PropTypes.bool,
-    pointColor: PropTypes.string,
     pointSize: PropTypes.number,
-    pointWidth: PropTypes.number,
     dashArray: PropTypes.arrayOf(PropTypes.number),
     style: PropTypes.any,
     shadowColor: PropTypes.string,
@@ -220,15 +162,15 @@ LineChart.propTypes = {
     gridMax: PropTypes.number,
     intersections: PropTypes.arrayOf(PropTypes.number),
     renderIntersection: PropTypes.func,
+    renderAccessories: PropTypes.func,
+    renderExtras: PropTypes.func,
 }
 
 LineChart.defaultProps = {
     strokeColor: '#22B6B0',
-    pointWidth: 1,
     pointSize: 4,
     width: 100,
     height: 100,
-    showZeroAxis: true,
     curve: shape.curveCardinal,
     contentInset: {},
     numberOfTicks: 10,
@@ -238,6 +180,10 @@ LineChart.defaultProps = {
     intersections: [],
     projections: [],
     renderIntersection: () => {
+    },
+    renderAccessories: () => {
+    },
+    renderExtras: () => {
     },
 }
 
