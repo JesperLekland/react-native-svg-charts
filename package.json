@@ -1,6 +1,6 @@
 {
-  "name": "exopen-react-native-charts",
-  "version": "3.6.2",
+  "name": "react-native-svg-charts",
+  "version": "1.0.0",
   "private": false,
   "description": "Customizable charts (Line, Bar, Area, Pie, Circle) for React Native",
   "main": "src/index.js",
