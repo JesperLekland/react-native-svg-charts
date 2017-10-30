@@ -23,6 +23,32 @@ This library currently provides the following chart components
 * [Waterfall](#waterfallchart)
 
 ### AreaChart
+
+#### Example
+
+```javascript
+import { AreaChart } from 'react-native-svg-charts'
+
+const chart = () => (
+    <AreaChart
+        style={styles.flex1}
+        dataPoints={data.map(data => data.value)}
+        showPoints={false}
+        strokeColor={'white'}
+        strokeWidth={2}
+        renderGradient={({ id }) => (
+            <LinearGradient id={id} x1={'0'} y={'0'} x2={'0'} y2={`50%`}>
+                <Stop offset={'0'} stopColor={'blue'} stopOpacity={0.9}/>
+                <Stop offset={`1`} stopColor={'blue'} stopOpacity={0.3}/>
+            </LinearGradient>
+        )}
+        contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}
+    />
+)
+```
+
+#### Props
+
 ![Area chart](./screenshots/area-chart.png)
 
 | Property | Default | Description |
