@@ -189,7 +189,7 @@ const foo = () => (
 #### Example
 
 ```javascript
-import { LineChart } from 'react-native-svg-charts
+import { LineChart } from 'react-native-svg-charts'
 
 const foo = () => (
     <LineChart
