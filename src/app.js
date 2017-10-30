@@ -289,6 +289,7 @@ class App extends Component {
                             <View style={styles.flex1}>
                                 <HorizontalLabeledBarChart
                                     style={FLEX_1}
+                                    maxValue={200}
                                     dataPoints={data.slice(0, 3).map(obj => ({
                                         ...obj,
                                         renderLabel: () => <Text style={{ alignSelf: 'flex-start' }}>{obj.key}</Text>,

@@ -47,13 +47,14 @@ class HorizontalLabeledBarChart extends PureComponent {
                   style,
                   dataPoints,
                   barStyle,
+                  maxValue,
               } = this.props
 
         const negativeValues = dataPoints.filter(obj => obj.value < 0)
         const positiveValues = dataPoints.filter(obj => obj.value >= 0)
 
-        const maxValue = Math.max(...dataPoints.map(obj => Math.abs(obj.value)))
-        const ratios   = dataPoints.map(obj => Math.abs(obj.value / maxValue))
+        const max = maxValue ? maxValue : Math.max(...dataPoints.map(obj => Math.abs(obj.value)))
+        const ratios = dataPoints.map(obj => Math.abs(obj.value / max))
 
         const hasDifferentSigns = negativeValues.length > 0 && positiveValues.length > 0
 
