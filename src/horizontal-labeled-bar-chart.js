@@ -6,8 +6,6 @@ import BarChartComponent from './horizontal-labeled-bar-chart-component'
 
 class HorizontalLabeledBarChart extends PureComponent {
 
-    completedLayouts = 0
-
     constructor(props) {
         super(props)
 
