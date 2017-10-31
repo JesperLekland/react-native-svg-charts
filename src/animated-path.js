@@ -68,12 +68,6 @@ class AnimatedPath extends Component {
     }
 
     render() {
-        const { d, renderPlaceholder } = this.props
-
-        if (!d) {
-            return renderPlaceholder()
-        }
-
         return (
             <Path
                 ref={ref => this.component = ref}
@@ -88,7 +82,6 @@ AnimatedPath.propTypes = {
     animationDuration: PropTypes.number,
     renderPlaceholder: PropTypes.func,
     ...Path.propTypes,
-    d: PropTypes.string,
 }
 
 AnimatedPath.defaultProps = {

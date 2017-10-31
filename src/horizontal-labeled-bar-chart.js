@@ -6,8 +6,6 @@ import BarChartComponent from './horizontal-labeled-bar-chart-component'
 
 class HorizontalLabeledBarChart extends PureComponent {
 
-    completedLayouts = 0
-
     constructor(props) {
         super(props)
 
@@ -50,6 +48,10 @@ class HorizontalLabeledBarChart extends PureComponent {
                   maxValue,
               } = this.props
 
+        if (dataPoints.length === 0) {
+            return <View style={ style }/>
+        }
+
         const negativeValues = dataPoints.filter(obj => obj.value < 0)
         const positiveValues = dataPoints.filter(obj => obj.value >= 0)
 
@@ -84,6 +86,7 @@ HorizontalLabeledBarChart.propTypes = {
     barStyle: PropTypes.any,
     spacing: PropTypes.number,
     animationDuration: PropTypes.number,
+    maxValue: PropTypes.number,
 }
 
 HorizontalLabeledBarChart.defaultProps = {
