@@ -2,8 +2,9 @@ import * as shape from 'd3-shape'
 import * as dateFns from 'date-fns'
 import React, { Component } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import { G, Line } from 'react-native-svg'
-import Point from './accessories/points'
+import { G, Line, LinearGradient, Stop } from 'react-native-svg'
+import HorizontalLine from './accessories/horizontal-line'
+import Point from './accessories/point'
 import Tooltip from './accessories/tooltip'
 import Label from './assets/d3.png'
 import Card from './card'
@@ -11,13 +12,12 @@ import {
     AreaChart,
     BarChart,
     HorizontalLabeledBarChart,
-    LinearGradient,
     LineChart,
     PieChart,
     ProgressCircle,
-    Stop,
     WaterfallChart,
     XAxis,
+    Accessories,
     YAxis,
 } from './index'
 
@@ -269,47 +269,27 @@ class App extends Component {
                                 <LineChart
                                     style={styles.flex1}
                                     dataPoints={data.map(data => data.value)}
-                                    dashArray={[ 5, 5 ]}
                                     showPoints={true}
                                     strokeColor={ '#22B6B0' }
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
                                     contentInset={{ bottom: 10, left: 15, right: 15, top: 10 }}
                                     intersections={[ 125, -25 ]}
                                     extras={ [
-                                        {
-                                            key: 'intersections',
-                                            obj: [
-                                                { x1: 0, y1: -25, y2: -25 },
-                                                { x1: 0, y1: 150, y2: 150 },
-                                            ],
-                                        },
-                                        {
-                                            key: 'projections',
-                                            obj: [
-                                                { x1: 2, x2: 6, y1: 150, y2: 220 },
-                                            ],
-                                        },
+                                        ({ y }) => <Accessories.HorizontalLine y={ y } value={ -50 }/>,
+                                        ({ y }) => <Accessories.HorizontalLine y={ y } value={ 150 }/>,
+                                        ({ y, x }) => <Line x1={ x(2) } x2={ x(6) } y1={ y(150) } y2={ y(220) }
+                                                            stroke={ 'blue' } strokeDasharray={ [ 8, 4 ] }/>,
+                                        ({ y, x }) => <Line x1={ x(2) } x2={ x(5) } y1={ y(150) } y2={ y(-23) }
+                                                            stroke={ 'blue' } strokeDasharray={ [ 8, 4 ] }/>,
                                     ] }
                                     renderAccessory={ layout => (
-                                        <Point
+                                        <Accessories.Point
                                             color={ '#22B6B0' }
                                             key={ layout.index }
                                             { ...layout }
                                         />
                                     ) }
-                                    renderExtra={ ({ item, x, y, width }) => (
-                                        item.obj.map((obj, index) => (
-                                            <Line
-                                                key={ `${item.key}-${index}` }
-                                                x1={ x(obj.x1) }
-                                                x2={ x(obj.x2 || width) }
-                                                y1={ y(obj.y1) }
-                                                y2={ y(obj.y2) }
-                                                strokeDasharray={ item.key === 'projections' ? [ 4, 4 ] : [] }
-                                                stroke={ '#22B6B0' }
-                                            />
-                                        ))
-                                    ) }
+                                    renderExtra={ ({ item, x, y, width }) => item({ x, y }) }
                                 />
 
                                 <XAxis
