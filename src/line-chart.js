@@ -160,6 +160,7 @@ LineChart.defaultProps = {
     showGrid: true,
     gridMin: 0,
     gtidMax: 0,
+    extras: [],
     renderDecorator: () => {
     },
     renderExtra: () => {
