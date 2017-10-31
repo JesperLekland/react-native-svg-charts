@@ -51,7 +51,7 @@ class LineChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
-                  renderAccessory,
+                  renderDecorator,
                   extras,
                   renderExtra,
               } = this.props
@@ -117,7 +117,7 @@ class LineChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        { dataPoints.map((value, index) => renderAccessory({ x, y, value, index, width, height })) }
+                        { dataPoints.map((value, index) => renderDecorator({ x, y, value, index, width, height })) }
                         { extras.map((item, index) => renderExtra({ x, y, item, index, width, height })) }
                     </Svg>
                 </View>
@@ -146,7 +146,7 @@ LineChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    renderAccessory: PropTypes.func,
+    renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
 }
 
@@ -160,7 +160,7 @@ LineChart.defaultProps = {
     showGrid: true,
     gridMin: 0,
     gtidMax: 0,
-    renderAccessory: () => {
+    renderDecorator: () => {
     },
     renderExtra: () => {
     },

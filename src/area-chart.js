@@ -44,7 +44,7 @@ class AreaChart extends PureComponent {
                   gridMin,
                   gridMax,
                   gridStyle,
-                  renderAccessory,
+                  renderDecorator,
                   extras,
                   renderExtra,
               } = this.props
@@ -137,7 +137,7 @@ class AreaChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        { dataPoints.map((value, index) => renderAccessory({ x, y, index, value, height, width })) }
+                        { dataPoints.map((value, index) => renderDecorator({ x, y, index, value, height, width })) }
                         { extras.map((item, index) => renderExtra({ item, x, y, index, height, width })) }
                     </Svg>
                 </View>

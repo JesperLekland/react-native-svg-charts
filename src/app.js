@@ -3,9 +3,8 @@ import * as dateFns from 'date-fns'
 import React, { Component } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { G, Line, LinearGradient, Stop } from 'react-native-svg'
-import HorizontalLine from './accessories/horizontal-line'
-import Point from './accessories/point'
-import Tooltip from './accessories/tooltip'
+import Point from './chart-decorators/point'
+import Tooltip from './chart-decorators/tooltip'
 import Label from './assets/d3.png'
 import Card from './card'
 import {
@@ -17,7 +16,7 @@ import {
     ProgressCircle,
     WaterfallChart,
     XAxis,
-    Accessories,
+    Decorators,
     YAxis,
 } from './index'
 
@@ -275,21 +274,21 @@ class App extends Component {
                                     contentInset={{ bottom: 10, left: 15, right: 15, top: 10 }}
                                     intersections={[ 125, -25 ]}
                                     extras={ [
-                                        ({ y }) => <Accessories.HorizontalLine y={ y } value={ -50 }/>,
-                                        ({ y }) => <Accessories.HorizontalLine y={ y } value={ 150 }/>,
+                                        ({ y }) => <Decorators.HorizontalLine y={ y } value={ -50 }/>,
+                                        ({ y }) => <Decorators.HorizontalLine y={ y } value={ 150 }/>,
                                         ({ y, x }) => <Line x1={ x(2) } x2={ x(6) } y1={ y(150) } y2={ y(220) }
                                                             stroke={ 'blue' } strokeDasharray={ [ 8, 4 ] }/>,
                                         ({ y, x }) => <Line x1={ x(2) } x2={ x(5) } y1={ y(150) } y2={ y(-23) }
                                                             stroke={ 'blue' } strokeDasharray={ [ 8, 4 ] }/>,
                                     ] }
-                                    renderAccessory={ layout => (
-                                        <Accessories.Point
+                                    renderDecorator={ layout => (
+                                        <Decorators.Point
                                             color={ '#22B6B0' }
                                             key={ layout.index }
                                             { ...layout }
                                         />
                                     ) }
-                                    renderExtra={ ({ item, x, y, width }) => item({ x, y }) }
+                                    renderExtra={ ({ item, x, y }) => item({ x, y }) }
                                 />
 
                                 <XAxis
@@ -348,7 +347,7 @@ class App extends Component {
                                         </LinearGradient>
                                     )}
                                     contentInset={ { bottom: 10, left: 15, top: 40, right: 15 } }
-                                    renderAccessory={ obj => {
+                                    renderDecorator={ obj => {
                                         if (obj.index === 5) {
                                             return (
                                                 <Tooltip
@@ -386,7 +385,7 @@ class App extends Component {
                                         </LinearGradient>
                                     ) }
                                     contentInset={ { bottom: 10, left: 15, top: 10, right: 15 } }
-                                    renderAccessory={ obj => (
+                                    renderDecorator={ obj => (
                                         <Point
                                             key={ obj.index }
                                             color={ 'blue' }

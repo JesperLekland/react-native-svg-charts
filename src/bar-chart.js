@@ -61,7 +61,7 @@ class BarChart extends PureComponent {
                   gridMin,
                   extras,
                   renderExtra,
-                  renderAccessory,
+                  renderDecorator,
               } = this.props
 
         const { height, width } = this.state
@@ -176,7 +176,7 @@ class BarChart extends PureComponent {
                             })
                         }
                         { extras.map(item => renderExtra({ item, x, y, width, height })) }
-                        { dataPoints[ 0 ].values.map((value, index) => renderAccessory(
+                        { dataPoints[ 0 ].values.map((value, index) => renderDecorator(
                             {
                                 value,
                                 x,
@@ -225,7 +225,7 @@ BarChart.propTypes = {
     renderIntersection: PropTypes.func,
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
-    renderAccessory: PropTypes.func,
+    renderDecorator: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -243,7 +243,7 @@ BarChart.defaultProps = {
     gridMin: 0,
     gridMax: 0,
     extras: [],
-    renderAccessory: () => {
+    renderDecorator: () => {
     },
     renderExtra: () => {
     },
