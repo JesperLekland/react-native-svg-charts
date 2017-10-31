@@ -1,6 +1,6 @@
 # react-native-svg-charts
 
-[![npm version](https://img.shields.io/npm/v/react-native-svg-charts.png)](https://www.npmjs.com/package/react-native-svg-charts)
+[![npm version](https://img.shields.io/npm/v/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
 [![npm](https://img.shields.io/npm/dm/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
 
 ## Prerequisites
