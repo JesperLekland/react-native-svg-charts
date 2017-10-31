@@ -187,6 +187,7 @@ AreaChart.defaultProps = {
     gridMin: 0,
     gridMax: 0,
     renderExtra: () => {},
+    renderDecorator: () => {},
     extras: [],
 }
 
