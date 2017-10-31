@@ -28,8 +28,6 @@ const BarChartComponent = ({ dataPoints, spacing, hasDifferentSigns, barStyle, r
                                         barStyle,
                                         {
                                             backgroundColor: obj.color,
-                                            borderWidth: 1,
-                                            width: 100,
                                         },
                                     ]}/>
                                     {obj.renderValue && obj.renderValue()}

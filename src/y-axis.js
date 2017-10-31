@@ -39,6 +39,10 @@ class YAxis extends PureComponent {
               }                      = this.props
         const { height, textHeight } = this.state
 
+        if (dataPoints.length === 0) {
+            return <View style={ style }/>
+        }
+
         const extent = array.extent([ ...dataPoints, 0 ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 

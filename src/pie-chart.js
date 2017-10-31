@@ -41,6 +41,10 @@ class PieChart extends PureComponent {
 
         const { height, width } = this.state
 
+        if (dataPoints.length === 0) {
+            return <View style={ style }/>
+        }
+
         const maxRadius = Math.min(width, height) / 2
 
         if (Math.min(...dataPoints.map(obj => obj.value)) < 0) {

@@ -1,12 +1,12 @@
+import * as array from 'd3-array'
+import * as scale from 'd3-scale'
+import * as shape from 'd3-shape'
+import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import PropTypes from 'prop-types'
-import * as shape from 'd3-shape'
-import * as scale from 'd3-scale'
-import * as array from 'd3-array'
-import { Constants } from './util'
+import Svg, { Defs, LinearGradient, Stop } from 'react-native-svg'
 import Path from './animated-path'
-import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg'
+import { Constants } from './util'
 
 class AreaChart extends PureComponent {
 
@@ -20,31 +20,6 @@ class AreaChart extends PureComponent {
         this.setState({ height, width })
     }
 
-    _getPointStyle(value, x, y) {
-        const { pointSize, pointWidth, strokeColor } = this.props
-        const { pointColor = strokeColor }           = this.props
-
-        return {
-            position: 'absolute',
-            left: x - pointSize,
-            bottom: y - pointSize,
-            height: pointSize * 2,
-            width: pointSize * 2,
-            borderRadius: pointSize,
-            borderWidth: pointWidth,
-            backgroundColor: 'white',
-            borderColor: value >= 0 ? pointColor : 'red',
-        }
-    }
-
-    getY(value) {
-        return this.y(value)
-    }
-
-    getX(index) {
-        return this.x(index)
-    }
-
     render() {
 
         const {
@@ -52,11 +27,9 @@ class AreaChart extends PureComponent {
                   strokeColor,
                   strokeWidth,
                   fillColor,
-                  showPoints,
                   animate,
                   dashArray,
                   animationDuration,
-                  pointSize,
                   style,
                   renderGradient,
                   curve,
@@ -71,11 +44,16 @@ class AreaChart extends PureComponent {
                   gridMin,
                   gridMax,
                   gridStyle,
-                  intersections,
-                  renderIntersection,
+                  renderAccessory,
+                  extras,
+                  renderExtra,
               } = this.props
 
         const { height, width } = this.state
+
+        if (dataPoints.length === 0) {
+            return <View style={ style }/>
+        }
 
         const extent = array.extent([ ...dataPoints, gridMin, gridMax ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
@@ -135,12 +113,13 @@ class AreaChart extends PureComponent {
                         <Defs>
                             {
                                 renderGradient ? renderGradient({ id: 'gradient' }) :
-                                    (
-                                        <LinearGradient id={'gradient'} x1={'0'} y={`${top}`} x2={'0'} y2={`100%`}>
-                                            <Stop offset={'0'} stopColor={fillColor} stopOpacity={0.5}/>
-                                            <Stop offset={`1`} stopColor={fillColor} stopOpacity={0.1}/>
-                                        </LinearGradient>
-                                    )
+                                (
+                                    <LinearGradient id={ 'gradient' } x1={ '0' } y={ `${top}` } x2={ '0' }
+                                                    y2={ `100%` }>
+                                        <Stop offset={ '0' } stopColor={ fillColor } stopOpacity={ 0.5 }/>
+                                        <Stop offset={ `1` } stopColor={ fillColor } stopOpacity={ 0.1 }/>
+                                    </LinearGradient>
+                                )
                             }
                         </Defs>
                         <Path
@@ -158,34 +137,9 @@ class AreaChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        {
-                            showPoints &&
-                            dataPoints.map((value, index) => {
-                                if (isNaN(value)) {
-                                    return
-                                }
-
-                                return (
-                                    <Circle
-                                        cx={x(index)}
-                                        cy={y(value)}
-                                        r={pointSize}
-                                        stroke={strokeColor}
-                                        fill={'white'}
-                                        key={index}
-                                    />
-                                )
-                            })
-                        }
+                        { dataPoints.map((value, index) => renderAccessory({ x, y, index, value, height, width })) }
+                        { extras.map((item, index) => renderExtra({ item, x, y, index, height, width })) }
                     </Svg>
-                    {intersections.map((intersection) => (
-                        <View
-                            key={intersection}
-                            style={[ styles.intersection, { transform: [ { translateY: -y(intersection) } ] } ]}
-                        >
-                            {renderIntersection(intersection)}
-                        </View>
-                    ))}
                 </View>
             </View>
         )
@@ -198,12 +152,8 @@ AreaChart.propTypes = {
     strokeWidth: PropTypes.number,
     fillColor: PropTypes.string,
     dashArray: PropTypes.arrayOf(PropTypes.number),
-    showPoints: PropTypes.bool,
-    pointColor: PropTypes.string,
     // see https://github.com/react-native-community/react-native-svg#lineargradient for more info
     renderGradient: PropTypes.func,
-    pointSize: PropTypes.number,
-    pointWidth: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     style: PropTypes.any,
@@ -218,8 +168,9 @@ AreaChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    intersections: PropTypes.arrayOf(PropTypes.number),
-    renderIntersection: PropTypes.func,
+    gridStyle: PropTypes.any,
+    extras: PropTypes.array,
+    renderExtra: PropTypes.func,
 }
 
 AreaChart.defaultProps = {
@@ -227,21 +178,16 @@ AreaChart.defaultProps = {
     gradientColors: 'rgba(34, 182, 176)',
     strokeColor: '#22B6B0',
     strokeWidth: 1,
-    pointWidth: 1,
-    pointSize: 4,
     width: 100,
     height: 100,
-    showZeroAxis: true,
     curve: shape.curveCardinal,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
     gridMin: 0,
     gridMax: 0,
-    gridStyle: {},
-    intersections: [],
-    renderIntersection: () => {
-    },
+    renderExtra: () => {},
+    extras: [],
 }
 
 const styles = StyleSheet.create({

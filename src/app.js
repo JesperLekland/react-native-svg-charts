@@ -1,23 +1,25 @@
+import * as shape from 'd3-shape'
+import * as dateFns from 'date-fns'
 import React, { Component } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import * as dateFns from 'date-fns'
-import * as shape from 'd3-shape'
+import { G, Line, LinearGradient, Stop } from 'react-native-svg'
+import HorizontalLine from './accessories/horizontal-line'
+import Point from './accessories/point'
+import Tooltip from './accessories/tooltip'
 import Label from './assets/d3.png'
+import Card from './card'
 import {
     AreaChart,
-    AreaChartTooltip,
     BarChart,
     HorizontalLabeledBarChart,
-    LinearGradient,
     LineChart,
     PieChart,
     ProgressCircle,
-    Stop,
     WaterfallChart,
     XAxis,
+    Accessories,
     YAxis,
 } from './index'
-import Card from './card'
 
 const _data = [
     [
@@ -120,9 +122,9 @@ const CASHFLOW_DATA = [
     { date: '2017-11-17T13:23:00.389Z', amount: 1100572.8399999999 },
     { date: '2017-11-18T13:23:00.389Z', amount: 1100572.8399999999 },
     { date: '2017-11-19T13:23:00.389Z', amount: 1100572.8399999999 },
-    { date: '2017-11-20T13:23:00.389Z', amount: 1100572.8399999999 }, 
-    { date: '2017-11-21T13:23:00.390Z', amount: 1100572.8399999999 }, 
-    { date: '2017-11-22T13:23:00.390Z', amount: 1100572.8399999999 }, 
+    { date: '2017-11-20T13:23:00.389Z', amount: 1100572.8399999999 },
+    { date: '2017-11-21T13:23:00.390Z', amount: 1100572.8399999999 },
+    { date: '2017-11-22T13:23:00.390Z', amount: 1100572.8399999999 },
     { date: '2017-11-23T13:23:00.390Z', amount: 1100572.8399999999 },
 ]
 
@@ -152,49 +154,6 @@ class App extends Component {
         return (
             <View style={styles.flex1}>
                 <ScrollView contentContainerStyle={styles.container}>
-                    <Card style={{ margin: 0, marginBottom: 15, padding: 0, backgroundColor: '#227FBB' }}>
-                        <View style={{ flexDirection: 'row', height: 200 }}>
-                            <View style={styles.flex1}>
-                                <AreaChartTooltip
-                                    style={[ styles.flex1, { } ]}
-                                    dataPoints={CASHFLOW_DATA.map(data => data.amount)}
-                                    showPoints={false}
-                                    strokeColor={'white'}
-                                    strokeWidth={2}
-                                    curve={shape.curveLinear}
-                                    dashArray={[ 8, 4 ]}
-                                    numberOfTicks={4}
-                                    renderGradient={({ id }) => (
-                                        <LinearGradient id={id} x1={'0'} y={'0'} x2={'0'} y2={`50%`}>
-                                            <Stop offset={'0'} stopColor={'white'} stopOpacity={0.5}/>
-                                            <Stop offset={`1`} stopColor={'white'} stopOpacity={0.1}/>
-                                        </LinearGradient>
-                                    )}
-                                    gridStyle={{ backgroundColor: 'rgba(255,255,255,.5)' }}
-                                    contentInset={{ bottom: 20, left: 0, top: 60, right: 0 }}
-                                    tooltipIndex={4}
-                                    tooltipDotColor={'#227FBB'}
-                                    tooltipLable={i=> dateFns.format(CASHFLOW_DATA[i].date, 'D MMM, YYYY')}
-                                    showTooltip
-                                />
-                                <XAxis
-                                    style={{ height: 10, position: 'absolute', bottom: 0, left: 0, right: 0, justifyContent: 'center', paddingTop: 0 }}
-                                    values={[ 0, 15, 30 ]}
-                                    contentInset={{ left: 20, right: 20 }}
-                                    formatLabel={date => `dag ${date}`}
-                                    spacing={0}
-                                    labelStyle={{ color: 'rgba(255,255,255,.5)' }}
-                                />
-                                <YAxis
-                                    dataPoints={CASHFLOW_DATA.map(data => Math.round( data.amount / 1000 ))}
-                                    style={{ width: 40, position: 'absolute', bottom: 0, left: 0, top: 0 }}
-                                    contentInset={{ bottom: 12, top: 67 }}
-                                    labelStyle={{ color: 'rgba(255,255,255,.5)' }}
-                                    numberOfTicks={4}
-                                />
-                            </View>
-                        </View>
-                    </Card>
                     <View style={styles.card}>
                         <View style={{ height: 200, flexDirection: 'row' }}>
                             <YAxis
@@ -310,18 +269,27 @@ class App extends Component {
                                 <LineChart
                                     style={styles.flex1}
                                     dataPoints={data.map(data => data.value)}
-                                    dashArray={[ 5, 5 ]}
                                     showPoints={true}
+                                    strokeColor={ '#22B6B0' }
                                     shadowColor={'rgba(34, 182, 176, 0.2)'}
                                     contentInset={{ bottom: 10, left: 15, right: 15, top: 10 }}
                                     intersections={[ 125, -25 ]}
-                                    renderIntersection={() => <View style={{ height: 1, backgroundColor: 'blue' }}/>}
-                                    projections={[ {
-                                        x1: 2,
-                                        x2: 6,
-                                        y1: 150,
-                                        y2: 220,
-                                    } ]}
+                                    extras={ [
+                                        ({ y }) => <Accessories.HorizontalLine y={ y } value={ -50 }/>,
+                                        ({ y }) => <Accessories.HorizontalLine y={ y } value={ 150 }/>,
+                                        ({ y, x }) => <Line x1={ x(2) } x2={ x(6) } y1={ y(150) } y2={ y(220) }
+                                                            stroke={ 'blue' } strokeDasharray={ [ 8, 4 ] }/>,
+                                        ({ y, x }) => <Line x1={ x(2) } x2={ x(5) } y1={ y(150) } y2={ y(-23) }
+                                                            stroke={ 'blue' } strokeDasharray={ [ 8, 4 ] }/>,
+                                    ] }
+                                    renderAccessory={ layout => (
+                                        <Accessories.Point
+                                            color={ '#22B6B0' }
+                                            key={ layout.index }
+                                            { ...layout }
+                                        />
+                                    ) }
+                                    renderExtra={ ({ item, x, y, width }) => item({ x, y }) }
                                 />
 
                                 <XAxis
@@ -330,7 +298,7 @@ class App extends Component {
                                     style={{ height: 20, justifyContent: 'center' }}
                                     contentInset={{ left: 15, right: 15 }}
                                     values={data.map(data => data.date)}
-                                    formatLabel={date => dateFns.format(date, 'MMM')}
+                                    formatLabel={ date => dateFns.format(date, 'MMM') }
                                 />
                             </View>
                         </View>
@@ -352,37 +320,86 @@ class App extends Component {
                             )}
                         />
                     </View>
-                    <Card style={{ margin: 16, backgroundColor: '#1AB6B1' }}>
-                        <View style={{ flexDirection: 'row', height: 200 }}>
+                    <Card style={ { margin: 16, backgroundColor: '#227FBB' } }>
+                        <View style={ { flexDirection: 'row', height: 200 } }>
                             <YAxis
-                                dataPoints={data.map(data => data.value)}
+                                dataPoints={ CASHFLOW_DATA.map(data => data.amount) }
                                 style={{ width: 40 }}
-                                contentInset={{ bottom: 30, top: 10 }}
-                                labelStyle={{ color: 'rgba(255,255,255,.5)' }}
+                                contentInset={ { bottom: 10, top: 40 } }
+                                labelStyle={ { color: 'rgba(255, 255, 255, 0.5)' } }
+                                numberOfTicks={ 4 }
+                                formatLabel={ value => value / 1000 }
                             />
                             <View style={styles.flex1}>
                                 <AreaChart
                                     style={styles.flex1}
-                                    dataPoints={data.map(data => data.value)}
+                                    dataPoints={ CASHFLOW_DATA.map(data => data.amount) }
                                     showPoints={false}
-                                    strokeColor={'white'}
+                                    strokeColor={ 'white' }
+                                    dashArray={ [ 8, 4 ] }
                                     strokeWidth={2}
+                                    numberOfTicks={ 4 }
+                                    curve={ shape.curveLinear }
+                                    gridStyle={ { backgroundColor: 'rgba(255, 255, 255, 0.5)' } }
                                     renderGradient={({ id }) => (
                                         <LinearGradient id={id} x1={'0'} y={'0'} x2={'0'} y2={`50%`}>
-                                            <Stop offset={'0'} stopColor={'white'} stopOpacity={0.5}/>
-                                            <Stop offset={`1`} stopColor={'white'} stopOpacity={0.1}/>
+                                            <Stop offset={ '0' } stopColor={ 'white' } stopOpacity={ 0.5 }/>
+                                            <Stop offset={ `1` } stopColor={ 'white' } stopOpacity={ 0.2 }/>
                                         </LinearGradient>
                                     )}
-                                    gridStyle={{ backgroundColor: 'rgba(255,255,255,.5)' }}
-                                    contentInset={{ bottom: 10, left: 15, top: 10, right: 15 }}
+                                    contentInset={ { bottom: 10, left: 15, top: 40, right: 15 } }
+                                    renderAccessory={ obj => {
+                                        if (obj.index === 5) {
+                                            return (
+                                                <Tooltip
+                                                    stroke={ 'white' }
+                                                    pointStroke={ 'purple' }
+                                                    key={ obj.index }
+                                                    { ...obj }
+                                                    text={ 'Foo fii faa' }
+                                                />
+                                            )
+                                        }
+                                        return <G key={ obj.index }/>
+                                    } }
+                                />
+                            </View>
+                        </View>
+                    </Card>
+                    <Card style={ { margin: 16 } }>
+                        <View style={ { flexDirection: 'row', height: 200 } }>
+                            <YAxis
+                                dataPoints={ data.map(data => data.value) }
+                                style={ { width: 40 } }
+                                contentInset={ { bottom: 30, top: 10 } }
+                            />
+                            <View style={ styles.flex1 }>
+                                <AreaChart
+                                    style={ styles.flex1 }
+                                    dataPoints={ data.map(data => data.value) }
+                                    strokeColor={ 'white' }
+                                    strokeWidth={ 2 }
+                                    renderGradient={ ({ id }) => (
+                                        <LinearGradient id={ id } x1={ '0' } y={ '0' } x2={ '0' } y2={ `50%` }>
+                                            <Stop offset={ '0' } stopColor={ 'blue' } stopOpacity={ 0.9 }/>
+                                            <Stop offset={ `1` } stopColor={ 'blue' } stopOpacity={ 0.3 }/>
+                                        </LinearGradient>
+                                    ) }
+                                    contentInset={ { bottom: 10, left: 15, top: 10, right: 15 } }
+                                    renderAccessory={ obj => (
+                                        <Point
+                                            key={ obj.index }
+                                            color={ 'blue' }
+                                            { ...obj }
+                                        />
+                                    ) }
                                 />
                                 <XAxis
-                                    style={{ height: 20 }}
-                                    values={data.map(data => data.date)}
-                                    contentInset={{ left: 15, right: 15 }}
-                                    formatLabel={date => dateFns.format(date, 'MMM')}
-                                    spacing={0}
-                                    labelStyle={{ color: 'rgba(255,255,255,.5)' }}
+                                    style={ { height: 20 } }
+                                    values={ data.map(data => data.date) }
+                                    contentInset={ { left: 15, right: 15 } }
+                                    formatLabel={ date => dateFns.format(date, 'MMM') }
+                                    spacing={ 0 }
                                 />
                             </View>
                         </View>
@@ -402,7 +419,7 @@ class App extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#F5FCFF',
+        backgroundColor: '#fff',
     },
     flex1: {
         flex: 1,
