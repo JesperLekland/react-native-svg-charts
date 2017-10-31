@@ -3,20 +3,20 @@ import * as dateFns from 'date-fns'
 import React, { Component } from 'react'
 import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { G, Line, LinearGradient, Stop } from 'react-native-svg'
-import Point from './chart-decorators/point'
-import Tooltip from './chart-decorators/tooltip'
 import Label from './assets/d3.png'
 import Card from './card'
+import Point from './chart-decorators/point'
+import Tooltip from './chart-decorators/tooltip'
 import {
     AreaChart,
     BarChart,
+    Decorators,
     HorizontalLabeledBarChart,
     LineChart,
     PieChart,
     ProgressCircle,
     WaterfallChart,
     XAxis,
-    Decorators,
     YAxis,
 } from './index'
 
@@ -221,7 +221,11 @@ class App extends Component {
                             <View style={styles.flex1}>
                                 <BarChart
                                     style={FLEX_1}
-                                    dataPoints={[ { values: data.map(data => data.value) } ]}
+                                    dataPoints={ [ {
+                                        values: data.map(data => data.value),
+                                        fillColor: 'green',
+                                        fillColorNegative: 'red',
+                                    } ] }
                                     spacing={0.05}
                                     renderGradient={({ id, fillColor }) => (
                                         <LinearGradient id={id} x1={'0%'} y={'0%'} x2={'0%'}
