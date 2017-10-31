@@ -1,4 +1,3 @@
-import { LinearGradient, Stop } from 'react-native-svg'
 import AreaChart from './area-chart'
 import BarChart from './bar-chart'
 import HorizontalLabeledBarChart from './horizontal-labeled-bar-chart'
@@ -8,6 +7,7 @@ import ProgressCircle from './progress-circle'
 import WaterfallChart from './waterfall-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
+import Accessories from './accessories'
 
 export {
     LineChart,
@@ -18,7 +18,6 @@ export {
     YAxis,
     ProgressCircle,
     WaterfallChart,
-    LinearGradient,
-    Stop,
     HorizontalLabeledBarChart,
+    Accessories,
 }
