@@ -50,6 +50,10 @@ class WaterfallChart extends PureComponent {
 
         const { width, height } = this.state
 
+        if (dataPoints.length === 0) {
+            return <View style={ style }/>
+        }
+
         const changes = []
         for (let i = 0; i < dataPoints.length - 1; i++) {
             const point1 = dataPoints[ i ]

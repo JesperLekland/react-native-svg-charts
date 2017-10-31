@@ -58,6 +58,10 @@ class LineChart extends PureComponent {
 
         const { width, height } = this.state
 
+        if (dataPoints.length === 0) {
+            return <View style={ style }/>
+        }
+
         const extent = array.extent([ ...dataPoints, gridMax, gridMin ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 

@@ -66,6 +66,10 @@ class BarChart extends PureComponent {
 
         const { height, width } = this.state
 
+        if (dataPoints.length === 0 || dataPoints[ 0 ].values.length === 0) {
+            return <View style={ style }/>
+        }
+
         if (dataPoints.length > 0 && typeof dataPoints[ 0 ] === 'object') {
             const lengths = Object.values(dataPoints).map(obj => obj.values.length)
             const extent  = array.extent(lengths)

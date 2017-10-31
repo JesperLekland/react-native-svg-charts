@@ -51,6 +51,10 @@ class AreaChart extends PureComponent {
 
         const { height, width } = this.state
 
+        if (dataPoints.length === 0) {
+            return <View style={ style }/>
+        }
+
         const extent = array.extent([ ...dataPoints, gridMin, gridMax ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 

@@ -35,6 +35,10 @@ class XAxis extends PureComponent {
 
         const { width } = this.state
 
+        if (values.length === 0) {
+            return <View style={ style }/>
+        }
+
         let labelWidth
         let x
         let transform
