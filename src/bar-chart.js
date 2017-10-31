@@ -45,11 +45,8 @@ class BarChart extends PureComponent {
                   animationDuration,
                   style,
                   showGrid,
-                  fillColor,
                   strokeColor,
-                  strokeColorNegative,
                   renderGradient,
-                  fillColorNegative,
                   numberOfTicks,
                   contentInset: {
                       top    = 0,
@@ -61,7 +58,7 @@ class BarChart extends PureComponent {
                   gridMin,
                   extras,
                   renderExtra,
-                  renderAccessory,
+                  renderDecorator,
               } = this.props
 
         const { height, width } = this.state
@@ -117,9 +114,6 @@ class BarChart extends PureComponent {
                 areas.push({
                     ...bar,
                     strokeColor,
-                    fillColor,
-                    strokeColorNegative,
-                    fillColorNegative,
                     ...colors,
                 })
             })
@@ -163,8 +157,6 @@ class BarChart extends PureComponent {
                                             }
                                         </Defs>
                                         <Path
-                                            // stroke={bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor}
-                                            // strokeWidth={1}
                                             fill={renderGradient ? `url(#gradient-${index})` : fillColor}
                                             stroke={strokeColor}
                                             d={bar.area || null}
@@ -176,7 +168,7 @@ class BarChart extends PureComponent {
                             })
                         }
                         { extras.map(item => renderExtra({ item, x, y, width, height })) }
-                        { dataPoints[ 0 ].values.map((value, index) => renderAccessory(
+                        { dataPoints[ 0 ].values.map((value, index) => renderDecorator(
                             {
                                 value,
                                 x,
@@ -204,13 +196,10 @@ BarChart.propTypes = {
     })).isRequired,
     style: PropTypes.any,
     strokeColor: PropTypes.string,
-    fillColor: PropTypes.string,
     renderGradient: PropTypes.func,
     spacing: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
-    fillColorNegative: PropTypes.string,
-    strokeColorNegative: PropTypes.string,
     contentInset: PropTypes.shape({
         top: PropTypes.number,
         left: PropTypes.number,
@@ -221,18 +210,12 @@ BarChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    intersections: PropTypes.arrayOf(PropTypes.number),
-    renderIntersection: PropTypes.func,
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
-    renderAccessory: PropTypes.func,
+    renderDecorator: PropTypes.func,
 }
 
 BarChart.defaultProps = {
-    fillColor: 'rgba(34, 182, 176)',
-    fillColorNegative: 'rgba(255, 0, 0)',
-    strokeColor: '#22B6B0',
-    strokeColorNegative: '#ff0000',
     spacing: 0.05,
     width: 100,
     height: 100,
@@ -243,7 +226,7 @@ BarChart.defaultProps = {
     gridMin: 0,
     gridMax: 0,
     extras: [],
-    renderAccessory: () => {
+    renderDecorator: () => {
     },
     renderExtra: () => {
     },

@@ -45,7 +45,7 @@ class WaterfallChart extends PureComponent {
                   gridMin,
                   extras,
                   renderExtra,
-                  renderAccessory,
+                  renderDecorator,
               } = this.props
 
         const { width, height } = this.state
@@ -120,7 +120,7 @@ class WaterfallChart extends PureComponent {
                             animationDuration={animationDuration}
                         />
                         { extras.map(item => renderExtra({ item, x, y, width, height })) }
-                        { dataPoints.map((value, index) => renderAccessory(
+                        { dataPoints.map((value, index) => renderDecorator(
                             {
                                 value,
                                 x,
@@ -179,7 +179,7 @@ WaterfallChart.propTypes = {
     gridMax: PropTypes.number,
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
-    renderAccessory: PropTypes.func,
+    renderDecorator: PropTypes.func,
 }
 
 WaterfallChart.defaultProps = {
@@ -195,7 +195,7 @@ WaterfallChart.defaultProps = {
     extras: [],
     renderExtra: () => {
     },
-    renderAccessory: () => {
+    renderDecorator: () => {
     },
 }
 

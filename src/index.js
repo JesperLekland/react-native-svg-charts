@@ -7,7 +7,7 @@ import ProgressCircle from './progress-circle'
 import WaterfallChart from './waterfall-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
-import Accessories from './accessories'
+import Decorators from './chart-decorators'
 
 export {
     LineChart,
@@ -19,5 +19,5 @@ export {
     ProgressCircle,
     WaterfallChart,
     HorizontalLabeledBarChart,
-    Accessories,
+    Decorators,
 }
