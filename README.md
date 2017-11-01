@@ -17,7 +17,7 @@ We utilize the very popular [d3](https://d3js.org/) library to create our SVG pa
 
 We built this library to be as extensible as possible while still providing you with the most common charts and data visualization tools out of the box.
 The Line-, Bar-, Area- and Waterfall -charts can all be extended with "accessories" and "extras".
-The `renderDecorator` prop is called on each passed `dataPoint` and allow you to simply add things such as points or other decorators to your charts.
+The `renderDecorator` prop is called on each passed `dataPoint` and allows you to simply add things such as points or other decorators to your charts.
 The `extras` and `renderExtra` prop is used to further decorate your charts with e.g intersections and projections, see the examples for more info.
 
 ## Common Props
@@ -299,4 +299,4 @@ const foo = () => (
 ### gridMin/Max
 
 ## License
-[MIT]('./LICENSE')
+[MIT](./LICENSE)
