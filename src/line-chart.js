@@ -146,6 +146,7 @@ LineChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    extras: PropTypes.array,
     renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
 }
