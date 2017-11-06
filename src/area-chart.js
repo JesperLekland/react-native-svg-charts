@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Svg, { Defs, LinearGradient, Stop } from 'react-native-svg'
+import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 
@@ -111,20 +111,11 @@ class AreaChart extends PureComponent {
                     }
                     <Svg style={{ flex: 1 }}>
                         <Defs>
-                            {
-                                renderGradient ? renderGradient({ id: 'gradient' }) :
-                                (
-                                    <LinearGradient id={ 'gradient' } x1={ '0' } y={ `${top}` } x2={ '0' }
-                                                    y2={ `100%` }>
-                                        <Stop offset={ '0' } stopColor={ fillColor } stopOpacity={ 0.5 }/>
-                                        <Stop offset={ `1` } stopColor={ fillColor } stopOpacity={ 0.1 }/>
-                                    </LinearGradient>
-                                )
-                            }
+                            { renderGradient && renderGradient({ id: 'gradient' }) }
                         </Defs>
                         <Path
                             d={area}
-                            fill={'url(#gradient)'}
+                            fill={ renderGradient ? 'url(#gradient)' : fillColor }
                             animate={animate}
                             animationDuration={animationDuration}
                         />
@@ -171,13 +162,10 @@ AreaChart.propTypes = {
     gridStyle: PropTypes.any,
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
+    renderDecorator: PropTypes.func,
 }
 
 AreaChart.defaultProps = {
-    fillColor: 'rgba(34, 182, 176, 0.2)',
-    gradientColors: 'rgba(34, 182, 176)',
-    strokeColor: '#22B6B0',
-    strokeWidth: 1,
     width: 100,
     height: 100,
     curve: shape.curveCardinal,
