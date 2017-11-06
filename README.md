@@ -20,6 +20,8 @@ The Line-, Bar-, Area- and Waterfall -charts can all be extended with "decorator
 The `renderDecorator` prop is called on each passed `dataPoint` and allows you to simply add things such as points or other decorators to your charts.
 The `extras` and `renderExtra` prop is used to further decorate your charts with e.g intersections and projections, see the examples for more info.
 
+Feedback and PR's are more than welcome 🙂
+
 ## Common Props
 
 | Property | Default | Description |
@@ -54,11 +56,8 @@ This library currently provides the following components
 * [Waterfall](#waterfallchart)
 * [YAxis](#yaxis)
 * [XAxis](#xaxis)
-* Decorators (Preferably build your own but you can use these for inspiration)
-    * [Point](#point)
-    * [HorizontalLine](#horizontalline)
-    * [Tooltip](#tooltip)
 
+Also see [other examples](#other-examples)
 ### AreaChart
 
 ![Area chart](./screenshots/area-chart.png)
@@ -486,7 +485,7 @@ class XAxisExample extends React.PureComponent {
 
 ```javascript
 import React from 'react'
-import { AreaChart } from react-native-svg-charts'
+import { AreaChart } from 'react-native-svg-charts'
 import { LinearGradient, Stop } from 'react-native-svg'
 
 class GradientExample extends React.PureComponent {
@@ -518,7 +517,7 @@ class GradientExample extends React.PureComponent {
 
 ```javascript
 import React from 'react'
-import { AreaChart } from react-native-svg-charts'
+import { AreaChart } from 'react-native-svg-charts'
 import { Circle } from 'react-native-svg'
 
 class DecoratorExample extends React.PureComponent {
@@ -555,7 +554,7 @@ class DecoratorExample extends React.PureComponent {
 
 ```javascript
 import React from 'react'
-import { LineChart } from react-native-svg-charts'
+import { LineChart } from 'react-native-svg-charts'
 import { Circle } from 'react-native-svg'
 import * as shape from 'd3-shape'
 import { Circle, G, Line, Rect, Text } from 'react-native-svg'
@@ -644,6 +643,6 @@ class ExtrasExample extends React.PureComponent {
 ```
 
 ### gridMin/Max
-
+upcoming...
 ## License
 [MIT](./LICENSE)
