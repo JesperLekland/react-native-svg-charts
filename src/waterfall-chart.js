@@ -27,6 +27,8 @@ class WaterfallChart extends PureComponent {
                   strokeColor,
                   dashArray,
                   style,
+                  positiveFill,
+                  negativeFill,
                   animate,
                   strokeWidth,
                   animationDuration,
@@ -144,7 +146,7 @@ class WaterfallChart extends PureComponent {
                                         left: band(change.index),
                                         top: y(change.top),
                                         bottom: height - y(change.bottom),
-                                        backgroundColor: change.diff > 0 ? 'rgba(34,128,176, 0.4)' : 'rgba(89,11,157,0.4)',
+                                        backgroundColor: change.diff > 0 ? positiveFill : negativeFill,
                                     }}
                                 />
                             )
@@ -180,10 +182,14 @@ WaterfallChart.propTypes = {
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
     renderDecorator: PropTypes.func,
+    positiveFill: PropTypes.string,
+    negativeFill: PropTypes.string,
 }
 
 WaterfallChart.defaultProps = {
     strokeColor: '#22B6B0',
+    positiveFill: 'rgba(34, 128, 176, 0.4)',
+    negativeFill: 'rgba(89, 11, 157, 0.4)',
     curve: shape.curveLinear,
     contentInset: {},
     numberOfTicks: 10,
