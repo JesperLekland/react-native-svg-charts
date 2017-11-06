@@ -112,8 +112,8 @@ ProgressCircle.propTypes = {
 
 ProgressCircle.defaultProps = {
     progressColor: '#22B6B0',
-    startAngle: -Math.PI * 0.8,
-    endAngle: Math.PI * 0.8,
+    startAngle: 0,
+    endAngle: Math.PI * 2,
 }
 
 export default ProgressCircle
