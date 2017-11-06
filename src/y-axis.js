@@ -50,9 +50,9 @@ class YAxis extends PureComponent {
             .domain(extent)
             .range([ bottom, height - top ])
 
-        const longestValue = ticks.reduce(
-            (prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0
-        )
+        const longestValue = ticks
+            .map(value => formatLabel(value))
+            .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
 
         return (
             <View style={[ style ]}>
