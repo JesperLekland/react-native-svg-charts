@@ -121,17 +121,15 @@ class WaterfallChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        { extras.map(item => renderExtra({ item, x, y, width, height })) }
                         { dataPoints.map((value, index) => renderDecorator(
                             {
                                 value,
                                 x,
                                 y,
                                 index,
-                                width,
-                                height,
                             }
                         )) }
+                        { extras.map((item, index) => renderExtra({ item, index, x, y })) }
                     </Svg>
                     {
                         changes.map((change, index) => {

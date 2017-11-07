@@ -128,8 +128,8 @@ class AreaChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        { dataPoints.map((value, index) => renderDecorator({ x, y, index, value, height, width })) }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index, height, width })) }
+                        { dataPoints.map((value, index) => renderDecorator({ x, y, index, value })) }
+                        { extras.map((item, index) => renderExtra({ item, x, y, index })) }
                     </Svg>
                 </View>
             </View>

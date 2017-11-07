@@ -167,18 +167,17 @@ class BarChart extends PureComponent {
                                 )
                             })
                         }
-                        { extras.map(item => renderExtra({ item, x, y, width, height })) }
+
                         { dataPoints[ 0 ].values.map((value, index) => renderDecorator(
                             {
                                 value,
                                 x,
                                 y,
                                 index,
-                                width,
-                                height,
                                 bandwidth: x.bandwidth(),
                             }
                         )) }
+                        { extras.map((item, index) => renderExtra({ item, x, y, index })) }
                     </Svg>
                 </View>
             </View>
