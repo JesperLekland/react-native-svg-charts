@@ -9,6 +9,8 @@
 This library uses [react-native-svg](https://github.com/react-native-community/react-native-svg)
 to render its graphs. Therefore this library needs to be installed **AND** linked into your project to work.
 
+Other than the above dependency this library uses pure javascript and supports both iOS and Android
+
 ## Motivation
 
 Creating beautiful graphs in React Native shouldn't be hard or require a ton of knowledge.
