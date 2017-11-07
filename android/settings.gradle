@@ -1,4 +1,4 @@
-rootProject.name = 'd3Playground'
+rootProject.name = 'react-native-svg-charts'
 
 include ':app'
 

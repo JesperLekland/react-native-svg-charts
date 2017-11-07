@@ -1,4 +1,4 @@
-package com.d3playground;
+package com.rnsvgcharts;
 
 import com.facebook.react.ReactActivity;
 
@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
      */
     @Override
     protected String getMainComponentName() {
-        return "d3Playground";
+        return "react-native-svg-charts";
     }
 }

@@ -4,4 +4,4 @@ import React from 'react'
 import { AppRegistry } from 'react-native'
 import App from './src/app'
 
-AppRegistry.registerComponent('d3Playground', () => App)
+AppRegistry.registerComponent('react-native-svg-charts', () => App)

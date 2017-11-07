@@ -1,4 +1,4 @@
-package com.d3playground;
+package com.rnsvgcharts;
 
 import android.app.Application;
 
