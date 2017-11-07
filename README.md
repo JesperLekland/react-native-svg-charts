@@ -517,7 +517,7 @@ class GradientExample extends React.PureComponent {
 The `renderDecorator` prop allow for decorations on each of the provided data points. The `renderDecorator` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
 and is a function that is called with an object as an arguments to help the layout of the extra decorator. The content of the argument object is as follows:
 
-```
+```javascript
 {
     value: number, // the value of the data points. Pass to y function to get y coordinate of data point
     index: number, // the index of the data points. Pass to x function to get x coordinate of data point
@@ -569,7 +569,7 @@ The `extras` prop allow for arbitrary decorators on your chart. The prop takes a
 The `renderExtra` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
 and is a function that is called with an object as an arguments to help the layout of the extra decorator. The content of the argument object is as follows:
 
-```
+```javascript
 {
     item: any, // the entry of the 'extras' array
     x: function, // the function used to calculate the x coordinate of a specific data point index
