@@ -25,6 +25,14 @@
     "name": "Jesper Lekland",
     "email": "jesper.lekland@push2prod.se"
   },
+  "homepage": "https://github.com/JesperLekland/react-native-svg-charts",
+  "bugs": {
+    "url": "https://github.com/JesperLekland/react-native-svg-charts/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/JesperLekland/react-native-svg-charts.git"
+  },
   "license": "MIT",
   "dependencies": {
     "d3-interpolate-path": "2.0.0",
