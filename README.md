@@ -677,7 +677,7 @@ class ExtrasExample extends React.PureComponent {
 ### gridMin/Max
 Charts normally render edge to edge, if this is not the wanted behaviour it can easily be altered with the `gridMin` and `gridMax` props. Just compare the below example with the example for the regular [AreaChart](#area-chart)
 
-![Grid Min Max](./screenshots/grid-min-max.png)
+![Grid Min Max](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/grid-min-max.png)
 
 #### Example
 ```javascript
@@ -711,7 +711,7 @@ class GridMinMaxExample extends React.PureComponent {
 This library supports stacking/composing out of the box with with simple styling. As long as the stacked charts share the same container and are correctly positioned everything will work as expected.
 If your data sets doesn't share the same max/min data make sure to utilize the `gridMin/gridMax` prop to align the charts.
 
-![Stacked Charts](./screenshots/stacked-charts.png)
+![Stacked Charts](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/stacked-charts.png)
 
 #### Example
 ```javascript
