@@ -45,7 +45,7 @@ Feedback and PR's are more than welcome 🙂
 | gridMax | undefined | The same as "gridMin" but will instead increase the grids maximum value |
 | extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
 | renderExtra | `() => {}` | Similar to the `renderItem` of a *FlatList*. This function will be called for each item in the `extras` array and pass an object as an argument. The argument object is of the shape `{x: function, y: function, item: item of extras}`. [See example](#extras) |
-| renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#extras) |
+| renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |
 
 ## Components
 
@@ -677,7 +677,7 @@ class ExtrasExample extends React.PureComponent {
 ```
 
 ### gridMin/Max
-Charts normally render edge to edge, if this is not the wanted behaviour it can easily be altered with the `gridMin` and `gridMax` props. Just compare the below example with the example for the regular [AreaChart](#area-chart)
+Charts normally render edge to edge, if this is not the wanted behaviour it can easily be altered with the `gridMin` and `gridMax` props. Just compare the below example with the example for the regular [AreaChart](#areachart)
 
 ![Grid Min Max](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/grid-min-max.png)
 
