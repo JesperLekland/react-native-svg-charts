@@ -60,7 +60,7 @@ This library currently provides the following components
 Also see [other examples](#other-examples)
 ### AreaChart
 
-![Area chart](./screenshots/area-chart.png)
+![Area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-chart.png)
 
 #### Example
 
@@ -95,7 +95,7 @@ class AreaChartExample extends React.PureComponent {
 See [Common Props](#common-props)
 
 ### BarChart
-![Bar chart](./screenshots/bar-chart.png)
+![Bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-chart.png)
 
 #### Example (single set data)
 ```javascript
@@ -128,7 +128,7 @@ class BarChartExample extends React.PureComponent {
 
 ```
 
-![Multiple bar chart](./screenshots/multiple-bar-chart.png)
+![Multiple bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/multiple-bar-chart.png)
 
 #### Example (multiple set data)
 ```javascript
@@ -178,7 +178,7 @@ Also see [Common Props](#common-props)
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
 
 ### LineChart
-![Line chart](./screenshots/line-chart.png)
+![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/line-chart.png)
 
 #### Example
 
@@ -215,7 +215,7 @@ See [Common Props](#common-props)
 
 
 ### PieChart
-![Pie chart](./screenshots/pie-chart.png)
+![Pie chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/pie-chart.png)
 
 #### Example
 ```javascript
@@ -260,7 +260,7 @@ class PieChartExample extends React.PureComponent {
 | labelSpacing | 0 | PropTypes.number |
 
 ### ProgressCircle
-![Progress circle](./screenshots/progress-circle.png)
+![Progress circle](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/progress-circle.png)
 
 #### Example
 ```javascript
@@ -285,7 +285,7 @@ class ProgressCircleExample extends React.PureComponent {
 ```
 
 
-![Progress gauge](./screenshots/progress-gauge.png)
+![Progress gauge](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/progress-gauge.png)
 
 #### Example (Gauge variant)
 ```javascript
@@ -321,7 +321,7 @@ class ProgressGaugeExample extends React.PureComponent {
 | endAngle | `Math.PI * 2` |  PropTypes.number |
 
 ### WaterfallChart
-![Waterfall chart](./screenshots/waterfall-chart.png)
+![Waterfall chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/waterfall-chart.png)
 
 #### Example
 ```javascript
@@ -357,7 +357,7 @@ See [Common Props](#common-props)
 
 ### YAxis
 
-![Line chart](./screenshots/y-axis.png)
+![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/y-axis.png)
 
 A helper component to layout your Y-axis labels on the same coordinates as your chart.
 It's very important that the component has the exact same view bounds (preferably wrapped in the same parent view) as the chart it's supposed to match.
@@ -416,7 +416,7 @@ class YAxisExample extends React.PureComponent {
 
 ### XAxis
 
-![Line chart](./screenshots/x-axis.png)
+![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/x-axis.png)
 
 A helper component to layout your X-axis labels on the same coordinates as your chart.
 It's very important that the component has the exact same view bounds (preferably wrapped in the same parent view) as the chart it's supposed to match.
@@ -481,7 +481,7 @@ class XAxisExample extends React.PureComponent {
 ## Other Examples
 
 ### Gradient
-![Gradient](./screenshots/gradient.png)
+![Gradient](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient.png)
 
 ```javascript
 import React from 'react'
@@ -513,7 +513,7 @@ class GradientExample extends React.PureComponent {
 ```
 
 ### Decorator
-![Decorator](./screenshots/decorators.png)
+![Decorator](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/decorators.png)
 
 ```javascript
 import React from 'react'
@@ -550,7 +550,7 @@ class DecoratorExample extends React.PureComponent {
 }
 ```
 ### Extras
-![Extras](./screenshots/extras.png)
+![Extras](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/extras.png)
 
 ```javascript
 import React from 'react'
