@@ -708,8 +708,8 @@ class GridMinMaxExample extends React.PureComponent {
 ```
 
 ### Stacked Charts
-This library supports stacking/composing out of the box with with simple styling. As long as the stacked charts share the same container and are correctly positioned everything will work as expected.
-If your data sets doesn't share the same max/min data make sure to utilize the `gridMin/gridMax` prop to align the charts.
+This library supports stacking/composing out of the box with simple styling. As long as the stacked charts share the same container and are correctly positioned everything will work as expected.
+If your data sets don't share the same max/min data make sure to utilize the `gridMin/gridMax` prop to align the charts.
 
 ![Stacked Charts](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/stacked-charts.png)
 
