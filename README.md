@@ -513,6 +513,21 @@ class GradientExample extends React.PureComponent {
 ```
 
 ### Decorator
+
+The `renderDecorator` prop allow for decorations on each of the provided data points. The `renderDecorator` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
+and is a function that is called with an object as an arguments to help the layout of the extra decorator. The content of the argument object is as follows:
+
+```
+{
+    value: number, // the value of the data points. Pass to y function to get y coordinate of data point
+    index: number, // the index of the data points. Pass to x function to get x coordinate of data point
+    x: function, // the function used to calculate the x coordinate of a specific data point index
+    y: function, // the function used to calculate the y coordinate of a specific data point value
+}
+```
+
+Remember that all components returned by `renderDecorator` must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
+
 ![Decorator](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/decorators.png)
 
 ```javascript
@@ -550,7 +565,24 @@ class DecoratorExample extends React.PureComponent {
 }
 ```
 ### Extras
+The `extras` prop allow for arbitrary decorators on your chart. The prop takes an array of arbitrary data and then calls `renderExtra` for each entry in that array.
+The `renderExtra` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
+and is a function that is called with an object as an arguments to help the layout of the extra decorator. The content of the argument object is as follows:
+
+```
+{
+    item: any, // the entry of the 'extras' array
+    x: function, // the function used to calculate the x coordinate of a specific data point index
+    y: function, // the function used to calculate the y coordinate of a specific data point value
+    index: number, // the index of the item in the 'extras' array
+}
+```
+
+Remember that all components returned by `renderExtra` must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
+
 ![Extras](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/extras.png)
+
+#### Example
 
 ```javascript
 import React from 'react'
@@ -643,6 +675,81 @@ class ExtrasExample extends React.PureComponent {
 ```
 
 ### gridMin/Max
-upcoming...
+Charts normally render edge to edge, if this is not the wanted behaviour it can easily be altered with the `gridMin` and `gridMax` props. Just compare the below example with the example for the regular [AreaChart](#area-chart)
+
+![Grid Min Max](./screenshots/grid-min-max.png)
+
+#### Example
+```javascript
+import React from 'react'
+import { AreaChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
+
+class GridMinMaxExample extends React.PureComponent {
+
+    render() {
+
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+
+        return (
+            <AreaChart
+                style={ { height: 200 } }
+                dataPoints={ data }
+                fillColor={ 'rgba(134, 65, 244, 0.2)' }
+                strokeColor={ 'rgb(134, 65, 244)' }
+                contentInset={ { top: 30, bottom: 30 } }
+                curve={shape.curveNatural}
+                gridMax={500}
+                gridMin={-500}
+            />
+        )
+    }
+}
+```
+
+### Stacked Charts
+This library supports stacking/composing out of the box with with simple styling. As long as the stacked charts share the same container and are correctly positioned everything will work as expected.
+If your data sets doesn't share the same max/min data make sure to utilize the `gridMin/gridMax` prop to align the charts.
+
+![Stacked Charts](./screenshots/stacked-charts.png)
+
+#### Example
+```javascript
+import React from 'react'
+import { AreaChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
+import { StyleSheet, View } from 'react-native'
+
+class StackedChartsExample extends React.PureComponent {
+
+    render() {
+
+            const data  = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+            const data2 = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ].reverse()
+
+            return (
+                <View style={ { height: 200 } }>
+                    <AreaChart
+                        style={ { flex: 1 } }
+                        dataPoints={ data }
+                        fillColor={ 'rgba(134, 65, 244, 0.5)' }
+                        strokeColor={ 'rgb(134, 65, 244)' }
+                        contentInset={ { top: 20, bottom: 20 } }
+                        curve={ shape.curveNatural }
+                    />
+                    <AreaChart
+                        style={ StyleSheet.absoluteFill }
+                        dataPoints={ data2 }
+                        fillColor={ 'rgba(34, 128, 176, 0.5)' }
+                        strokeColor={ 'rgb(34, 128, 176)' }
+                        contentInset={ { top: 20, bottom: 20 } }
+                        curve={ shape.curveNatural }
+                    />
+                </View>
+            )
+        }
+
+}
+```
 ## License
 [MIT](./LICENSE)
