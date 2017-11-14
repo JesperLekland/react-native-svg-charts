@@ -1,7 +1,7 @@
 import React from 'react'
-import BarChart from '../bar-chart'
+import BarChart from '../../../src/bar-chart'
 import { View } from 'react-native'
-import XAxis from '../x-axis'
+import XAxis from '../../../src/x-axis'
 
 class XAxisExample extends React.PureComponent {
 

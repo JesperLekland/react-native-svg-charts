@@ -1,5 +1,5 @@
 import React from 'react'
-import PieChart from '../pie-chart'
+import PieChart from '../../../src/pie-chart'
 
 class PieChartExample extends React.PureComponent {
 

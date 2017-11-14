@@ -1,5 +1,5 @@
 import React from 'react'
-import AreaChart from '../area-chart'
+import AreaChart from '../../src/area-chart'
 import { Circle } from 'react-native-svg'
 
 class DecoratorExample extends React.PureComponent {

@@ -1,8 +1,7 @@
 import React from 'react'
-import { StatusBar, View } from 'react-native'
-import YAxisExample from './y-axis'
+import { View } from 'react-native'
 
-const ShowcaseContainer = () => (
+const ShowcaseContainer = ({ children }) => (
     <View style={ {
         margin: 16,
         paddingHorizontal: 16,
@@ -15,8 +14,7 @@ const ShowcaseContainer = () => (
         shadowColor: 'black',
         shadowOpacity: 0.5,
     } }>
-        <StatusBar hidden={ true }/>
-        <YAxisExample/>
+        { children }
     </View>
 )
 

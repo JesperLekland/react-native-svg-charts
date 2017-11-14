@@ -1,5 +1,5 @@
 import React from 'react'
-import AreaChart from '../area-chart'
+import AreaChart from '../../src/area-chart'
 import * as shape from 'd3-shape'
 
 class GridMinMaxExample extends React.PureComponent {

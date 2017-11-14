@@ -1,5 +1,5 @@
 import React from 'react'
-import WaterfallChart from '../waterfall-chart'
+import WaterfallChart from '../../../src/waterfall-chart'
 import * as shape from 'd3-shape'
 
 class WaterfallChartExample extends React.PureComponent {
@@ -16,6 +16,7 @@ class WaterfallChartExample extends React.PureComponent {
                 dashArray={ [ 2, 4 ] }
                 spacing={ 0.2 }
                 curve={ shape.curveCatmullRom }
+                { ...this.props }
             />
         )
     }

@@ -1,7 +1,7 @@
 import React from 'react'
-import LineChart from '../line-chart'
+import LineChart from '../../../src/line-chart'
 import * as shape from 'd3-shape'
-import YAxis from '../y-axis'
+import YAxis from '../../../src/y-axis'
 import { View } from 'react-native'
 
 class YAxisExample extends React.PureComponent {

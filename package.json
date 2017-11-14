@@ -6,7 +6,8 @@
   "main": "src/index.js",
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest"
+    "test": "jest",
+    "storybook": "storybook start -p 7008"
   },
   "keywords": [
     "react-native",
@@ -35,8 +36,8 @@
   },
   "license": "MIT",
   "dependencies": {
-    "d3-interpolate-path": "2.0.0",
     "d3-array": "^1.2.0",
+    "d3-interpolate-path": "2.0.0",
     "d3-scale": "^1.0.6",
     "d3-shape": "^1.0.6",
     "date-fns": "^1.28.5",
@@ -48,9 +49,10 @@
     "react-native-svg": "^5.4.1"
   },
   "devDependencies": {
-    "react": "16.0.0-alpha.12",
-    "react-native": "0.46.0",
-    "react-native-svg": "^5.4.1",
+    "@storybook/addon-actions": "^3.2.14",
+    "@storybook/addon-knobs": "^3.2.14",
+    "@storybook/addon-links": "^3.2.14",
+    "@storybook/react-native": "^3.2.14",
     "babel-eslint": "^7.2.3",
     "babel-jest": "20.0.1",
     "babel-preset-react-native": "1.9.1",
@@ -63,6 +65,10 @@
     "eslint-plugin-react-native": "^2.3.2",
     "eslint-plugin-standard": "^3.0.1",
     "jest": "20.0.1",
+    "react": "16.0.0-alpha.12",
+    "react-dom": ">=16.0.0-alpha.12",
+    "react-native": "0.46.0",
+    "react-native-svg": "^5.4.1",
     "react-test-renderer": "16.0.0-alpha.6"
   },
   "jest": {

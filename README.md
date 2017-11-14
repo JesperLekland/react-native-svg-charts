@@ -24,6 +24,28 @@ The `extras` and `renderExtra` prop is used to further decorate your charts with
 
 Feedback and PR's are more than welcome 🙂
 
+## Running
+
+If you want to test out the library you can clone this repository and run it.
+We suggest that you test out the [storybooks](https://github.com/storybooks/storybook) that we've implemented.
+Most of the charts are implemented with [knobs](https://github.com/storybooks/storybook/tree/master/addons/knobs) so that you can tweak most properties and see their behavior live.
+
+```bash
+yarn
+
+# for iOS
+(cd ios && pod install)
+react-native run-ios
+
+# for Android
+react-native run-android
+
+yarn storybook
+```
+
+
+
+
 ## Common Props
 
 | Property | Default | Description |

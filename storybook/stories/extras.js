@@ -1,5 +1,5 @@
 import React from 'react'
-import LineChart from '../line-chart'
+import LineChart from '../../src/line-chart'
 import * as shape from 'd3-shape'
 import { Circle, G, Line, Rect, Text } from 'react-native-svg'
 
