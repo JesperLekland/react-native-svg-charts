@@ -54,6 +54,8 @@ class LineChart extends PureComponent {
                   renderDecorator,
                   extras,
                   renderExtra,
+                  strokeWidth,
+                  shadowWidth,
               } = this.props
 
         const { width, height } = this.state
@@ -103,7 +105,7 @@ class LineChart extends PureComponent {
                             d={line}
                             stroke={strokeColor}
                             fill={'none'}
-                            strokeWidth={2}
+                            strokeWidth={ strokeWidth }
                             strokeDasharray={dashArray}
                             animate={animate}
                             animationDuration={animationDuration}
@@ -112,7 +114,7 @@ class LineChart extends PureComponent {
                             d={shadow}
                             stroke={shadowColor}
                             fill={'none'}
-                            strokeWidth={5}
+                            strokeWidth={ shadowWidth }
                             strokeDasharray={dashArray}
                             animate={animate}
                             animationDuration={animationDuration}
@@ -128,6 +130,8 @@ class LineChart extends PureComponent {
 
 LineChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+    shadowWidth: PropTypes.number,
+    strokeWidth: PropTypes.number,
     strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
     dashArray: PropTypes.arrayOf(PropTypes.number),
@@ -153,6 +157,8 @@ LineChart.propTypes = {
 
 LineChart.defaultProps = {
     strokeColor: '#22B6B0',
+    strokeWidth: 2,
+    shadowWidth: 5,
     width: 100,
     height: 100,
     curve: shape.curveCardinal,
