@@ -1,12 +1,12 @@
 import React from 'react'
 import PieChart from '../../../src/pie-chart'
-import { Text } from 'react-native'
+import { Circle, G, Line } from 'react-native-svg'
 
 class PieChartWithLabelExample extends React.PureComponent {
 
     render() {
 
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91 ]
 
         const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
 
@@ -18,17 +18,32 @@ class PieChartWithLabelExample extends React.PureComponent {
                 key: `pie-${index}`,
             }))
 
-        const Label = (point) => (
-            <Text style={ { color: 'white', backgroundColor: 'transparent' } }>
-                { 'foo' }
-            </Text>
-        )
-
         return (
             <PieChart
                 style={ { height: 200 } }
                 dataPoints={ pieData }
-                renderLabel={ Label }
+                spacing={ 0 }
+                innerRadius={ 20 }
+                outerRadius={ 55 }
+                labelRadius={ 80 }
+                renderDecorator={ ({ item, pieCentroid, labelCentroid, index }) => (
+                    <G key={ index }>
+                        <Line
+                            x1={ labelCentroid[ 0 ] }
+                            y1={ labelCentroid[ 1 ] }
+                            x2={ pieCentroid[ 0 ] }
+                            y2={ pieCentroid[ 1 ] }
+                            stroke={ item.color }
+                        />
+                        <Circle
+                            cx={ labelCentroid[ 0 ] }
+                            cy={ labelCentroid[ 1 ] }
+                            r={ 15 }
+                            fill={ item.color }
+                        />
+                    </G>
+                ) }
+
             />
         )
     }

@@ -10,6 +10,8 @@ class ProgressCircleExample extends React.PureComponent {
                 style={ { height: 200 } }
                 progress={ 0.7 }
                 progressColor={'rgb(134, 65, 244)'}
+                startAngle={ -Math.PI * 0.8 }
+                endAngle={ Math.PI * 0.8 }
             />
         )
     }

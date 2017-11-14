@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import PropTypes from 'prop-types'
 import * as shape from 'd3-shape'
-import Svg, { G, Path, Line } from 'react-native-svg'
+import Svg, { G, Path } from 'react-native-svg'
 
 class PieChart extends PureComponent {
 
@@ -26,17 +26,27 @@ class PieChart extends PureComponent {
         })
     }
 
+    _calculateRadius(arg, max, defaultVal) {
+        if (typeof arg === 'string') {
+            return (arg.split('%')[ 0 ] / 100) * max
+        } else if (arg) {
+            return arg
+        } else {
+            return defaultVal
+        }
+    }
+
     render() {
         const {
                   dataPoints,
                   innerRadius,
+                  outerRadius,
+                  labelRadius,
                   padAngle,
                   animate,
                   animationDuration,
                   style,
-                  renderLabel,
-                  labelSpacing = 0,
-
+                  renderDecorator,
               } = this.props
 
         const { height, width } = this.state
@@ -48,57 +58,32 @@ class PieChart extends PureComponent {
         const maxRadius = Math.min(width, height) / 2
 
         if (Math.min(...dataPoints.map(obj => obj.value)) < 0) {
-            console.warn('don\'t pass negative numbers to pie-chart')
+            console.error('don\'t pass negative numbers to pie-chart, it makes no sense!')
         }
 
-        const pieOuterRadius = maxRadius - labelSpacing
-        const pieInnerRadius = pieOuterRadius * innerRadius
+        const _outerRadius = this._calculateRadius(outerRadius, maxRadius, maxRadius)
+        const _innerRadius = this._calculateRadius(innerRadius, maxRadius, 0)
+        const _labelRadius = this._calculateRadius(labelRadius, maxRadius, _outerRadius)
 
-        if (pieOuterRadius > 0 && pieInnerRadius >= pieOuterRadius) {
+        if (outerRadius > 0 && _innerRadius >= outerRadius) {
             console.warn('innerRadius is equal to or greater than outerRadius')
         }
 
-        const labelOuterRadius = maxRadius
-        const labelInnerRadius = labelSpacing > 0 ? pieOuterRadius : pieInnerRadius
-
         const arc = shape.arc()
-            .outerRadius(pieOuterRadius)
-            .innerRadius(pieInnerRadius)
+            .outerRadius(_outerRadius)
+            .innerRadius(_innerRadius)
             .padAngle(padAngle) // Angle between sections
 
-        const labelArc = shape.arc()
-            .outerRadius(labelOuterRadius)
-            .innerRadius(labelInnerRadius)
+        const labelArc = labelRadius ?
+                         shape.arc()
+                             .outerRadius(_labelRadius)
+                             .innerRadius(_labelRadius)
+                             .padAngle(padAngle) :
+                         arc
 
         const pieSlices = shape.pie()
             .value(d => d.value)
             (dataPoints)
-
-        const shapes = pieSlices.map((slice, index) => ({
-            point: dataPoints[ index ],
-            path: arc(slice),
-        }))
-        
-        const links = pieSlices.map((d,i)=>{
-            let source = arc.centroid(d)
-            let target = labelArc.centroid(d)
-            let color = dataPoints[ i ].color
-            return (
-                <Line
-                    key={i}
-                    x1={source[0]}
-                    y1={source[1]}
-                    x2={target[0]}
-                    y2={target[1]}
-                    stroke={color}
-                />
-            )
-        })
-
-        const labels = pieSlices.map((slice, index) => ({
-            point: dataPoints[ index ],
-            translate: labelArc.centroid(slice),
-        }))
 
         return (
             <View style={style}>
@@ -108,47 +93,28 @@ class PieChart extends PureComponent {
                 >
                     <Svg style={{ flex: 1 }}>
                         <G x={width / 2} y={height / 2}>
-                            {links}
-                            {shapes.map((shape) => {
-                                const { path, point: { key, color } } = shape
+                            { pieSlices.map((slice, index) => {
+                                const { key, color } = dataPoints[ index ]
                                 return (
                                     <Path
                                         key={key}
                                         fill={color}
-                                        d={path}
+                                        d={ arc(slice) }
                                         animate={animate}
                                         animationDuration={animationDuration}
-                                        onPress={() => console.log(shape)}
                                     />
                                 )
                             })}
+                            { pieSlices.map((slice, index) => renderDecorator({
+                                index,
+                                item: dataPoints[ index ],
+                                height,
+                                width,
+                                pieCentroid: arc.centroid(slice),
+                                labelCentroid: labelArc.centroid(slice),
+                            })) }
                         </G>
                     </Svg>
-                    {labels.map((label, index) => {
-                        const { point } = label
-                        const { key }   = point
-
-                        //Translate center of label - hence the width and height divided by 2
-                        const translate = [
-                            label.translate[ 0 ] - (this.state[ `labelWidth_${index}` ] / 2 || 0),
-                            label.translate[ 1 ] - (this.state[ `labelHeight_${index}` ] / 2 || 0),
-                        ]
-
-                        return (
-                            <View
-                                key={key}
-                                onLayout={event => this._onLabelLayout(event, index)}
-                                style={{
-                                    top: (height / 2),
-                                    left: (width / 2),
-                                    position: 'absolute',
-                                    transform: [ { translate } ],
-                                }}
-                            >
-                                {renderLabel(point)}
-                            </View>
-                        )
-                    })}
                 </View>
             </View>
         )
@@ -161,22 +127,23 @@ PieChart.propTypes = {
         key: PropTypes.string.isRequired,
         value: PropTypes.number.isRequired,
     })).isRequired,
-    innerRadius: PropTypes.number,
+    innerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    outerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
+    labelRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     padAngle: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     style: PropTypes.any,
-    renderLabel: PropTypes.func,
-    labelSpacing: PropTypes.number,
+    renderDecorator: PropTypes.func,
 }
 
 PieChart.defaultProps = {
     width: 100,
     height: 100,
     padAngle: 0.05,
-    labelSpacing: 0,
-    innerRadius: 0.5,
-    renderLabel: () => <View/>,
+    innerRadius: '50%',
+    renderDecorator: () => {
+    },
 }
 
 export default PieChart

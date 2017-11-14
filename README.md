@@ -30,6 +30,8 @@ If you want to test out the library you can clone this repository and run it.
 We suggest that you test out the [storybooks](https://github.com/storybooks/storybook) that we've implemented.
 Most of the charts are implemented with [knobs](https://github.com/storybooks/storybook/tree/master/addons/knobs) so that you can tweak most properties and see their behavior live.
 
+Clone the repo and run the following:
+
 ```bash
 yarn
 
@@ -282,9 +284,11 @@ class PieChartExample extends React.PureComponent {
 | Property | Default | Description |
 | --- | --- | --- |
 | dataPoints | **required** | Slightly different because we allow for custom coloring of slices. The array should contain objects of the following shape: `{key: 'string|number', color: 'string', value: 'number'}` |
-| innerRadius | 0.5 | The inner radius, use this to create a donut |
+| outerRadius | "100%" | The outer radius, use this to tweak how close your pie is to the edge of it's container. Takes either percentages or absolute numbers (pixels) |
+| innerRadius | "50%" | The inner radius, use this to create a donut. Takes either percentages or absolute numbers (pixels) |
+| labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |
 | padAngle | |  The angle between the slices |
-| renderLabel | `() => {}` | PropTypes.func |
+| renderDecorator | `() => {}` | PropTypes.func |
 | labelSpacing | 0 | PropTypes.number |
 
 ### ProgressCircle
@@ -779,5 +783,67 @@ class StackedChartsExample extends React.PureComponent {
 
 }
 ```
+
+### PieChart with labels
+The PieChart as well as most of the charts support decorators.
+In the case of the PieChart you get `pieCentroid` and `labelCentroid` instead of the `x` and `y` as arguments in the `renderDecorator` callback.
+This will allow you to render labels aligned with your pie slices. Experiment with `outerRadius` and `labelRadius` to layout your labels in relation to your chart
+
+![PieChart with labels](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/pie-chart-with-labels.png)
+
+### Example
+```javascript
+import React from 'react'
+import PieChart from 'react-native-svg-charts'
+import { Circle, G, Line } from 'react-native-svg'
+
+class PieChartWithLabelExample extends React.PureComponent {
+
+    render() {
+
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91 ]
+
+        const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
+
+        const pieData = data
+            .filter(value => value > 0)
+            .map((value, index) => ({
+                value,
+                color: randomColor(),
+                key: `pie-${index}`,
+            }))
+
+        return (
+            <PieChart
+                style={ { height: 200 } }
+                dataPoints={ pieData }
+                innerRadius={ 20 }
+                outerRadius={ 55 }
+                labelRadius={ 80 }
+                renderDecorator={ ({ item, pieCentroid, labelCentroid, index }) => (
+                    <G key={ index }>
+                        <Line
+                            x1={ labelCentroid[ 0 ] }
+                            y1={ labelCentroid[ 1 ] }
+                            x2={ pieCentroid[ 0 ] }
+                            y2={ pieCentroid[ 1 ] }
+                            stroke={ item.color }
+                        />
+                        <Circle
+                            cx={ labelCentroid[ 0 ] }
+                            cy={ labelCentroid[ 1 ] }
+                            r={ 15 }
+                            fill={ item.color }
+                        />
+                    </G>
+                ) }
+
+            />
+        )
+    }
+
+}
+```
+
 ## License
 [MIT](./LICENSE)
