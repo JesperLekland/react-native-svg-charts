@@ -88,6 +88,13 @@ This library currently provides the following components
 * [XAxis](#xaxis)
 
 Also see [other examples](#other-examples)
+* [Gradient](#gradient)
+* [Decorator](#decorator)
+* [Extras](#extras)
+* [GridMin/Max](#gridminmax)
+* [Stacked Charts](#stacked-charts)
+* [PieChart with labels](#pie-chart-with-labels)
+
 ### AreaChart
 
 ![Area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-chart.png)
@@ -289,7 +296,6 @@ class PieChartExample extends React.PureComponent {
 | labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |
 | padAngle | |  The angle between the slices |
 | renderDecorator | `() => {}` | PropTypes.func |
-| labelSpacing | 0 | PropTypes.number |
 
 ### ProgressCircle
 ![Progress circle](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/progress-circle.png)
