@@ -182,7 +182,7 @@ class BarChart extends PureComponent {
                                 bandwidth: x.bandwidth(),
                             }
                         )) }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index })) }
+                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
                     </Svg>
                 </View>
             </View>

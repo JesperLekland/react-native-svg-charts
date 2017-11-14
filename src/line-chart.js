@@ -126,7 +126,7 @@ class LineChart extends PureComponent {
                             animationDuration={animationDuration}
                         />
                         { dataPoints.map((value, index) => renderDecorator({ x, y, value, index })) }
-                        { extras.map((item, index) => renderExtra({ x, y, item, index })) }
+                        { extras.map((item, index) => renderExtra({ x, y, item, index, width, height })) }
                     </Svg>
                 </View>
             </View>

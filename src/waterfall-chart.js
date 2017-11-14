@@ -134,7 +134,7 @@ class WaterfallChart extends PureComponent {
                                 index,
                             }
                         )) }
-                        { extras.map((item, index) => renderExtra({ item, index, x, y })) }
+                        { extras.map((item, index) => renderExtra({ item, index, x, y, width, height })) }
                     </Svg>
                     {
                         changes.map((change, index) => {

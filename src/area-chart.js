@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
 import Svg, { Defs, Line } from 'react-native-svg'
 import Path from './animated-path'
-import { Constants } from './util'
 
 class AreaChart extends PureComponent {
 
@@ -43,7 +42,6 @@ class AreaChart extends PureComponent {
                   },
                   gridMin,
                   gridMax,
-                  gridStyle,
                   renderDecorator,
                   extras,
                   renderExtra,
@@ -134,7 +132,7 @@ class AreaChart extends PureComponent {
                             animationDuration={animationDuration}
                         />
                         { dataPoints.map((value, index) => renderDecorator({ x, y, index, value })) }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index })) }
+                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
                     </Svg>
                 </View>
             </View>
