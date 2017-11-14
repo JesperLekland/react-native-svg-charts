@@ -93,7 +93,7 @@ Also see [other examples](#other-examples)
 * [Extras](#extras)
 * [GridMin/Max](#gridminmax)
 * [Stacked Charts](#stacked-charts)
-* [PieChart with labels](#pie-chart-with-labels)
+* [PieChart with labels](#piechart-with-labels)
 
 ### AreaChart
 
