@@ -13,7 +13,6 @@ class MultipleBarChartExample extends React.PureComponent {
                   fillColorNegative1 = 'rgba(134, 65, 244, 0.2)',
                   fillColor2         = 'rgb(244, 115, 65)',
                   fillColorNegative2 = 'rgb(244, 115, 65, 0.2)',
-                  ...props,
               } = this.props
 
         const barData = [
@@ -34,7 +33,7 @@ class MultipleBarChartExample extends React.PureComponent {
                 style={ { height: 200 } }
                 dataPoints={ barData }
                 contentInset={ { top: 30, bottom: 30 } }
-                { ...props }
+                { ...this.props }
             />
         )
     }
