@@ -102,7 +102,6 @@ const styles = StyleSheet.create({
         borderRadius: 5,
         height: 10,
     },
-    grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
     },

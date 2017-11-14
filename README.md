@@ -41,6 +41,8 @@ react-native run-ios
 react-native run-android
 
 yarn storybook
+
+# and then reload your device
 ```
 
 
@@ -65,6 +67,8 @@ yarn storybook
 | showGrid | true | Whether or not to show the grid lines |
 | gridMin | undefined | Normally the graph tries to draw from edge to edge within the view bounds. Using this prop will allow the grid to reach further than the actual dataPoints. [Example](#gridmin/max) |
 | gridMax | undefined | The same as "gridMin" but will instead increase the grids maximum value |
+| gridStroke | 'rgba(0,0,0,0.2)' | The color of the grid lines |
+| gridWidth | 0.5 | The thickness of the grid lines |
 | extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
 | renderExtra | `() => {}` | Similar to the `renderItem` of a *FlatList*. This function will be called for each item in the `extras` array and pass an object as an argument. The argument object is of the shape `{x: function, y: function, item: item of extras}`. [See example](#extras) |
 | renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |

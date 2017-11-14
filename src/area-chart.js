@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Svg, { Defs } from 'react-native-svg'
+import Svg, { Defs, Line } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 
@@ -100,16 +100,21 @@ class AreaChart extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
                 >
-                    {
-                        showGrid &&
-                        ticks.map((tick, index) => (
-                            <View
-                                key={index}
-                                style={[ styles.grid, gridStyle, { top: y(tick) } ]}
-                            />
-                        ))
-                    }
                     <Svg style={{ flex: 1 }}>
+                        {
+                            showGrid &&
+                            ticks.map(tick => (
+                                <Line
+                                    key={ tick }
+                                    x1={ '0%' }
+                                    x2={ '100%' }
+                                    y1={ y(tick) }
+                                    y2={ y(tick) }
+                                    stroke={'grey'}
+                                    strokeWidth={0.5}
+                                />
+                            ))
+                        }
                         <Defs>
                             { renderGradient && renderGradient({ id: 'gradient' }) }
                         </Defs>
@@ -139,16 +144,13 @@ class AreaChart extends PureComponent {
 
 AreaChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
-    strokeColor: PropTypes.string,
     strokeWidth: PropTypes.number,
+    strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
     dashArray: PropTypes.arrayOf(PropTypes.number),
-    // see https://github.com/react-native-community/react-native-svg#lineargradient for more info
-    renderGradient: PropTypes.func,
+    style: PropTypes.any,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
-    style: PropTypes.any,
-    curve: PropTypes.func,
     contentInset: PropTypes.shape({
         top: PropTypes.number,
         left: PropTypes.number,
@@ -157,33 +159,40 @@ AreaChart.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
+    extras: PropTypes.array,
+    renderDecorator: PropTypes.func,
+    renderExtra: PropTypes.func,
+    gridStroke: PropTypes.string,
+    gridWidth: PropTypes.number,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    gridStyle: PropTypes.any,
-    extras: PropTypes.array,
-    renderExtra: PropTypes.func,
-    renderDecorator: PropTypes.func,
+    // see https://github.com/react-native-community/react-native-svg#lineargradient for more info
+    renderGradient: PropTypes.func,
+    curve: PropTypes.func,
 }
 
 AreaChart.defaultProps = {
-    width: 100,
-    height: 100,
+    strokeColor: '#22B6B0',
     curve: shape.curveCardinal,
+    strokeWidth: 2,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
     gridMin: 0,
-    gridMax: 0,
-    renderExtra: () => {},
-    renderDecorator: () => {},
+    gtidMax: 0,
+    gridStroke: 'rgba(0,0,0,0.2)',
+    gridWidth: 0.5,
     extras: [],
+    renderDecorator: () => {
+    },
+    renderExtra: () => {
+    },
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
     },

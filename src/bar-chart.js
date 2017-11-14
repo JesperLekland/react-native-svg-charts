@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Svg, { Defs, G } from 'react-native-svg'
+import Svg, { Defs, G, Line } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 
@@ -125,16 +125,21 @@ class BarChart extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}
                 >
-                    {
-                        showGrid &&
-                        ticks.map((tick, index) => (
-                            <View
-                                key={index}
-                                style={[ styles.grid, { top: y(tick) } ]}
-                            />
-                        ))
-                    }
                     <Svg style={{ flex: 1 }}>
+                        {
+                            showGrid &&
+                            ticks.map(tick => (
+                                <Line
+                                    key={ tick }
+                                    x1={ '0%' }
+                                    x2={ '100%' }
+                                    y1={ y(tick) }
+                                    y2={ y(tick) }
+                                    stroke={'grey'}
+                                    strokeWidth={0.5}
+                                />
+                            ))
+                        }
                         {
                             areas.map((bar, index) => {
                                 if (!bar.area) {
@@ -209,6 +214,8 @@ BarChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    gridStroke: PropTypes.string,
+    gridWidth: PropTypes.number,
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
     renderDecorator: PropTypes.func,
@@ -225,6 +232,8 @@ BarChart.defaultProps = {
     gridMin: 0,
     gridMax: 0,
     extras: [],
+    gridStroke: 'rgba(0,0,0,0.2)',
+    gridWidth: 0.5,
     renderDecorator: () => {
     },
     renderExtra: () => {
@@ -235,7 +244,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
     },

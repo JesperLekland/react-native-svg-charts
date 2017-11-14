@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Svg from 'react-native-svg'
+import Svg, { Line } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 
@@ -56,6 +56,7 @@ class LineChart extends PureComponent {
                   renderExtra,
                   strokeWidth,
                   shadowWidth,
+                  gridStyle,
               } = this.props
 
         const { width, height } = this.state
@@ -91,16 +92,21 @@ class LineChart extends PureComponent {
         return (
             <View style={style}>
                 <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
-                    {
-                        showGrid &&
-                        ticks.map((tick, index) => (
-                            <View
-                                key={index}
-                                style={[ styles.grid, { top: y(tick) } ]}
-                            />
-                        ))
-                    }
                     <Svg style={{ flex: 1 }}>
+                        {
+                            showGrid &&
+                            ticks.map(tick => (
+                                <Line
+                                    key={ tick }
+                                    x1={ '0%' }
+                                    x2={ '100%' }
+                                    y1={ y(tick) }
+                                    y2={ y(tick) }
+                                    stroke={'grey'}
+                                    strokeWidth={0.5}
+                                />
+                            ))
+                        }
                         <Path
                             d={line}
                             stroke={strokeColor}
@@ -151,8 +157,10 @@ LineChart.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     extras: PropTypes.array,
+    gridStyle: PropTypes.any,
     renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
+    ...Constants.gridProps,
 }
 
 LineChart.defaultProps = {
@@ -168,6 +176,7 @@ LineChart.defaultProps = {
     gridMin: 0,
     gtidMax: 0,
     extras: [],
+    ...Constants.gridDefaultProps,
     renderDecorator: () => {
     },
     renderExtra: () => {
@@ -178,15 +187,8 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
-    },
-    intersection: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
     },
 })
 

@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import Svg from 'react-native-svg'
+import Svg, { Line } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 
@@ -102,16 +102,21 @@ class WaterfallChart extends PureComponent {
         return (
             <View style={style}>
                 <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
-                    {
-                        showGrid &&
-                        ticks.map((tick, index) => (
-                            <View
-                                key={index}
-                                style={[ styles.grid, { top: y(tick) } ]}
-                            />
-                        ))
-                    }
                     <Svg style={{ flex: 1 }}>
+                        {
+                            showGrid &&
+                            ticks.map(tick => (
+                                <Line
+                                    key={ tick }
+                                    x1={ '0%' }
+                                    x2={ '100%' }
+                                    y1={ y(tick) }
+                                    y2={ y(tick) }
+                                    stroke={'grey'}
+                                    strokeWidth={0.5}
+                                />
+                            ))
+                        }
                         <Path
                             d={line}
                             stroke={strokeColor}
@@ -177,6 +182,8 @@ WaterfallChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    gridStroke: PropTypes.string,
+    gridWidth: PropTypes.number,
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
     renderDecorator: PropTypes.func,
@@ -197,6 +204,8 @@ WaterfallChart.defaultProps = {
     gridMin: 0,
     gridMax: 0,
     extras: [],
+    gridStroke: 'rgba(0,0,0,0.2)',
+    gridWidth: 0.5,
     renderExtra: () => {
     },
     renderDecorator: () => {
@@ -207,7 +216,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    grid: Constants.gridStyle,
     surface: {
         backgroundColor: 'transparent',
     },
