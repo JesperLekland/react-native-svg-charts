@@ -146,6 +146,8 @@ jobs:
     steps:
       - checkout
 
+      - run: *lint
+
       - restore_cache: *restore_node_cache
       - run: npm install
       - save_cache: *save_node_cache
@@ -173,9 +175,9 @@ workflows:
   build_android:
     jobs:
 
-      - android_build_debug:
+      - android_build_debug
 
   build_ios:
     jobs:
 
-      - ios_build_debug:
+      - ios_build_debug
