@@ -142,20 +142,17 @@ jobs:
 
       - run: *lint
 
-      - restore-cache: *restore_gem_cache_ios
-      - run: *install_gems_ios
-      - save_cache: *save_gem_cache_ios
-
       - restore_cache: *restore_master_pod_cache
       - restore_cache: *restore_pod_cache
 
       - run: *pod_install
+
       - save_cache: *save_master_pod_cache
       - save_cache: *save_pod_cache
 
       - run:
           name: Build iOS (debug)
-          command: bundle exec fastlane build configuration:Debug
+          command: xcodebuild -workspace react-native-svg-charts.xcworkspace -configuration Debug -scheme react-native-svg-charts
           working_directory: ~/project/ios
 
 
