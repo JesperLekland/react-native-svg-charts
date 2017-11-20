@@ -114,13 +114,13 @@ jobs:
     steps:
       - checkout
 
-      - run: *lint
-
       - run: *install_node
 
       - restore_cache: *restore_node_cache
       - run: npm install
       - save_cache: *save_node_cache
+
+      - run: *lint
 
       - run: *copy_gradle_props
 
@@ -146,11 +146,11 @@ jobs:
     steps:
       - checkout
 
-      - run: *lint
-
       - restore_cache: *restore_node_cache
       - run: npm install
       - save_cache: *save_node_cache
+
+      - run: *lint
 
       - restore-cache: *restore_gem_cache_ios
       - run: *install_gems_ios
