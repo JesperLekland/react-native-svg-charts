@@ -42,6 +42,8 @@ class AreaChart extends PureComponent {
                   },
                   gridMin,
                   gridMax,
+                  gridStroke,
+                  gridWidth,
                   renderDecorator,
                   extras,
                   renderExtra,
@@ -108,8 +110,8 @@ class AreaChart extends PureComponent {
                                     x2={ '100%' }
                                     y1={ y(tick) }
                                     y2={ y(tick) }
-                                    stroke={'grey'}
-                                    strokeWidth={0.5}
+                                    stroke={gridStroke}
+                                    strokeWidth={gridWidth}
                                 />
                             ))
                         }
