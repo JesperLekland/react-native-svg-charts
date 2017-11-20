@@ -22,6 +22,9 @@ import Extras from './extras'
 import XAxisExample from './x-axis'
 import YAxisExample from './y-axis'
 import WaterfallChartExample from './waterfall-chart/with-knobs'
+import GradientExample from './gradient'
+import GradientAdvancedExample from './gradient-advanced'
+
 import { withKnobs } from '@storybook/addon-knobs'
 
 storiesOf('AreaChart', module)
@@ -67,3 +70,5 @@ storiesOf('Others', module)
     .add('Stacked charts', () => <StackedCharts/>)
     .add('Decorators', () => <Decorators/>)
     .add('Extras', () => <Extras/>)
+    .add('Gradient', () => <GradientExample/>)
+    .add('Gradient Advanced', () => <GradientAdvancedExample/>)

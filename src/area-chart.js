@@ -116,7 +116,7 @@ class AreaChart extends PureComponent {
                             ))
                         }
                         <Defs>
-                            { renderGradient && renderGradient({ id: 'gradient' }) }
+                            { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
                         </Defs>
                         <Path
                             d={area}
@@ -172,7 +172,6 @@ AreaChart.propTypes = {
 }
 
 AreaChart.defaultProps = {
-    strokeColor: '#22B6B0',
     curve: shape.curveCardinal,
     strokeWidth: 2,
     contentInset: {},
