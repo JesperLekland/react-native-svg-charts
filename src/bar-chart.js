@@ -56,6 +56,8 @@ class BarChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
+                  gridStroke,
+                  gridWidth,
                   extras,
                   renderExtra,
                   renderDecorator,
@@ -135,8 +137,8 @@ class BarChart extends PureComponent {
                                     x2={ '100%' }
                                     y1={ y(tick) }
                                     y2={ y(tick) }
-                                    stroke={'grey'}
-                                    strokeWidth={0.5}
+                                    stroke={gridStroke}
+                                    strokeWidth={gridWidth}
                                 />
                             ))
                         }
