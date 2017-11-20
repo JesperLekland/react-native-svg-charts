@@ -122,22 +122,10 @@ jobs:
 
       - run: *lint
 
-      - run: *copy_gradle_props
-
-      - restore_cache: *restore_gem_cache_android
-      - run: *install_gems_android
-      - save_cache: *save_gem_cache_android
-
-      - restore_cache: *restore_gradle_cache
-      - restore_cache: *restore_android_cache
-
       - run:
           name: Build android (debug)
-          command: bundle exec fastlane build variant:Debug
+          command: ./gradlew assembleDebug
           working_directory: ~/project/android
-
-      - save_cache: *save_gradle_cache
-      - save_cache: *save_android_cache
 
   ios_build_debug:
     macos:
