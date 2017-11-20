@@ -45,6 +45,8 @@ class WaterfallChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
+                  gridWidth,
+                  gridStroke,
                   extras,
                   renderExtra,
                   renderDecorator,
@@ -112,8 +114,8 @@ class WaterfallChart extends PureComponent {
                                     x2={ '100%' }
                                     y1={ y(tick) }
                                     y2={ y(tick) }
-                                    stroke={'grey'}
-                                    strokeWidth={0.5}
+                                    stroke={gridStroke}
+                                    strokeWidth={gridWidth}
                                 />
                             ))
                         }
