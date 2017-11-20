@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "test": "jest",
-    "storybook": "storybook start -p 7008"
+    "storybook": "storybook start -p 7008",
+    "eslint": "./node_modules/.bin/eslint ."
   },
   "keywords": [
     "react-native",
