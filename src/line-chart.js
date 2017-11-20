@@ -7,6 +7,7 @@ import { StyleSheet, View } from 'react-native'
 import Svg, { Line } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
+import Grid from './grid'
 
 class LineChart extends PureComponent {
 
@@ -56,7 +57,7 @@ class LineChart extends PureComponent {
                   renderExtra,
                   strokeWidth,
                   shadowWidth,
-                  gridStyle,
+                  gridProps,
               } = this.props
 
         const { width, height } = this.state
@@ -95,17 +96,11 @@ class LineChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         {
                             showGrid &&
-                            ticks.map(tick => (
-                                <Line
-                                    key={ tick }
-                                    x1={ '0%' }
-                                    x2={ '100%' }
-                                    y1={ y(tick) }
-                                    y2={ y(tick) }
-                                    stroke={'grey'}
-                                    strokeWidth={0.5}
-                                />
-                            ))
+                            <Grid
+                                y={ y }
+                                ticks={ ticks }
+                                gridProps={ gridProps }
+                            />
                         }
                         <Path
                             d={line}
@@ -157,7 +152,7 @@ LineChart.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     extras: PropTypes.array,
-    gridStyle: PropTypes.any,
+    gridProps: PropTypes.object,
     renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
     ...Constants.gridProps,
@@ -174,7 +169,7 @@ LineChart.defaultProps = {
     numberOfTicks: 10,
     showGrid: true,
     gridMin: 0,
-    gtidMax: 0,
+    gridMax: 0,
     extras: [],
     ...Constants.gridDefaultProps,
     renderDecorator: () => {

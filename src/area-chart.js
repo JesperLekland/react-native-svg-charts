@@ -4,8 +4,9 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { StyleSheet, View } from 'react-native'
-import Svg, { Defs, Line } from 'react-native-svg'
+import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
+import Grid from './grid'
 
 class AreaChart extends PureComponent {
 
@@ -42,8 +43,7 @@ class AreaChart extends PureComponent {
                   },
                   gridMin,
                   gridMax,
-                  gridStroke,
-                  gridWidth,
+                  gridProps,
                   renderDecorator,
                   extras,
                   renderExtra,
@@ -103,17 +103,11 @@ class AreaChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         {
                             showGrid &&
-                            ticks.map(tick => (
-                                <Line
-                                    key={ tick }
-                                    x1={ '0%' }
-                                    x2={ '100%' }
-                                    y1={ y(tick) }
-                                    y2={ y(tick) }
-                                    stroke={gridStroke}
-                                    strokeWidth={gridWidth}
-                                />
-                            ))
+                            <Grid
+                                y={ y }
+                                ticks={ ticks }
+                                gridProps={ gridProps }
+                            />
                         }
                         <Defs>
                             { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
@@ -162,7 +156,7 @@ AreaChart.propTypes = {
     extras: PropTypes.array,
     renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
-    gridStroke: PropTypes.string,
+    gridProps: PropTypes.object,
     gridWidth: PropTypes.number,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,

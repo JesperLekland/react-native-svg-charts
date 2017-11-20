@@ -7,6 +7,7 @@ import { StyleSheet, TouchableOpacity, View } from 'react-native'
 import Svg, { Line } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
+import Grid from './grid'
 
 class WaterfallChart extends PureComponent {
 
@@ -45,8 +46,7 @@ class WaterfallChart extends PureComponent {
                   },
                   gridMax,
                   gridMin,
-                  gridWidth,
-                  gridStroke,
+                  gridProps,
                   extras,
                   renderExtra,
                   renderDecorator,
@@ -107,17 +107,11 @@ class WaterfallChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         {
                             showGrid &&
-                            ticks.map(tick => (
-                                <Line
-                                    key={ tick }
-                                    x1={ '0%' }
-                                    x2={ '100%' }
-                                    y1={ y(tick) }
-                                    y2={ y(tick) }
-                                    stroke={gridStroke}
-                                    strokeWidth={gridWidth}
-                                />
-                            ))
+                            <Grid
+                                y={ y }
+                                ticks={ ticks }
+                                gridProps={ gridProps }
+                            />
                         }
                         <Path
                             d={line}
@@ -184,8 +178,7 @@ WaterfallChart.propTypes = {
     showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    gridStroke: PropTypes.string,
-    gridWidth: PropTypes.number,
+    gridProps: PropTypes.number,
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
     renderDecorator: PropTypes.func,
@@ -206,8 +199,6 @@ WaterfallChart.defaultProps = {
     gridMin: 0,
     gridMax: 0,
     extras: [],
-    gridStroke: 'rgba(0,0,0,0.2)',
-    gridWidth: 0.5,
     renderExtra: () => {
     },
     renderDecorator: () => {
