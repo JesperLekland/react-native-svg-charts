@@ -21,7 +21,7 @@ class Card extends React.PureComponent {
                 {
                     hasError ?
                         <Text>{'Something went wrong'}</Text> :
-                        this.props.children
+                        children
 
                 }
             </View>

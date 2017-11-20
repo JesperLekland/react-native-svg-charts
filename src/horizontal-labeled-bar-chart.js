@@ -1,7 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Animated, Easing, StyleSheet, View } from 'react-native'
-import { Constants } from './util'
 import BarChartComponent from './horizontal-labeled-bar-chart-component'
 
 class HorizontalLabeledBarChart extends PureComponent {

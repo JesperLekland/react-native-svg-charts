@@ -3,8 +3,8 @@ import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { StyleSheet, View } from 'react-native'
-import Svg, { Line } from 'react-native-svg'
+import { View } from 'react-native'
+import Svg from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 import Grid from './grid'
@@ -177,14 +177,5 @@ LineChart.defaultProps = {
     renderExtra: () => {
     },
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    surface: {
-        backgroundColor: 'transparent',
-    },
-})
 
 export default LineChart

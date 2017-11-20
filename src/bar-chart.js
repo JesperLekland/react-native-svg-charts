@@ -3,10 +3,9 @@ import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { StyleSheet, View } from 'react-native'
-import Svg, { Defs, G, Line } from 'react-native-svg'
+import { View } from 'react-native'
+import Svg, { Defs, G } from 'react-native-svg'
 import Path from './animated-path'
-import { Constants } from './util'
 import Grid from './grid'
 
 class BarChart extends PureComponent {
@@ -232,14 +231,5 @@ BarChart.defaultProps = {
     renderExtra: () => {
     },
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    surface: {
-        backgroundColor: 'transparent',
-    },
-})
 
 export default BarChart

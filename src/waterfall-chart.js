@@ -3,10 +3,9 @@ import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { StyleSheet, TouchableOpacity, View } from 'react-native'
-import Svg, { Line } from 'react-native-svg'
+import { TouchableOpacity, View } from 'react-native'
+import Svg from 'react-native-svg'
 import Path from './animated-path'
-import { Constants } from './util'
 import Grid from './grid'
 
 class WaterfallChart extends PureComponent {
@@ -204,14 +203,5 @@ WaterfallChart.defaultProps = {
     renderDecorator: () => {
     },
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    surface: {
-        backgroundColor: 'transparent',
-    },
-})
 
 export default WaterfallChart
