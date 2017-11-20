@@ -152,7 +152,7 @@ jobs:
 
       - run:
           name: Build iOS (debug)
-          command: xcodebuild -workspace react-native-svg-charts.xcworkspace -configuration Debug -scheme react-native-svg-charts
+          command: xcodebuild -workspace react-native-svg-charts.xcworkspace -configuration Debug -scheme react-native-svg-charts CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
           working_directory: ~/project/ios
 
 
