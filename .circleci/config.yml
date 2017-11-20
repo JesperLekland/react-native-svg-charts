@@ -112,7 +112,7 @@ jobs:
       - image: circleci/android:api-25-alpha
     environment:
       - TERM: xterm
-    parallelism: 4
+    parallelism: 2
 
     steps:
       - checkout
