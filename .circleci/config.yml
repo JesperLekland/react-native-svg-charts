@@ -110,6 +110,8 @@ jobs:
   android_build_debug:
     docker:
       - image: circleci/android:api-25-alpha
+    environment:
+      - TERM: "-dumb"
 
     steps:
       - checkout
