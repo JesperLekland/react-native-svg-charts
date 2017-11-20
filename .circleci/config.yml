@@ -1,0 +1,173 @@
+aliases:
+  - &restore_node_cache
+    keys:
+      - node_modules-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+      - node_modules-{{ arch }}-{{ .Branch }}-
+
+  - &save_node_cache
+    paths:
+      - node_modules/
+    key: node_modules-{{ arch }}-{{ .Branch }}-{{ checksum "package.json" }}
+
+  - &restore_gem_cache_android
+    keys:
+      - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "android/Gemfile.lock" }}
+      - gem-cache-{{ arch }}-{{ .Branch }}-
+
+  - &save_gem_cache_android
+    paths:
+      - android/vendor/bundle
+    key: gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "android/Gemfile.lock" }}
+
+  - &restore_gem_cache_ios
+    keys:
+      - gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "ios/Gemfile.lock" }}
+      - gem-cache-{{ arch }}-{{ .Branch }}-
+
+  - &save_gem_cache_ios
+    paths:
+      - ios/vendor/bundle
+    key: gem-cache-{{ arch }}-{{ .Branch }}-{{ checksum "ios/Gemfile.lock" }}
+
+  - &save_master_pod_cache
+    paths:
+      - ~/.cocoapods/repos/master
+    key: master-pod-cache-{{ checksum "ios/Podfile.lock" }}
+
+  - &restore_master_pod_cache
+    keys:
+      - master-pod-cache-{{ checksum "ios/Podfile.lock" }}
+      - master-pod-cache-
+
+  - &save_pod_cache
+    paths:
+      - ios/Pods
+    key: pod-cache-{{ checksum "ios/Podfile.lock" }}
+
+  - &restore_pod_cache
+    keys:
+      - pod-cache-{{ checksum "ios/Podfile.lock" }}
+      - pod-cache-
+
+  - &save_gradle_cache
+    paths:
+      - ~/.gradle/caches
+    key: gradle-cache-{{ checksum "android/app/build.gradle" }}
+
+  - &restore_gradle_cache
+    keys:
+      - gradle-cache-{{ checksum "android/app/build.gradle" }}
+      - gradle-cache-
+
+  - &save_android_cache
+    paths:
+      - $ANDROID_HOME
+    key: android-cache-{{ checksum "android/app/build.gradle" }}
+
+  - &restore_android_cache
+    keys:
+      - android-cache-{{ checksum "android/app/build.gradle" }}
+      - android-cache-
+
+  - &install_node
+    name: Install Node
+    command: |
+      curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
+      sudo apt-get install -y nodejs
+
+  - &copy_gradle_props
+    name: Copy gradle.properties
+    command: sh gradle.properties.sh
+    working_directory: ~/project
+
+  - &install_gems_android
+    name: Install Gems
+    command: bundle install --path vendor/bundle
+    working_directory: ~/project/android
+
+  - &install_gems_ios
+    name: Install Gems
+    command: bundle install --path vendor/bundle
+    working_directory: ~/project/ios
+
+  - &pod_install
+    name: Pod install
+    command: bundle exec pod install
+    working_directory: ~/project/ios
+
+  - &patch_env
+    name: Patch environment
+    command: cp .env.prod.json .env.json
+    working_directory: ~/project
+
+  - &lint
+    name: ESLint
+    command: npm run eslint
+
+version: 2
+jobs:
+
+  android_build_debug:
+    docker:
+      - image: circleci/android:api-25-alpha
+    environment:
+      - TERM: xterm
+    parallelism: 2
+
+    steps:
+      - checkout
+
+      - run: *install_node
+
+      - restore_cache: *restore_node_cache
+      - run: npm install
+      - save_cache: *save_node_cache
+
+      - run: *lint
+
+      - run:
+          name: Build android (debug)
+          command: ./gradlew assembleDebug
+          working_directory: ~/project/android
+
+  ios_build_debug:
+    macos:
+      Xcode: "9.0"
+
+    steps:
+      - checkout
+
+      - restore_cache: *restore_node_cache
+      - run: npm install
+      - save_cache: *save_node_cache
+
+      - run: *lint
+
+      - restore_cache: *restore_master_pod_cache
+      - restore_cache: *restore_pod_cache
+
+      - run:
+          command: pod install
+          working_directory: ~/project/ios
+
+      - save_cache: *save_master_pod_cache
+      - save_cache: *save_pod_cache
+
+      - run:
+          name: Build iOS (debug)
+          command: xcodebuild -workspace react-native-svg-charts.xcworkspace -configuration Debug -scheme react-native-svg-charts CODE_SIGNING_REQUIRED=NO CODE_SIGN_IDENTITY=""
+          working_directory: ~/project/ios
+
+
+workflows:
+  version: 2
+
+  build_android:
+    jobs:
+
+      - android_build_debug
+
+  build_ios:
+    jobs:
+
+      - ios_build_debug

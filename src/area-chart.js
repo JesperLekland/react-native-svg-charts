@@ -3,7 +3,7 @@ import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { View } from 'react-native'
 import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
 import Grid from './grid'
@@ -181,20 +181,5 @@ AreaChart.defaultProps = {
     renderExtra: () => {
     },
 }
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
-    surface: {
-        backgroundColor: 'transparent',
-    },
-    intersection: {
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-    },
-})
 
 export default AreaChart
