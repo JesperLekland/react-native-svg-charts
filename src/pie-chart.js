@@ -47,6 +47,7 @@ class PieChart extends PureComponent {
                   animationDuration,
                   style,
                   renderDecorator,
+                  sort,
               } = this.props
 
         const { height, width } = this.state
@@ -83,6 +84,7 @@ class PieChart extends PureComponent {
 
         const pieSlices = shape.pie()
             .value(d => d.value)
+            .sort(sort)
             (dataPoints)
 
         return (
@@ -135,6 +137,7 @@ PieChart.propTypes = {
     animationDuration: PropTypes.number,
     style: PropTypes.any,
     renderDecorator: PropTypes.func,
+    sort: PropTypes.func,
 }
 
 PieChart.defaultProps = {
@@ -142,6 +145,7 @@ PieChart.defaultProps = {
     height: 100,
     padAngle: 0.05,
     innerRadius: '50%',
+    sort: (a, b) => b.value - a.value,
     renderDecorator: () => {
     },
 }

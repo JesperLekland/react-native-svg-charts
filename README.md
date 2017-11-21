@@ -296,6 +296,8 @@ class PieChartExample extends React.PureComponent {
 | labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |
 | padAngle | |  The angle between the slices |
 | renderDecorator | `() => {}` | PropTypes.func |
+| sort | `(a,b) => b.value - a.value` | Like any normal sort function it expects either 0, a positive or negative return value. The arguments are each an object from the `dataPoints` array |
+
 
 ### ProgressCircle
 ![Progress circle](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/progress-circle.png)
