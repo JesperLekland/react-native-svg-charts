@@ -28,6 +28,7 @@ import GradientAdvancedExample from './gradient-advanced'
 import { withKnobs } from '@storybook/addon-knobs'
 import AreaStack from './area-stack'
 import AreaStackWithAxisExample from './area-stack/with-y-axis'
+import StackedBarChartExample from './bar-stack/index'
 
 storiesOf('AreaChart', module)
     .addDecorator(withKnobs)
@@ -46,6 +47,7 @@ storiesOf('BarChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('Standard', () => <BarChart/>)
     .add('Multiple data set', () => <MultipleBarChart/>)
+    .add('Stacked', () => <StackedBarChartExample/>)
 
 storiesOf('PieChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)

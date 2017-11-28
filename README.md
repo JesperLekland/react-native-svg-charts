@@ -79,8 +79,9 @@ yarn storybook
 
 This library currently provides the following components
 * [Area](#areachart)
-* [AreaStackChart](#areastackchart)
+* [StackedAreaChart](#areastackchart)
 * [Bar](#barchart)
+* [StackedBarChart](#stackedbarchart)
 * [Line](#linechart)
 * [Pie](#piechart)
 * [Progress- Circle / Gauge](#progresschart)
@@ -132,7 +133,7 @@ class AreaChartExample extends React.PureComponent {
 
 See [Common Props](#common-props)
 
-### AreaStackChart
+### StackedAreaChart
 
 Very similar to an area chart but with multiple sets of data stacked together. Notice that the `dataPoints` prop has changed to `data` and have a different signature.
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
@@ -144,10 +145,10 @@ See [Area stack chart with Y axis](#area-stack-chart-with-yaxis) to see how to u
 
 ```javascript
 import React from 'react'
-import { AreaStackChart } from 'react-native-svg-charts'
+import { StackedAreaChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
-class AreaStackChartExample extends React.PureComponent {
+class StackedAreaExample extends React.PureComponent {
 
     render() {
 
@@ -199,7 +200,7 @@ class AreaStackChartExample extends React.PureComponent {
     }
 }
 
-export default AreaStackChartExample
+export default StackedAreaExample
 
 ```
 
@@ -297,6 +298,90 @@ Also see [Common Props](#common-props)
 | dataPoints | **required** | Slightly different than other charts since we allow for grouping of bars. This array should contain at least one object with the following shape `{fillColor: 'string', fillColorNegative: 'string', strokeColorPositive: 'string', strokeColorNegative: '', values: []}` |
 | spacing | 0.05 | Spacing between the bars (or groups of bars). Percentage of one bars width. Default = 5% of bar width |
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
+
+### StackedBarChart
+
+The same as the [StackedAreaChart](#stackedareachart) except with bars.
+We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
+
+![Stacked bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack.png)
+
+#### Example
+
+```javascript
+import React from 'react'
+import { StackedBarChart } from 'react-native-svg-charts'
+
+class StackedBarChartExample extends React.PureComponent {
+
+    render() {
+
+        const data = [
+            {
+                month: new Date(2015, 0, 1),
+                apples: 3840,
+                bananas: 1920,
+                cherries: 960,
+                dates: 400,
+                oranges: 400,
+            },
+            {
+                month: new Date(2015, 1, 1),
+                apples: 1600,
+                bananas: 1440,
+                cherries: 960,
+                dates: 400,
+            },
+            {
+                month: new Date(2015, 2, 1),
+                apples: 640,
+                bananas: 960,
+                cherries: 3640,
+                dates: 400,
+            },
+            {
+                month: new Date(2015, 3, 1),
+                apples: 3320,
+                bananas: 480,
+                cherries: 640,
+                dates: 400,
+            },
+        ]
+
+        const colors = [ '#7b4173', '#a55194', '#ce6dbd', '#de9ed6' ]
+        const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
+
+        return (
+            <BarChart
+                style={ { height: 200 } }
+                keys={ keys }
+                colors={ colors }
+                data={ data }
+                showGrid={ false }
+                contentInset={ { top: 30, bottom: 30 } }
+                { ...this.props }
+            />
+        )
+    }
+
+}
+
+export default StackedBarChartExample
+
+
+```
+
+#### Props
+
+| Property | Default | Description |
+| --- | --- | --- |
+| data | **required** | An array of the data entries  |
+| keys | **required** | This array should contain the object keys of interest (see above example)
+| colors | **required** | An array of equal size as `keys` with the color for each key |
+| order | [d3.stackOrderNone](https://github.com/d3/d3-shape#stackOrderNone) | The order in which to sort the areas |
+| offset | [d3.stackOffsetNone](https://github.com/d3/d3-shape#stackOffsetNone) | A function to determine the offset of the areas |
+
+Also see [Common Props](#common-props)
 
 ### LineChart
 ![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/line-chart.png)
@@ -889,7 +974,7 @@ class GridMinMaxExample extends React.PureComponent {
 ```
 
 ### Area stack chart with YAxis
-Since the `<AreaStackChart>` uses a different data structure and can be affected by both the `order` and `offset` prop it's not obvious how to extra the dataPoints for the YAxis.
+Since the `<StackedAreaChart>` uses a different data structure and can be affected by both the `order` and `offset` prop it's not obvious how to extra the dataPoints for the YAxis.
 The remedy this the AreaStackChart exposes a static API with a function `extractDataPoints` where you must pass in the same `data`,  `keys` ( as well as  `order` and `offset` if other than default is used) as the props to the component itself
 
 ![Area stack chart with YAxis](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack-with-y-axis.png)

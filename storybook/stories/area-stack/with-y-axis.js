@@ -1,5 +1,5 @@
 import React from 'react'
-import { AreaStackChart } from '../../../src/index'
+import { StackedAreaChart } from '../../../src/index'
 import * as shape from 'd3-shape'
 import { View } from 'react-native'
 import YAxis from '../../../src/y-axis'
@@ -44,7 +44,7 @@ class AreaStackWithAxisExample extends React.PureComponent {
 
         return (
             <View style={ { flexDirection: 'row', height: 200 } }>
-                <AreaStackChart
+                <StackedAreaChart
                     style={ { flex: 1 } }
                     contentInset={ { top: 10, bottom: 10 } }
                     data={ data }
@@ -55,7 +55,7 @@ class AreaStackWithAxisExample extends React.PureComponent {
                 />
                 <YAxis
                     style={ { position: 'absolute', top: 0, bottom: 0, transform: [ { translateY: -5 } ] } }
-                    dataPoints={ AreaStackChart.extractDataPoints(data, keys) }
+                    dataPoints={ StackedAreaChart.extractDataPoints(data, keys) }
                     contentInset={ { top: 10, bottom: 10 } }
                     labelStyle={ {
                         fontSize: 8,

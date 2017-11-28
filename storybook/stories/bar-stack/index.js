@@ -1,8 +1,7 @@
 import React from 'react'
-import { StackedAreaChart } from '../../../src/index'
-import * as shape from 'd3-shape'
+import StackedBartChart from '../../../src/stacked-bar-chart'
 
-class AreaStackChartExample extends React.PureComponent {
+class StackedBarChartExample extends React.PureComponent {
 
     render() {
 
@@ -13,6 +12,7 @@ class AreaStackChartExample extends React.PureComponent {
                 bananas: 1920,
                 cherries: 960,
                 dates: 400,
+                oranges: 400,
             },
             {
                 month: new Date(2015, 1, 1),
@@ -41,17 +41,18 @@ class AreaStackChartExample extends React.PureComponent {
         const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
 
         return (
-            <StackedAreaChart
-                style={ { height: 200, paddingVertical: 16 } }
-                data={ data }
+            <StackedBartChart
+                style={ { height: 200 } }
                 keys={ keys }
                 colors={ colors }
-                curve={ shape.curveNatural }
+                data={ data }
                 showGrid={ false }
+                contentInset={ { top: 30, bottom: 30 } }
                 { ...this.props }
             />
         )
     }
+
 }
 
-export default AreaStackChartExample
+export default StackedBarChartExample
