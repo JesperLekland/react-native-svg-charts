@@ -79,6 +79,7 @@ yarn storybook
 
 This library currently provides the following components
 * [Area](#areachart)
+* [AreaStackChart](#areastackchart)
 * [Bar](#barchart)
 * [Line](#linechart)
 * [Pie](#piechart)
@@ -135,9 +136,9 @@ See [Common Props](#common-props)
 
 Very similar to an area chart but with multiple sets of data stacked together. Notice that the `dataPoints` prop has changed to `data` and have a different signature.
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
-See [Area stack chart with Y axis](#areastackchartwithyaxis) to see how to use a YAxis with this component
+See [Area stack chart with Y axis](#area-stack-chart-with-yaxis) to see how to use a YAxis with this component
 
-![Area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack-chart.png)
+![Area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack.png)
 
 #### Example
 
