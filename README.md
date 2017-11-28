@@ -249,9 +249,9 @@ class BarChartExample extends React.PureComponent {
 
 ```
 
-![Groupes bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/multiple-bar-chart.png)
+![Grouped bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/grouped-bar-chart.png)
 
-#### Example (multiple set data)
+#### Example (multiple set data - grouped)
 ```javascript
 import React from 'react'
 import { BarChart } from 'react-native-svg'
