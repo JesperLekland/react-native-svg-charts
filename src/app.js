@@ -190,7 +190,7 @@ class App extends Component {
                             <View style={styles.flex1}>
                                 <BarChart
                                     style={FLEX_1}
-                                    dataPoints={_multipleBarData}
+                                    data={_multipleBarData}
                                     spacing={0.3}
                                 />
                                 <XAxis
@@ -221,7 +221,7 @@ class App extends Component {
                             <View style={styles.flex1}>
                                 <BarChart
                                     style={FLEX_1}
-                                    dataPoints={ [ {
+                                    data={ [ {
                                         values: data.map(data => data.value),
                                         fillColor: 'green',
                                         fillColorNegative: 'red',
@@ -309,7 +309,7 @@ class App extends Component {
                     <View style={[ styles.card, { height: 250 } ]}>
                         <PieChart
                             style={styles.flex1}
-                            dataPoints={data.filter(data => data.value >= 0)}
+                            data={data.filter(data => data.value >= 0)}
                             labelDistance={5}
                             innerRadius={0.7}
                             labelSpacing={40}
