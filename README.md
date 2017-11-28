@@ -634,7 +634,6 @@ The XAxis has a special property `chartType` that should match the type of the c
 ```javascript
 import React from 'react'
 import { BarChart, XAxis } from 'react-native-svg-charts'
-import YAxis from '../y-axis'
 import { View } from 'react-native'
 
 class XAxisExample extends React.PureComponent {
@@ -666,7 +665,6 @@ class XAxisExample extends React.PureComponent {
             </View>
         )
     }
-
 }
 
 ```
@@ -680,7 +678,7 @@ class XAxisExample extends React.PureComponent {
 | chartType | `XAxis.Type.LINE`| Should state what chart type it is rendered next to. Important because of slightly different calculations. One of \[ XAxis.Type.LINE, XAxis.Type.BAR ] |
 | spacing | 0.05 | Only applicable if `chartType=XAxis.Type.BAR` and should then be equal to `spacing` prop on the actual BarChart.   |
 | labelStyle | undefined | Supports all [TextStyleProps](https://facebook.github.io/react-native/docs/textstyleproptypes.html) |
-| formatLabel | `value => {}` | A utility function to format the text before it is displayed, e.g `value => "day" + value |
+| formatLabel | `(value, index) => index}` | A utility function to format the text before it is displayed, e.g `value => "day" + value |
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
 
 

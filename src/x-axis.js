@@ -143,7 +143,7 @@ XAxis.defaultProps = {
     spacing: 0.05,
     chartType: XAxis.Type.LINE,
     contentInset: {},
-    formatLabel: value => value && value.toString,
+    formatLabel: (value, index) => index,
 }
 
 const styles = StyleSheet.create({

@@ -66,7 +66,7 @@ storiesOf('ProgressCircle', module)
     .add('Standard', () => <ProgressCircle/>)
     .add('Gauge', () => <ProgressGauge/>)
 
-storiesOf('Axises', module)
+storiesOf('Axes', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('YAxis', () => <YAxisExample/>)
     .add('XAxis', () => <XAxisExample/>)
