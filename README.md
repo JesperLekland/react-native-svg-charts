@@ -194,7 +194,6 @@ class StackedAreaExample extends React.PureComponent {
                 colors={ colors }
                 curve={ shape.curveNatural }
                 showGrid={ false }
-                { ...this.props }
             />
         )
     }
@@ -255,7 +254,7 @@ class BarChartExample extends React.PureComponent {
 #### Example (multiple set data)
 ```javascript
 import React from 'react'
-import { BarChart } from '../bar-chart'
+import { BarChart } from 'react-native-svg'
 
 class MultipleBarChartExample extends React.PureComponent {
 
@@ -359,7 +358,6 @@ class StackedBarChartExample extends React.PureComponent {
                 data={ data }
                 showGrid={ false }
                 contentInset={ { top: 30, bottom: 30 } }
-                { ...this.props }
             />
         )
     }
@@ -973,13 +971,13 @@ class GridMinMaxExample extends React.PureComponent {
 }
 ```
 
-### Area stack chart with YAxis
+### StackedAreaChart with YAxis
 Since the `<StackedAreaChart>` uses a different data structure and can be affected by both the `order` and `offset` prop it's not obvious how to extra the dataPoints for the YAxis.
 The remedy this the AreaStackChart exposes a static API with a function `extractDataPoints` where you must pass in the same `data`,  `keys` ( as well as  `order` and `offset` if other than default is used) as the props to the component itself
 
 ![Area stack chart with YAxis](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack-with-y-axis.png)
 
-```
+```javascript
 import React from 'react'
 import { AreaStackChart, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
