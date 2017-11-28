@@ -1,6 +1,6 @@
 {
   "name": "react-native-svg-charts",
-  "version": "1.4.2",
+  "version": "1.5.0",
   "private": false,
   "description": "Customizable charts (Line, Bar, Area, Pie, Circle, Waterfall, Progress) for React Native",
   "main": "src/index.js",
