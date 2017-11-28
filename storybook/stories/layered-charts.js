@@ -3,7 +3,7 @@ import AreaChart from '../../src/area-chart'
 import * as shape from 'd3-shape'
 import { StyleSheet, View } from 'react-native'
 
-class StackedChartsExample extends React.PureComponent {
+class LayeredChartsExample extends React.PureComponent {
 
     render() {
 
@@ -34,4 +34,4 @@ class StackedChartsExample extends React.PureComponent {
 
 }
 
-export default StackedChartsExample
+export default LayeredChartsExample
