@@ -38,6 +38,7 @@ class PieChart extends PureComponent {
 
     render() {
         const {
+                  data,
                   dataPoints,
                   innerRadius,
                   outerRadius,
@@ -52,13 +53,17 @@ class PieChart extends PureComponent {
 
         const { height, width } = this.state
 
-        if (dataPoints.length === 0) {
+        if (!data && dataPoints) {
+            throw `"dataPoints" have been renamed to "data" to better reflect the fact that it's an array of  objects`
+        }
+
+        if (data.length === 0) {
             return <View style={ style }/>
         }
 
         const maxRadius = Math.min(width, height) / 2
 
-        if (Math.min(...dataPoints.map(obj => obj.value)) < 0) {
+        if (Math.min(...data.map(obj => obj.value)) < 0) {
             console.error('don\'t pass negative numbers to pie-chart, it makes no sense!')
         }
 
@@ -85,7 +90,7 @@ class PieChart extends PureComponent {
         const pieSlices = shape.pie()
             .value(d => d.value)
             .sort(sort)
-            (dataPoints)
+            (data)
 
         return (
             <View style={style}>
@@ -96,7 +101,7 @@ class PieChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         <G x={width / 2} y={height / 2}>
                             { pieSlices.map((slice, index) => {
-                                const { key, color } = dataPoints[ index ]
+                                const { key, color } = data[ index ]
                                 return (
                                     <Path
                                         key={key}
@@ -109,7 +114,7 @@ class PieChart extends PureComponent {
                             })}
                             { pieSlices.map((slice, index) => renderDecorator({
                                 index,
-                                item: dataPoints[ index ],
+                                item: data[ index ],
                                 height,
                                 width,
                                 pieCentroid: arc.centroid(slice),
@@ -124,7 +129,7 @@ class PieChart extends PureComponent {
 }
 
 PieChart.propTypes = {
-    dataPoints: PropTypes.arrayOf(PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.shape({
         color: PropTypes.string.isRequired,
         key: PropTypes.string.isRequired,
         value: PropTypes.number.isRequired,

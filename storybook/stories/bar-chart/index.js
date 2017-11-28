@@ -22,7 +22,7 @@ class BarChartExample extends React.PureComponent {
         return (
             <BarChart
                 style={ { height: 200 } }
-                dataPoints={ barData }
+                data={ barData }
                 contentInset={ { top: 30, bottom: 30 } }
                 { ...this.props }
             />

@@ -239,7 +239,7 @@ class BarChartExample extends React.PureComponent {
         return (
             <BarChart
                 style={ { height: 200 } }
-                dataPoints={ barData }
+                data={ barData }
                 contentInset={ { top: 30, bottom: 30 } }
             />
         )
@@ -249,14 +249,14 @@ class BarChartExample extends React.PureComponent {
 
 ```
 
-![Multiple bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/multiple-bar-chart.png)
+![Groupes bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/multiple-bar-chart.png)
 
 #### Example (multiple set data)
 ```javascript
 import React from 'react'
 import { BarChart } from 'react-native-svg'
 
-class MultipleBarChartExample extends React.PureComponent {
+class GroupedBarChartExample extends React.PureComponent {
 
     render() {
 
@@ -279,7 +279,7 @@ class MultipleBarChartExample extends React.PureComponent {
         return (
             <BarChart
                 style={ { height: 200 } }
-                dataPoints={ barData }
+                data={ barData }
                 contentInset={ { top: 30, bottom: 30 } }
             />
         )
@@ -294,7 +294,7 @@ Also see [Common Props](#common-props)
 
 | Property | Default | Description |
 | --- | --- | --- |
-| dataPoints | **required** | Slightly different than other charts since we allow for grouping of bars. This array should contain at least one object with the following shape `{fillColor: 'string', fillColorNegative: 'string', strokeColorPositive: 'string', strokeColorNegative: '', values: []}` |
+| data | **required** | Slightly different than other charts since we allow for grouping of bars. This array should contain at least one object with the following shape `{fillColor: 'string', fillColorNegative: 'string', strokeColorPositive: 'string', strokeColorNegative: '', values: []}` |
 | spacing | 0.05 | Spacing between the bars (or groups of bars). Percentage of one bars width. Default = 5% of bar width |
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
 
@@ -457,7 +457,7 @@ class PieChartExample extends React.PureComponent {
 
 | Property | Default | Description |
 | --- | --- | --- |
-| dataPoints | **required** | Slightly different because we allow for custom coloring of slices. The array should contain objects of the following shape: `{key: 'string|number', color: 'string', value: 'number'}` |
+| data | **required** | Slightly different than `dataPoints` because we allow for custom coloring of slices. The array should contain objects of the following shape: `{key: 'string|number', color: 'string', value: 'number'}` |
 | outerRadius | "100%" | The outer radius, use this to tweak how close your pie is to the edge of it's container. Takes either percentages or absolute numbers (pixels) |
 | innerRadius | "50%" | The inner radius, use this to create a donut. Takes either percentages or absolute numbers (pixels) |
 | labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |

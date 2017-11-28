@@ -39,6 +39,7 @@ class BarChart extends PureComponent {
 
     render() {
         const {
+                  data,
                   dataPoints,
                   spacing,
                   animate,
@@ -62,21 +63,25 @@ class BarChart extends PureComponent {
                   renderDecorator,
               } = this.props
 
+        if (!data && dataPoints) {
+            throw `"dataPoints" have been renamed to "data" to better reflect the fact that it's an array of  objects`
+        }
+
         const { height, width } = this.state
 
-        if (dataPoints.length === 0 || dataPoints[ 0 ].values.length === 0) {
+        if (data.length === 0 || data[ 0 ].values.length === 0) {
             return <View style={ style }/>
         }
 
-        if (dataPoints.length > 0 && typeof dataPoints[ 0 ] === 'object') {
-            const lengths = Object.values(dataPoints).map(obj => obj.values.length)
+        if (data.length > 0 && typeof data[ 0 ] === 'object') {
+            const lengths = Object.values(data).map(obj => obj.values.length)
             const extent  = array.extent(lengths)
             if (extent[ 0 ] - extent[ 1 ] !== 0) {
                 throw new Error(`value arrays must be of equal length. Lengths are [${lengths}]`)
             }
         }
 
-        const values = array.merge(Object.values(dataPoints).map(obj => obj.values))
+        const values = array.merge(Object.values(data).map(obj => obj.values))
 
         const extent = array.extent([ ...values, gridMax, gridMin ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
@@ -87,29 +92,29 @@ class BarChart extends PureComponent {
             .range([ height - bottom, top ])
 
         // use index as domain identifier instead of value since
-        // same value can occur at several places in dataPoints
+        // same value can occur at several places in data
         const x = scale.scaleBand()
-            .domain(dataPoints[ 0 ].values.map((_, index) => index))
+            .domain(data[ 0 ].values.map((_, index) => index))
             .range([ left, width - right ])
             .paddingInner([ spacing ])
             .paddingOuter([ spacing ])
 
-        const numberOfDifferentBars = Object.keys(dataPoints).length
+        const numberOfDifferentBars = Object.keys(data).length
         const barWidth              = x.bandwidth() / numberOfDifferentBars
-        const dataLength            = dataPoints[ 0 ].values.length
+        const dataLength            = data[ 0 ].values.length
 
         let areas = []
         for (let i = 0; i < dataLength; i++) {
 
             //pick up the value from each "bar"
-            const currentValues = Object.values(dataPoints)
+            const currentValues = Object.values(data)
                 .map(obj => obj.values[ i ])
 
             //for each value calculate the bar area. The object index places a big role
             currentValues.forEach((value, barIndex) => {
 
                 // eslint-disable-next-line no-unused-vars
-                const { values, ...colors } = dataPoints[ barIndex ]
+                const { values, ...colors } = data[ barIndex ]
                 const bar                   = this._getBar(value, x, y, barIndex, i, barWidth)
 
                 areas.push({
@@ -168,7 +173,7 @@ class BarChart extends PureComponent {
                             })
                         }
 
-                        { dataPoints[ 0 ].values.map((value, index) => renderDecorator(
+                        { data[ 0 ].values.map((value, index) => renderDecorator(
                             {
                                 value,
                                 x,
@@ -186,7 +191,7 @@ class BarChart extends PureComponent {
 }
 
 BarChart.propTypes = {
-    dataPoints: PropTypes.arrayOf(PropTypes.shape({
+    data: PropTypes.arrayOf(PropTypes.shape({
         fillColor: PropTypes.string,
         strokeColor: PropTypes.string,
         strokeColorNegative: PropTypes.string,

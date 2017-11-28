@@ -21,7 +21,7 @@ class PieChartWithLabelExample extends React.PureComponent {
         return (
             <PieChart
                 style={ { height: 200 } }
-                dataPoints={ pieData }
+                data={ pieData }
                 spacing={ 0 }
                 innerRadius={ 20 }
                 outerRadius={ 55 }
