@@ -351,7 +351,7 @@ class StackedBarChartExample extends React.PureComponent {
         const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
 
         return (
-            <BarChart
+            <StackedBarChart
                 style={ { height: 200 } }
                 keys={ keys }
                 colors={ colors }
