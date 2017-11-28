@@ -29,6 +29,7 @@ class GradientAdvancedExample extends React.PureComponent {
                     style={ StyleSheet.absoluteFill }
                     dataPoints={ data }
                     contentInset={ { top: 20, bottom: 20 } }
+                    showGrid={false}
                     renderGradient={ ({ id }) => (
                         <LinearGradient id={ id } x1={ '0%' } y1={ '0%' } x2={ '100%' } y2={ '0%' }>
                             <Stop offset={ '0' } stopColor={ 'transparent' } stopOpacity={ 0 }/>

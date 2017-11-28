@@ -26,11 +26,15 @@ import GradientExample from './gradient'
 import GradientAdvancedExample from './gradient-advanced'
 
 import { withKnobs } from '@storybook/addon-knobs'
+import AreaStack from './area-stack'
+import AreaStackWithAxisExample from './area-stack/with-y-axis'
 
 storiesOf('AreaChart', module)
     .addDecorator(withKnobs)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('Standard', () => (<AreaChart/>))
+    .add('Standard', () => <AreaChart/>)
+    .add('Stack', () => <AreaStack/>)
+    .add('Stack with axis', () => <AreaStackWithAxisExample/>)
 
 storiesOf('LineChart', module)
     .addDecorator(withKnobs)

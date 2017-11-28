@@ -1,4 +1,5 @@
 import AreaChart from './area-chart'
+import AreaStackChart from './area-stack-chart'
 import BarChart from './bar-chart'
 import HorizontalLabeledBarChart from './horizontal-labeled-bar-chart'
 import LineChart from './line-chart'
@@ -13,6 +14,7 @@ export {
     LineChart,
     PieChart,
     AreaChart,
+    AreaStackChart,
     BarChart,
     XAxis,
     YAxis,

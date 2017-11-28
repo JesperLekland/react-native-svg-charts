@@ -3,7 +3,7 @@ import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { View } from 'react-native'
+import { StyleSheet, View } from 'react-native'
 import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
 import Grid from './grid'
@@ -172,9 +172,7 @@ AreaChart.defaultProps = {
     numberOfTicks: 10,
     showGrid: true,
     gridMin: 0,
-    gtidMax: 0,
-    gridStroke: 'rgba(0,0,0,0.2)',
-    gridWidth: 0.5,
+    gridMax: 0,
     extras: [],
     renderDecorator: () => {
     },
