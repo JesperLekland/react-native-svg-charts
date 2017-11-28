@@ -15,7 +15,7 @@ import PieChartWithLabels from './pie-chart/with-labels'
 import ProgressCircle from './progress-circle/with-knobs'
 import ProgressGauge from './progress-gauge/with-knobs'
 
-import StackedCharts from './stacked-charts'
+import LayeredCharts from './layered-charts'
 import Decorators from './decorator'
 import Extras from './extras'
 
@@ -73,7 +73,7 @@ storiesOf('Axises', module)
 
 storiesOf('Others', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('Stacked charts', () => <StackedCharts/>)
+    .add('Layered charts', () => <LayeredCharts/>)
     .add('Decorators', () => <Decorators/>)
     .add('Extras', () => <Extras/>)
     .add('Gradient', () => <GradientExample/>)

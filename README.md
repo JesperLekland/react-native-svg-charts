@@ -79,7 +79,7 @@ yarn storybook
 
 This library currently provides the following components
 * [Area](#areachart)
-* [StackedAreaChart](#areastackchart)
+* [StackedAreaChart](#stackedareachart)
 * [Bar](#barchart)
 * [StackedBarChart](#stackedbarchart)
 * [Line](#linechart)
@@ -94,7 +94,7 @@ Also see [other examples](#other-examples)
 * [Decorator](#decorator)
 * [Extras](#extras)
 * [GridMin/Max](#gridminmax)
-* [Stacked Charts](#stacked-charts)
+* [Layered Charts](#layered-charts)
 * [PieChart with labels](#piechart-with-labels)
 
 ### AreaChart
@@ -139,7 +139,7 @@ Very similar to an area chart but with multiple sets of data stacked together. N
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
 See [Area stack chart with Y axis](#area-stack-chart-with-yaxis) to see how to use a YAxis with this component
 
-![Area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack.png)
+![Stacked area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack.png)
 
 #### Example
 
@@ -1053,8 +1053,8 @@ export default AreaStackWithAxisExample
 
 ```
 
-### Stacked Charts
-This library supports stacking/composing out of the box with simple styling. As long as the stacked charts share the same container and are correctly positioned everything will work as expected.
+### Layered Charts
+This library supports layering/composing out of the box with simple styling. As long as the layered charts share the same container and are correctly positioned everything will work as expected.
 If your data sets don't share the same max/min data make sure to utilize the `gridMin/gridMax` prop to align the charts.
 
 ![Stacked Charts](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/stacked-charts.png)
