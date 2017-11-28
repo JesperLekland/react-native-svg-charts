@@ -1,4 +1,4 @@
-import MultipleBarChartExample from './multiple-bar-chart'
+import MultipleBarChartExample from './grouped-bar-chart'
 import React from 'react'
 import { boolean, color, number, object, select } from '@storybook/addon-knobs'
 import * as shape from 'd3-shape'

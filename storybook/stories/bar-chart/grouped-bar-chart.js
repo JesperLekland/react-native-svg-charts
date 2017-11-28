@@ -1,7 +1,7 @@
 import React from 'react'
 import BarChart from '../../../src/bar-chart'
 
-class MultipleBarChartExample extends React.PureComponent {
+class GroupedBarChartExample extends React.PureComponent {
 
     render() {
 
@@ -31,7 +31,7 @@ class MultipleBarChartExample extends React.PureComponent {
         return (
             <BarChart
                 style={ { height: 200 } }
-                dataPoints={ barData }
+                data={ barData }
                 contentInset={ { top: 30, bottom: 30 } }
                 { ...this.props }
             />
@@ -40,4 +40,4 @@ class MultipleBarChartExample extends React.PureComponent {
 
 }
 
-export default MultipleBarChartExample
+export default GroupedBarChartExample
