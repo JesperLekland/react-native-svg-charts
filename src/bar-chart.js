@@ -148,6 +148,7 @@ class BarChart extends PureComponent {
 
                                 const strokeColor = bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor
                                 const fillColor   = bar.value < 0 ? bar.fillColorNegative : bar.fillColor
+                                const strokeWidth = bar.strokeWidth
 
                                 return (
                                     <G key={index}>
@@ -158,6 +159,7 @@ class BarChart extends PureComponent {
                                                     ...bar,
                                                     fillColor,
                                                     strokeColor,
+                                                    strokeWidth,
                                                 })
                                             }
                                         </Defs>
