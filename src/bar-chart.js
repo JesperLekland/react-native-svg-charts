@@ -159,13 +159,13 @@ class BarChart extends PureComponent {
                                                     ...bar,
                                                     fillColor,
                                                     strokeColor,
-                                                    strokeWidth,
                                                 })
                                             }
                                         </Defs>
                                         <Path
                                             fill={renderGradient ? `url(#gradient-${index})` : fillColor}
                                             stroke={strokeColor}
+                                            strokeWidth={strokeWidth}
                                             d={bar.area || null}
                                             animate={animate}
                                             animationDuration={animationDuration}
