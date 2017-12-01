@@ -149,6 +149,7 @@ class BarChart extends PureComponent {
                                 const strokeColor = bar.value < 0 ? bar.strokeColorNegative : bar.strokeColor
                                 const fillColor   = bar.value < 0 ? bar.fillColorNegative : bar.fillColor
                                 const strokeWidth = bar.strokeWidth
+                                const strokeLinejoin = bar.strokeLinejoin
 
                                 return (
                                     <G key={index}>
@@ -166,6 +167,7 @@ class BarChart extends PureComponent {
                                             fill={renderGradient ? `url(#gradient-${index})` : fillColor}
                                             stroke={strokeColor}
                                             strokeWidth={strokeWidth}
+                                            strokeLinejoin={strokeLinejoin}
                                             d={bar.area || null}
                                             animate={animate}
                                             animationDuration={animationDuration}
@@ -202,6 +204,8 @@ BarChart.propTypes = {
     })).isRequired,
     style: PropTypes.any,
     strokeColor: PropTypes.string,
+    strokeWidth: propTypes.number,
+    strokeLinejoin: PropTypes.string,
     renderGradient: PropTypes.func,
     spacing: PropTypes.number,
     animate: PropTypes.bool,
