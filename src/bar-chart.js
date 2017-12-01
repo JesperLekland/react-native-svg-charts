@@ -47,6 +47,8 @@ class BarChart extends PureComponent {
                   style,
                   showGrid,
                   strokeColor,
+                  strokeWidth,
+                  strokeLinejoin,
                   renderGradient,
                   numberOfTicks,
                   contentInset: {
@@ -204,6 +206,8 @@ BarChart.propTypes = {
     })).isRequired,
     style: PropTypes.any,
     strokeColor: PropTypes.string,
+    strokeWidth: PropTypes.number,
+    strokeLinejoin: PropTypes.string,
     renderGradient: PropTypes.func,
     spacing: PropTypes.number,
     animate: PropTypes.bool,
