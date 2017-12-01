@@ -29,6 +29,7 @@ class AreaChart extends PureComponent {
                   fillColor,
                   animate,
                   dashArray,
+                  strokeLinecap,
                   animationDuration,
                   style,
                   renderGradient,
@@ -124,6 +125,7 @@ class AreaChart extends PureComponent {
                             strokeWidth={strokeWidth}
                             fill={'none'}
                             strokeDasharray={dashArray}
+                            strokeLinecap={strokeLinecap}
                             animate={animate}
                             animationDuration={animationDuration}
                         />
@@ -142,6 +144,7 @@ AreaChart.propTypes = {
     strokeColor: PropTypes.string,
     fillColor: PropTypes.string,
     dashArray: PropTypes.arrayOf(PropTypes.number),
+    strokeLinecap: PropTypes.string,
     style: PropTypes.any,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
