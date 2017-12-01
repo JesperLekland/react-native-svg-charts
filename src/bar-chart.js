@@ -204,8 +204,6 @@ BarChart.propTypes = {
     })).isRequired,
     style: PropTypes.any,
     strokeColor: PropTypes.string,
-    strokeWidth: propTypes.number,
-    strokeLinejoin: PropTypes.string,
     renderGradient: PropTypes.func,
     spacing: PropTypes.number,
     animate: PropTypes.bool,
