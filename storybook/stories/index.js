@@ -30,6 +30,8 @@ import AreaStack from './area-stack'
 import AreaStackWithAxisExample from './area-stack/with-y-axis'
 import StackedBarChartExample from './bar-stack/index'
 
+import GridMinMax from './grid-min-max'
+
 storiesOf('AreaChart', module)
     .addDecorator(withKnobs)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
@@ -78,3 +80,4 @@ storiesOf('Others', module)
     .add('Extras', () => <Extras/>)
     .add('Gradient', () => <GradientExample/>)
     .add('Gradient Advanced', () => <GradientAdvancedExample/>)
+    .add('Grid Min/Max', () => <GridMinMax/>)

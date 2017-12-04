@@ -12,7 +12,6 @@ class LineChartExample extends React.PureComponent {
             <LineChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                fillColor={ 'purple' }
                 shadowOffset={ 3 }
                 svg={ {
                     stroke: 'rgb(134, 65, 244)',
@@ -21,8 +20,6 @@ class LineChartExample extends React.PureComponent {
                     stroke: 'rgba(134, 65, 244, 0.2)',
                     strokeWidth: 5,
                 } }
-                strokeColor={ 'rgb(134, 65, 244)' }
-                shadowColor={ 'rgba(134, 65, 244, 0.2)' }
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={shape.curveLinear}
                 { ...this.props }

@@ -23,9 +23,7 @@ class YAxisExample extends React.PureComponent {
                 <LineChart
                     style={ { flex: 1, marginLeft: 16 } }
                     dataPoints={ data }
-                    shadowOffset={4}
                     svg={{
-                        fill: 'purple',
                         stroke: 'rgb(134, 65, 244)',
                     }}
                     shadowSvg={ {

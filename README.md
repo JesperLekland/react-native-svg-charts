@@ -56,10 +56,7 @@ yarn storybook
 | Property | Default | Description |
 | --- | --- | --- |
 | dataPoints | **required** | An array of integers - the data you want plotted, e.g \[1,2,3,4]. This prop is different for [PieChart](#piechart) and [BarChart](#barchart) |
-| strokeColor | 'black' | color of the stroke|
-| strokeWidth | 1 | width of the stroke |
-| fillColor | 'none' | color of the fill |
-| dashArray | \[ 5, 5 ] | see [this](https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/stroke-dasharray) but pass in as array  |
+| svg | `{}` | an object containing  all the props that should be passed down to the underlying `react-native-svg` component. [See available props](https://github.com/react-native-community/react-native-svg#common-props)|
 | renderGradient | `() => {}` | function that renders the gradient. [Example](#gradient) |
 | animate | true | PropTypes.bool |
 | animationDuration | 300 | PropTypes.number |
@@ -118,10 +115,12 @@ class AreaChartExample extends React.PureComponent {
                 <AreaChart
                     style={ { height: 200 } }
                     dataPoints={ data }
-                    fillColor={ 'rgba(134, 65, 244, 0.2)' }
-                    strokeColor={ 'rgb(134, 65, 244)' }
                     contentInset={ { top: 30, bottom: 30 } }
                     curve={shape.curveNatural}
+                    svg={{
+                        fill: 'rgba(134, 65, 244, 0.2)',
+                        stroke: 'rgb(134, 65, 244)',
+                    }}
                 />
             )
         }
@@ -231,8 +230,14 @@ class BarChartExample extends React.PureComponent {
         const barData = [
             {
                 values: data,
-                fillColor: 'rgb(134, 65, 244)',
-                fillColorNegative: 'rgba(134, 65, 244, 0.2)',
+                positive: {
+                    fill: fillColor,
+                    // other react-native-svg supported props
+                },
+                negative: {
+                    fill: fillColorNegative,
+                    // other react-native-svg supported props
+                },
             },
         ]
 
@@ -266,13 +271,21 @@ class GroupedBarChartExample extends React.PureComponent {
         const barData = [
             {
                 values: data1,
-                fillColor: 'rgb(134, 65, 244)',
-                fillColorNegative: 'rgba(134, 65, 244, 0.2)',
+                positive: {
+                    fill: 'rgb(134, 65, 244)',
+                },
+                negative: {
+                    fill: 'rgba(134, 65, 244, 0.2)',
+                },
             },
             {
                 values: data2,
-                fillColor: 'rgb(244, 115, 65)',
-                fillColorNegative: 'rgb(244, 115, 65, 0.2)',
+                positive: {
+                    fill: 'rgb(244, 115, 65)',
+                },
+                negative: {
+                    fill: 'rgb(244, 115, 65, 0.2)',
+                },
             },
         ]
 
@@ -294,7 +307,7 @@ Also see [Common Props](#common-props)
 
 | Property | Default | Description |
 | --- | --- | --- |
-| data | **required** | Slightly different than other charts since we allow for grouping of bars. This array should contain at least one object with the following shape `{fillColor: 'string', fillColorNegative: 'string', strokeColorPositive: 'string', strokeColorNegative: '', values: []}` |
+| data | **required** | Slightly different than other charts since we allow for grouping of bars. This array should contain at least one object with the following shape `{values: array, positive: object, negative: object}` where `positive` and `negative` are objects that contain [svg props](https://github.com/react-native-community/react-native-svg#common-props) to be used depending on the value of the bar  |
 | spacing | 0.05 | Spacing between the bars (or groups of bars). Percentage of one bars width. Default = 5% of bar width |
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
 
@@ -402,8 +415,14 @@ class LineChartExample extends React.PureComponent {
                 style={ { height: 200 } }
                 dataPoints={ data }
                 fillColor={ 'purple' }
-                strokeColor={ 'rgb(134, 65, 244)' }
-                shadowColor={ 'rgba(134, 65, 244, 0.2)' }
+                shadowOffset={3}
+                svg={ {
+                    stroke: 'rgb(134, 65, 244)',
+                } }
+                shadowSvg={ {
+                    stroke: 'rgba(134, 65, 244, 0.2)',
+                    strokeWidth: 5,
+                } }
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={shape.curveLinear}
             />
@@ -416,6 +435,12 @@ class LineChartExample extends React.PureComponent {
 
 #### Props
 See [Common Props](#common-props)
+
+| Property | Default | Description |
+| --- | --- | --- |
+| shadowSvg | `{}` | accepts the same object shape as `svg` but is passed to the shadow line instead  |
+| shadowOffset | 3 | the offset of the shadow in value (not pixels)  |
+
 
 
 ### PieChart
@@ -597,9 +622,13 @@ class YAxisExample extends React.PureComponent {
                 <LineChart
                     style={ { flex: 1, marginLeft: 16 } }
                     dataPoints={ data }
-                    fillColor={ 'purple' }
-                    strokeColor={ 'rgb(134, 65, 244)' }
-                    shadowColor={ 'rgba(134, 65, 244, 0.2)' }
+                    svg={{
+                        stroke: 'rgb(134, 65, 244)',
+                    }}
+                    shadowSvg={ {
+                        stroke: 'rgba(134, 65, 244, 0.2)',
+                        strokeWidth: 5,
+                    }}
                     contentInset={ contentInset }
                     curve={ shape.curveLinear }
                 />
@@ -644,8 +673,12 @@ class XAxisExample extends React.PureComponent {
         const barData = [
             {
                 values: data,
-                fillColor: 'rgb(134, 65, 244)',
-                fillColorNegative: 'rgba(134, 65, 244, 0.2)',
+                positive: {
+                    fill: 'rgb(134, 65, 244)',
+                },
+                negative: {
+                    fill: 'rgba(134, 65, 244, 0.2)',
+                },
             },
         ]
 
@@ -807,8 +840,10 @@ class DecoratorExample extends React.PureComponent {
             <AreaChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                fillColor={ 'rgba(134, 65, 244, 0.2)' }
-                strokeColor={ 'rgb(134, 65, 244)' }
+                svg={ {
+                    fill: 'rgba(134, 65, 244, 0.2)',
+                    stroke: 'rgb(134, 65, 244)',
+                } }
                 contentInset={ { top: 20, bottom: 30 } }
                 renderDecorator={ ({ x, y, index, value }) => (
                     <Circle
@@ -922,9 +957,15 @@ class ExtrasExample extends React.PureComponent {
             <LineChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                fillColor={ 'purple' }
-                strokeColor={ 'rgb(134, 65, 244)' }
-                shadowColor={ 'rgba(134, 65, 244, 0.2)' }
+                svg={{
+                    fill: 'purple',
+                    stroke: 'rgb(134, 65, 244)',
+                    strokeWidth: 2,
+                }}
+                shadowSvg={{
+                    stroke: 'rgba(134, 65, 244, 0.2)',
+                    strokeWidth: 5,
+                }}
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={ shape.curveLinear }
                 extras={ [ HorizontalLine, Tooltip ] }
@@ -957,8 +998,10 @@ class GridMinMaxExample extends React.PureComponent {
             <AreaChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                fillColor={ 'rgba(134, 65, 244, 0.2)' }
-                strokeColor={ 'rgb(134, 65, 244)' }
+                svg={{
+                    fill: 'rgba(134, 65, 244, 0.2)',
+                    stroke: 'rgb(134, 65, 244)',
+                }}
                 contentInset={ { top: 30, bottom: 30 } }
                 curve={shape.curveNatural}
                 gridMax={500}
@@ -1074,16 +1117,21 @@ class StackedChartsExample extends React.PureComponent {
                     <AreaChart
                         style={ { flex: 1 } }
                         dataPoints={ data }
-                        fillColor={ 'rgba(134, 65, 244, 0.5)' }
-                        strokeColor={ 'rgb(134, 65, 244)' }
+                        svg={ {
+                            fill: 'rgba(134, 65, 244, 0.5)',
+                            stroke: 'rgb(134, 65, 244)',
+
+                        } }
                         contentInset={ { top: 20, bottom: 20 } }
                         curve={ shape.curveNatural }
                     />
                     <AreaChart
                         style={ StyleSheet.absoluteFill }
                         dataPoints={ data2 }
-                        fillColor={ 'rgba(34, 128, 176, 0.5)' }
-                        strokeColor={ 'rgb(34, 128, 176)' }
+                        svg={ {
+                            fill: 'rgba(34, 128, 176, 0.5)',
+                            stroke: 'rgb(34, 128, 176)',
+                        } }
                         contentInset={ { top: 20, bottom: 20 } }
                         curve={ shape.curveNatural }
                     />

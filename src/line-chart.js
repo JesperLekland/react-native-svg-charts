@@ -64,7 +64,7 @@ class LineChart extends PureComponent {
             return <View style={ style }/>
         }
 
-        const extent = array.extent([ ...dataPoints, gridMax, gridMin ])
+        const extent = array.extent([ ...dataPoints, gridMax, gridMin, -shadowOffset ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         //invert range to support svg coordinate system
