@@ -46,7 +46,6 @@ class BarChart extends PureComponent {
                   animationDuration,
                   style,
                   showGrid,
-                  strokeColor,
                   renderGradient,
                   numberOfTicks,
                   contentInset: {
