@@ -14,8 +14,14 @@ class BarChartExample extends React.PureComponent {
         const barData = [
             {
                 values: data,
-                fillColor,
-                fillColorNegative,
+                positive: {
+                    fill: fillColor,
+                    // other react-native-svg supported props
+                },
+                negative: {
+                    fill: fillColorNegative,
+                    // other react-native-svg supported props
+                },
             },
         ]
 

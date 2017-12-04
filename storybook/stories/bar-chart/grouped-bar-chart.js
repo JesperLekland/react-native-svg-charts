@@ -18,13 +18,21 @@ class GroupedBarChartExample extends React.PureComponent {
         const barData = [
             {
                 values: data1,
-                fillColor: fillColor1,
-                fillColorNegative: fillColorNegative1,
+                positive: {
+                    fill: fillColor1,
+                },
+                negative: {
+                    fill: fillColorNegative1,
+                },
             },
             {
                 values: data2,
-                fillColor: fillColor2,
-                fillColorNegative: fillColorNegative2,
+                positive: {
+                    fill: fillColor2,
+                },
+                negative: {
+                    fill: fillColorNegative2,
+                },
             },
         ]
 
