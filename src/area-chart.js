@@ -24,11 +24,7 @@ class AreaChart extends PureComponent {
 
         const {
                   dataPoints,
-                  strokeColor,
-                  strokeWidth,
-                  fillColor,
                   animate,
-                  dashArray,
                   animationDuration,
                   style,
                   renderGradient,
@@ -47,6 +43,7 @@ class AreaChart extends PureComponent {
                   renderDecorator,
                   extras,
                   renderExtra,
+                  svg,
               } = this.props
 
         const { height, width } = this.state
@@ -113,19 +110,19 @@ class AreaChart extends PureComponent {
                             { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
                         </Defs>
                         <Path
+                            { ...svg }
+                            fill={ renderGradient ? 'url(#gradient)' : svg.fill }
                             d={area}
-                            fill={ renderGradient ? 'url(#gradient)' : fillColor }
                             animate={animate}
                             animationDuration={animationDuration}
+                            stroke={ 'none' }
                         />
                         <Path
-                            d={line}
-                            stroke={strokeColor}
-                            strokeWidth={strokeWidth}
-                            fill={'none'}
-                            strokeDasharray={dashArray}
+                            { ...svg }
                             animate={animate}
                             animationDuration={animationDuration}
+                            d={ line }
+                            fill={ 'none' }
                         />
                         { dataPoints.map((value, index) => renderDecorator({ x, y, index, value })) }
                         { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
@@ -138,10 +135,7 @@ class AreaChart extends PureComponent {
 
 AreaChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
-    strokeWidth: PropTypes.number,
-    strokeColor: PropTypes.string,
-    fillColor: PropTypes.string,
-    dashArray: PropTypes.arrayOf(PropTypes.number),
+    svg: PropTypes.object,
     style: PropTypes.any,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
@@ -166,8 +160,8 @@ AreaChart.propTypes = {
 }
 
 AreaChart.defaultProps = {
+    svg: {},
     curve: shape.curveCardinal,
-    strokeWidth: 2,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,

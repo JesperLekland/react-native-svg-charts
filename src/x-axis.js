@@ -84,7 +84,7 @@ class XAxis extends PureComponent {
         }
 
         return (
-            <View style={[ style ]}>
+            <View style={ style }>
                 <View
                     style={{ flex: 1 }}
                     onLayout={event => this._onLayout(event)}

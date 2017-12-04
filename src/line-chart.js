@@ -36,9 +36,6 @@ class LineChart extends PureComponent {
 
         const {
                   dataPoints,
-                  strokeColor,
-                  dashArray,
-                  shadowColor,
                   style,
                   animate,
                   animationDuration,
@@ -55,9 +52,10 @@ class LineChart extends PureComponent {
                   renderDecorator,
                   extras,
                   renderExtra,
-                  strokeWidth,
-                  shadowWidth,
+                  shadowOffset,
                   gridProps,
+                  svg,
+                  shadowSvg,
               } = this.props
 
         const { width, height } = this.state
@@ -86,7 +84,7 @@ class LineChart extends PureComponent {
 
         const shadow = this._createLine(
             dataPoints,
-            value => y(value) + 3,
+            value => y(value - shadowOffset),
             (value, index) => x(index),
         )
 
@@ -103,20 +101,17 @@ class LineChart extends PureComponent {
                             />
                         }
                         <Path
+                            { ...svg }
                             d={line}
-                            stroke={strokeColor}
                             fill={'none'}
-                            strokeWidth={ strokeWidth }
-                            strokeDasharray={dashArray}
                             animate={animate}
                             animationDuration={animationDuration}
                         />
                         <Path
+                            strokeWidth={ 5 }
+                            { ...shadowSvg }
                             d={shadow}
-                            stroke={shadowColor}
                             fill={'none'}
-                            strokeWidth={ shadowWidth }
-                            strokeDasharray={dashArray}
                             animate={animate}
                             animationDuration={animationDuration}
                         />
@@ -131,13 +126,11 @@ class LineChart extends PureComponent {
 
 LineChart.propTypes = {
     dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+    svg: PropTypes.object,
+    shadowSvg: PropTypes.object,
     shadowWidth: PropTypes.number,
-    strokeWidth: PropTypes.number,
-    strokeColor: PropTypes.string,
-    fillColor: PropTypes.string,
-    dashArray: PropTypes.arrayOf(PropTypes.number),
+    shadowOffset: PropTypes.number,
     style: PropTypes.any,
-    shadowColor: PropTypes.string,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     curve: PropTypes.func,
@@ -159,9 +152,9 @@ LineChart.propTypes = {
 }
 
 LineChart.defaultProps = {
-    strokeColor: '#22B6B0',
-    strokeWidth: 2,
-    shadowWidth: 5,
+    svg: {},
+    shadowSvg: {},
+    shadowOffset: 3,
     width: 100,
     height: 100,
     curve: shape.curveCardinal,
