@@ -653,7 +653,7 @@ class XAxisExample extends React.PureComponent {
             <View style={ { height: 200 } }>
                 <BarChart
                     style={ { flex: 1 } }
-                    dataPoints={ barData }
+                    data={ barData }
                 />
                 <XAxis
                     style={ { paddingVertical: 16 } }

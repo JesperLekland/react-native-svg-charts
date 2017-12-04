@@ -19,14 +19,14 @@ class XAxisExample extends React.PureComponent {
             <View style={ { height: 200 } }>
                 <BarChart
                     style={ { flex: 1 } }
-                    dataPoints={ barData }
+                    data={ barData }
                 />
                 <XAxis
-                    style={ { paddingVertical: 16 } }
+                    style={ { paddingVertical: 4 } }
                     values={ data }
                     formatLabel={ (value, index) => index }
                     chartType={ XAxis.Type.BAR }
-                    labelStyle={ { color: 'grey' } }
+                    labelStyle={ { color: 'black' } }
                 />
             </View>
         )
