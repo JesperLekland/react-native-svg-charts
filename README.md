@@ -5,6 +5,11 @@
 ![circleci](https://circleci.com/gh/JesperLekland/react-native-svg-charts.svg?style=shield&circle-token=1a809ccdfbd0df3ed425a08f09c558401f794140)
 [![license](https://img.shields.io/npm/l/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
 
+### version 2 now available!
+More charts more customisation!
+See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information
+
+
 ## Prerequisites
 
 This library uses [react-native-svg](https://github.com/react-native-community/react-native-svg)
