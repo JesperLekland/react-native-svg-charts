@@ -29,6 +29,7 @@ import { withKnobs } from '@storybook/addon-knobs'
 import AreaStack from './area-stack'
 import AreaStackWithAxisExample from './area-stack/with-y-axis'
 import StackedBarChartExample from './bar-stack/index'
+import GradientLineExample from './gradient-line'
 
 import GridMinMax from './grid-min-max'
 
@@ -79,5 +80,6 @@ storiesOf('Others', module)
     .add('Decorators', () => <Decorators/>)
     .add('Extras', () => <Extras/>)
     .add('Gradient', () => <GradientExample/>)
+    .add('Gradient Line', () => <GradientLineExample/>)
     .add('Gradient Advanced', () => <GradientAdvancedExample/>)
     .add('Grid Min/Max', () => <GridMinMax/>)
