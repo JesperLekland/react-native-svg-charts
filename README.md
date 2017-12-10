@@ -724,6 +724,7 @@ You can read more about the available gradients [here](https://github.com/react-
 
 ![Gradient AreaChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient.png)
 ![Gradient LineChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient-line.png)
+![Gradient BarChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient-bar.png)
 
 ```javascript
 import React from 'react'

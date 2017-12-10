@@ -30,6 +30,7 @@ import AreaStack from './area-stack'
 import AreaStackWithAxisExample from './area-stack/with-y-axis'
 import StackedBarChartExample from './bar-stack/index'
 import GradientLineExample from './gradient-line'
+import GradientBarExample from './gradient-bar'
 
 import GridMinMax from './grid-min-max'
 
@@ -81,5 +82,6 @@ storiesOf('Others', module)
     .add('Extras', () => <Extras/>)
     .add('Gradient', () => <GradientExample/>)
     .add('Gradient Line', () => <GradientLineExample/>)
+    .add('Gradient Bar', () => <GradientBarExample/>)
     .add('Gradient Advanced', () => <GradientAdvancedExample/>)
     .add('Grid Min/Max', () => <GridMinMax/>)

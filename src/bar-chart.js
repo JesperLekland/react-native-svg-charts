@@ -156,6 +156,7 @@ class BarChart extends PureComponent {
                                                 renderGradient && renderGradient({
                                                     id: `gradient-${index}`,
                                                     ...props,
+                                                    value: bar.value,
                                                 })
                                             }
                                         </Defs>
