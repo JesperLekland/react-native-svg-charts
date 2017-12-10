@@ -686,7 +686,11 @@ class XAxisExample extends React.PureComponent {
 ## Other Examples
 
 ### Gradient
-![Gradient](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient.png)
+Gradients are supported for the `AreaChart`, `LineChart` and `BarChart` and is used with the `renderGradient` prop according to the example below.
+You can read more about the available gradients [here](https://github.com/react-native-community/react-native-svg#lineargradient)
+
+![Gradient AreaChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient.png)
+![Gradient LineChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient-line.png)
 
 ```javascript
 import React from 'react'

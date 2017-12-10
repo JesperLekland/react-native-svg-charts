@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
-import Svg from 'react-native-svg'
+import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
 import { Constants } from './util'
 import Grid from './grid'
@@ -58,6 +58,7 @@ class LineChart extends PureComponent {
                   strokeWidth,
                   shadowWidth,
                   gridProps,
+                  renderGradient,
               } = this.props
 
         const { width, height } = this.state
@@ -102,10 +103,15 @@ class LineChart extends PureComponent {
                                 gridProps={ gridProps }
                             />
                         }
+                        {
+                            <Defs>
+                                { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
+                            </Defs>
+                        }
                         <Path
                             d={line}
-                            stroke={strokeColor}
-                            fill={'none'}
+                            stroke={renderGradient ? 'url(#gradient)' : strokeColor}
+                            fill={ 'none' }
                             strokeWidth={ strokeWidth }
                             strokeDasharray={dashArray}
                             animate={animate}
@@ -155,6 +161,7 @@ LineChart.propTypes = {
     gridProps: PropTypes.object,
     renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
+    renderGradient: PropTypes.func,
     ...Constants.gridProps,
 }
 
