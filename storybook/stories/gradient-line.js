@@ -19,6 +19,9 @@ class GradientLineExample extends React.PureComponent {
                         <Stop offset={ '100%' } stopColor={ 'rgb(66, 194, 244)' }/>
                     </LinearGradient>
                 ) }
+                svg={{
+                    strokeWidth: 2,
+                }}
             />
         )
     }

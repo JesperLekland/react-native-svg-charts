@@ -12,8 +12,10 @@ class DecoratorExample extends React.PureComponent {
             <AreaChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                fillColor={ 'rgba(134, 65, 244, 0.2)' }
-                strokeColor={ 'rgb(134, 65, 244)' }
+                svg={ {
+                    fill: 'rgba(134, 65, 244, 0.2)',
+                    stroke: 'rgb(134, 65, 244)',
+                } }
                 contentInset={ { top: 20, bottom: 30 } }
                 renderDecorator={ ({ x, y, index, value }) => (
                     <Circle

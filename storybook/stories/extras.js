@@ -72,9 +72,15 @@ class ExtrasExample extends React.PureComponent {
             <LineChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                fillColor={ 'purple' }
-                strokeColor={ 'rgb(134, 65, 244)' }
-                shadowColor={ 'rgba(134, 65, 244, 0.2)' }
+                svg={{
+                    fill: 'purple',
+                    stroke: 'rgb(134, 65, 244)',
+                    strokeWidth: 2,
+                }}
+                shadowSvg={{
+                    stroke: 'rgba(134, 65, 244, 0.2)',
+                    strokeWidth: 5,
+                }}
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={ shape.curveLinear }
                 extras={ [ HorizontalLine, Tooltip ] }

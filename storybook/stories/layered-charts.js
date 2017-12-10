@@ -15,16 +15,21 @@ class LayeredChartsExample extends React.PureComponent {
                 <AreaChart
                     style={ { flex: 1 } }
                     dataPoints={ data }
-                    fillColor={ 'rgba(134, 65, 244, 0.5)' }
-                    strokeColor={ 'rgb(134, 65, 244)' }
+                    svg={ {
+                        fill: 'rgba(134, 65, 244, 0.5)',
+                        stroke: 'rgb(134, 65, 244)',
+
+                    } }
                     contentInset={ { top: 20, bottom: 20 } }
                     curve={ shape.curveNatural }
                 />
                 <AreaChart
                     style={ StyleSheet.absoluteFill }
                     dataPoints={ data2 }
-                    fillColor={ 'rgba(34, 128, 176, 0.5)' }
-                    strokeColor={ 'rgb(34, 128, 176)' }
+                    svg={ {
+                        fill: 'rgba(34, 128, 176, 0.5)',
+                        stroke: 'rgb(34, 128, 176)',
+                    } }
                     contentInset={ { top: 20, bottom: 20 } }
                     curve={ shape.curveNatural }
                 />

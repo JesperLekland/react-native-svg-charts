@@ -23,9 +23,13 @@ class YAxisExample extends React.PureComponent {
                 <LineChart
                     style={ { flex: 1, marginLeft: 16 } }
                     dataPoints={ data }
-                    fillColor={ 'purple' }
-                    strokeColor={ 'rgb(134, 65, 244)' }
-                    shadowColor={ 'rgba(134, 65, 244, 0.2)' }
+                    svg={{
+                        stroke: 'rgb(134, 65, 244)',
+                    }}
+                    shadowSvg={ {
+                        stroke: 'rgba(134, 65, 244, 0.2)',
+                        strokeWidth: 5,
+                    }}
                     contentInset={ contentInset }
                     curve={ shape.curveLinear }
                 />
