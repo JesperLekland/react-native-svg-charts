@@ -12,8 +12,8 @@ what actions are needed to reproduce the problem? e.g click a button?
 ### What platform?
 
 <!-- replace space in bracket with 'x' -->
-* [x] iOS <!-- specific os version ? -->
-* [x] Android <!-- specific os version ? -->
+* [ ] iOS <!-- specific os version ? -->
+* [ ] Android <!-- specific os version ? -->
 
 React Native version: 0.xx
 
