@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import { Grid } from 'src'
 
 const util = {
 
