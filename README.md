@@ -191,7 +191,7 @@ class StackedAreaExample extends React.PureComponent {
         const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
 
         return (
-            <AreaStackChart
+            <StackedAreaChart
                 style={ { height: 200, paddingVertical: 16 } }
                 data={ data }
                 keys={ keys }
