@@ -6,8 +6,8 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
-import { Constants } from './util'
-import Grid from './grid'
+import DefaultGrid from './grid'
+import { Grid } from './index'
 
 class LineChart extends PureComponent {
 
@@ -57,6 +57,8 @@ class LineChart extends PureComponent {
                   svg,
                   shadowSvg,
                   renderGradient,
+                  Grid = DefaultGrid,
+                  gridDirection,
               } = this.props
 
         const { width, height } = this.state
@@ -97,8 +99,11 @@ class LineChart extends PureComponent {
                             showGrid &&
                             <Grid
                                 y={ y }
+                                x={ x }
+                                values={ dataPoints }
                                 ticks={ ticks }
                                 gridProps={ gridProps }
+                                gridDirection={gridDirection}
                             />
                         }
                         {
@@ -137,9 +142,12 @@ LineChart.propTypes = {
     shadowSvg: PropTypes.object,
     shadowWidth: PropTypes.number,
     shadowOffset: PropTypes.number,
+
     style: PropTypes.any,
+
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
+
     curve: PropTypes.func,
     contentInset: PropTypes.shape({
         top: PropTypes.number,
@@ -148,15 +156,19 @@ LineChart.propTypes = {
         bottom: PropTypes.number,
     }),
     numberOfTicks: PropTypes.number,
-    showGrid: PropTypes.bool,
-    gridMin: PropTypes.number,
-    gridMax: PropTypes.number,
     extras: PropTypes.array,
-    gridProps: PropTypes.object,
+
     renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
     renderGradient: PropTypes.func,
-    ...Constants.gridProps,
+
+    gridMin: PropTypes.number,
+    gridMax: PropTypes.number,
+    showGrid: PropTypes.bool,
+    gridProps: PropTypes.object,
+    gridDirection: PropTypes.oneOf([ Grid.Direction.Horizontal, Grid.Direction.Vertical, Grid.Direction.Both ]),
+    Grid: PropTypes.oneOfType([ PropTypes.func, PropTypes.node ]),
+
 }
 
 LineChart.defaultProps = {
@@ -172,7 +184,6 @@ LineChart.defaultProps = {
     gridMin: 0,
     gridMax: 0,
     extras: [],
-    ...Constants.gridDefaultProps,
     renderDecorator: () => {
     },
     renderExtra: () => {

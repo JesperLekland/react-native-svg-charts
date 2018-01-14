@@ -9,12 +9,16 @@ class Grid extends PureComponent {
         const {
                   ticks,
                   y,
+                  x,
+                  values,
                   gridProps,
+                  gridDirection: direction,
               } = this.props
 
         return (
             <G>
                 {
+                    (direction === Grid.Direction.Horizontal || direction === Grid.Direction.Both) &&
                     ticks.map(tick => (
                         <Line
                             key={ tick }
@@ -28,15 +32,37 @@ class Grid extends PureComponent {
                         />
                     ))
                 }
+                {
+                    (direction === Grid.Direction.Vertical || direction === Grid.Direction.Both) &&
+                    values && values.map((_, index) => (
+                        <Line
+                            key={ index }
+                            y1={ y(ticks[ 0 ]) }
+                            y2={ y(ticks[ ticks.length - 1 ]) }
+                            x1={ x(index) }
+                            x2={ x(index) }
+                            strokeWidth={ 1 }
+                            stroke={ 'rgba(0,0,0,0.2)' }
+                            { ...gridProps }
+                        />
+                    ))
+                }
             </G>
         )
     }
+}
+
+Grid.Direction = {
+    Vertical: 'vertical',
+    Horizontal: 'horizontal',
+    Both: 'both',
 }
 
 Grid.propTypes = {
     y: PropTypes.func.isRequired,
     ticks: PropTypes.array.isRequired,
     gridProps: PropTypes.object,
+    gridDirection: PropTypes.oneOf([ Grid.Direction.Horizontal, Grid.Direction.Vertical, Grid.Direction.Both ]),
 }
 
 Grid.defaultProps = {

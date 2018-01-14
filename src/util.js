@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types'
+import { Grid } from 'src'
 
 const util = {
 
@@ -25,23 +26,18 @@ export const Constants = {
         height: 0.5,
         backgroundColor: 'rgba(0,0,0,0.2)',
     },
-    gridProps: {
-        gridStroke: PropTypes.string,
-        gridWidth: PropTypes.number,
-    },
-    gridDefaultProps: {
-        gridStroke: 'rgba(0,0,0,0.2)',
-        gridWidth: 0.5,
-    },
     commonProps: {
-        dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
-        strokeWidth: PropTypes.number,
-        strokeColor: PropTypes.string,
-        fillColor: PropTypes.string,
-        dashArray: PropTypes.arrayOf(PropTypes.number),
+        svg: PropTypes.object,
+        shadowSvg: PropTypes.object,
+        shadowWidth: PropTypes.number,
+        shadowOffset: PropTypes.number,
+
         style: PropTypes.any,
+
         animate: PropTypes.bool,
         animationDuration: PropTypes.number,
+
+        curve: PropTypes.func,
         contentInset: PropTypes.shape({
             top: PropTypes.number,
             left: PropTypes.number,
@@ -49,14 +45,18 @@ export const Constants = {
             bottom: PropTypes.number,
         }),
         numberOfTicks: PropTypes.number,
-        showGrid: PropTypes.bool,
         extras: PropTypes.array,
+
         renderDecorator: PropTypes.func,
         renderExtra: PropTypes.func,
-        gridStroke: PropTypes.string,
-        gridWidth: PropTypes.number,
+        renderGradient: PropTypes.func,
+
         gridMin: PropTypes.number,
         gridMax: PropTypes.number,
+        showGrid: PropTypes.bool,
+        gridProps: PropTypes.object,
+        gridDirection: PropTypes.oneOf([ Grid.Direction.Horizontal, Grid.Direction.Vertical, Grid.Direction.Both ]),
+        Grid: PropTypes.oneOfType([ PropTypes.func, PropTypes.node ]),
     },
     commonDefaultProps: {
         strokeColor: '#22B6B0',

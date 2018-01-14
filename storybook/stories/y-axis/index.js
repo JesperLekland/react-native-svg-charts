@@ -1,8 +1,8 @@
 import React from 'react'
 import LineChart from '../../../src/line-chart'
 import * as shape from 'd3-shape'
-import YAxis from '../../../src/y-axis'
 import { View } from 'react-native'
+import { Grid, YAxis } from 'src'
 
 class YAxisExample extends React.PureComponent {
 
@@ -32,6 +32,7 @@ class YAxisExample extends React.PureComponent {
                     }}
                     contentInset={ contentInset }
                     curve={ shape.curveLinear }
+                    gridDirection={ Grid.Direction.Both }
                 />
             </View>
         )
