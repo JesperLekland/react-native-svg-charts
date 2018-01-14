@@ -1,72 +1,81 @@
+import React from 'react'
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
 import { G, Line } from 'react-native-svg'
 
-class Grid extends PureComponent {
+const Horizontal = ({ ticks = [], y, gridProps = {} }) => {
+    return (
+        <G>
+            {
+                ticks.map(tick => (
+                    <Line
+                        key={ tick }
+                        x1={ '0%' }
+                        x2={ '100%' }
+                        y1={ y(tick) }
+                        y2={ y(tick) }
+                        strokeWidth={ 1 }
+                        stroke={ 'rgba(0,0,0,0.2)' }
+                        { ...gridProps }
+                    />
+                ))
 
-    render() {
-
-        const {
-                  ticks,
-                  y,
-                  x,
-                  values,
-                  gridProps,
-                  gridDirection: direction,
-              } = this.props
-
-        return (
-            <G>
-                {
-                    (direction === Grid.Direction.Horizontal || direction === Grid.Direction.Both) &&
-                    ticks.map(tick => (
-                        <Line
-                            key={ tick }
-                            x1={ '0%' }
-                            x2={ '100%' }
-                            y1={ y(tick) }
-                            y2={ y(tick) }
-                            strokeWidth={ 1 }
-                            stroke={ 'rgba(0,0,0,0.2)' }
-                            { ...gridProps }
-                        />
-                    ))
-                }
-                {
-                    (direction === Grid.Direction.Vertical || direction === Grid.Direction.Both) &&
-                    values && values.map((_, index) => (
-                        <Line
-                            key={ index }
-                            y1={ y(ticks[ 0 ]) }
-                            y2={ y(ticks[ ticks.length - 1 ]) }
-                            x1={ x(index) }
-                            x2={ x(index) }
-                            strokeWidth={ 1 }
-                            stroke={ 'rgba(0,0,0,0.2)' }
-                            { ...gridProps }
-                        />
-                    ))
-                }
-            </G>
-        )
-    }
+            }
+        </G>
+    )
 }
 
-Grid.Direction = {
-    Vertical: 'vertical',
-    Horizontal: 'horizontal',
-    Both: 'both',
+const Vertical = ({ dataPoints = [], x, gridProps = {} }) => {
+    return (
+        <G>
+            {
+                dataPoints.map((_, index) => (
+                    <Line
+                        key={ index }
+                        y1={ '0%' }
+                        y2={ '100%' }
+                        x1={ x(index) }
+                        x2={ x(index) }
+                        strokeWidth={ 1 }
+                        stroke={ 'rgba(0,0,0,0.2)' }
+                        { ...gridProps }
+                    />
+                ))
+
+            }
+        </G>
+    )
 }
 
-Grid.propTypes = {
+const Both = (props) => {
+    return (
+        <G>
+            <Horizontal { ...props }/>
+            <Vertical { ...props }/>
+        </G>
+    )
+}
+
+Vertical.propTypes = {
+    x: PropTypes.func.isRequired,
+    dataPoints: PropTypes.array.isRequired,
+    gridProps: PropTypes.object,
+}
+
+Horizontal.propTypes = {
     y: PropTypes.func.isRequired,
     ticks: PropTypes.array.isRequired,
     gridProps: PropTypes.object,
-    gridDirection: PropTypes.oneOf([ Grid.Direction.Horizontal, Grid.Direction.Vertical, Grid.Direction.Both ]),
 }
 
-Grid.defaultProps = {
-    gridProps: {},
+Both.propTypes = {
+    ...Vertical.propTypes,
+    ...Horizontal.propTypes,
 }
 
-export default Grid
+export default Horizontal
+
+export {
+    Horizontal,
+    Vertical,
+    Both,
+}

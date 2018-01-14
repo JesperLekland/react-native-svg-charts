@@ -73,7 +73,8 @@ yarn storybook
 | gridMin | undefined | Normally the graph tries to draw from edge to edge within the view bounds. Using this prop will allow the grid to reach further than the actual dataPoints. [Example](#gridmin/max) |
 | gridMax | undefined | The same as "gridMin" but will instead increase the grids maximum value |
 | gridProps | `{}` | An object of props that are passed to the [Line](https://github.com/react-native-community/react-native-svg#line) component that renders the grid |
-| gridDirection | Grid.Direction.Vertical | The direction of the grid lines. Either `Grid.Direction.Horizontal`, `Grid.Direction.Vertical` or `Grid.Direction.Both` |
+| renderGrid | `Grid.Horizontal` | A function that returns the component to be rendered as the grid |
+| gridDirection | Grid.Direction.Horizontal | The direction of the grid lines. Either `Grid.Direction.Horizontal`, `Grid.Direction.Vertical` or `Grid.Direction.Both` |
 | extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
 | renderExtra | `() => {}` | Similar to the `renderItem` of a *FlatList*. This function will be called for each item in the `extras` array and pass an object as an argument. The argument object is of the shape `{x: function, y: function, item: item of extras}`. [See example](#extras) |
 | renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |
@@ -99,6 +100,7 @@ Also see [other examples](#other-examples)
 * [GridMin/Max](#gridminmax)
 * [Layered Charts](#layered-charts)
 * [PieChart with labels](#piechart-with-labels)
+* [Custom Grid](#custom-grid)
 
 ### AreaChart
 
@@ -1218,7 +1220,7 @@ class PieChartWithLabelExample extends React.PureComponent {
 
 
 ### Custom grid
-The default grid is just a collection of horizontal `Line`s. If you simply want to change the direction or styling look at the `gridDirection` & `gridProps` prop.
+The default grid is just a collection of horizontal `Line`s. If you simply want to change the direction or styling look at the `renderGrid` & `gridProps` prop.
 Some projects might require more control of the grid ( direction, different distributions etc), therefore all affected components support the `Grid` prop.
 The `Grid` prop takes a component and provides the `x`, `y`, `ticks` and `values` props to that component. Use them as in the example below
 
@@ -1229,7 +1231,7 @@ The `Grid` prop takes a component and provides the `x`, `y`, `ticks` and `values
 import React from 'react'
 import { View } from 'react-native'
 import { G, Line } from 'react-native-svg'
-import LineChart from 'react-native-svg-charts'
+import { LineChart, Grid } from 'react-native-svg-charts'
 
 class CustomGridExample extends React.PureComponent {
 
@@ -1237,7 +1239,7 @@ class CustomGridExample extends React.PureComponent {
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
-        const Grid = ({ x, y, values, ticks }) => (
+        const BothGrid = ({ x, y, values, ticks }) => (
             <G>
                 {
                     // Horizontal grid
@@ -1276,7 +1278,10 @@ class CustomGridExample extends React.PureComponent {
                     svg={ {
                         stroke: 'rgb(134, 65, 244)',
                     } }
-                    Grid={ Grid }
+                    renderGrid={ BothGrid }
+                    // renderGrid={ Grid.Horizontal }
+                    // renderGrid={ Grid.Vertical }
+                    // renderGrid={ Grid.Both }
                 />
             </View>
         )

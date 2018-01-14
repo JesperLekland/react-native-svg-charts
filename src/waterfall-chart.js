@@ -49,6 +49,7 @@ class WaterfallChart extends PureComponent {
                   extras,
                   renderExtra,
                   renderDecorator,
+                    renderGrid = Grid,
               } = this.props
 
         const { width, height } = this.state
@@ -104,14 +105,7 @@ class WaterfallChart extends PureComponent {
             <View style={style}>
                 <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
                     <Svg style={{ flex: 1 }}>
-                        {
-                            showGrid &&
-                            <Grid
-                                y={ y }
-                                ticks={ ticks }
-                                gridProps={ gridProps }
-                            />
-                        }
+                        { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
                         <Path
                             d={line}
                             stroke={strokeColor}
@@ -181,6 +175,7 @@ WaterfallChart.propTypes = {
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
     renderDecorator: PropTypes.func,
+    renderGrid: PropTypes.func,
     positiveFill: PropTypes.string,
     negativeFill: PropTypes.string,
 }

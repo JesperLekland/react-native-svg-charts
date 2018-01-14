@@ -10,7 +10,7 @@ import WaterfallChart from './waterfall-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
 import Decorators from './chart-decorators'
-import Grid from './grid'
+import * as Grid from './grid'
 
 export {
     LineChart,

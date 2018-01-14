@@ -32,7 +32,7 @@ class YAxisExample extends React.PureComponent {
                     }}
                     contentInset={ contentInset }
                     curve={ shape.curveLinear }
-                    gridDirection={ Grid.Direction.Both }
+                    renderGrid={ Grid.Both }
                 />
             </View>
         )

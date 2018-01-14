@@ -6,8 +6,7 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
-import DefaultGrid from './grid'
-import { Grid } from './index'
+import Grid from './grid'
 
 class LineChart extends PureComponent {
 
@@ -57,8 +56,7 @@ class LineChart extends PureComponent {
                   svg,
                   shadowSvg,
                   renderGradient,
-                  Grid = DefaultGrid,
-                  gridDirection,
+                  renderGrid = Grid,
               } = this.props
 
         const { width, height } = this.state
@@ -95,17 +93,7 @@ class LineChart extends PureComponent {
             <View style={style}>
                 <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
                     <Svg style={{ flex: 1 }}>
-                        {
-                            showGrid &&
-                            <Grid
-                                y={ y }
-                                x={ x }
-                                values={ dataPoints }
-                                ticks={ ticks }
-                                gridProps={ gridProps }
-                                gridDirection={gridDirection}
-                            />
-                        }
+                        { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
                         {
                             <Defs>
                                 { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
@@ -166,9 +154,7 @@ LineChart.propTypes = {
     gridMax: PropTypes.number,
     showGrid: PropTypes.bool,
     gridProps: PropTypes.object,
-    gridDirection: PropTypes.oneOf([ Grid.Direction.Horizontal, Grid.Direction.Vertical, Grid.Direction.Both ]),
-    Grid: PropTypes.oneOfType([ PropTypes.func, PropTypes.node ]),
-
+    renderGrid: PropTypes.func,
 }
 
 LineChart.defaultProps = {
