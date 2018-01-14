@@ -60,6 +60,7 @@ class BarChart extends PureComponent {
                   extras,
                   renderExtra,
                   renderDecorator,
+                  renderGrid = Grid,
               } = this.props
 
         if (!data && dataPoints) {
@@ -133,14 +134,7 @@ class BarChart extends PureComponent {
                     onLayout={event => this._onLayout(event)}
                 >
                     <Svg style={{ flex: 1 }}>
-                        {
-                            showGrid &&
-                            <Grid
-                                y={ y }
-                                ticks={ ticks }
-                                gridProps={ gridProps }
-                            />
-                        }
+                        { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
                         {
                             areas.map((bar, index) => {
                                 if (!bar.area) {
@@ -216,6 +210,7 @@ BarChart.propTypes = {
     extras: PropTypes.array,
     renderExtra: PropTypes.func,
     renderDecorator: PropTypes.func,
+    renderGrid: PropTypes.func,
 }
 
 BarChart.defaultProps = {

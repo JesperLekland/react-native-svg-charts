@@ -44,6 +44,7 @@ class AreaChart extends PureComponent {
                   extras,
                   renderExtra,
                   svg,
+                  renderGrid = Grid,
               } = this.props
 
         const { height, width } = this.state
@@ -98,14 +99,7 @@ class AreaChart extends PureComponent {
                     onLayout={event => this._onLayout(event)}
                 >
                     <Svg style={{ flex: 1 }}>
-                        {
-                            showGrid &&
-                            <Grid
-                                y={ y }
-                                ticks={ ticks }
-                                gridProps={ gridProps }
-                            />
-                        }
+                        { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
                         <Defs>
                             { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
                         </Defs>
@@ -157,6 +151,7 @@ AreaChart.propTypes = {
     // see https://github.com/react-native-community/react-native-svg#lineargradient for more info
     renderGradient: PropTypes.func,
     curve: PropTypes.func,
+    renderGrid: PropTypes.func,
 }
 
 AreaChart.defaultProps = {

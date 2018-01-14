@@ -33,6 +33,7 @@ import GradientLineExample from './gradient-line'
 import GradientBarExample from './gradient-bar'
 
 import GridMinMax from './grid-min-max'
+import CustomGrid from './custom-grid'
 
 storiesOf('AreaChart', module)
     .addDecorator(withKnobs)
@@ -85,3 +86,4 @@ storiesOf('Others', module)
     .add('Gradient Bar', () => <GradientBarExample/>)
     .add('Gradient Advanced', () => <GradientAdvancedExample/>)
     .add('Grid Min/Max', () => <GridMinMax/>)
+    .add('Custom Grid', () => <CustomGrid/>)
