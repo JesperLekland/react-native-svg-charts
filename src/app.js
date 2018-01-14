@@ -77,17 +77,27 @@ const _progressData = [
 
 const _multipleBarData = [
     {
-        fillColor: 'green',
-        strokeColor: 'green',
-        strokeColorNegative: 'red',
-        fillColorNegative: 'red',
+        positive: {
+            fill: 'green',
+            stroke: 'green',
+
+        },
+        negative: {
+            stroke: 'red',
+            fill: 'red',
+        },
         values: _data[ 0 ].map(obj => obj.value),
     },
     {
-        fillColor: 'blue',
-        strokeColor: 'blue',
-        strokeColorNegative: 'orange',
-        fillColorNegative: 'orange',
+        positive: {
+            fill: 'blue',
+            stroke: 'blue',
+
+        },
+        negative: {
+            stroke: 'orange',
+            fill: 'orange',
+        },
         values: _data[ 1 ].map(obj => obj.value),
     },
 ]
