@@ -1221,8 +1221,8 @@ class PieChartWithLabelExample extends React.PureComponent {
 
 ### Custom grid
 The default grid is just a collection of horizontal `Line`s. If you simply want to change the direction or styling look at the `renderGrid` & `gridProps` prop.
-Some projects might require more control of the grid ( direction, different distributions etc), therefore all affected components support the `Grid` prop.
-The `Grid` prop takes a component and provides the `x`, `y`, `ticks` and `values` props to that component. Use them as in the example below
+Some projects might require more control of the grid ( direction, different distributions etc), therefore all affected components support the `renderGrid` prop.
+The `renderGrid` prop takes a function and provides the `x`, `y`, `ticks` and `dataPoints` arguments. Use them as in the example below
 
 ![Custom grid](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/custom-grid.png)
 
@@ -1239,7 +1239,7 @@ class CustomGridExample extends React.PureComponent {
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
-        const BothGrid = ({ x, y, values, ticks }) => (
+        const BothGrid = ({ x, y, dataPoints, ticks }) => (
             <G>
                 {
                     // Horizontal grid
@@ -1256,7 +1256,7 @@ class CustomGridExample extends React.PureComponent {
                 }
                 {
                     // Vertical grid
-                    values.map((_, index) => (
+                    dataPoints.map((_, index) => (
                         <Line
                             key={ index }
                             y1={ '0%' }
