@@ -55,8 +55,6 @@ export const Constants = {
         gridMax: PropTypes.number,
         showGrid: PropTypes.bool,
         gridProps: PropTypes.object,
-        gridDirection: PropTypes.oneOf([ Grid.Direction.Horizontal, Grid.Direction.Vertical, Grid.Direction.Both ]),
-        Grid: PropTypes.oneOfType([ PropTypes.func, PropTypes.node ]),
     },
     commonDefaultProps: {
         strokeColor: '#22B6B0',

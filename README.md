@@ -74,7 +74,6 @@ yarn storybook
 | gridMax | undefined | The same as "gridMin" but will instead increase the grids maximum value |
 | gridProps | `{}` | An object of props that are passed to the [Line](https://github.com/react-native-community/react-native-svg#line) component that renders the grid |
 | renderGrid | `Grid.Horizontal` | A function that returns the component to be rendered as the grid |
-| gridDirection | Grid.Direction.Horizontal | The direction of the grid lines. Either `Grid.Direction.Horizontal`, `Grid.Direction.Vertical` or `Grid.Direction.Both` |
 | extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
 | renderExtra | `() => {}` | Similar to the `renderItem` of a *FlatList*. This function will be called for each item in the `extras` array and pass an object as an argument. The argument object is of the shape `{x: function, y: function, item: item of extras}`. [See example](#extras) |
 | renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |
