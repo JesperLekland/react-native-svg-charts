@@ -470,6 +470,7 @@ class PieChartExample extends React.PureComponent {
                 value,
                 color: randomColor(),
                 key: `pie-${index}`,
+                onPress: () => console.log(`${index} slice pressed`),
             }))
 
         return (
@@ -487,7 +488,7 @@ class PieChartExample extends React.PureComponent {
 
 | Property | Default | Description |
 | --- | --- | --- |
-| data | **required** | Slightly different than `dataPoints` because we allow for custom coloring of slices. The array should contain objects of the following shape: `{key: 'string|number', color: 'string', value: 'number'}` |
+| data | **required** | Slightly different than `dataPoints` because we allow for custom coloring of slices and onPress callback. The array should contain objects of the following shape: `{key: 'string|number', color: 'string', value: 'number', onPress?: function}` |
 | outerRadius | "100%" | The outer radius, use this to tweak how close your pie is to the edge of it's container. Takes either percentages or absolute numbers (pixels) |
 | innerRadius | "50%" | The inner radius, use this to create a donut. Takes either percentages or absolute numbers (pixels) |
 | labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |

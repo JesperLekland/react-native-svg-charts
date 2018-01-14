@@ -101,7 +101,7 @@ class PieChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         <G x={width / 2} y={height / 2}>
                             { pieSlices.map((slice, index) => {
-                                const { key, color } = data[ index ]
+                                const { key, color, onPress } = data[ index ]
                                 return (
                                     <Path
                                         key={key}
@@ -109,6 +109,7 @@ class PieChart extends PureComponent {
                                         d={ arc(slice) }
                                         animate={animate}
                                         animationDuration={animationDuration}
+                                        onPress={onPress}
                                     />
                                 )
                             })}

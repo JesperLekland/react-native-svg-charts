@@ -1,5 +1,5 @@
 import React from 'react'
-import PieChart from '../../../src/pie-chart'
+import { PieChart } from 'src'
 
 class PieChartExample extends React.PureComponent {
 
@@ -15,6 +15,7 @@ class PieChartExample extends React.PureComponent {
                 value,
                 color: randomColor(),
                 key: `pie-${index}`,
+                onPress: () => console.log('press', index),
             }))
 
         return (
