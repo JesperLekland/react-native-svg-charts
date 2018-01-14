@@ -6,7 +6,7 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg, { Defs } from 'react-native-svg'
 import Path from './animated-path'
-import DefaultGrid from './grid'
+import Grid from './grid'
 
 class AreaChart extends PureComponent {
 
@@ -44,7 +44,7 @@ class AreaChart extends PureComponent {
                   extras,
                   renderExtra,
                   svg,
-                  renderGrid = DefaultGrid,
+                  renderGrid = Grid,
               } = this.props
 
         const { height, width } = this.state
