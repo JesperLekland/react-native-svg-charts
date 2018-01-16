@@ -115,7 +115,7 @@ class AreaChart extends PureComponent {
                         />
                         <Path
                             { ...svg }
-                            stroke={ renderLineGradient ? 'url(#line-gradient)' : svg.fill }
+                            stroke={ renderLineGradient ? 'url(#line-gradient)' : svg.stroke }
                             animate={animate}
                             animationDuration={animationDuration}
                             d={ line }
