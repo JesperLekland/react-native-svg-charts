@@ -19,6 +19,12 @@ class GradientExample extends React.PureComponent {
                         <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
                     </LinearGradient>
                 ) }
+                renderLineGradient={ ({ id }) => (
+                    <LinearGradient id={ id } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
+                        <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
+                        <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
+                    </LinearGradient>
+                ) }
             />
         )
     }

@@ -138,6 +138,9 @@ class AreaChartExample extends React.PureComponent {
 #### Props
 
 See [Common Props](#common-props)
+| Property | Default | Description |
+| --- | --- | --- |
+| renderLineGradient | undefined | The same as `renderGradient` but for the line in the chart  |
 
 ### StackedAreaChart
 
