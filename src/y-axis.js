@@ -36,6 +36,8 @@ class YAxis extends PureComponent {
                       top    = 0,
                       bottom = 0,
                   },
+                  min,
+                  max,
               }                      = this.props
         const { height, textHeight } = this.state
 
@@ -43,7 +45,7 @@ class YAxis extends PureComponent {
             return <View style={ style }/>
         }
 
-        const extent = array.extent([ ...dataPoints, 0 ])
+        const extent = array.extent([ ...dataPoints, min, max ])
         const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const y = scale.scaleLinear()
@@ -101,6 +103,8 @@ YAxis.propTypes = {
         top: PropTypes.number,
         bottom: PropTypes.number,
     }),
+    min: PropTypes.number,
+    max: PropTypes.number,
 }
 
 YAxis.defaultProps = {

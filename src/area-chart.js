@@ -160,8 +160,6 @@ AreaChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
-    gridMin: 0,
-    gridMax: 0,
     extras: [],
     renderDecorator: () => {
     },
