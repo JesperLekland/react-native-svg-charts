@@ -657,6 +657,9 @@ class YAxisExample extends React.PureComponent {
 | labelStyle | undefined | Supports all [TextStyleProps](https://facebook.github.io/react-native/docs/textstyleproptypes.html) |
 | formatLabel | `value => {}` | A utility function to format the text before it is displayed, e.g `value => "$" + value |
 | contentInset | { top: 0, bottom: 0 } | Used to sync layout with chart (if same prop used there) |
+| min | undefined | Used to sync layout with chart (if gridMin is used there) |
+| max | undefined | Used to sync layout with chart (if gridMax is used there) |
+
 
 ### XAxis
 
