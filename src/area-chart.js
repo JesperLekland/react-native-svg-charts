@@ -28,6 +28,7 @@ class AreaChart extends PureComponent {
                   animationDuration,
                   style,
                   renderGradient,
+                  renderLineGradient,
                   curve,
                   showGrid,
                   numberOfTicks,
@@ -102,6 +103,7 @@ class AreaChart extends PureComponent {
                         { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
                         <Defs>
                             { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
+                            { renderLineGradient && renderLineGradient({ id: 'line-gradient', width, height, x, y }) }
                         </Defs>
                         <Path
                             { ...svg }
@@ -113,6 +115,7 @@ class AreaChart extends PureComponent {
                         />
                         <Path
                             { ...svg }
+                            stroke={ renderLineGradient ? 'url(#line-gradient)' : svg.stroke }
                             animate={animate}
                             animationDuration={animationDuration}
                             d={ line }
@@ -150,6 +153,7 @@ AreaChart.propTypes = {
     gridMax: PropTypes.number,
     // see https://github.com/react-native-community/react-native-svg#lineargradient for more info
     renderGradient: PropTypes.func,
+    renderLineGradient: PropTypes.func,
     curve: PropTypes.func,
     renderGrid: PropTypes.func,
 }
