@@ -109,8 +109,12 @@ class AreaChart extends PureComponent {
                         <Defs>
                             { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
                             { renderLineGradient && renderLineGradient({ id: 'line-gradient', width, height, x, y }) }
-                            { renderOverlayGradient && renderOverlayGradient({ id: 'overlay-gradient', width, height, x, y }) }
-                            { clipPathDefs.map((item, index) => renderClipPathDef({ item, index, x, y, width, height }))}
+                            { renderOverlayGradient && 
+                                renderOverlayGradient({ id: 'overlay-gradient', width, height, x, y }) 
+                            }
+                            { clipPathDefs.map((item, index) => 
+                                renderClipPathDef({ item, index, x, y, width, height })) 
+                            }
                         </Defs>
                         <Path
                             { ...svg }

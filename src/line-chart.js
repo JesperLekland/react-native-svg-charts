@@ -101,7 +101,9 @@ class LineChart extends PureComponent {
                         {
                             <Defs>
                                 { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
-                                { clipPathDefs.map((item, index) => renderClipPathDef({ item, index, x, y, width, height }))}
+                                { clipPathDefs.map((item, index) => 
+                                    renderClipPathDef({ item, index, x, y, width, height }))
+                                }
                             </Defs>
                         }
                         <Path
