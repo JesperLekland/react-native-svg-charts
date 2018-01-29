@@ -100,6 +100,7 @@ Also see [other examples](#other-examples)
 * [Layered Charts](#layered-charts)
 * [PieChart with labels](#piechart-with-labels)
 * [Custom Grid](#custom-grid)
+* [Partial Line](#partial-line) and [Partial Area](#partial-area)
 
 ### AreaChart
 
@@ -141,6 +142,11 @@ See [Common Props](#common-props)
 | Property | Default | Description |
 | --- | --- | --- |
 | renderLineGradient | undefined | The same as `renderGradient` but for the line in the chart  |
+| clipPathDefs | [] | An array of `clipPath` defnitions that will be rendered inside the `<defs>` part of the svg. Used together with `renderClipPathDef` property. Also see [extras](#extras) on how to use this. |
+| renderClipPathDef | empty function | The render function for the clipPathDefs. See [extras](#extras) on how to use this. |
+| overlayAreaSvg | undefined | If present it will render an overlay area. Use together with clipPathDefs to create partial styling. See [Partial Area](#partial-area) |
+| overlayLineSvg | undefined | If present it will render an overlay line. Use together with clipPathDefs to create partial styling. See [Partial Area](#partial-area) |
+| renderOverlayGradient | undefined | Gradient for the overlay area. See [Partial Area](#partial-area) |
 
 ### StackedAreaChart
 
@@ -450,6 +456,10 @@ See [Common Props](#common-props)
 | --- | --- | --- |
 | shadowSvg | `{}` | accepts the same object shape as `svg` but is passed to the shadow line instead  |
 | shadowOffset | 3 | the offset of the shadow in value (not pixels)  |
+| overlayLineSvg | undefined | used to create an extra line on top of the other line. Use case is typcically to create a partial styled line. See [Partial Line](#partial-line).  |
+| overlayLineShadowSvg | undefined | Same as overlayLineSvg, but for the shadow as well.  |
+| clipPathDefs | [] | An array of `clipPath` defnitions that will be rendered inside the `<defs>` part of the svg. Used together with `renderClipPathDef` property. Also see [extras](#extras) on how to use this. |
+| renderClipPathDef | empty function | The render function for the clipPathDefs. See [extras](#extras) on how to use this.  |
 
 
 
@@ -1297,6 +1307,141 @@ class CustomGridExample extends React.PureComponent {
 export default CustomGrid
 
 ```
+
+### Partial Line
+Create an overlay line with "clipPath" definitions to create an additional styling to the chart. 
+
+![Partial Line](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-line.png)
+
+```javascript
+import React from 'react'
+import { LineChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
+import { ClipPath, Rect } from 'react-native-svg'
+
+class PartialLineExample extends React.PureComponent {
+    render() {
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+
+        const indexToClipFrom = 10
+
+        const ClipPath1 = ({ x, width }) => (
+            <ClipPath id={'clip-path-1'} key={'0'}>
+                <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'} />
+            </ClipPath>
+        )
+        const ClipPath2 = ({ x }) => (
+            <ClipPath id="clip-path-2" key={'1'}>
+                <Rect x={'0'} y={'0'} width={x(indexToClipFrom)} height={'100%'} />
+            </ClipPath>
+        )
+        const clipPaths = [ ClipPath1, ClipPath2 ]
+
+        return (
+            <LineChart
+                style={ { height: 200 } }
+                dataPoints={ data }
+                svg={ {
+                    stroke: 'rgb(134, 65, 244)',
+                    strokeDasharray: [ 4, 4 ],
+                    clipPath: 'url(#clip-path-1)',
+                } }
+                shadowSvg={ {
+                    stroke: 'rgba(134, 65, 244, 0.2)',
+                    strokeWidth: 5,
+                    strokeDasharray: [ 4, 4 ],
+                    clipPath: 'url(#clip-path-1)',
+                } }
+                overlayLineSvg={ {
+                    stroke: 'rgb(134, 65, 244)',
+                    clipPath: 'url(#clip-path-2)',
+                } }
+                overlayLineShadowSvg={ {
+                    stroke: 'rgba(134, 65, 244, 0.2)',
+                    strokeWidth: 5,
+                    clipPath: 'url(#clip-path-2)',
+                } }
+                contentInset={ { top: 20, bottom: 20 } }
+                curve={shape.curveCardinal}
+                clipPathDefs={ clipPaths }
+                renderClipPathDef={({ item, ...args }) => item(args)}
+                { ...this.props }
+            />
+        )
+    }
+}
+
+export default PartialLineExample
+
+```
+
+### Partial Area
+Create an overlay area with "clipPath" definitions to create an additional styling to the chart. Can be combined with a partial line style to enable specific styling to the line as well.
+
+![Partial Area](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-area.png)
+
+```javascript
+import React from 'react'
+import { AreaChart } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
+import { ClipPath, Rect, LinearGradient, Stop } from 'react-native-svg'
+
+class PartialAreaExample extends React.PureComponent {
+    render() {
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+
+        const indexToClipFrom = 10
+
+        const ClipPath1 = ({ x, width }) => (
+            <ClipPath id={'clip-path-1'} key={'0'}>
+                <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'} />
+            </ClipPath>
+        )
+        const ClipPath2 = ({ x }) => (
+            <ClipPath id="clip-path-2" key={'1'}>
+                <Rect x={'0'} y={'0'} width={x(indexToClipFrom)} height={'100%'} />
+            </ClipPath>
+        )
+        const clipPaths = [ ClipPath1, ClipPath2 ]
+
+        return (
+            <AreaChart
+                style={ { height: 200 } }
+                dataPoints={ data }
+                contentInset={ { top: 30, bottom: 30 } }
+                curve={shape.curveNatural}
+                svg={{
+                    fill: 'transparent',
+                    stroke: 'rgb(134, 65, 244)',
+                    strokeDasharray: [ 4, 4 ],
+                    clipPath: 'url(#clip-path-1)',
+                }}
+                overlayAreaSvg={ {
+                    fill: 'rgba(134, 65, 244, 0.2)',
+                    clipPath: 'url(#clip-path-2)',
+                } }
+                overlayLineSvg={ {
+                    fill: 'rgba(134, 65, 244, 0.2)',
+                    stroke: 'rgb(134, 65, 244)',
+                    clipPath: 'url(#clip-path-2)',
+                } }
+                renderOverlayGradient={ ({ id }) => (
+                    <LinearGradient id={ id } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
+                        <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
+                        <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
+                    </LinearGradient>
+                ) }
+                clipPathDefs={ clipPaths }
+                renderClipPathDef={({ item, ...args }) => item(args)}
+                { ...this.props }
+            />
+        )
+    }
+}
+
+export default PartialAreaExample
+```
+
 
 ## License
 [MIT](./LICENSE)
