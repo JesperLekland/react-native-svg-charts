@@ -46,6 +46,11 @@ class AreaChart extends PureComponent {
                   renderExtra,
                   svg,
                   renderGrid = Grid,
+                  clipPathDefs,
+                  renderClipPathDef,
+                  overlayAreaSvg,
+                  renderOverlayGradient,
+                  overlayLineSvg,
               } = this.props
 
         const { height, width } = this.state
@@ -104,6 +109,8 @@ class AreaChart extends PureComponent {
                         <Defs>
                             { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
                             { renderLineGradient && renderLineGradient({ id: 'line-gradient', width, height, x, y }) }
+                            { renderOverlayGradient && renderOverlayGradient({ id: 'overlay-gradient', width, height, x, y }) }
+                            { clipPathDefs.map((item, index) => renderClipPathDef({ item, index, x, y, width, height }))}
                         </Defs>
                         <Path
                             { ...svg }
@@ -121,6 +128,28 @@ class AreaChart extends PureComponent {
                             d={ line }
                             fill={ 'none' }
                         />
+
+                        { overlayAreaSvg &&
+                            <Path
+                                { ...overlayAreaSvg }
+                                fill={ renderOverlayGradient ? 'url(#overlay-gradient)' : overlayAreaSvg.fill }
+                                d={area}
+                                animate={animate}
+                                animationDuration={animationDuration}
+                                stroke={ 'none' }
+                            />
+                        }
+                        { overlayLineSvg && 
+                            <Path
+                                { ...overlayLineSvg }
+                                stroke={ renderLineGradient ? 'url(#line-gradient)' : svg.stroke }
+                                animate={animate}
+                                animationDuration={animationDuration}
+                                d={ line }
+                                fill={ 'none' }
+                            />
+                        }
+                        
                         { dataPoints.map((value, index) => renderDecorator({ x, y, index, value })) }
                         { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
                     </Svg>
@@ -155,7 +184,12 @@ AreaChart.propTypes = {
     renderGradient: PropTypes.func,
     renderLineGradient: PropTypes.func,
     curve: PropTypes.func,
+    overlayLineSvg: PropTypes.object,
+    overlayAreaSvg: PropTypes.object,
     renderGrid: PropTypes.func,
+    clipPathDefs: PropTypes.array,
+    renderClipPathDef: PropTypes.func,
+    renderOverlayGradient: PropTypes.func,
 }
 
 AreaChart.defaultProps = {
@@ -168,6 +202,10 @@ AreaChart.defaultProps = {
     renderDecorator: () => {
     },
     renderExtra: () => {
+    },
+    clipPathDefs: [],
+    renderClipPathDef: () => {
+
     },
 }
 

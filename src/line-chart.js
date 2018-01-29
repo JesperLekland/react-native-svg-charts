@@ -56,6 +56,10 @@ class LineChart extends PureComponent {
                   svg,
                   shadowSvg,
                   renderGradient,
+                  clipPathDefs,
+                  renderClipPathDef,
+                  overlayLineSvg,
+                  overlayLineShadowSvg,
                   renderGrid = Grid,
               } = this.props
 
@@ -97,6 +101,7 @@ class LineChart extends PureComponent {
                         {
                             <Defs>
                                 { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
+                                { clipPathDefs.map((item, index) => renderClipPathDef({ item, index, x, y, width, height }))}
                             </Defs>
                         }
                         <Path
@@ -115,6 +120,30 @@ class LineChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
+
+                        {
+                            overlayLineSvg && 
+                                <Path
+                                    { ...overlayLineSvg }
+                                    d={line}
+                                    stroke={overlayLineSvg.stroke}
+                                    fill={'none'}
+                                    animate={animate}
+                                    animationDuration={animationDuration}
+                                />
+                        }
+                        {
+                            overlayLineShadowSvg && 
+                                <Path
+                                    strokeWidth={ 5 }
+                                    { ...overlayLineShadowSvg }
+                                    d={shadow}
+                                    fill={'none'}
+                                    animate={animate}
+                                    animationDuration={animationDuration}
+                                />
+                        }
+
                         { dataPoints.map((value, index) => renderDecorator({ x, y, value, index })) }
                         { extras.map((item, index) => renderExtra({ x, y, item, index, width, height })) }
                     </Svg>
@@ -129,6 +158,8 @@ LineChart.propTypes = {
     svg: PropTypes.object,
     shadowSvg: PropTypes.object,
     shadowOffset: PropTypes.number,
+    overlayLineSvg: PropTypes.object,
+    overlayLineShadowSvg: PropTypes.object,
 
     style: PropTypes.any,
 
@@ -148,6 +179,8 @@ LineChart.propTypes = {
     renderDecorator: PropTypes.func,
     renderExtra: PropTypes.func,
     renderGradient: PropTypes.func,
+    clipPathDefs: PropTypes.array,
+    renderClipPathDef: PropTypes.func,
 
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
@@ -170,6 +203,10 @@ LineChart.defaultProps = {
     renderDecorator: () => {
     },
     renderExtra: () => {
+    },
+    clipPathDefs: [],
+    renderClipPathDef: () => {
+
     },
 }
 
