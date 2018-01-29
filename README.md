@@ -1311,7 +1311,7 @@ export default CustomGrid
 ### Partial Line
 Create an overlay line with "clipPath" definitions to create an additional styling to the chart. 
 
-(Image here)
+![Partial Line](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-line.png)
 
 ```javascript
 import React from 'react'
@@ -1378,7 +1378,7 @@ export default PartialLineExample
 ### Partial Area
 Create an overlay area with "clipPath" definitions to create an additional styling to the chart. Can be combined with a partial line style to enable specific styling to the line as well.
 
-(Image here)
+![Partial Area](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-area.png)
 
 ```javascript
 import React from 'react'
