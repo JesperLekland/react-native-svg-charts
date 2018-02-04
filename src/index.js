@@ -11,6 +11,7 @@ import XAxis from './x-axis'
 import YAxis from './y-axis'
 import Decorators from './chart-decorators'
 import * as Grid from './grid'
+import Path from './animated-path'
 
 export {
     LineChart,
@@ -26,4 +27,5 @@ export {
     HorizontalLabeledBarChart,
     Decorators,
     Grid,
+    Path,
 }
