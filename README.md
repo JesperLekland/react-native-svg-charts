@@ -5,8 +5,8 @@
 ![circleci](https://circleci.com/gh/JesperLekland/react-native-svg-charts.svg?style=shield&circle-token=1a809ccdfbd0df3ed425a08f09c558401f794140)
 [![license](https://img.shields.io/npm/l/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
 
-### version 2 now available!
-More charts more customisation!
+### version 3 now available!
+Better API, greater extensibility and customisation!
 See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information
 
 
@@ -100,7 +100,7 @@ Also see [other examples](#other-examples)
 * [Layered Charts](#layered-charts)
 * [PieChart with labels](#piechart-with-labels)
 * [Custom Grid](#custom-grid)
-* [Partial Chart](#partial-chart)
+* [Partial Chart](#partial-charts)
 
 ### AreaChart
 
