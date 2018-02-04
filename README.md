@@ -75,7 +75,6 @@ yarn storybook
 | gridProps | `{}` | An object of props that are passed to the [Line](https://github.com/react-native-community/react-native-svg#line) component that renders the grid |
 | renderGrid | `Grid.Horizontal` | A function that returns the component to be rendered as the grid |
 | extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
-| renderExtra | `() => {}` | Similar to the `renderItem` of a *FlatList*. This function will be called for each item in the `extras` array and pass an object as an argument. The argument object is of the shape `{x: function, y: function, item: item of extras}`. [See example](#extras) |
 | renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |
 
 ## Components
@@ -139,9 +138,6 @@ class AreaChartExample extends React.PureComponent {
 #### Props
 
 See [Common Props](#common-props)
-| Property | Default | Description |
-| --- | --- | --- |
-| renderLineGradient | undefined | The same as `renderGradient` but for the line in the chart  |
 
 ### StackedAreaChart
 
@@ -208,8 +204,6 @@ class StackedAreaExample extends React.PureComponent {
         )
     }
 }
-
-export default StackedAreaExample
 
 ```
 
@@ -439,13 +433,6 @@ class LineChartExample extends React.PureComponent {
 #### Props
 See [Common Props](#common-props)
 
-| Property | Default | Description |
-| --- | --- | --- |
-| shadowSvg | `{}` | accepts the same object shape as `svg` but is passed to the shadow line instead  |
-| shadowOffset | 3 | the offset of the shadow in value (not pixels)  |
-
-
-
 ### PieChart
 ![Pie chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/pie-chart.png)
 
@@ -593,7 +580,7 @@ See [Common Props](#common-props)
 
 ### YAxis
 
-![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/y-axis.png)
+![Y-axis](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/y-axis.png)
 
 A helper component to layout your Y-axis labels on the same coordinates as your chart.
 It's very important that the component has the exact same view bounds (preferably wrapped in the same parent view) as the chart it's supposed to match.
@@ -763,8 +750,6 @@ class GradientExample extends React.PureComponent {
 
 }
 
-export default GradientExample
-
 ```
 
 ### Decorator
@@ -822,8 +807,7 @@ class DecoratorExample extends React.PureComponent {
 }
 ```
 ### Extras
-The `extras` prop allow for arbitrary decorators on your chart. The prop takes an array of arbitrary data and then calls `renderExtra` for each entry in that array.
-The `renderExtra` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
+The `extras` prop allow for arbitrary decorators on your chart.
 and is a function that is called with an object as an arguments to help the layout of the extra decorator. The content of the argument object is as follows:
 
 ```javascript
@@ -832,14 +816,21 @@ and is a function that is called with an object as an arguments to help the layo
     x: function, // the function used to calculate the x coordinate of a specific data point index
     y: function, // the function used to calculate the y coordinate of a specific data point value
     index: number, // the index of the item in the 'extras' array
+    width: number, // the width of the svg canvas,
+    height: number, // the number fo the svg canvas,
 }
 ```
-There might be additional parameters sent to the `renderExtra` function as well, depending on the chart type.
+There might be additional parameters sent to the `extras` functions as well, depending on the chart type.
 
-The Line Chart passes the svg path data that rendered the line and also the shadow svg path data. The Area Chart passes both the area and line svg path data.
+The `LineChart` passes the svg path data that rendered the line. (argument name `line`)
+
+The `AreaChart` passes both the area svg path as well as the 
+svg path for the line following the upper bounds of the area. 
+(argument name `area` and `line` respectively)
+
 See [Partial Chart](#partial-chart) for use case for this.
 
-Remember that all components returned by `renderExtra` must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
+Remember that all components returned by an `extras` function must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
 
 ![Extras](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/extras.png)
 
@@ -1050,8 +1041,6 @@ class AreaStackWithAxisExample extends React.PureComponent {
     }
 }
 
-export default AreaStackWithAxisExample
-
 ```
 
 ### Layered Charts
@@ -1237,7 +1226,7 @@ class CustomGridExample extends React.PureComponent {
 ```
 
 ### Partial Charts
-Here's another example of how the `extras` property can be used to create highly customizable charts. You can use it to create overlays and, with the svg's clipPath capability, create charts that partially have a different look-and-feel. See the example below.
+Here's another example of how the `extras` property can be used to create highly customizable charts. 
 
 ![Partial Charts](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-charts.png)
 
