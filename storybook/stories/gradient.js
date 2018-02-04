@@ -1,5 +1,5 @@
 import React from 'react'
-import { AreaChart, Path } from 'react-native-svg-charts'
+import { AreaChart } from 'react-native-svg-charts'
 import { Defs, LinearGradient, Stop } from 'react-native-svg'
 
 class GradientExample extends React.PureComponent {
@@ -14,33 +14,15 @@ class GradientExample extends React.PureComponent {
                     <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
                     <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
                 </LinearGradient>
-                <LinearGradient id={'line-gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
-                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
-                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
-                </LinearGradient>
             </Defs>
         )
-
-        const Line = ({ line }) => (
-            <Path
-                key={'line'}
-                d={line}
-                fill={'none'}
-                stroke={'url(#line-gradient)'}
-            />
-        )
-
-        const extras = [
-            Gradient,
-            Line,
-        ]
 
         return (
             <AreaChart
                 style={{ height: 200 }}
                 dataPoints={data}
                 contentInset={{ top: 20, bottom: 20 }}
-                extras={extras}
+                extras={[ Gradient ]}
                 svg={{ fill: 'url(#gradient)' }}
             />
         )

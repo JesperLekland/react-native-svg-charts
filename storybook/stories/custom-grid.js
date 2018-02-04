@@ -1,5 +1,5 @@
 import React from 'react'
-import LineChart from 'src/line-chart'
+import { LineChart } from 'react-native-svg-charts'
 import { View } from 'react-native'
 import { G, Line } from 'react-native-svg'
 

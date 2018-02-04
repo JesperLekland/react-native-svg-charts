@@ -1,5 +1,5 @@
 import React from 'react'
-import LineChart from '../../../src/line-chart'
+import { LineChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class LineChartExample extends React.PureComponent {
@@ -12,13 +12,8 @@ class LineChartExample extends React.PureComponent {
             <LineChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                shadowOffset={ 3 }
                 svg={ {
                     stroke: 'rgb(134, 65, 244)',
-                } }
-                shadowSvg={ {
-                    stroke: 'rgba(134, 65, 244, 0.2)',
-                    strokeWidth: 5,
                 } }
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={shape.curveLinear}
