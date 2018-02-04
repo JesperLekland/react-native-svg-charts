@@ -122,7 +122,19 @@ class AreaChart extends PureComponent {
                             fill={ 'none' }
                         />
                         { dataPoints.map((value, index) => renderDecorator({ x, y, index, value })) }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
+                        { extras.map((item, index) => renderExtra({ 
+                            item, 
+                            x, 
+                            y, 
+                            index, 
+                            width, 
+                            height, 
+                            area, 
+                            line, 
+                            gradientId: 'gradient', 
+                            linearGradientId: 'line-gradient', 
+                        })) 
+                        }
                     </Svg>
                 </View>
             </View>
