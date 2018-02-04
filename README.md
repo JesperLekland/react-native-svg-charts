@@ -388,9 +388,6 @@ class StackedBarChartExample extends React.PureComponent {
 
 }
 
-export default StackedBarChartExample
-
-
 ```
 
 #### Props
@@ -425,17 +422,12 @@ class LineChartExample extends React.PureComponent {
             <LineChart
                 style={ { height: 200 } }
                 dataPoints={ data }
-                fillColor={ 'purple' }
-                shadowOffset={3}
                 svg={ {
                     stroke: 'rgb(134, 65, 244)',
                 } }
-                shadowSvg={ {
-                    stroke: 'rgba(134, 65, 244, 0.2)',
-                    strokeWidth: 5,
-                } }
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={shape.curveLinear}
+                { ...this.props }
             />
         )
     }
@@ -612,7 +604,6 @@ If the chart has property `contentInset` set it's very important that the YAxis 
 import React from 'react'
 import { LineChart, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
-import YAxis from '../y-axis'
 import { View } from 'react-native'
 
 class YAxisExample extends React.PureComponent {
@@ -637,10 +628,6 @@ class YAxisExample extends React.PureComponent {
                     svg={{
                         stroke: 'rgb(134, 65, 244)',
                     }}
-                    shadowSvg={ {
-                        stroke: 'rgba(134, 65, 244, 0.2)',
-                        strokeWidth: 5,
-                    }}
                     contentInset={ contentInset }
                     curve={ shape.curveLinear }
                 />
@@ -649,6 +636,7 @@ class YAxisExample extends React.PureComponent {
     }
 
 }
+
 
 ```
 
@@ -745,7 +733,7 @@ You can read more about the available gradients [here](https://github.com/react-
 ```javascript
 import React from 'react'
 import { AreaChart } from 'react-native-svg-charts'
-import { LinearGradient, Stop } from 'react-native-svg'
+import { Defs, LinearGradient, Stop } from 'react-native-svg'
 
 class GradientExample extends React.PureComponent {
 
@@ -753,78 +741,29 @@ class GradientExample extends React.PureComponent {
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
+        const Gradient = ({ index }) => (
+            <Defs key={index}>
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
+                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
+                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
+                </LinearGradient>
+            </Defs>
+        )
+        
         return (
             <AreaChart
-                style={ { height: 200 } }
-                dataPoints={ data }
-                contentInset={ { top: 20, bottom: 20 } }
-                renderGradient={ ({ id }) => (
-                    <LinearGradient id={ id } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
-                        <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                        <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                    </LinearGradient>
-                ) }
+                style={{ height: 200 }}
+                dataPoints={data}
+                contentInset={{ top: 20, bottom: 20 }}
+                extras={[ Gradient ]}
+                svg={{ fill: 'url(#gradient)' }}
             />
         )
     }
 
 }
-```
 
-
-### Gradient Advanced
-This example is made to show you how flexible and powerful the renderGradient/Decorator/Extras pattern is. Your imagination sets the limits in this case
-
-![Gradient](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient-advanced.png)
-
-```javascript
-import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
-import { LinearGradient, Stop } from 'react-native-svg'
-import { StyleSheet, View } from 'react-native'
-
-class GradientAdvancedExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        const cut = 0.5
-        const cutBuffer = 0.001
-
-        return (
-            <View>
-                <AreaChart
-                    style={ { height: 200 } }
-                    dataPoints={ data }
-                    contentInset={ { top: 20, bottom: 20 } }
-                    renderGradient={ ({ id }) => (
-                        <LinearGradient id={ id } x1={ '0%' } y1={ '0%' } x2={ '0%' } y2={ '100%' }>
-                            <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                            <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                        </LinearGradient>
-                    ) }
-                />
-                <AreaChart
-                    style={ StyleSheet.absoluteFill }
-                    dataPoints={ data }
-                    contentInset={ { top: 20, bottom: 20 } }
-                    renderGradient={ ({ id }) => (
-                        <LinearGradient id={ id } x1={ '0%' } y1={ '0%' } x2={ '100%' } y2={ '0%' }>
-                            <Stop offset={ '0' } stopColor={ 'transparent' } stopOpacity={ 0 }/>
-                            <Stop offset={ `${cut}` } stopColor={ 'transparent' } stopOpacity={ 0 }/>
-                            <Stop offset={ `${cut + cutBuffer}` } stopColor={ 'white' } stopOpacity={ 0.6 }/>
-                            <Stop offset={ '1' } stopColor={ 'white' } stopOpacity={ 0.6 }/>
-                        </LinearGradient>
-                    ) }
-                />
-            </View>
-        )
-    }
-
-}
-
-export default GradientAdvancedExample
+export default GradientExample
 
 ```
 
@@ -909,7 +848,6 @@ Remember that all components returned by `renderExtra` must be one that is rende
 ```javascript
 import React from 'react'
 import { LineChart } from 'react-native-svg-charts'
-import { Circle } from 'react-native-svg'
 import * as shape from 'd3-shape'
 import { Circle, G, Line, Rect, Text } from 'react-native-svg'
 
@@ -983,23 +921,18 @@ class ExtrasExample extends React.PureComponent {
                 style={ { height: 200 } }
                 dataPoints={ data }
                 svg={{
-                    fill: 'purple',
                     stroke: 'rgb(134, 65, 244)',
                     strokeWidth: 2,
-                }}
-                shadowSvg={{
-                    stroke: 'rgba(134, 65, 244, 0.2)',
-                    strokeWidth: 5,
                 }}
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={ shape.curveLinear }
                 extras={ [ HorizontalLine, Tooltip ] }
-                renderExtra={ ({ item, ...args }) => item(args) }
             />
         )
     }
 
 }
+
 ```
 
 ### gridMin/Max
@@ -1010,7 +943,7 @@ Charts normally render edge to edge, if this is not the wanted behaviour it can 
 #### Example
 ```javascript
 import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
+import { AreaChart, Path } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class GridMinMaxExample extends React.PureComponent {
@@ -1025,16 +958,20 @@ class GridMinMaxExample extends React.PureComponent {
                 dataPoints={ data }
                 svg={{
                     fill: 'rgba(134, 65, 244, 0.2)',
-                    stroke: 'rgb(134, 65, 244)',
                 }}
                 contentInset={ { top: 30, bottom: 30 } }
                 curve={shape.curveNatural}
                 gridMax={500}
                 gridMin={-500}
+                extras={[
+                    ({ line }) => <Path key={'line '} d={line} stroke={'rgb(134, 65, 244)'} fill={'none'}/>,
+                ]}
             />
         )
     }
+
 }
+
 ```
 
 ### StackedAreaChart with YAxis
@@ -1239,9 +1176,9 @@ The `renderGrid` prop takes a function and provides the `x`, `y`, `ticks` and `d
 ### Example
 ```javascript
 import React from 'react'
+import { LineChart } from 'react-native-svg-charts'
 import { View } from 'react-native'
 import { G, Line } from 'react-native-svg'
-import { LineChart, Grid } from 'react-native-svg-charts'
 
 class CustomGridExample extends React.PureComponent {
 
@@ -1288,10 +1225,8 @@ class CustomGridExample extends React.PureComponent {
                     svg={ {
                         stroke: 'rgb(134, 65, 244)',
                     } }
-                    renderGrid={ CustomGrid }
-                    // renderGrid={ Grid.Horizontal }
-                    // renderGrid={ Grid.Vertical }
-                    // renderGrid={ Grid.Both }
+                    contentInset={{ top: 10, bottom: 10 }}
+                    renderGrid={props => <CustomGrid {...props}/>}
                 />
             </View>
         )
@@ -1299,149 +1234,156 @@ class CustomGridExample extends React.PureComponent {
 
 }
 
-export default CustomGrid
-
 ```
 
-### Partial charts
+### Partial Charts
 Here's another example of how the `extras` property can be used to create highly customizable charts. You can use it to create overlays and, with the svg's clipPath capability, create charts that partially have a different look-and-feel. See the example below.
 
-![Custom grid](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-charts.png)
+![Partial Charts](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-charts.png)
 
-### Example
+### Example (LineChart)
 ```javascript
 import React from 'react'
-import { View, Text } from 'react-native'
-import { 
-    LinearGradient, 
-    Stop, 
-    Defs, 
-    ClipPath, 
-    Rect, 
-    Path, 
-} from 'react-native-svg'
-import { LineChart, AreaChart } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
+import { ClipPath, Defs, Rect } from 'react-native-svg'
+import { LineChart, Path } from 'react-native-svg-charts'
 
-class PartialChartExample extends React.PureComponent {
+class PartialLineChartExample extends React.PureComponent {
+
     render() {
+
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
         const indexToClipFrom = 10
 
-        const ExtraDefs = ({ x, width }) => (
-            <Defs key={'defs-1'}>
-                <LinearGradient id={ 'gradient' } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
-                    <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                    <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                </LinearGradient>
-                <ClipPath id={'clip-path-1'} key={'0'}>
-                    <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'} />
+        const Clips = ({ x, width }) => (
+            <Defs key={'clips'}>
+                <ClipPath id="clip-path-1">
+                    <Rect x={'0'} y={'0'} width={x(indexToClipFrom)} height={'100%'}/>
                 </ClipPath>
-                <ClipPath id="clip-path-2" key={'1'}>
-                    <Rect x={'0'} y={'0'} width={x(indexToClipFrom)} height={'100%'} />
+                <ClipPath id={'clip-path-2'}>
+                    <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'}/>
                 </ClipPath>
             </Defs>
         )
 
         // Line extras:
-        const OverlayLine = ({ line }) => (
+        const DashedLine = ({ line }) => (
             <Path
                 key={'line-1'}
                 d={line}
-                stroke={ 'rgb(134, 65, 244)' }
-                strokeWidth={ 2 }
-                fill={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
+                stroke={'rgb(134, 65, 244)'}
+                strokeWidth={2}
+                fill={'none'}
+                strokeDasharray={[ 4, 4 ]}
+                clipPath={'url(#clip-path-2)'}
             />
         )
 
-        const OverlayShadowLine = ({ shadow }) => (
+        const Shadow = ({ line }) => (
             <Path
+                y={3}
                 key={'shadow-1'}
-                d={shadow}
-                stroke={ 'rgba(134, 65, 244, 0.2)' }
-                strokeWidth={ 5 }
-                fill={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
-            />
-        )
-
-        const extrasForLineChart = [ ExtraDefs, OverlayLine, OverlayShadowLine ]
-
-        // Area extras:
-        const OverlayArea = ({ area }) => (
-            <Path
-                key={'area-1'}
-                fill={ `url(#gradient)` }
-                d={area}
-                stroke={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
-            />
-        )
-
-        const OverlayLineForArea = ({ line, linearGradientId }) => (
-            <Path
-                key={'line-1'}
-                stroke={ `url(#${linearGradientId})` }
                 d={line}
-                fill={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
+                stroke={'rgba(134, 65, 244, 0.2)'}
+                strokeWidth={5}
+                fill={'none'}
             />
         )
-
-        const extrasForAreaChart = [ ExtraDefs, OverlayArea, OverlayLineForArea ]       
 
         return (
-            <View>
-                <Text>Line Chart</Text>
-                <LineChart
-                    style={ { height: 200 } }
-                    dataPoints={ data }
-                    contentInset={ { top: 20, bottom: 20 } }
-                    svg={{
-                        stroke: 'rgb(134, 65, 244)',
-                        strokeWidth: 2,
-                        clipPath: 'url(#clip-path-1)',
-                        strokeDasharray: [ 4, 4 ],
-                    }}
-                    shadowSvg={{
-                        stroke: 'rgba(134, 65, 244, 0.2)',
-                        strokeWidth: 5,
-                        clipPath: 'url(#clip-path-1)',
-                        strokeDasharray: [ 4, 4 ],
-                    }}
-                    extras={ extrasForLineChart }
-                    renderExtra={ ({ item, ...args }) => item(args) }
-                />
-
-                <Text>Area Chart</Text>
-                <AreaChart
-                    style={ { height: 200 } }
-                    dataPoints={ data }
-                    contentInset={ { top: 30, bottom: 30 } }
-                    curve={shape.curveNatural}
-                    svg={{
-                        fill: 'transparent',
-                        stroke: 'rgb(134, 65, 244)',
-                        clipPath: 'url(#clip-path-1)',
-                        strokeDasharray: [ 4, 4 ],
-                    }}
-                    renderLineGradient={ ({ id }) => (
-                        <LinearGradient id={ id } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
-                            <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                            <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                        </LinearGradient>
-                    ) }
-                    extras={ extrasForAreaChart }
-                    renderExtra={ ({ item, ...args }) => item(args) }
-                />
-            </View>
+            <LineChart
+                style={{ height: 200 }}
+                dataPoints={data}
+                contentInset={{ top: 20, bottom: 20 }}
+                svg={{
+                    stroke: 'rgb(134, 65, 244)',
+                    strokeWidth: 2,
+                    clipPath: 'url(#clip-path-1)',
+                }}
+                extras={[
+                    Clips,
+                    Shadow,
+                    DashedLine,
+                ]}
+            />
         )
     }
 }
 
-export default PartialChartExample
+```
+
+### Example (AreaChart)
+```javascript
+import React from 'react'
+import { ClipPath, Defs, LinearGradient, Rect, Stop, } from 'react-native-svg'
+import { AreaChart, Path } from 'react-native-svg-charts'
+
+class PartialAreaChartExample extends React.PureComponent {
+    render() {
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+
+        const indexToClipFrom = 10
+
+        const Gradient = () => (
+            <Defs key={'defs'}>
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
+                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
+                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
+                </LinearGradient>
+            </Defs>
+        )
+
+        const Clips = ({ x, width }) => (
+            <Defs key={'clips'}>
+                <ClipPath id={'clip-path-1'} key={'0'}>
+                    <Rect x={0} y={'0'} width={x(indexToClipFrom)} height={'100%'}/>
+                </ClipPath>
+                <ClipPath id="clip-path-2" key={'1'}>
+                    <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'}/>
+                </ClipPath>
+            </Defs>
+        )
+
+        const Line = ({ line }) => (
+            <Path
+                key={'line'}
+                d={line}
+                stroke={'green'}
+                fill={'none'}
+                clipPath={'url(#clip-path-1)'}
+            />
+        )
+
+        const DashedLine = ({ line }) => (
+            <Path
+                key={'dashed-line'}
+                stroke={'green'}
+                d={line}
+                fill={'none'}
+                clipPath={'url(#clip-path-2)'}
+                strokeDasharray={[ 4, 4 ]}
+            />
+        )
+
+        return (
+            <AreaChart
+                style={{ height: 200 }}
+                dataPoints={data}
+                contentInset={{ top: 30, bottom: 30 }}
+                svg={{
+                    fill: 'url(#gradient)',
+                    clipPath: 'url(#clip-path-1)',
+                }}
+                extras={[
+                    Gradient,
+                    Clips,
+                    Line,
+                    DashedLine,
+                ]}
+            />
+        )
+    }
+}
 
 ```
 
