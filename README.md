@@ -141,6 +141,7 @@ See [Common Props](#common-props)
 | Property | Default | Description |
 | --- | --- | --- |
 | renderLineGradient | undefined | The same as `renderGradient` but for the line in the chart  |
+| start | 0 | The value of which the area should start (will always end on the data point)  |
 
 ### StackedAreaChart
 
