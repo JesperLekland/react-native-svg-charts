@@ -1,5 +1,5 @@
 import React from 'react'
-import LineChart from 'src/line-chart'
+import { LineChart } from 'react-native-svg-charts'
 import { View } from 'react-native'
 import { G, Line } from 'react-native-svg'
 
@@ -9,7 +9,7 @@ class CustomGridExample extends React.PureComponent {
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
-        const CustomGrid = ({ x, y, values, ticks }) => (
+        const CustomGrid = ({ x, y, dataPoints, ticks }) => (
             <G>
                 {
                     // Horizontal grid
@@ -26,7 +26,7 @@ class CustomGridExample extends React.PureComponent {
                 }
                 {
                     // Vertical grid
-                    values.map((_, index) => (
+                    dataPoints.map((_, index) => (
                         <Line
                             key={ index }
                             y1={ '0%' }
@@ -48,7 +48,8 @@ class CustomGridExample extends React.PureComponent {
                     svg={ {
                         stroke: 'rgb(134, 65, 244)',
                     } }
-                    Grid={ CustomGrid }
+                    contentInset={{ top: 10, bottom: 10 }}
+                    renderGrid={props => <CustomGrid {...props}/>}
                 />
             </View>
         )

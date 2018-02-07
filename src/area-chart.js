@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
-import Svg, { Defs } from 'react-native-svg'
+import Svg from 'react-native-svg'
 import Path from './animated-path'
 import Grid from './grid'
 
@@ -28,8 +28,6 @@ class AreaChart extends PureComponent {
                   animate,
                   animationDuration,
                   style,
-                  renderGradient,
-                  renderLineGradient,
                   curve,
                   showGrid,
                   numberOfTicks,
@@ -44,7 +42,6 @@ class AreaChart extends PureComponent {
                   gridProps,
                   renderDecorator,
                   extras,
-                  renderExtra,
                   svg,
                   renderGrid = Grid,
               } = this.props
@@ -88,9 +85,7 @@ class AreaChart extends PureComponent {
 
         if (dataPoints.length === 0) {
             return (
-                <View style={style}>
-
-                </View>
+                <View style={style}/>
             )
         }
 
@@ -102,28 +97,25 @@ class AreaChart extends PureComponent {
                 >
                     <Svg style={{ flex: 1 }}>
                         { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
-                        <Defs>
-                            { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
-                            { renderLineGradient && renderLineGradient({ id: 'line-gradient', width, height, x, y }) }
-                        </Defs>
                         <Path
+                            stroke={'none'}
                             { ...svg }
-                            fill={ renderGradient ? 'url(#gradient)' : svg.fill }
                             d={area}
                             animate={animate}
                             animationDuration={animationDuration}
-                            stroke={ 'none' }
-                        />
-                        <Path
-                            { ...svg }
-                            stroke={ renderLineGradient ? 'url(#line-gradient)' : svg.stroke }
-                            animate={animate}
-                            animationDuration={animationDuration}
-                            d={ line }
-                            fill={ 'none' }
                         />
                         { dataPoints.map((value, index) => renderDecorator({ x, y, index, value })) }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
+                        {
+                            extras.map((item, index) => item({
+                                x,
+                                y,
+                                index,
+                                width,
+                                height,
+                                area,
+                                line,
+                            }))
+                        }
                     </Svg>
                 </View>
             </View>
@@ -145,9 +137,8 @@ AreaChart.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
-    extras: PropTypes.array,
+    extras: PropTypes.arrayOf(PropTypes.func),
     renderDecorator: PropTypes.func,
-    renderExtra: PropTypes.func,
     gridProps: PropTypes.object,
     gridWidth: PropTypes.number,
     gridMin: PropTypes.number,
@@ -168,8 +159,6 @@ AreaChart.defaultProps = {
     showGrid: true,
     extras: [],
     renderDecorator: () => {
-    },
-    renderExtra: () => {
     },
 }
 

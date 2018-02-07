@@ -23,7 +23,6 @@ import XAxisExample from './x-axis'
 import YAxisExample from './y-axis'
 import WaterfallChartExample from './waterfall-chart/with-knobs'
 import GradientExample from './gradient'
-import GradientAdvancedExample from './gradient-advanced'
 
 import { withKnobs } from '@storybook/addon-knobs'
 import AreaStack from './area-stack'
@@ -34,6 +33,8 @@ import GradientBarExample from './gradient-bar'
 
 import GridMinMax from './grid-min-max'
 import CustomGrid from './custom-grid'
+import PartialAreaChart from './partial-chart/area-chart'
+import PartialLineChart from './partial-chart/line-chart'
 
 storiesOf('AreaChart', module)
     .addDecorator(withKnobs)
@@ -84,6 +85,7 @@ storiesOf('Others', module)
     .add('Gradient', () => <GradientExample/>)
     .add('Gradient Line', () => <GradientLineExample/>)
     .add('Gradient Bar', () => <GradientBarExample/>)
-    .add('Gradient Advanced', () => <GradientAdvancedExample/>)
     .add('Grid Min/Max', () => <GridMinMax/>)
     .add('Custom Grid', () => <CustomGrid/>)
+    .add('Partial Area Chart', () => <PartialAreaChart/>)
+    .add('Partial Line Chart', () => <PartialLineChart/>)
