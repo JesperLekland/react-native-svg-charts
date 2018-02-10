@@ -24,6 +24,7 @@ class AreaChart extends PureComponent {
 
         const {
                   dataPoints,
+                  start,
                   animate,
                   animationDuration,
                   style,
@@ -72,7 +73,7 @@ class AreaChart extends PureComponent {
 
         const area = shape.area()
             .x((d, index) => x(index))
-            .y0(y(0))
+            .y0(y(start) || y(0))
             .y1(d => y(d))
             .defined(value => typeof value === 'number')
             .curve(curve)
@@ -168,6 +169,7 @@ AreaChart.propTypes = {
     renderLineGradient: PropTypes.func,
     curve: PropTypes.func,
     renderGrid: PropTypes.func,
+    start: PropTypes.number,
 }
 
 AreaChart.defaultProps = {
