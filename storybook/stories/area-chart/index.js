@@ -11,7 +11,7 @@ class AreaChartExample extends React.PureComponent {
         return (
             <AreaChart
                 style={ { height: 200 } }
-                dataPoints={ data }
+                data={ data }
                 contentInset={ { top: 30, bottom: 30 } }
                 curve={shape.curveNatural}
                 svg={{

@@ -20,21 +20,22 @@ class LineChart extends PureComponent {
         this.setState({ height, width })
     }
 
-    _createLine(dataPoints, yAccessor, xAccessor) {
+    _createLine(data, yAccessor, xAccessor) {
         const { curve } = this.props
 
         return shape.line()
             .x(xAccessor)
             .y(yAccessor)
-            .defined(value => typeof value === 'number')
+            .defined(item => typeof item.y === 'number')
             .curve(curve)
-            (dataPoints)
+            (data)
     }
 
     render() {
 
         const {
-                  dataPoints,
+                  yScale,
+                  xScale,
                   style,
                   animate,
                   animationDuration,
@@ -59,41 +60,50 @@ class LineChart extends PureComponent {
                   renderGrid = Grid,
               } = this.props
 
+        let { data, dataPoints } = this.props
+
         const { width, height } = this.state
 
-        if (dataPoints.length === 0) {
+        if (data.length === 0) {
             return <View style={ style }/>
         }
 
-        const extent = array.extent([ ...dataPoints, gridMax, gridMin ])
-        const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
+        const yValues = data.map((item) =>        typeof item === 'number' ? item  : item.y)
+        const xValues = data.map((item, index) => typeof item === 'number' ? index : item.x)
+
+        const mappedData = data.map((_, index) => ({ y: yValues[ index ], x: xValues[ index ] }))
+
+        const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
+        const xExtent = array.extent([ ...xValues ])
 
         //invert range to support svg coordinate system
-        const y = scale.scaleLinear()
-            .domain(extent)
+        const y = yScale()
+            .domain(yExtent)
             .range([ height - bottom, top ])
 
-        const x = scale.scaleLinear()
-            .domain([ 0, dataPoints.length - 1 ])
+        const x = xScale()
+            .domain(xExtent)
             .range([ left, width - right ])
 
         const line = this._createLine(
-            dataPoints,
-            value => y(value),
-            (value, index) => x(index),
+            mappedData,
+            item => y(item.y),
+            item => x(item.x),
         )
 
         const shadow = this._createLine(
-            dataPoints,
-            value => y(value - shadowOffset),
-            (value, index) => x(index),
+            mappedData,
+            item => y(item.y - shadowOffset),
+            item => x(item.x),
         )
+
+        const ticks = y.ticks(numberOfTicks)
 
         return (
             <View style={style}>
                 <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
                     <Svg style={{ flex: 1 }}>
-                        { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
+                        {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
                         {
                             <Defs>
                                 { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
@@ -115,7 +125,7 @@ class LineChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        { dataPoints.map((value, index) => renderDecorator({ x, y, value, index })) }
+                        {data.map((value, index) => renderDecorator({ x, y, value, index }))}
                         { extras.map((item, index) => renderExtra({ 
                             x, 
                             y, 
@@ -135,7 +145,15 @@ class LineChart extends PureComponent {
 }
 
 LineChart.propTypes = {
-    dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+    data: PropTypes.oneOfType([
+        PropTypes.arrayOf(
+            PropTypes.shape({
+                x: PropTypes.any.isRequired,
+                y: PropTypes.number.isRequired,
+            }),
+        ),
+        PropTypes.arrayOf(PropTypes.number),
+    ]).isRequired,
     svg: PropTypes.object,
     shadowSvg: PropTypes.object,
     shadowOffset: PropTypes.number,
@@ -164,6 +182,9 @@ LineChart.propTypes = {
     showGrid: PropTypes.bool,
     gridProps: PropTypes.object,
     renderGrid: PropTypes.func,
+
+    xScale: PropTypes.func,
+    yScale: PropTypes.func,
 }
 
 LineChart.defaultProps = {
@@ -172,11 +193,13 @@ LineChart.defaultProps = {
     shadowOffset: 3,
     width: 100,
     height: 100,
-    curve: shape.curveCardinal,
+    curve: shape.curveLinear,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
     extras: [],
+    xScale: scale.scaleLinear,
+    yScale: scale.scaleLinear,
     renderDecorator: () => {
     },
     renderExtra: () => {
