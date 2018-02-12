@@ -34,6 +34,7 @@ class LineChart extends PureComponent {
     render() {
 
         const {
+                  data,
                   yScale,
                   xScale,
                   style,
@@ -59,8 +60,6 @@ class LineChart extends PureComponent {
                   renderGradient,
                   renderGrid = Grid,
               } = this.props
-
-        let { data, dataPoints } = this.props
 
         const { width, height } = this.state
 

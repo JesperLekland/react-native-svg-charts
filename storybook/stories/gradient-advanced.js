@@ -16,7 +16,7 @@ class GradientAdvancedExample extends React.PureComponent {
             <View>
                 <AreaChart
                     style={ { height: 200 } }
-                    dataPoints={ data }
+                    data={ data }
                     contentInset={ { top: 20, bottom: 20 } }
                     renderGradient={ ({ id }) => (
                         <LinearGradient id={ id } x1={ '0%' } y1={ '0%' } x2={ '0%' } y2={ '100%' }>
@@ -27,7 +27,7 @@ class GradientAdvancedExample extends React.PureComponent {
                 />
                 <AreaChart
                     style={ StyleSheet.absoluteFill }
-                    dataPoints={ data }
+                    data={ data }
                     contentInset={ { top: 20, bottom: 20 } }
                     showGrid={false}
                     renderGradient={ ({ id }) => (

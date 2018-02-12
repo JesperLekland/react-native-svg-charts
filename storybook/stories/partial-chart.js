@@ -86,7 +86,7 @@ class PartialChartExample extends React.PureComponent {
                 <Text>Line Chart</Text>
                 <LineChart
                     style={ { height: 200 } }
-                    dataPoints={ data }
+                    data={ data }
                     contentInset={ { top: 20, bottom: 20 } }
                     svg={{
                         stroke: 'rgb(134, 65, 244)',
@@ -107,7 +107,7 @@ class PartialChartExample extends React.PureComponent {
                 <Text>Area Chart</Text>
                 <AreaChart
                     style={ { height: 200 } }
-                    dataPoints={ data }
+                    data={ data }
                     contentInset={ { top: 30, bottom: 30 } }
                     curve={shape.curveNatural}
                     svg={{
