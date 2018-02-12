@@ -9,7 +9,7 @@ class CustomGridExample extends React.PureComponent {
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
-        const CustomGrid = ({ x, y, dataPoints, ticks }) => (
+        const CustomGrid = ({ x, y, data, ticks }) => (
             <G>
                 {
                     // Horizontal grid
@@ -26,7 +26,7 @@ class CustomGridExample extends React.PureComponent {
                 }
                 {
                     // Vertical grid
-                    dataPoints.map((_, index) => (
+                    data.map((_, index) => (
                         <Line
                             key={ index }
                             y1={ '0%' }
@@ -44,12 +44,11 @@ class CustomGridExample extends React.PureComponent {
             <View style={ { height: 200, flexDirection: 'row' } }>
                 <LineChart
                     style={ { flex: 1 } }
-                    dataPoints={ data }
+                    data={ data }
                     svg={ {
                         stroke: 'rgb(134, 65, 244)',
                     } }
-                    contentInset={{ top: 10, bottom: 10 }}
-                    renderGrid={props => <CustomGrid {...props}/>}
+                    renderGrid={ CustomGrid }
                 />
             </View>
         )

@@ -23,7 +23,11 @@ class AreaChart extends PureComponent {
     render() {
 
         const {
-                  dataPoints,
+                  start,
+                  data,
+          dataPoints,
+          xAccessor,
+          yAccessor,
                   animate,
                   animationDuration,
                   style,
@@ -42,47 +46,60 @@ class AreaChart extends PureComponent {
                   renderDecorator,
                   extras,
                   svg,
+                  xScale,
+                  yScale,
                   renderGrid = Grid,
               } = this.props
 
+        if (dataPoints && dataPoints.length > 0) {
+            console.warn(`dataPoints is deprecated, use "data" instead`)
+            return null
+        }
+
         const { height, width } = this.state
 
-        if (dataPoints.length === 0) {
+        if (data.length === 0) {
             return <View style={ style }/>
         }
 
-        const extent = array.extent([ ...dataPoints, gridMin, gridMax ])
-        const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
+        const mappedData = data.map((item, index) => ({
+            y: yAccessor({ item, index }),
+            x: xAccessor({ item, index }),
+        }))
+
+        const yValues = mappedData.map(item => item.y)
+        const xValues = mappedData.map(item => item.x)
+
+        const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
+        const xExtent = array.extent([ ...xValues ])
 
         //invert range to support svg coordinate system
-        const y = scale.scaleLinear()
-            .domain(extent)
+        const y = yScale()
+            .domain(yExtent)
             .range([ height - bottom, top ])
 
-        this.y = y
-
-        const x = scale.scaleLinear()
-            .domain([ 0, dataPoints.length - 1 ])
+        const x = xScale()
+            .domain(xExtent)
             .range([ left, width - right ])
 
-        this.x = x
-
         const area = shape.area()
-            .x((d, index) => x(index))
-            .y0(y(0))
-            .y1(d => y(d))
-            .defined(value => typeof value === 'number')
+            .x((d) => x(d.x))
+            .y0(y(start) || y(0))
+            .y1(d => y(d.y))
+            .defined(item => typeof item.y === 'number')
             .curve(curve)
-            (dataPoints)
+            (mappedData)
 
         const line = shape.line()
-            .x((d, index) => x(index))
-            .y(d => y(d))
-            .defined(value => typeof value === 'number')
+            .x((d) => x(d.x))
+            .y(d => y(d.y))
+            .defined(item => typeof item.y === 'number')
             .curve(curve)
-            (dataPoints)
+            (mappedData)
 
-        if (dataPoints.length === 0) {
+        const ticks = y.ticks(numberOfTicks)
+
+        if (data.length === 0) {
             return (
                 <View style={style}/>
             )
@@ -95,7 +112,7 @@ class AreaChart extends PureComponent {
                     onLayout={event => this._onLayout(event)}
                 >
                     <Svg style={{ flex: 1 }}>
-                        { showGrid && renderGrid({ x, y, ticks, dataPoints, gridProps }) }
+                        {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
                         <Path
                             stroke={'none'}
                             { ...svg }
@@ -103,7 +120,7 @@ class AreaChart extends PureComponent {
                             animate={animate}
                             animationDuration={animationDuration}
                         />
-                        { dataPoints.map((value, index) => renderDecorator({ x, y, index, value })) }
+                        { data.map((value, index) => renderDecorator({ x, y, index, value })) }
                         {
                             extras.map((item, index) => item({
                                 x,
@@ -123,7 +140,12 @@ class AreaChart extends PureComponent {
 }
 
 AreaChart.propTypes = {
-    dataPoints: PropTypes.arrayOf(PropTypes.number).isRequired,
+    data: PropTypes.oneOfType([
+        PropTypes.arrayOf(PropTypes.object),
+        PropTypes.arrayOf(PropTypes.number),
+    ]).isRequired,
+    xAccessor: PropTypes.func,
+    yAccessor: PropTypes.func,
     svg: PropTypes.object,
     style: PropTypes.any,
     animate: PropTypes.bool,
@@ -147,6 +169,7 @@ AreaChart.propTypes = {
     renderLineGradient: PropTypes.func,
     curve: PropTypes.func,
     renderGrid: PropTypes.func,
+    start: PropTypes.number,
 }
 
 AreaChart.defaultProps = {
@@ -156,6 +179,10 @@ AreaChart.defaultProps = {
     numberOfTicks: 10,
     showGrid: true,
     extras: [],
+    xScale: scale.scaleLinear,
+    yScale: scale.scaleLinear,
+    xAccessor: ({ index }) => index,
+    yAccessor: ({ item }) => item,
     renderDecorator: () => {
     },
 }

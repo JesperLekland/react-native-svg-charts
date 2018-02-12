@@ -1,6 +1,6 @@
 {
   "name": "react-native-svg-charts",
-  "version": "2.2.2",
+  "version": "2.2.3",
   "private": false,
   "description": "Customizable charts (Line, Bar, Area, Pie, Circle, Waterfall, Progress) for React Native",
   "main": "src/index.js",
@@ -41,7 +41,7 @@
     "d3-interpolate-path": "2.0.0",
     "d3-scale": "^1.0.6",
     "d3-shape": "^1.0.6",
-    "date-fns": "^1.28.5",
+    "date-fns": "^1.29.0",
     "prop-types": "^15.6.0"
   },
   "peerDependencies": {

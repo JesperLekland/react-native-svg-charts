@@ -71,7 +71,7 @@ class ExtrasExample extends React.PureComponent {
         return (
             <LineChart
                 style={ { height: 200 } }
-                dataPoints={ data }
+                data={ data }
                 svg={{
                     stroke: 'rgb(134, 65, 244)',
                     strokeWidth: 2,

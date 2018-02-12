@@ -52,7 +52,7 @@ class PartialAreaChartExample extends React.PureComponent {
         return (
             <AreaChart
                 style={{ height: 200 }}
-                dataPoints={data}
+                data={data}
                 contentInset={{ top: 30, bottom: 30 }}
                 svg={{
                     fill: 'url(#gradient)',

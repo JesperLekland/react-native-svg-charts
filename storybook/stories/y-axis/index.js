@@ -21,12 +21,11 @@ class YAxisExample extends React.PureComponent {
                 />
                 <LineChart
                     style={ { flex: 1, marginLeft: 16 } }
-                    dataPoints={ data }
+                    data={data}
                     svg={{
                         stroke: 'rgb(134, 65, 244)',
                     }}
                     contentInset={ contentInset }
-                    curve={ shape.curveLinear }
                 />
             </View>
         )
