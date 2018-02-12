@@ -14,10 +14,7 @@ class AreaChartExample extends React.PureComponent {
                 data={ data }
                 contentInset={ { top: 30, bottom: 30 } }
                 curve={shape.curveNatural}
-                svg={{
-                    fill: 'rgba(134, 65, 244, 0.2)',
-                    stroke: 'rgb(134, 65, 244)',
-                }}
+                svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
                 { ...this.props }
             />
         )

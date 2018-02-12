@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
-import Svg, { Defs } from 'react-native-svg'
+import Svg from 'react-native-svg'
 import Path from './animated-path'
 import Grid from './grid'
 
@@ -52,12 +52,8 @@ class LineChart extends PureComponent {
                   gridMin,
                   renderDecorator,
                   extras,
-                  renderExtra,
-                  shadowOffset,
                   gridProps,
                   svg,
-                  shadowSvg,
-                  renderGradient,
                   renderGrid = Grid,
               } = this.props
 
@@ -90,12 +86,6 @@ class LineChart extends PureComponent {
             item => x(item.x),
         )
 
-        const shadow = this._createLine(
-            mappedData,
-            item => y(item.y - shadowOffset),
-            item => x(item.x),
-        )
-
         const ticks = y.ticks(numberOfTicks)
 
         return (
@@ -103,39 +93,24 @@ class LineChart extends PureComponent {
                 <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
                     <Svg style={{ flex: 1 }}>
                         {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
-                        {
-                            <Defs>
-                                { renderGradient && renderGradient({ id: 'gradient', width, height, x, y }) }
-                            </Defs>
-                        }
                         <Path
+                            fill={ 'none' }
                             { ...svg }
                             d={line}
-                            stroke={renderGradient ? 'url(#gradient)' : svg.stroke}
-                            fill={ 'none' }
-                            animate={animate}
-                            animationDuration={animationDuration}
-                        />
-                        <Path
-                            strokeWidth={ 5 }
-                            { ...shadowSvg }
-                            d={shadow}
-                            fill={'none'}
                             animate={animate}
                             animationDuration={animationDuration}
                         />
                         {data.map((value, index) => renderDecorator({ x, y, value, index }))}
-                        { extras.map((item, index) => renderExtra({ 
-                            x, 
-                            y, 
-                            item, 
-                            index, 
-                            width, 
-                            height,
-                            line,
-                            shadow,
-                            gradientId: 'gradient',
-                        })) }
+                        {
+                            extras.map((item, index) => item({
+                                x,
+                                y,
+                                index,
+                                width,
+                                height,
+                                line,
+                            }))
+                        }
                     </Svg>
                 </View>
             </View>
@@ -154,8 +129,6 @@ LineChart.propTypes = {
         PropTypes.arrayOf(PropTypes.number),
     ]).isRequired,
     svg: PropTypes.object,
-    shadowSvg: PropTypes.object,
-    shadowOffset: PropTypes.number,
 
     style: PropTypes.any,
 
@@ -170,11 +143,9 @@ LineChart.propTypes = {
         bottom: PropTypes.number,
     }),
     numberOfTicks: PropTypes.number,
-    extras: PropTypes.array,
+    extras: PropTypes.arrayOf(PropTypes.func),
 
     renderDecorator: PropTypes.func,
-    renderExtra: PropTypes.func,
-    renderGradient: PropTypes.func,
 
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
@@ -188,8 +159,6 @@ LineChart.propTypes = {
 
 LineChart.defaultProps = {
     svg: {},
-    shadowSvg: {},
-    shadowOffset: 3,
     width: 100,
     height: 100,
     curve: shape.curveLinear,
@@ -200,8 +169,6 @@ LineChart.defaultProps = {
     xScale: scale.scaleLinear,
     yScale: scale.scaleLinear,
     renderDecorator: () => {
-    },
-    renderExtra: () => {
     },
 }
 

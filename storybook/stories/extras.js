@@ -1,5 +1,5 @@
 import React from 'react'
-import LineChart from '../../src/line-chart'
+import { LineChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import { Circle, G, Line, Rect, Text } from 'react-native-svg'
 
@@ -73,18 +73,12 @@ class ExtrasExample extends React.PureComponent {
                 style={ { height: 200 } }
                 data={ data }
                 svg={{
-                    fill: 'purple',
                     stroke: 'rgb(134, 65, 244)',
                     strokeWidth: 2,
-                }}
-                shadowSvg={{
-                    stroke: 'rgba(134, 65, 244, 0.2)',
-                    strokeWidth: 5,
                 }}
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={ shape.curveLinear }
                 extras={ [ HorizontalLine, Tooltip ] }
-                renderExtra={ ({ item, ...args }) => item(args) }
             />
         )
     }

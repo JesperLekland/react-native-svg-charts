@@ -25,10 +25,6 @@ class YAxisExample extends React.PureComponent {
                     svg={{
                         stroke: 'rgb(134, 65, 244)',
                     }}
-                    shadowSvg={ {
-                        stroke: 'rgba(134, 65, 244, 0.2)',
-                        strokeWidth: 5,
-                    }}
                     contentInset={ contentInset }
                 />
             </View>

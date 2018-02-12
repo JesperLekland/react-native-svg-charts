@@ -39,29 +39,28 @@ class XAxisScaleTimeExample extends React.PureComponent {
         return (
             <View style={{ height: 200, padding: 20 }}>
                 <AreaChart
-                    style={{ flex: 1 }}
-                    data={data}
-                    xScale={scale.scaleTime}
-                    contentInset={{ top: 10, bottom: 10 }}
-                    svg={{
-                        fill: 'rgba(134, 65, 244, 0.2)',
-                        stroke: 'rgb(134, 65, 244)',
-                    }}
-                    curve={shape.curveLinear}
+                  style={{ flex: 1 }}
+                  data={data}
+                  xScale={scale.scaleTime}
+                  contentInset={{ top: 10, bottom: 10 }}
+                  svg={{ fill: 'rgba(134, 65, 244, 0.5)' }}
+                  curve={shape.curveLinear}
                 />
                 <XAxis
-                    values={data}
-                    svg={{
-                        translate: '30',
-                        fill: 'black',
-                        fontSize: 8,
-                        fontWeight: 'bold',
-                    }}
-                    scale={scale.scaleTime}
-                    numberOfTicks={6}
-                    style={{ marginHorizontal: -15 }}
-                    contentInset={{ left: 15, right: 15 }}
-                    formatLabel={(value) => dateFns.format(value, 'HH:mm')}
+                  values={data}
+                  svg={{
+                      translate: '30',
+                      fill: 'black',
+                      fontSize: 8,
+                      fontWeight: 'bold',
+                      rotation: 20,
+                      originY: 30,
+                  }}
+                  scale={scale.scaleTime}
+                  numberOfTicks={6}
+                  style={{ marginHorizontal: -15, height: 20 }}
+                  contentInset={{ left: 10, right: 25 }}
+                  formatLabel={(value) => dateFns.format(value, 'HH:mm')}
                 />
             </View>
         )

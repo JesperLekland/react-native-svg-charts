@@ -87,7 +87,10 @@ class XAxis extends PureComponent {
 
         return (
             <View style={ style }>
-                <View onLayout={event => this._onLayout(event)}>
+                <View
+                  style={{ flexGrow: 1 }}
+                  onLayout={event => this._onLayout(event)}
+                >
                     {/*invisible text to allow for parent resizing*/}
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
                         { formatLabel(values[ 0 ], 0) }
@@ -100,10 +103,11 @@ class XAxis extends PureComponent {
                             ticks.map((value, index) => {
                                 return (
                                     <SVGText
-                                        textAnchor={'middle'}
-                                        {...svg}
-                                        key={index}
-                                        x={x(value)}
+                                      textAnchor={'middle'}
+                                      originX={x(value)}
+                                      {...svg}
+                                      key={index}
+                                      x={x(value)}
                                     >
                                         {formatLabel(value, index)}
                                     </SVGText>
