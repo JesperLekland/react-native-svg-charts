@@ -11,28 +11,28 @@ class XAxisScaleTimeExample extends React.PureComponent {
 
         const data = [
             {
-                y: 50,
-                x: dateFns.setHours(new Date(2018, 0, 0), 6),
+                value: 50,
+                date: dateFns.setHours(new Date(2018, 0, 0), 6),
             },
             {
-                y: 10,
-                x: dateFns.setHours(new Date(2018, 0, 0), 9),
+                value: 10,
+                date: dateFns.setHours(new Date(2018, 0, 0), 9),
             },
             {
-                y: 150,
-                x: dateFns.setHours(new Date(2018, 0, 0), 15),
+                value: 150,
+                date: dateFns.setHours(new Date(2018, 0, 0), 15),
             },
             {
-                y: 10,
-                x: dateFns.setHours(new Date(2018, 0, 0), 18),
+                value: 10,
+                date: dateFns.setHours(new Date(2018, 0, 0), 18),
             },
             {
-                y: 100,
-                x: dateFns.setHours(new Date(2018, 0, 0), 21),
+                value: 100,
+                date: dateFns.setHours(new Date(2018, 0, 0), 21),
             },
             {
-                y: 20,
-                x: dateFns.setHours(new Date(2018, 0, 0), 24),
+                value: 20,
+                date: dateFns.setHours(new Date(2018, 0, 0), 24),
             },
         ]
 
@@ -41,13 +41,15 @@ class XAxisScaleTimeExample extends React.PureComponent {
                 <AreaChart
                   style={{ flex: 1 }}
                   data={data}
+                  yAccessor={({ item }) => item.value}
+                  xAccessor={({ item }) => item.date}
                   xScale={scale.scaleTime}
                   contentInset={{ top: 10, bottom: 10 }}
                   svg={{ fill: 'rgba(134, 65, 244, 0.5)' }}
                   curve={shape.curveLinear}
                 />
                 <XAxis
-                  values={data}
+                  data={data}
                   svg={{
                       translate: '30',
                       fill: 'black',
@@ -56,6 +58,7 @@ class XAxisScaleTimeExample extends React.PureComponent {
                       rotation: 20,
                       originY: 30,
                   }}
+                  xAccessor={({ item }) => item.date}
                   scale={scale.scaleTime}
                   numberOfTicks={6}
                   style={{ marginHorizontal: -15, height: 20 }}

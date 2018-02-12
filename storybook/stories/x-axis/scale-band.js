@@ -29,7 +29,7 @@ class XAxisExample extends React.PureComponent {
                     gridMin={0}
                 />
                 <XAxis
-                    values={ data }
+                    data={ data }
                     scale={scale.scaleBand}
                     formatLabel={ (value, index) => index }
                     chartType={ XAxis.Type.BAR }

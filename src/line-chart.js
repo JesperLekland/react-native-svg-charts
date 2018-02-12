@@ -34,7 +34,8 @@ class LineChart extends PureComponent {
     render() {
 
         const {
-                  data,
+          data,
+          dataPoints,
                   yScale,
                   xScale,
                   style,
@@ -56,6 +57,11 @@ class LineChart extends PureComponent {
                   svg,
                   renderGrid = Grid,
               } = this.props
+
+        if(dataPoints && dataPoints.length > 0) {
+            console.warn(`dataPoints is deprecated, use "data" instead`)
+            return null
+        }
 
         const { width, height } = this.state
 
@@ -120,12 +126,7 @@ class LineChart extends PureComponent {
 
 LineChart.propTypes = {
     data: PropTypes.oneOfType([
-        PropTypes.arrayOf(
-            PropTypes.shape({
-                x: PropTypes.any.isRequired,
-                y: PropTypes.number.isRequired,
-            }),
-        ),
+        PropTypes.arrayOf(PropTypes.object),
         PropTypes.arrayOf(PropTypes.number),
     ]).isRequired,
     svg: PropTypes.object,

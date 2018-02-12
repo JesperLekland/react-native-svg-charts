@@ -66,7 +66,8 @@ class XAxis extends PureComponent {
         const {
                   style,
                   scale,
-                  values,
+                  data,
+                  xAccessor,
                   formatLabel,
                   numberOfTicks,
                   svg,
@@ -74,11 +75,11 @@ class XAxis extends PureComponent {
 
         const { width } = this.state
 
-        if (values.length === 0) {
+        if (data.length === 0) {
             return <View style={style}/>
         }
 
-        const xValues = values.map((item, index) => typeof item === 'number' ? index : item.x)
+        const xValues = data.map((item, index) => xAccessor({ item, index }))
         const extent  = array.extent(xValues)
         const domain  = scale === d3Scale.scaleBand ? xValues : extent
 
@@ -93,7 +94,7 @@ class XAxis extends PureComponent {
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
-                        { formatLabel(values[ 0 ], 0) }
+                        { formatLabel(data[ 0 ], 0) }
                     </Text>
                     <Svg style={StyleSheet.absoluteFill}>
                         {
@@ -126,7 +127,7 @@ XAxis.Type = {
 }
 
 XAxis.propTypes = {
-    values: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
     labelStyle: PropTypes.any,
     spacing: PropTypes.number,
     formatLabel: PropTypes.func,
@@ -136,6 +137,7 @@ XAxis.propTypes = {
     }),
     scale: PropTypes.oneOf([ d3Scale.scaleTime, d3Scale.scaleLinear, d3Scale.scaleBand ]),
     numberOfTicks: PropTypes.number,
+    xAccessor: PropTypes.func,
     svg: PropTypes.object,
 }
 
@@ -145,6 +147,7 @@ XAxis.defaultProps = {
     chartType: XAxis.Type.LINE,
     contentInset: {},
     svg: {},
+    xAccessor: ({ index }) => index,
     scale: d3Scale.scaleLinear,
     formatLabel: (value, index) => index,
 }

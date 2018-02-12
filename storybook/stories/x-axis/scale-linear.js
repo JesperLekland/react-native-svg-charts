@@ -19,7 +19,7 @@ class XAxisExample extends React.PureComponent {
                 />
                 <XAxis
                     style={{ marginHorizontal: -10 }}
-                    values={ data }
+                    data={ data }
                     formatLabel={ (value, index) => index }
                     contentInset={{ left: 10, right: 10 }}
                     svg={{ fontSize: 10 }}

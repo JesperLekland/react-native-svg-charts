@@ -25,6 +25,9 @@ class AreaChart extends PureComponent {
         const {
                   start,
                   data,
+          dataPoints,
+          xAccessor,
+          yAccessor,
                   animate,
                   animationDuration,
                   style,
@@ -48,16 +51,24 @@ class AreaChart extends PureComponent {
                   renderGrid = Grid,
               } = this.props
 
+        if (dataPoints && dataPoints.length > 0) {
+            console.warn(`dataPoints is deprecated, use "data" instead`)
+            return null
+        }
+
         const { height, width } = this.state
 
         if (data.length === 0) {
             return <View style={ style }/>
         }
 
-        const yValues = data.map((item) => typeof item === 'number' ? item : item.y)
-        const xValues = data.map((item, index) => typeof item === 'number' ? index : item.x)
+        const mappedData = data.map((item, index) => ({
+            y: yAccessor({ item, index }),
+            x: xAccessor({ item, index }),
+        }))
 
-        const mappedData = data.map((_, index) => ({ y: yValues[ index ], x: xValues[ index ] }))
+        const yValues = mappedData.map(item => item.y)
+        const xValues = mappedData.map(item => item.x)
 
         const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
         const xExtent = array.extent([ ...xValues ])
@@ -130,14 +141,11 @@ class AreaChart extends PureComponent {
 
 AreaChart.propTypes = {
     data: PropTypes.oneOfType([
-        PropTypes.arrayOf(
-            PropTypes.shape({
-                x: PropTypes.any.isRequired,
-                y: PropTypes.number.isRequired,
-            }),
-        ),
+        PropTypes.arrayOf(PropTypes.object),
         PropTypes.arrayOf(PropTypes.number),
     ]).isRequired,
+    xAccessor: PropTypes.func,
+    yAccessor: PropTypes.func,
     svg: PropTypes.object,
     style: PropTypes.any,
     animate: PropTypes.bool,
@@ -173,8 +181,8 @@ AreaChart.defaultProps = {
     extras: [],
     xScale: scale.scaleLinear,
     yScale: scale.scaleLinear,
-    getY: ({ item }) => item,
-    getX: ({ index }) => index,
+    xAccessor: ({ index }) => index,
+    yAccessor: ({ item }) => item,
     renderDecorator: () => {
     },
 }
