@@ -138,6 +138,9 @@ class AreaChartExample extends React.PureComponent {
 #### Props
 
 See [Common Props](#common-props)
+| Property | Default | Description |
+| --- | --- | --- |
+| start | 0 | The value of which the area should start (will always end on the data point)  |
 
 ### StackedAreaChart
 

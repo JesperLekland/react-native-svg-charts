@@ -11,7 +11,7 @@ class GridMinMaxExample extends React.PureComponent {
         return (
             <AreaChart
                 style={ { height: 200 } }
-                dataPoints={ data }
+                data={ data }
                 svg={{
                     fill: 'rgba(134, 65, 244, 0.2)',
                 }}

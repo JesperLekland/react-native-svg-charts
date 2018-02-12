@@ -19,8 +19,12 @@ import LayeredCharts from './layered-charts'
 import Decorators from './decorator'
 import Extras from './extras'
 
-import XAxisExample from './x-axis'
+import XAxisScaleBandExample from './x-axis/scale-band'
+import XAxisScaleTimeExample from './x-axis/scale-time'
+import XAxisScaleLinearExample from './x-axis/scale-linear'
+
 import YAxisExample from './y-axis'
+
 import WaterfallChartExample from './waterfall-chart/with-knobs'
 import GradientExample from './gradient'
 
@@ -75,7 +79,9 @@ storiesOf('ProgressCircle', module)
 storiesOf('Axes', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('YAxis', () => <YAxisExample/>)
-    .add('XAxis', () => <XAxisExample/>)
+    .add('XAxis - scaleLinear', () => <XAxisScaleLinearExample/>)
+    .add('XAxis - scaleTime', () => <XAxisScaleTimeExample/>)
+    .add('XAxis - scaleBand', () => <XAxisScaleBandExample/>)
 
 storiesOf('Others', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)

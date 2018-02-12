@@ -20,7 +20,7 @@ class GradientLineExample extends React.PureComponent {
         return (
             <LineChart
                 style={ { height: 200 } }
-                dataPoints={ data }
+                data={ data }
                 contentInset={ { top: 20, bottom: 20 } }
                 svg={{
                     strokeWidth: 2,

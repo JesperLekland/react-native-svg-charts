@@ -48,7 +48,7 @@ class PartialLineChartExample extends React.PureComponent {
         return (
             <LineChart
                 style={{ height: 200 }}
-                dataPoints={data}
+                data={data}
                 contentInset={{ top: 20, bottom: 20 }}
                 svg={{
                     stroke: 'rgb(134, 65, 244)',

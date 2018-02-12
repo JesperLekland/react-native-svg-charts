@@ -20,7 +20,7 @@ class GradientExample extends React.PureComponent {
         return (
             <AreaChart
                 style={{ height: 200 }}
-                dataPoints={data}
+                data={data}
                 contentInset={{ top: 20, bottom: 20 }}
                 extras={[ Gradient ]}
                 svg={{ fill: 'url(#gradient)' }}

@@ -1,6 +1,7 @@
 import React from 'react'
-import { BarChart, XAxis } from '../../../src'
+import { BarChart, XAxis } from 'react-native-svg-charts'
 import { View } from 'react-native'
+import * as scale from 'd3-scale'
 
 class XAxisExample extends React.PureComponent {
 
@@ -21,14 +22,15 @@ class XAxisExample extends React.PureComponent {
         ]
 
         return (
-            <View style={ { height: 200, padding: 20 } }>
+            <View style={{ height: 200, padding: 20 }}>
                 <BarChart
-                    style={ { flex: 1 } }
+                    style={{ flex: 1 }}
                     data={ barData }
+                    gridMin={0}
                 />
                 <XAxis
-                    style={ { paddingVertical: 4 } }
-                    values={ data }
+                    data={ data }
+                    scale={scale.scaleBand}
                     formatLabel={ (value, index) => index }
                     chartType={ XAxis.Type.BAR }
                     labelStyle={ { color: 'black' } }

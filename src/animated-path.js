@@ -85,7 +85,7 @@ AnimatedPath.propTypes = {
 }
 
 AnimatedPath.defaultProps = {
-    animate: true,
+    animate: false,
     animationDuration: 300,
     renderPlaceholder: () => null,
 }

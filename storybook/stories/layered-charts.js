@@ -14,7 +14,7 @@ class LayeredChartsExample extends React.PureComponent {
             <View style={ { height: 200 } }>
                 <AreaChart
                     style={ { flex: 1 } }
-                    dataPoints={ data }
+                    data={ data }
                     svg={ {
                         fill: 'rgba(134, 65, 244, 0.5)',
                         stroke: 'rgb(134, 65, 244)',
@@ -25,7 +25,7 @@ class LayeredChartsExample extends React.PureComponent {
                 />
                 <AreaChart
                     style={ StyleSheet.absoluteFill }
-                    dataPoints={ data2 }
+                    data={ data2 }
                     svg={ {
                         fill: 'rgba(34, 128, 176, 0.5)',
                         stroke: 'rgb(34, 128, 176)',
