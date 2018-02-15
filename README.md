@@ -17,6 +17,16 @@ to render its graphs. Therefore this library needs to be installed **AND** linke
 
 Other than the above dependency this library uses pure javascript and supports both iOS and Android
 
+## Installation
+1. Install library from `npm`
+    ```bash
+    npm install --save react-native-svg react-native-svg-charts
+    ```
+2. Link native code
+
+    ```bash
+    react-native link react-native-svg
+    ```
 ## Motivation
 
 Creating beautiful graphs in React Native shouldn't be hard or require a ton of knowledge.
