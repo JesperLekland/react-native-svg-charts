@@ -1,6 +1,5 @@
 import React from 'react'
 import { LineChart, YAxis } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
 import { View } from 'react-native'
 
 class YAxisExample extends React.PureComponent {

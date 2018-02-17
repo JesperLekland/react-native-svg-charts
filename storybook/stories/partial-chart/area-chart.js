@@ -1,5 +1,5 @@
 import React from 'react'
-import { ClipPath, Defs, LinearGradient, Rect, Stop, } from 'react-native-svg'
+import { ClipPath, Defs, LinearGradient, Rect, Stop } from 'react-native-svg'
 import { AreaChart, Path } from 'react-native-svg-charts'
 
 class PartialAreaChartExample extends React.PureComponent {
