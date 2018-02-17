@@ -42,6 +42,7 @@
     "d3-scale": "^1.0.6",
     "d3-shape": "^1.0.6",
     "date-fns": "^1.28.5",
+    "hoist-non-react-statics": "^2.5.0",
     "prop-types": "^15.6.0"
   },
   "peerDependencies": {
