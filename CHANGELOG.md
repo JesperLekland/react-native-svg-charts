@@ -2,13 +2,14 @@
 
 ## Breaking changes
 
-### XAxis
+### XAxis & YAxis
 
-* xAxis is now rendered with `react-native-svg` [Text](https://github.com/react-native-community/react-native-svg#text), 
+* Axes are now rendered with `react-native-svg` [Text](https://github.com/react-native-community/react-native-svg#text), 
     allowing for better alignment and more streamligned api.
 * `svg` prop added to customize each `<Text>`
-* `values` renamed to `data` to better reflect rest of component api
-* `xAccessor` prop added to extract correct value from `values` array
+* `values`/`dataPoints` renamed to `data` to better reflect rest of component api (supports complex data)
+* (XAxis) `xAccessor` prop added to extract correct value from `data` array
+* (YAxis) `yAccessor` prop added to extract correct value from `data` array
 * `scale` prop added to customize scale of axis
 
 ### `renderExtra` is removed
