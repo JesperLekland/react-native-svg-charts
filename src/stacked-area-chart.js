@@ -176,7 +176,7 @@ AreaStack.propTypes = {
 }
 
 AreaStack.defaultProps = {
-    curve: shape.curveCardinal,
+    curve: shape.curveLinear,
     offset: shape.stackOffsetNone,
     order: shape.stackOrderNone,
     strokeWidth: 2,
