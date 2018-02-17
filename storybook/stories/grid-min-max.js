@@ -12,15 +12,18 @@ class GridMinMaxExample extends React.PureComponent {
             <AreaChart
                 style={ { height: 200 } }
                 data={ data }
-                svg={{
-                    fill: 'rgba(134, 65, 244, 0.2)',
-                }}
-                contentInset={ { top: 30, bottom: 30 } }
+                svg={{ fill: 'rgba(134, 65, 244, 0.2)' }}
                 curve={shape.curveNatural}
                 gridMax={500}
                 gridMin={-500}
                 extras={[
-                    ({ line }) => <Path key={'line '} d={line} stroke={'rgb(134, 65, 244)'} fill={'none'}/>,
+                    ({ line }) => (
+                      <Path
+                      key={'line '}
+                      d={line}
+                      stroke={'rgb(134, 65, 244)'}
+                      fill={'none'}/>
+                    ),
                 ]}
             />
         )

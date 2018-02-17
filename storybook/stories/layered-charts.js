@@ -1,5 +1,5 @@
 import React from 'react'
-import AreaChart from '../../src/area-chart'
+import { AreaChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import { StyleSheet, View } from 'react-native'
 
@@ -15,21 +15,14 @@ class LayeredChartsExample extends React.PureComponent {
                 <AreaChart
                     style={ { flex: 1 } }
                     data={ data }
-                    svg={ {
-                        fill: 'rgba(134, 65, 244, 0.5)',
-                        stroke: 'rgb(134, 65, 244)',
-
-                    } }
+                    svg={{ fill: 'rgba(134, 65, 244, 0.5)' }}
                     contentInset={ { top: 20, bottom: 20 } }
                     curve={ shape.curveNatural }
                 />
                 <AreaChart
                     style={ StyleSheet.absoluteFill }
                     data={ data2 }
-                    svg={ {
-                        fill: 'rgba(34, 128, 176, 0.5)',
-                        stroke: 'rgb(34, 128, 176)',
-                    } }
+                    svg={{ fill: 'rgba(34, 128, 176, 0.5)' }}
                     contentInset={ { top: 20, bottom: 20 } }
                     curve={ shape.curveNatural }
                 />
