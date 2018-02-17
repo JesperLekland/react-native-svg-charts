@@ -54,6 +54,8 @@ class WaterfallChart extends PureComponent {
 
         const { width, height } = this.state
 
+        console.warn('WaterfallChart is deprecated and will be remove in future version, post an issue on GitHub if you want to keep this chart.')
+
         if (dataPoints.length === 0) {
             return <View style={ style }/>
         }

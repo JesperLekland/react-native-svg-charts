@@ -42,6 +42,9 @@ must now be a function that renders a component. See documentation for examples
     This is the area svg path as well as the path of line that follows the area's upper bound. See docs for example usage
 * `renderGradient` is removed and can now be rendered via `extra`. See documentation for example
 * no longer renders "top" line, use `extras` for this (see docs for example)
+
+### WaterfallChart
+* deprecated
  
 ### `animate` default is now `false`
 We figured opt-in is better than opt-out considering how poorly the animations are working at the moment
