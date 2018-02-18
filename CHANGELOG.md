@@ -4,8 +4,8 @@
 
 ### XAxis & YAxis
 
-* Axes are now rendered with `react-native-svg` [Text](https://github.com/react-native-community/react-native-svg#text), 
-    allowing for better alignment and more streamligned api.
+* Axes are now rendered with `react-native-svg`'s [Text](https://github.com/react-native-community/react-native-svg#text), 
+    allowing for better alignment and a more streamligned api.
 * `svg` prop added to customize each `<Text>`
 * `values`/`dataPoints` renamed to `data` to better reflect rest of component api (supports complex data)
 * (XAxis) `xAccessor` prop added to extract correct value from `data` array
@@ -14,7 +14,7 @@
 
 ### `renderExtra` is removed
 Seeing how `renderExtra` was almost always used to just call 
-the function that was passed in as `extras` we deciced to remove this step 
+the function that was passed in as `extras` we decided to remove this step 
 and simply call the `extra` entry as a function directly, passing in the same props as before
 
 In order to allow for the above change each entry in `extras`
@@ -45,7 +45,7 @@ must now be a function that renders a component. See documentation for examples
 * no longer renders "top" line, use `extras` for this (see docs for example)
 
 ### WaterfallChart
-* deprecated
+* deprecated - will be removed in future versions (due to low usage poor maintenance)
  
 ### `animate` default is now `false`
 We figured opt-in is better than opt-out considering how poorly the animations are working at the moment

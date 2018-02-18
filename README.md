@@ -7,6 +7,7 @@
 
 ### version 3 now available!
 Better API, greater extensibility and customisation!
+A lot of breaking changes are introduced in this version but we've taken great care to make sure migrating is easy. 
 See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information
 
 
