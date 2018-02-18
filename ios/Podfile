@@ -1,15 +1,22 @@
 # Uncomment the next line to define a global platform for your project
 platform :ios, '8.0'
 
+react_native_path = '../node_modules/react-native'
+
 target 'react-native-svg-charts' do
 
   # Pods for react-native-svg-charts
 
+  # Below section of pods are required by 'CxxBridge'
+  pod 'DoubleConversion', :podspec => react_native_path + '/third-party-podspecs/DoubleConversion.podspec'
+  pod 'GLog', :podspec => react_native_path + '/third-party-podspecs/GLog.podspec'
+  pod 'Folly', :podspec => react_native_path + '/third-party-podspecs/Folly.podspec'
+
   # Your 'node_modules' directory is probably in the root of your project,
   # but if not, adjust the `:path` accordingly
   pod 'React', :path => '../node_modules/react-native', :subspecs => [
+  'CxxBridge',
   'Core',
-  'BatchedBridge',
   'RCTAnimation',
   'DevSupport', # Include this to enable In-App Devmenu if RN >= 0.43
   'RCTText',
