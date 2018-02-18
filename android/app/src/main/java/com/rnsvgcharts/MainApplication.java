@@ -28,6 +28,11 @@ public class MainApplication extends Application implements ReactApplication {
                     new SvgPackage()
             );
         }
+
+        @Override
+        protected String getJSMainModuleName() {
+            return "index";
+        }
     };
 
     @Override
