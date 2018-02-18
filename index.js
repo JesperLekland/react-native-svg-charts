@@ -18,8 +18,8 @@ const App = () => {
                 }}
             >
                 {
-                    "Welcome to \"react-native-svg-charts\". \n" +
-                    "To see showcases of all our charts\n"
+                    'Welcome to "react-native-svg-charts". \n' +
+                    'To see showcases of all our charts\n'
                 }
             </Text>
             <Text
@@ -29,11 +29,11 @@ const App = () => {
                 }}
             >
                 {
-                    "• Stop your packager \n" +
-                    "• run \"yarn storybook\" \n" +
-                    "• Go to \"localhost:7008\" in your browser\n" +
-                    "• reload your device \n" +
-                    "• browse our charts"
+                    '• Stop your packager \n' +
+                    '• run "yarn storybook" \n' +
+                    '• Go to "localhost:7008" in your browser\n' +
+                    '• reload your device \n' +
+                    '• browse our charts'
                 }
             </Text>
 
