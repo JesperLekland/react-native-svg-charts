@@ -483,7 +483,7 @@ class PieChartExample extends React.PureComponent {
         return (
             <PieChart
                 style={ { height: 200 } }
-                dataPoints={ pieData }
+                data={ pieData }
             />
         )
     }
