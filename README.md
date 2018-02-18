@@ -609,7 +609,6 @@ class YAxisExample extends React.PureComponent {
 A helper component to layout your X-axis labels on the same coordinates as your chart.
 It's very important that the component has the exact same view bounds (preferably wrapped in the same parent view) as the chart it's supposed to match.
 If the chart has property `contentInset` set it's very important that the YAxis has the same horizontal contentInset.
-The XAxis has a special property `chartType` that should match the type of the chart in order to layout the labels correctly
 
 #### Example
 ```javascript
