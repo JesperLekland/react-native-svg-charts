@@ -16,11 +16,12 @@ target 'react-native-svg-charts' do
   'RCTImage',
   'RCTLinkingIOS',
   'RCTNetwork',
+  'RCTBlob',
   'RCTWebSocket', # needed for debugging
   # Add any other subspecs you want to use in your project
   ]
   # Explicitly include Yoga if you are using RN >= 0.42.0
-  pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
+  pod 'yoga', :path => '../node_modules/react-native/ReactCommon/yoga'
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
