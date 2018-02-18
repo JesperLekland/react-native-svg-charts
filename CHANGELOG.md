@@ -1,6 +1,10 @@
-# v.3.0.0
+This release changes some fundamentals about the API but we're confident that they're all for the better. The new arguments passed to the `extras` functions opens up vast customisation options that allow us to really clean up the API. The switch to a arbitrary data structure also allows us to cater to more use cases and make sure we are future proof. 
 
-## Breaking changes
+We're super excited for you guys to try out version 3! 
+
+We will soon try to tighten up the README and move most of the examples over to the [react-native-svg-charts-examples](https://github.com/JesperLekland/react-native-svg-charts-examples) repository. This repo will function as a showcase of all the cool uses of this library.
+
+## Changes ( many of them *breaking* )
 
 ### XAxis & YAxis
 
@@ -50,6 +54,6 @@ must now be a function that renders a component. See documentation for examples
 ### `animate` default is now `false`
 We figured opt-in is better than opt-out considering how poorly the animations are working at the moment
 
-## Comments
+## Comments 
 
 Due to the inherent nature of a bar chart consisting of many areas the `BarChart` component has not yet been migrated to the new APIs  
