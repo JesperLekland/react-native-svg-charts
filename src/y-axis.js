@@ -9,20 +9,11 @@ class YAxis extends PureComponent {
 
     state = {
         height: 0,
-        textHeight: 0,
     }
 
     _onLayout(event) {
         const { nativeEvent: { layout: { height } } } = event
         this.setState({ height })
-    }
-
-    _onTextLayout = (event) => {
-        const { nativeEvent: { layout: { height } } } = event
-        if (height === this.state.textHeight) {
-            return
-        }
-        this.setState({ textHeight: height })
     }
 
     render() {
@@ -43,7 +34,7 @@ class YAxis extends PureComponent {
             svg,
         } = this.props
 
-        const { height, textHeight } = this.state
+        const { height } = this.state
 
         if (data.length === 0) {
             return <View style={style}/>
@@ -72,7 +63,6 @@ class YAxis extends PureComponent {
                     {/*invisible text to allow for parent resizing*/}
                     <Text
                         style={{ color: 'transparent', fontSize: svg.fontSize }}
-                        onLayout={this._onTextLayout}
                     >
                         {formatLabel(longestValue)}
                     </Text>
@@ -80,22 +70,23 @@ class YAxis extends PureComponent {
                         {
                             // don't render labels if width isn't measured yet,
                             // causes rendering issues
-                            height > 0 && textHeight > 0 &&
+                            height > 0 &&
                             ticks.map((value, index) => {
                                 return (
                                     <SVGText
-                                        originY={y(value) - (textHeight / 2)}
+                                        originY={y(value)}
                                         textAnchor={'middle'}
                                         x={'50%'}
+                                        alignmentBaseline={'middle'}
                                         {...svg}
-                                        dy={-textHeight / 2}
                                         key={index}
                                         y={y(value)}
                                     >
                                         {formatLabel(value, index)}
                                     </SVGText>
                                 )
-                            })}
+                            })
+                        }
                     </Svg>
                 </View>
             </View>

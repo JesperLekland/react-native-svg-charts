@@ -13,10 +13,13 @@ class YAxisExample extends React.PureComponent {
         return (
             <View style={ { height: 200, flexDirection: 'row' } }>
                 <YAxis
-                    data={data}
-                    contentInset={ contentInset }
-                    svg={{ fill: 'grey', fontSize: 10 }}
-                    formatLabel={ value => `${value}ºC` }
+                  data={data}
+                  contentInset={ contentInset }
+                  svg={{
+                      fill: 'grey',
+                      fontSize: 10,
+                  }}
+                  formatLabel={ value => `${value}ºC` }
                 />
                 <LineChart
                     style={ { flex: 1, marginLeft: 16 } }
