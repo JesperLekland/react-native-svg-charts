@@ -43,8 +43,9 @@ class ExtrasExample extends React.PureComponent {
                     />
                     <Text
                         x={ 75 / 2 }
+                        dy={20}
+                        alignmentBaseline={'middle'}
                         textAnchor={ 'middle' }
-                        y={ 10 }
                         stroke={ 'rgb(134, 65, 244)' }
                     >
                         { `${data[5]}ºC` }
