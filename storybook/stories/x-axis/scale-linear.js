@@ -22,7 +22,7 @@ class XAxisExample extends React.PureComponent {
                     data={ data }
                     formatLabel={ (value, index) => index }
                     contentInset={{ left: 10, right: 10 }}
-                    svg={{ fontSize: 10 }}
+                    svg={{ fontSize: 10, fill: 'black' }}
                 />
             </View>
         )

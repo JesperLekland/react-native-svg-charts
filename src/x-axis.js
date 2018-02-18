@@ -102,10 +102,12 @@ class XAxis extends PureComponent {
                             // causes rendering issues
                             width > 0 &&
                             ticks.map((value, index) => {
+                                console.log('x', x(value))
                                 return (
                                     <SVGText
                                       textAnchor={'middle'}
                                       originX={x(value)}
+                                      alignmentBaseline={'hanging'}
                                       {...svg}
                                       key={index}
                                       x={x(value)}
@@ -113,17 +115,13 @@ class XAxis extends PureComponent {
                                         {formatLabel(value, index)}
                                     </SVGText>
                                 )
-                            })}
+                            })
+                        }
                     </Svg>
                 </View>
             </View>
         )
     }
-}
-
-XAxis.Type = {
-    LINE: 'line',
-    BAR: 'bar',
 }
 
 XAxis.propTypes = {
@@ -142,9 +140,7 @@ XAxis.propTypes = {
 }
 
 XAxis.defaultProps = {
-    type: 'line',
     spacing: 0.05,
-    chartType: XAxis.Type.LINE,
     contentInset: {},
     svg: {},
     xAccessor: ({ index }) => index,

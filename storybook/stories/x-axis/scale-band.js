@@ -32,7 +32,6 @@ class XAxisExample extends React.PureComponent {
                     data={ data }
                     scale={scale.scaleBand}
                     formatLabel={ (value, index) => index }
-                    chartType={ XAxis.Type.BAR }
                     labelStyle={ { color: 'black' } }
                 />
             </View>

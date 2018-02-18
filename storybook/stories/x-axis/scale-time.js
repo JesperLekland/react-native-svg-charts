@@ -51,12 +51,12 @@ class XAxisScaleTimeExample extends React.PureComponent {
                 <XAxis
                   data={data}
                   svg={{
-                      translate: '30',
                       fill: 'black',
                       fontSize: 8,
                       fontWeight: 'bold',
                       rotation: 20,
                       originY: 30,
+                      y: 5,
                   }}
                   xAccessor={({ item }) => item.date}
                   scale={scale.scaleTime}
