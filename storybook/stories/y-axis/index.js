@@ -1,8 +1,6 @@
 import React from 'react'
-import LineChart from '../../../src/line-chart'
-import * as shape from 'd3-shape'
+import { LineChart, YAxis } from 'react-native-svg-charts'
 import { View } from 'react-native'
-import { YAxis } from 'src'
 
 class YAxisExample extends React.PureComponent {
 
@@ -15,23 +13,19 @@ class YAxisExample extends React.PureComponent {
         return (
             <View style={ { height: 200, flexDirection: 'row' } }>
                 <YAxis
-                    dataPoints={ data }
-                    contentInset={ contentInset }
-                    labelStyle={ { color: 'grey' } }
-                    formatLabel={ value => `${value}ºC` }
+                  data={data}
+                  contentInset={ contentInset }
+                  svg={{
+                      fill: 'grey',
+                      fontSize: 10,
+                  }}
+                  formatLabel={ value => `${value}ºC` }
                 />
                 <LineChart
                     style={ { flex: 1, marginLeft: 16 } }
-                    dataPoints={ data }
-                    svg={{
-                        stroke: 'rgb(134, 65, 244)',
-                    }}
-                    shadowSvg={ {
-                        stroke: 'rgba(134, 65, 244, 0.2)',
-                        strokeWidth: 5,
-                    }}
+                    data={data}
+                    svg={{ stroke: 'rgb(134, 65, 244)' }}
                     contentInset={ contentInset }
-                    curve={ shape.curveLinear }
                 />
             </View>
         )

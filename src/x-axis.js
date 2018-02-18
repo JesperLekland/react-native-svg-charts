@@ -1,7 +1,9 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, View } from 'react-native'
-import * as scale from 'd3-scale'
+import * as d3Scale from 'd3-scale'
+import * as array from 'd3-array'
+import Svg, { Text as SVGText } from 'react-native-svg'
 
 class XAxis extends PureComponent {
 
@@ -18,15 +20,10 @@ class XAxis extends PureComponent {
         }
     }
 
-    render() {
-
+    _getX(domain) {
         const {
-                  style,
-                  values,
-                  labelStyle,
+                  scale,
                   spacing,
-                  chartType,
-                  formatLabel,
                   contentInset: {
                       left  = 0,
                       right = 0,
@@ -35,123 +32,120 @@ class XAxis extends PureComponent {
 
         const { width } = this.state
 
-        if (values.length === 0) {
-            return <View style={ style }/>
+        if (scale === d3Scale.scaleBand) {
+
+            // use index as domain identifier instead of value since
+            // same value can occur at several places in dataPoints
+            const x = scale()
+                .domain(domain)
+                .range([ left, width - right ])
+                .paddingInner([ spacing ])
+                .paddingOuter([ spacing ])
+
+            //add half a bar to center label
+            return (value) => x(value) + (x.bandwidth() / 2)
         }
 
-        let labelWidth
-        let x
-        let transform
-        const domain = [ 0, values.length - 1 ]
-
-        switch (chartType) {
-            case 'bar': {
-
-                // use index as domain identifier instead of value since
-                // same value can occur at several places in dataPoints
-                x = scale.scaleBand()
-                    .domain(values.map((_, index) => index))
-                    .range([ left, width - right ])
-                    .paddingInner([ spacing ])
-                    .paddingOuter([ spacing ])
-
-                labelWidth = x.bandwidth()
-                transform  = []
-
-                break
-
-            }
-            case 'line': {
-
-                labelWidth = ((width - left - right) / values.length )
-                transform  = [ { translateX: -labelWidth / 2 } ]
-
-                x = scale.scaleLinear()
-                    .domain(domain)
-                    .range([ left, width - right ])
-
-                break
-            }
-            default:
-                console.warn(
-                    `invalid chartType "${chartType}"
-                    Must be one of "XAxis.Type.LINE" or "XAxis.type.BAR `,
-                )
-
-                labelWidth = 0
-                x          = () => {}
-                transform  = []
+        if (scale === d3Scale.scaleLinear) {
+            return scale()
+                .domain(domain)
+                .range([ left, width - right ])
         }
+
+        if (scale === d3Scale.scaleTime) {
+
+            return scale()
+                .domain(domain)
+                .range([ left, width - right ])
+
+        }
+    }
+
+    render() {
+
+        const {
+                  style,
+                  scale,
+                  data,
+                  xAccessor,
+                  formatLabel,
+                  numberOfTicks,
+                  svg,
+              } = this.props
+
+        const { width } = this.state
+
+        if (data.length === 0) {
+            return <View style={style}/>
+        }
+
+        const xValues = data.map((item, index) => xAccessor({ item, index }))
+        const extent  = array.extent(xValues)
+        const domain  = scale === d3Scale.scaleBand ? xValues : extent
+
+        const x     = this._getX(domain)
+        const ticks = numberOfTicks ? x.ticks(numberOfTicks) : xValues
 
         return (
             <View style={ style }>
                 <View
-                    style={ { flexGrow: 1 } }
-                    onLayout={ event => this._onLayout(event) }
+                  style={{ flexGrow: 1 }}
+                  onLayout={event => this._onLayout(event)}
                 >
                     {/*invisible text to allow for parent resizing*/}
-                    <Text style={ [ labelStyle, { color: 'transparent' } ] }>
-                        { formatLabel(values[ 0 ], 0) }
+                    <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
+                        { formatLabel(data[ 0 ], 0) }
                     </Text>
-                    {values.map((value, index) => {
-                        return (
-                            <Text
-                                numberOfLines={1}
-                                //'clip' not supported on android
-                                // ellipsizeMode={'clip'}
-                                key={`${value}-${index}`}
-                                style={[
-                                    styles.text,
-                                    labelStyle,
-                                    {
-                                        width: labelWidth,
-                                        position: 'absolute',
-                                        left: x(index),
-                                        transform,
-                                    },
-                                ]}
-                            >
-                                {formatLabel(value, index)}
-                            </Text>
-                        )
-                    })}
+                    <Svg style={StyleSheet.absoluteFill}>
+                        {
+                            // don't render labels if width isn't measured yet,
+                            // causes rendering issues
+                            width > 0 &&
+                            ticks.map((value, index) => {
+                                console.log('x', x(value))
+                                return (
+                                    <SVGText
+                                      textAnchor={'middle'}
+                                      originX={x(value)}
+                                      alignmentBaseline={'hanging'}
+                                      {...svg}
+                                      key={index}
+                                      x={x(value)}
+                                    >
+                                        {formatLabel(value, index)}
+                                    </SVGText>
+                                )
+                            })
+                        }
+                    </Svg>
                 </View>
             </View>
         )
     }
 }
 
-XAxis.Type = {
-    LINE: 'line',
-    BAR: 'bar',
-}
-
 XAxis.propTypes = {
-    values: PropTypes.array.isRequired,
+    data: PropTypes.array.isRequired,
     labelStyle: PropTypes.any,
-    chartType: PropTypes.oneOf([ XAxis.Type.LINE, XAxis.Type.BAR ]),
     spacing: PropTypes.number,
     formatLabel: PropTypes.func,
     contentInset: PropTypes.shape({
         left: PropTypes.number,
         right: PropTypes.number,
     }),
+    scale: PropTypes.oneOf([ d3Scale.scaleTime, d3Scale.scaleLinear, d3Scale.scaleBand ]),
+    numberOfTicks: PropTypes.number,
+    xAccessor: PropTypes.func,
+    svg: PropTypes.object,
 }
 
 XAxis.defaultProps = {
-    type: 'line',
     spacing: 0.05,
-    chartType: XAxis.Type.LINE,
     contentInset: {},
+    svg: {},
+    xAccessor: ({ index }) => index,
+    scale: d3Scale.scaleLinear,
     formatLabel: (value, index) => index,
 }
-
-const styles = StyleSheet.create({
-    text: {
-        backgroundColor: 'transparent',
-        textAlign: 'center',
-        fontSize: 10,
-    },
-})
 
 export default XAxis
