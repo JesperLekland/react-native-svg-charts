@@ -15,7 +15,7 @@ class YAxisExample extends React.PureComponent {
                 <YAxis
                     data={data}
                     contentInset={ contentInset }
-                    svg={{ fill: 'grey', fontSize: 10, rotation: 20 }}
+                    svg={{ fill: 'grey', fontSize: 10 }}
                     formatLabel={ value => `${value}ºC` }
                 />
                 <LineChart

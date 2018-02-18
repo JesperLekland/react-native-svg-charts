@@ -55,13 +55,13 @@ class AreaStackWithAxisExample extends React.PureComponent {
                 />
                 <YAxis
                     style={ { position: 'absolute', top: 0, bottom: 0, transform: [ { translateY: -5 } ] } }
-                    dataPoints={ StackedAreaChart.extractDataPoints(data, keys) }
+                    data={ StackedAreaChart.extractDataPoints(data, keys) }
                     contentInset={ { top: 10, bottom: 10 } }
-                    labelStyle={ {
+                    svg={ {
                         fontSize: 8,
-                        color: 'white',
-                        textShadowOffset: { width: 1, height: 1 },
-                        textShadowColor: 'rgba(0,0,0,0.3)',
+                        fill: 'white',
+                        stroke: 'black',
+                        strokeWidth: 0.1,
                     } }
                 />
             </View>
