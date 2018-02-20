@@ -14,7 +14,7 @@ const Horizontal = ({ ticks = [], y, gridProps = {} }) => {
                         y1={ y(tick) }
                         y2={ y(tick) }
                         strokeWidth={ 1 }
-                        stroke={ 'rgba(0,0,0,0.2)' }
+                        stroke={ gridProps.strokeColor || 'rgba(0,0,0,0.2)' }
                         { ...gridProps }
                     />
                 ))
@@ -36,7 +36,7 @@ const Vertical = ({ dataPoints = [], x, gridProps = {} }) => {
                         x1={ x(index) }
                         x2={ x(index) }
                         strokeWidth={ 1 }
-                        stroke={ 'rgba(0,0,0,0.2)' }
+                        stroke={ gridProps.strokeColor || 'rgba(0,0,0,0.2)' }
                         { ...gridProps }
                     />
                 ))
