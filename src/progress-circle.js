@@ -87,7 +87,6 @@ class ProgressCircle extends PureComponent {
                                     key={index}
                                     fill={shape.color}
                                     d={shape.path}
-                                    onPress={() => console.log(shape)}
                                     animate={animate}
                                     animationDuration={animateDuration}
                                 />

@@ -102,7 +102,6 @@ class XAxis extends PureComponent {
                             // causes rendering issues
                             width > 0 &&
                             ticks.map((value, index) => {
-                                console.log('x', x(value))
                                 return (
                                     <SVGText
                                       textAnchor={'middle'}
