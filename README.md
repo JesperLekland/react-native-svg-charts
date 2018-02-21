@@ -5,8 +5,9 @@
 ![circleci](https://circleci.com/gh/JesperLekland/react-native-svg-charts.svg?style=shield&circle-token=1a809ccdfbd0df3ed425a08f09c558401f794140)
 [![license](https://img.shields.io/npm/l/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
 
-### version 2 now available!
-More charts more customisation!
+### version 3 now available!
+Better API, greater extensibility and customisation!
+A lot of breaking changes are introduced in this version but we've taken great care to make sure migrating is easy. 
 See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information
 
 
@@ -60,23 +61,25 @@ yarn storybook
 
 | Property | Default | Description |
 | --- | --- | --- |
-| dataPoints | **required** | An array of integers - the data you want plotted, e.g \[1,2,3,4]. This prop is different for [PieChart](#piechart) and [BarChart](#barchart) |
+| data | **required** | An array of arbitrary data - use prop `xAccessor`/`yAccessor`to tell the chart about the data structure|
+| yAccessor | ({ item }) => item | A function that takes each entry of `data` (named "item") as well as the index and returns the y-value of that entry |
+| xAccessor | ({ index }) => index | Same as `yAccessor` but returns the x-value of that entry|
+| yScale | d3Scale.scaleLinear | A function that determines the scale of said axis (only tested with scaleLinear, scaleTime & scaleBand )| 
+| xScale | d3Scale.scaleLinear | Same as `yScale` but for the x axis |
 | svg | `{}` | an object containing  all the props that should be passed down to the underlying `react-native-svg` component. [See available props](https://github.com/react-native-community/react-native-svg#common-props)|
-| renderGradient | `() => {}` | function that renders the gradient. [Example](#gradient) |
 | animate | true | PropTypes.bool |
 | animationDuration | 300 | PropTypes.number |
 | style | undefined | Supports all [ViewStyleProps](https://facebook.github.io/react-native/docs/viewstyleproptypes.html) |
-| curve | d3.curveCardinal | A function like [this](https://github.com/d3/d3-shape#curves) |
+| curve | d3.curveLinear | A function like [this](https://github.com/d3/d3-shape#curves) |
 | contentInset | { top: 0, left: 0, right: 0, bottom: 0 } | An object that specifies how much fake "margin" to use inside of the SVG canvas. This is particularly helpful on Android where `overflow: "visible"` isn't supported and might cause clipping. Note: important to have same contentInset on axis's and chart |
 | numberOfTicks | 10 | We use [d3-array](https://github.com/d3/d3-array#ticks) to evenly distribute the grid and dataPoints on the yAxis. This prop specifies how many "ticks" we should try to render. Note: important that this prop is the same on both the chart and on the yAxis |
 | showGrid | true | Whether or not to show the grid lines |
 | gridMin | undefined | Normally the graph tries to draw from edge to edge within the view bounds. Using this prop will allow the grid to reach further than the actual dataPoints. [Example](#gridmin/max) |
 | gridMax | undefined | The same as "gridMin" but will instead increase the grids maximum value |
-| gridProps | `{}` | An object of props that are passed to the [Line](https://github.com/react-native-community/react-native-svg#line) component that renders the grid |
 | renderGrid | `Grid.Horizontal` | A function that returns the component to be rendered as the grid |
 | extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
-| renderExtra | `() => {}` | Similar to the `renderItem` of a *FlatList*. This function will be called for each item in the `extras` array and pass an object as an argument. The argument object is of the shape `{x: function, y: function, item: item of extras}`. [See example](#extras) |
 | renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |
+| renderGrid | `defaultGrid`| A function that renders the grid, see source for argumments |
 
 ## Components
 
@@ -88,7 +91,6 @@ This library currently provides the following components
 * [Line](#linechart)
 * [Pie](#piechart)
 * [Progress- Circle / Gauge](#progresschart)
-* [Waterfall](#waterfallchart)
 * [YAxis](#yaxis)
 * [XAxis](#xaxis)
 
@@ -100,7 +102,7 @@ Also see [other examples](#other-examples)
 * [Layered Charts](#layered-charts)
 * [PieChart with labels](#piechart-with-labels)
 * [Custom Grid](#custom-grid)
-* [Partial Chart](#partial-chart)
+* [Partial Chart](#partial-charts)
 
 ### AreaChart
 
@@ -117,31 +119,27 @@ class AreaChartExample extends React.PureComponent {
 
     render() {
 
-            const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
-            return (
-                <AreaChart
-                    style={ { height: 200 } }
-                    dataPoints={ data }
-                    contentInset={ { top: 30, bottom: 30 } }
-                    curve={shape.curveNatural}
-                    svg={{
-                        fill: 'rgba(134, 65, 244, 0.2)',
-                        stroke: 'rgb(134, 65, 244)',
-                    }}
-                />
-            )
-        }
-
+        return (
+            <AreaChart
+                style={ { height: 200 } }
+                data={ data }
+                contentInset={ { top: 30, bottom: 30 } }
+                curve={shape.curveNatural}
+                svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
+            />
+        )
+    }
 }
 ```
 
 #### Props
 
 See [Common Props](#common-props)
+
 | Property | Default | Description |
 | --- | --- | --- |
-| renderLineGradient | undefined | The same as `renderGradient` but for the line in the chart  |
 | start | 0 | The value of which the area should start (will always end on the data point)  |
 
 ### StackedAreaChart
@@ -209,8 +207,6 @@ class StackedAreaExample extends React.PureComponent {
         )
     }
 }
-
-export default StackedAreaExample
 
 ```
 
@@ -389,9 +385,6 @@ class StackedBarChartExample extends React.PureComponent {
 
 }
 
-export default StackedBarChartExample
-
-
 ```
 
 #### Props
@@ -414,7 +407,6 @@ Also see [Common Props](#common-props)
 ```javascript
 import React from 'react'
 import { LineChart } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
 
 class LineChartExample extends React.PureComponent {
 
@@ -425,18 +417,9 @@ class LineChartExample extends React.PureComponent {
         return (
             <LineChart
                 style={ { height: 200 } }
-                dataPoints={ data }
-                fillColor={ 'purple' }
-                shadowOffset={3}
-                svg={ {
-                    stroke: 'rgb(134, 65, 244)',
-                } }
-                shadowSvg={ {
-                    stroke: 'rgba(134, 65, 244, 0.2)',
-                    strokeWidth: 5,
-                } }
+                data={ data }
+                svg={{ stroke: 'rgb(134, 65, 244)' }}
                 contentInset={ { top: 20, bottom: 20 } }
-                curve={shape.curveLinear}
             />
         )
     }
@@ -447,13 +430,6 @@ class LineChartExample extends React.PureComponent {
 
 #### Props
 See [Common Props](#common-props)
-
-| Property | Default | Description |
-| --- | --- | --- |
-| shadowSvg | `{}` | accepts the same object shape as `svg` but is passed to the shadow line instead  |
-| shadowOffset | 3 | the offset of the shadow in value (not pixels)  |
-
-
 
 ### PieChart
 ![Pie chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/pie-chart.png)
@@ -565,44 +541,9 @@ class ProgressGaugeExample extends React.PureComponent {
 | startAngle | `0` | PropTypes.number |
 | endAngle | `Math.PI * 2` |  PropTypes.number |
 
-### WaterfallChart
-![Waterfall chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/waterfall-chart.png)
-
-#### Example
-```javascript
-import React from 'react'
-import { WaterfallChart } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
-
-class WaterfallChartExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        return (
-            <WaterfallChart
-                style={ { height: 200 } }
-                dataPoints={ data }
-                contentInset={ { top: 20, bottom: 20 } }
-                dashArray={ [ 2, 4 ] }
-                spacing={ 0.2 }
-                curve={ shape.curveCatmullRom }
-            />
-        )
-    }
-
-}
-```
-
-#### Props
-
-See [Common Props](#common-props)
-
-
 ### YAxis
 
-![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/y-axis.png)
+![Y-axis](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/y-axis.png)
 
 A helper component to layout your Y-axis labels on the same coordinates as your chart.
 It's very important that the component has the exact same view bounds (preferably wrapped in the same parent view) as the chart it's supposed to match.
@@ -612,8 +553,6 @@ If the chart has property `contentInset` set it's very important that the YAxis 
 ```javascript
 import React from 'react'
 import { LineChart, YAxis } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
-import YAxis from '../y-axis'
 import { View } from 'react-native'
 
 class YAxisExample extends React.PureComponent {
@@ -627,23 +566,19 @@ class YAxisExample extends React.PureComponent {
         return (
             <View style={ { height: 200, flexDirection: 'row' } }>
                 <YAxis
-                    dataPoints={ data }
-                    contentInset={ contentInset }
-                    labelStyle={ { color: 'grey' } }
-                    formatLabel={ value => `${value}ºC` }
+                  data={data}
+                  contentInset={ contentInset }
+                  svg={{
+                      fill: 'grey',
+                      fontSize: 10,
+                  }}
+                  formatLabel={ value => `${value}ºC` }
                 />
                 <LineChart
                     style={ { flex: 1, marginLeft: 16 } }
-                    dataPoints={ data }
-                    svg={{
-                        stroke: 'rgb(134, 65, 244)',
-                    }}
-                    shadowSvg={ {
-                        stroke: 'rgba(134, 65, 244, 0.2)',
-                        strokeWidth: 5,
-                    }}
+                    data={data}
+                    svg={{ stroke: 'rgb(134, 65, 244)' }}
                     contentInset={ contentInset }
-                    curve={ shape.curveLinear }
                 />
             </View>
         )
@@ -659,7 +594,8 @@ class YAxisExample extends React.PureComponent {
 
 | Property | Default | Description |
 | --- | --- | --- |
-| labelStyle | undefined | Supports all [TextStyleProps](https://facebook.github.io/react-native/docs/textstyleproptypes.html) |
+| scale | `d3Scale.scaleLinear`| Should be the same as passed into the charts `yScale` |
+| svg | `{}` | supports all svg props an svg text normally supports |
 | formatLabel | `value => {}` | A utility function to format the text before it is displayed, e.g `value => "$" + value |
 | contentInset | { top: 0, bottom: 0 } | Used to sync layout with chart (if same prop used there) |
 | min | undefined | Used to sync layout with chart (if gridMin is used there) |
@@ -673,43 +609,34 @@ class YAxisExample extends React.PureComponent {
 A helper component to layout your X-axis labels on the same coordinates as your chart.
 It's very important that the component has the exact same view bounds (preferably wrapped in the same parent view) as the chart it's supposed to match.
 If the chart has property `contentInset` set it's very important that the YAxis has the same horizontal contentInset.
-The XAxis has a special property `chartType` that should match the type of the chart in order to layout the labels correctly
 
 #### Example
 ```javascript
 import React from 'react'
-import { BarChart, XAxis } from 'react-native-svg-charts'
+import { LineChart, XAxis } from 'react-native-svg-charts'
 import { View } from 'react-native'
 
 class XAxisExample extends React.PureComponent {
 
     render() {
 
-        const data    = [ 14, -1, 100, -95, -94, -24, -8, 85, -91, 35, -53, 53, -78, 66, 96, 33, -26, -32, 73, 8 ]
-        const barData = [
-            {
-                values: data,
-                positive: {
-                    fill: 'rgb(134, 65, 244)',
-                },
-                negative: {
-                    fill: 'rgba(134, 65, 244, 0.2)',
-                },
-            },
-        ]
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
         return (
-            <View style={ { height: 200 } }>
-                <BarChart
-                    style={ { flex: 1 } }
-                    data={ barData }
+            <View style={{ height: 200, padding: 20 }}>
+                <LineChart
+                    style={{ flex: 1 }}
+                    data={data}
+                    gridMin={0}
+                    contentInset={{ top: 10, bottom: 10 }}
+                    svg={{ stroke: 'rgb(134, 65, 244)' }}
                 />
                 <XAxis
-                    style={ { paddingVertical: 16 } }
-                    values={ data }
+                    style={{ marginHorizontal: -10 }}
+                    data={ data }
                     formatLabel={ (value, index) => index }
-                    chartType={ XAxis.Type.BAR }
-                    labelStyle={ { color: 'grey' } }
+                    contentInset={{ left: 10, right: 10 }}
+                    svg={{ fontSize: 10 }}
                 />
             </View>
         )
@@ -724,9 +651,9 @@ class XAxisExample extends React.PureComponent {
 | Property | Default | Description |
 | --- | --- | --- |
 | values | **required** | An array of values to render on the xAxis. Should preferably have the same length as the chart's dataPoints. |
-| chartType | `XAxis.Type.LINE`| Should state what chart type it is rendered next to. Important because of slightly different calculations. One of \[ XAxis.Type.LINE, XAxis.Type.BAR ] |
-| spacing | 0.05 | Only applicable if `chartType=XAxis.Type.BAR` and should then be equal to `spacing` prop on the actual BarChart.   |
-| labelStyle | undefined | Supports all [TextStyleProps](https://facebook.github.io/react-native/docs/textstyleproptypes.html) |
+| scale | `d3Scale.scaleLinear`| Should be the same as passed into the charts `xScale` |
+| spacing | 0.05 | Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacing` prop on the actual BarChart.   |
+| svg | `{}` | supports all svg props an svg text normally supports |
 | formatLabel | `(value, index) => index}` | A utility function to format the text before it is displayed, e.g `value => "day" + value |
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
 
@@ -746,7 +673,7 @@ You can read more about the available gradients [here](https://github.com/react-
 ```javascript
 import React from 'react'
 import { AreaChart } from 'react-native-svg-charts'
-import { LinearGradient, Stop } from 'react-native-svg'
+import { Defs, LinearGradient, Stop } from 'react-native-svg'
 
 class GradientExample extends React.PureComponent {
 
@@ -754,78 +681,27 @@ class GradientExample extends React.PureComponent {
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
+        const Gradient = ({ index }) => (
+            <Defs key={index}>
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
+                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
+                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
+                </LinearGradient>
+            </Defs>
+        )
+
         return (
             <AreaChart
-                style={ { height: 200 } }
-                dataPoints={ data }
-                contentInset={ { top: 20, bottom: 20 } }
-                renderGradient={ ({ id }) => (
-                    <LinearGradient id={ id } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
-                        <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                        <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                    </LinearGradient>
-                ) }
+                style={{ height: 200 }}
+                data={data}
+                contentInset={{ top: 20, bottom: 20 }}
+                extras={[ Gradient ]}
+                svg={{ fill: 'url(#gradient)' }}
             />
         )
     }
 
 }
-```
-
-
-### Gradient Advanced
-This example is made to show you how flexible and powerful the renderGradient/Decorator/Extras pattern is. Your imagination sets the limits in this case
-
-![Gradient](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient-advanced.png)
-
-```javascript
-import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
-import { LinearGradient, Stop } from 'react-native-svg'
-import { StyleSheet, View } from 'react-native'
-
-class GradientAdvancedExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        const cut = 0.5
-        const cutBuffer = 0.001
-
-        return (
-            <View>
-                <AreaChart
-                    style={ { height: 200 } }
-                    dataPoints={ data }
-                    contentInset={ { top: 20, bottom: 20 } }
-                    renderGradient={ ({ id }) => (
-                        <LinearGradient id={ id } x1={ '0%' } y1={ '0%' } x2={ '0%' } y2={ '100%' }>
-                            <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                            <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                        </LinearGradient>
-                    ) }
-                />
-                <AreaChart
-                    style={ StyleSheet.absoluteFill }
-                    dataPoints={ data }
-                    contentInset={ { top: 20, bottom: 20 } }
-                    renderGradient={ ({ id }) => (
-                        <LinearGradient id={ id } x1={ '0%' } y1={ '0%' } x2={ '100%' } y2={ '0%' }>
-                            <Stop offset={ '0' } stopColor={ 'transparent' } stopOpacity={ 0 }/>
-                            <Stop offset={ `${cut}` } stopColor={ 'transparent' } stopOpacity={ 0 }/>
-                            <Stop offset={ `${cut + cutBuffer}` } stopColor={ 'white' } stopOpacity={ 0.6 }/>
-                            <Stop offset={ '1' } stopColor={ 'white' } stopOpacity={ 0.6 }/>
-                        </LinearGradient>
-                    ) }
-                />
-            </View>
-        )
-    }
-
-}
-
-export default GradientAdvancedExample
 
 ```
 
@@ -861,11 +737,8 @@ class DecoratorExample extends React.PureComponent {
         return (
             <AreaChart
                 style={ { height: 200 } }
-                dataPoints={ data }
-                svg={ {
-                    fill: 'rgba(134, 65, 244, 0.2)',
-                    stroke: 'rgb(134, 65, 244)',
-                } }
+                data={ data }
+                svg={ { fill: 'rgba(134, 65, 244, 0.2)' } }
                 contentInset={ { top: 20, bottom: 30 } }
                 renderDecorator={ ({ x, y, index, value }) => (
                     <Circle
@@ -884,8 +757,7 @@ class DecoratorExample extends React.PureComponent {
 }
 ```
 ### Extras
-The `extras` prop allow for arbitrary decorators on your chart. The prop takes an array of arbitrary data and then calls `renderExtra` for each entry in that array.
-The `renderExtra` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
+The `extras` prop allow for arbitrary decorators on your chart.
 and is a function that is called with an object as an arguments to help the layout of the extra decorator. The content of the argument object is as follows:
 
 ```javascript
@@ -894,14 +766,21 @@ and is a function that is called with an object as an arguments to help the layo
     x: function, // the function used to calculate the x coordinate of a specific data point index
     y: function, // the function used to calculate the y coordinate of a specific data point value
     index: number, // the index of the item in the 'extras' array
+    width: number, // the width of the svg canvas,
+    height: number, // the number fo the svg canvas,
 }
 ```
-There might be additional parameters sent to the `renderExtra` function as well, depending on the chart type.
+There might be additional parameters sent to the `extras` functions as well, depending on the chart type.
 
-The Line Chart passes the svg path data that rendered the line and also the shadow svg path data. The Area Chart passes both the area and line svg path data.
+The `LineChart` passes the svg path data that rendered the line. (argument name `line`)
+
+The `AreaChart` passes both the area svg path as well as the 
+svg path for the line following the upper bounds of the area. 
+(argument name `area` and `line` respectively)
+
 See [Partial Chart](#partial-chart) for use case for this.
 
-Remember that all components returned by `renderExtra` must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
+Remember that all components returned by an `extras` function must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
 
 ![Extras](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/extras.png)
 
@@ -910,7 +789,6 @@ Remember that all components returned by `renderExtra` must be one that is rende
 ```javascript
 import React from 'react'
 import { LineChart } from 'react-native-svg-charts'
-import { Circle } from 'react-native-svg'
 import * as shape from 'd3-shape'
 import { Circle, G, Line, Rect, Text } from 'react-native-svg'
 
@@ -954,8 +832,9 @@ class ExtrasExample extends React.PureComponent {
                     />
                     <Text
                         x={ 75 / 2 }
+                        dy={20}
+                        alignmentBaseline={'middle'}
                         textAnchor={ 'middle' }
-                        y={ 10 }
                         stroke={ 'rgb(134, 65, 244)' }
                     >
                         { `${data[5]}ºC` }
@@ -982,20 +861,14 @@ class ExtrasExample extends React.PureComponent {
         return (
             <LineChart
                 style={ { height: 200 } }
-                dataPoints={ data }
+                data={ data }
                 svg={{
-                    fill: 'purple',
                     stroke: 'rgb(134, 65, 244)',
                     strokeWidth: 2,
-                }}
-                shadowSvg={{
-                    stroke: 'rgba(134, 65, 244, 0.2)',
-                    strokeWidth: 5,
                 }}
                 contentInset={ { top: 20, bottom: 20 } }
                 curve={ shape.curveLinear }
                 extras={ [ HorizontalLine, Tooltip ] }
-                renderExtra={ ({ item, ...args }) => item(args) }
             />
         )
     }
@@ -1011,7 +884,7 @@ Charts normally render edge to edge, if this is not the wanted behaviour it can 
 #### Example
 ```javascript
 import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
+import { AreaChart, Path } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class GridMinMaxExample extends React.PureComponent {
@@ -1022,19 +895,26 @@ class GridMinMaxExample extends React.PureComponent {
 
         return (
             <AreaChart
-                style={ { height: 200 } }
-                dataPoints={ data }
-                svg={{
-                    fill: 'rgba(134, 65, 244, 0.2)',
-                    stroke: 'rgb(134, 65, 244)',
-                }}
-                contentInset={ { top: 30, bottom: 30 } }
+                style={{ height: 200 }}
+                data={data}
+                svg={{ fill: 'rgba(134, 65, 244, 0.2)' }}
                 curve={shape.curveNatural}
                 gridMax={500}
                 gridMin={-500}
+                extras={[
+                    ({ line }) => (
+                        <Path
+                            key={'line '}
+                            d={line}
+                            stroke={'rgb(134, 65, 244)'}
+                            fill={'none'}
+                        />
+                    ),
+                ]}
             />
         )
     }
+
 }
 ```
 
@@ -1046,7 +926,7 @@ The remedy this the AreaStackChart exposes a static API with a function `extract
 
 ```javascript
 import React from 'react'
-import { AreaStackChart, YAxis } from 'react-native-svg-charts'
+import { StackedAreaChart, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import { View } from 'react-native'
 
@@ -1090,31 +970,32 @@ class AreaStackWithAxisExample extends React.PureComponent {
 
         return (
             <View style={ { flexDirection: 'row', height: 200 } }>
-                <AreaStackChart
+                <StackedAreaChart
                     style={ { flex: 1 } }
                     contentInset={ { top: 10, bottom: 10 } }
                     data={ data }
                     keys={ keys }
                     colors={ colors }
                     curve={ shape.curveNatural }
+                    { ...this.props }
                 />
                 <YAxis
-                    style={ { position: 'absolute', top: 0, bottom: 0, transform: [ { translateY: -5 } ] } }
-                    dataPoints={ AreaStackChart.extractDataPoints(data, keys) }
+                    style={ { position: 'absolute', top: 0, bottom: 0 }}
+                    data={ StackedAreaChart.extractDataPoints(data, keys) }
                     contentInset={ { top: 10, bottom: 10 } }
-                    labelStyle={ {
+                    svg={ {
                         fontSize: 8,
-                        color: 'white',
-                        textShadowOffset: { width: 1, height: 1 },
-                        textShadowColor: 'rgba(0,0,0,0.3)',
+                        fill: 'white',
+                        stroke: 'black',
+                        strokeWidth: 0.1,
+                        alignmentBaseline: 'baseline',
+                        baselineShift: '3',
                     } }
                 />
             </View>
         )
     }
 }
-
-export default AreaStackWithAxisExample
 
 ```
 
@@ -1127,43 +1008,36 @@ If your data sets don't share the same max/min data make sure to utilize the `gr
 #### Example
 ```javascript
 import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
+import { AreaChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import { StyleSheet, View } from 'react-native'
 
-class StackedChartsExample extends React.PureComponent {
+class LayeredChartsExample extends React.PureComponent {
 
     render() {
 
-            const data  = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-            const data2 = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ].reverse()
+        const data  = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+        const data2 = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ].reverse()
 
-            return (
-                <View style={ { height: 200 } }>
-                    <AreaChart
-                        style={ { flex: 1 } }
-                        dataPoints={ data }
-                        svg={ {
-                            fill: 'rgba(134, 65, 244, 0.5)',
-                            stroke: 'rgb(134, 65, 244)',
-
-                        } }
-                        contentInset={ { top: 20, bottom: 20 } }
-                        curve={ shape.curveNatural }
-                    />
-                    <AreaChart
-                        style={ StyleSheet.absoluteFill }
-                        dataPoints={ data2 }
-                        svg={ {
-                            fill: 'rgba(34, 128, 176, 0.5)',
-                            stroke: 'rgb(34, 128, 176)',
-                        } }
-                        contentInset={ { top: 20, bottom: 20 } }
-                        curve={ shape.curveNatural }
-                    />
-                </View>
-            )
-        }
+        return (
+            <View style={ { height: 200 } }>
+                <AreaChart
+                    style={ { flex: 1 } }
+                    data={ data }
+                    svg={{ fill: 'rgba(134, 65, 244, 0.5)' }}
+                    contentInset={ { top: 20, bottom: 20 } }
+                    curve={ shape.curveNatural }
+                />
+                <AreaChart
+                    style={ StyleSheet.absoluteFill }
+                    data={ data2 }
+                    svg={{ fill: 'rgba(34, 128, 176, 0.5)' }}
+                    contentInset={ { top: 20, bottom: 20 } }
+                    curve={ shape.curveNatural }
+                />
+            </View>
+        )
+    }
 
 }
 ```
@@ -1178,7 +1052,7 @@ This will allow you to render labels aligned with your pie slices. Experiment wi
 ### Example
 ```javascript
 import React from 'react'
-import PieChart from 'react-native-svg-charts'
+import { PieChart } from 'react-native-svg-charts'
 import { Circle, G, Line } from 'react-native-svg'
 
 class PieChartWithLabelExample extends React.PureComponent {
@@ -1200,7 +1074,8 @@ class PieChartWithLabelExample extends React.PureComponent {
         return (
             <PieChart
                 style={ { height: 200 } }
-                dataPoints={ pieData }
+                data={ pieData }
+                spacing={ 0 }
                 innerRadius={ 20 }
                 outerRadius={ 55 }
                 labelRadius={ 80 }
@@ -1240,9 +1115,9 @@ The `renderGrid` prop takes a function and provides the `x`, `y`, `ticks` and `d
 ### Example
 ```javascript
 import React from 'react'
+import { LineChart } from 'react-native-svg-charts'
 import { View } from 'react-native'
 import { G, Line } from 'react-native-svg'
-import { LineChart, Grid } from 'react-native-svg-charts'
 
 class CustomGridExample extends React.PureComponent {
 
@@ -1250,7 +1125,7 @@ class CustomGridExample extends React.PureComponent {
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
-        const CustomGrid = ({ x, y, dataPoints, ticks }) => (
+        const CustomGrid = ({ x, y, data, ticks }) => (
             <G>
                 {
                     // Horizontal grid
@@ -1267,7 +1142,7 @@ class CustomGridExample extends React.PureComponent {
                 }
                 {
                     // Vertical grid
-                    dataPoints.map((_, index) => (
+                    data.map((_, index) => (
                         <Line
                             key={ index }
                             y1={ '0%' }
@@ -1285,14 +1160,11 @@ class CustomGridExample extends React.PureComponent {
             <View style={ { height: 200, flexDirection: 'row' } }>
                 <LineChart
                     style={ { flex: 1 } }
-                    dataPoints={ data }
+                    data={ data }
                     svg={ {
                         stroke: 'rgb(134, 65, 244)',
                     } }
                     renderGrid={ CustomGrid }
-                    // renderGrid={ Grid.Horizontal }
-                    // renderGrid={ Grid.Vertical }
-                    // renderGrid={ Grid.Both }
                 />
             </View>
         )
@@ -1300,149 +1172,156 @@ class CustomGridExample extends React.PureComponent {
 
 }
 
-export default CustomGrid
-
 ```
 
-### Partial charts
-Here's another example of how the `extras` property can be used to create highly customizable charts. You can use it to create overlays and, with the svg's clipPath capability, create charts that partially have a different look-and-feel. See the example below.
+### Partial Charts
+Here's another example of how the `extras` property can be used to create highly customizable charts. 
 
-![Custom grid](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-charts.png)
+![Partial Charts](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/partial-charts.png)
 
-### Example
+### Example (LineChart)
 ```javascript
 import React from 'react'
-import { View, Text } from 'react-native'
-import { 
-    LinearGradient, 
-    Stop, 
-    Defs, 
-    ClipPath, 
-    Rect, 
-    Path, 
-} from 'react-native-svg'
-import { LineChart, AreaChart } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
+import { ClipPath, Defs, Rect } from 'react-native-svg'
+import { LineChart, Path } from 'react-native-svg-charts'
 
-class PartialChartExample extends React.PureComponent {
+class PartialLineChartExample extends React.PureComponent {
+
     render() {
+
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
         const indexToClipFrom = 10
 
-        const ExtraDefs = ({ x, width }) => (
-            <Defs key={'defs-1'}>
-                <LinearGradient id={ 'gradient' } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
-                    <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                    <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                </LinearGradient>
-                <ClipPath id={'clip-path-1'} key={'0'}>
-                    <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'} />
+        const Clips = ({ x, width }) => (
+            <Defs key={'clips'}>
+                <ClipPath id="clip-path-1">
+                    <Rect x={'0'} y={'0'} width={x(indexToClipFrom)} height={'100%'}/>
                 </ClipPath>
-                <ClipPath id="clip-path-2" key={'1'}>
-                    <Rect x={'0'} y={'0'} width={x(indexToClipFrom)} height={'100%'} />
+                <ClipPath id={'clip-path-2'}>
+                    <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'}/>
                 </ClipPath>
             </Defs>
         )
 
         // Line extras:
-        const OverlayLine = ({ line }) => (
+        const DashedLine = ({ line }) => (
             <Path
                 key={'line-1'}
                 d={line}
-                stroke={ 'rgb(134, 65, 244)' }
-                strokeWidth={ 2 }
-                fill={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
+                stroke={'rgb(134, 65, 244)'}
+                strokeWidth={2}
+                fill={'none'}
+                strokeDasharray={[ 4, 4 ]}
+                clipPath={'url(#clip-path-2)'}
             />
         )
 
-        const OverlayShadowLine = ({ shadow }) => (
+        const Shadow = ({ line }) => (
             <Path
+                y={3}
                 key={'shadow-1'}
-                d={shadow}
-                stroke={ 'rgba(134, 65, 244, 0.2)' }
-                strokeWidth={ 5 }
-                fill={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
-            />
-        )
-
-        const extrasForLineChart = [ ExtraDefs, OverlayLine, OverlayShadowLine ]
-
-        // Area extras:
-        const OverlayArea = ({ area }) => (
-            <Path
-                key={'area-1'}
-                fill={ `url(#gradient)` }
-                d={area}
-                stroke={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
-            />
-        )
-
-        const OverlayLineForArea = ({ line, linearGradientId }) => (
-            <Path
-                key={'line-1'}
-                stroke={ `url(#${linearGradientId})` }
                 d={line}
-                fill={ 'none' }
-                clipPath={ 'url(#clip-path-2)' }
+                stroke={'rgba(134, 65, 244, 0.2)'}
+                strokeWidth={5}
+                fill={'none'}
             />
         )
-
-        const extrasForAreaChart = [ ExtraDefs, OverlayArea, OverlayLineForArea ]       
 
         return (
-            <View>
-                <Text>Line Chart</Text>
-                <LineChart
-                    style={ { height: 200 } }
-                    dataPoints={ data }
-                    contentInset={ { top: 20, bottom: 20 } }
-                    svg={{
-                        stroke: 'rgb(134, 65, 244)',
-                        strokeWidth: 2,
-                        clipPath: 'url(#clip-path-1)',
-                        strokeDasharray: [ 4, 4 ],
-                    }}
-                    shadowSvg={{
-                        stroke: 'rgba(134, 65, 244, 0.2)',
-                        strokeWidth: 5,
-                        clipPath: 'url(#clip-path-1)',
-                        strokeDasharray: [ 4, 4 ],
-                    }}
-                    extras={ extrasForLineChart }
-                    renderExtra={ ({ item, ...args }) => item(args) }
-                />
-
-                <Text>Area Chart</Text>
-                <AreaChart
-                    style={ { height: 200 } }
-                    dataPoints={ data }
-                    contentInset={ { top: 30, bottom: 30 } }
-                    curve={shape.curveNatural}
-                    svg={{
-                        fill: 'transparent',
-                        stroke: 'rgb(134, 65, 244)',
-                        clipPath: 'url(#clip-path-1)',
-                        strokeDasharray: [ 4, 4 ],
-                    }}
-                    renderLineGradient={ ({ id }) => (
-                        <LinearGradient id={ id } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
-                            <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
-                            <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
-                        </LinearGradient>
-                    ) }
-                    extras={ extrasForAreaChart }
-                    renderExtra={ ({ item, ...args }) => item(args) }
-                />
-            </View>
+            <LineChart
+                style={{ height: 200 }}
+                data={data}
+                contentInset={{ top: 20, bottom: 20 }}
+                svg={{
+                    stroke: 'rgb(134, 65, 244)',
+                    strokeWidth: 2,
+                    clipPath: 'url(#clip-path-1)',
+                }}
+                extras={[
+                    Clips,
+                    Shadow,
+                    DashedLine,
+                ]}
+            />
         )
     }
 }
 
-export default PartialChartExample
+```
+
+### Example (AreaChart)
+```javascript
+import React from 'react'
+import { ClipPath, Defs, LinearGradient, Rect, Stop } from 'react-native-svg'
+import { AreaChart, Path } from 'react-native-svg-charts'
+
+class PartialAreaChartExample extends React.PureComponent {
+    render() {
+        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+
+        const indexToClipFrom = 10
+
+        const Gradient = () => (
+            <Defs key={'defs'}>
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
+                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
+                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
+                </LinearGradient>
+            </Defs>
+        )
+
+        const Clips = ({ x, width }) => (
+            <Defs key={'clips'}>
+                <ClipPath id={'clip-path-1'} key={'0'}>
+                    <Rect x={0} y={'0'} width={x(indexToClipFrom)} height={'100%'}/>
+                </ClipPath>
+                <ClipPath id="clip-path-2" key={'1'}>
+                    <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'}/>
+                </ClipPath>
+            </Defs>
+        )
+
+        const Line = ({ line }) => (
+            <Path
+                key={'line'}
+                d={line}
+                stroke={'green'}
+                fill={'none'}
+                clipPath={'url(#clip-path-1)'}
+            />
+        )
+
+        const DashedLine = ({ line }) => (
+            <Path
+                key={'dashed-line'}
+                stroke={'green'}
+                d={line}
+                fill={'none'}
+                clipPath={'url(#clip-path-2)'}
+                strokeDasharray={[ 4, 4 ]}
+            />
+        )
+
+        return (
+            <AreaChart
+                style={{ height: 200 }}
+                data={data}
+                contentInset={{ top: 30, bottom: 30 }}
+                svg={{
+                    fill: 'url(#gradient)',
+                    clipPath: 'url(#clip-path-1)',
+                }}
+                extras={[
+                    Gradient,
+                    Clips,
+                    Line,
+                    DashedLine,
+                ]}
+            />
+        )
+    }
+}
 
 ```
 
