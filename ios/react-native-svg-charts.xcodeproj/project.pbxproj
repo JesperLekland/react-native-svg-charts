@@ -12,7 +12,7 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		24659F881FB1C389002246DD /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		24659F891FB1C389002246DD /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		B110CE7C6FA9096C5CD213A1 /* libPods-react-native-svg-charts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 921CA7C406B1E6478D5991BF /* libPods-react-native-svg-charts.a */; };
+		6470E02EDC514459776E3E59 /* libPods-react-native-svg-charts.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 118595083FE23086727AAC41 /* libPods-react-native-svg-charts.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -30,6 +30,7 @@
 		00E356EE1AD99517003FC87E /* react-native-svg-chartsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "react-native-svg-chartsTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = tests.m; sourceTree = "<group>"; };
+		118595083FE23086727AAC41 /* libPods-react-native-svg-charts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-react-native-svg-charts.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* react-native-svg-charts.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "react-native-svg-charts.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = "react-native-svg-charts/AppDelegate.h"; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = "react-native-svg-charts/AppDelegate.m"; sourceTree = "<group>"; };
@@ -37,9 +38,8 @@
 		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = "react-native-svg-charts/Images.xcassets"; sourceTree = "<group>"; };
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = "react-native-svg-charts/Info.plist"; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = "react-native-svg-charts/main.m"; sourceTree = "<group>"; };
-		4C3EF29ABECB490F4E9FE5C3 /* Pods-react-native-svg-charts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react-native-svg-charts.release.xcconfig"; path = "Pods/Target Support Files/Pods-react-native-svg-charts/Pods-react-native-svg-charts.release.xcconfig"; sourceTree = "<group>"; };
-		921CA7C406B1E6478D5991BF /* libPods-react-native-svg-charts.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-react-native-svg-charts.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		FAB3084DF1B70BA2FB734304 /* Pods-react-native-svg-charts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react-native-svg-charts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-react-native-svg-charts/Pods-react-native-svg-charts.debug.xcconfig"; sourceTree = "<group>"; };
+		A28E5C742E3AEEE32F3515F2 /* Pods-react-native-svg-charts.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react-native-svg-charts.release.xcconfig"; path = "Pods/Target Support Files/Pods-react-native-svg-charts/Pods-react-native-svg-charts.release.xcconfig"; sourceTree = "<group>"; };
+		B8254F96906C99DE77615C3D /* Pods-react-native-svg-charts.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-react-native-svg-charts.debug.xcconfig"; path = "Pods/Target Support Files/Pods-react-native-svg-charts/Pods-react-native-svg-charts.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -54,7 +54,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B110CE7C6FA9096C5CD213A1 /* libPods-react-native-svg-charts.a in Frameworks */,
+				6470E02EDC514459776E3E59 /* libPods-react-native-svg-charts.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -92,21 +92,13 @@
 			name = "react-native-svg-charts";
 			sourceTree = "<group>";
 		};
-		57E4A08D794F92CDCFAB86CE /* Pods */ = {
+		17EC1346D064F6CE3C9F6C87 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FAB3084DF1B70BA2FB734304 /* Pods-react-native-svg-charts.debug.xcconfig */,
-				4C3EF29ABECB490F4E9FE5C3 /* Pods-react-native-svg-charts.release.xcconfig */,
+				B8254F96906C99DE77615C3D /* Pods-react-native-svg-charts.debug.xcconfig */,
+				A28E5C742E3AEEE32F3515F2 /* Pods-react-native-svg-charts.release.xcconfig */,
 			);
 			name = Pods;
-			sourceTree = "<group>";
-		};
-		615A42EA6C0AB1979B075621 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				921CA7C406B1E6478D5991BF /* libPods-react-native-svg-charts.a */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		83CBB9F61A601CBA00E9B192 = {
@@ -115,8 +107,8 @@
 				13B07FAE1A68108700A75B9A /* react-native-svg-charts */,
 				00E356EF1AD99517003FC87E /* react-native-svg-charts-tests */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				57E4A08D794F92CDCFAB86CE /* Pods */,
-				615A42EA6C0AB1979B075621 /* Frameworks */,
+				17EC1346D064F6CE3C9F6C87 /* Pods */,
+				90F9E5AF63446054998B9D6A /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -129,6 +121,14 @@
 				00E356EE1AD99517003FC87E /* react-native-svg-chartsTests.xctest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		90F9E5AF63446054998B9D6A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				118595083FE23086727AAC41 /* libPods-react-native-svg-charts.a */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -156,13 +156,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "react-native-svg-charts" */;
 			buildPhases = (
-				DA4227464F791D6422ADD898 /* [CP] Check Pods Manifest.lock */,
+				813AC2038AE37FA7C7E7410D /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				9651B1E6E4D304C81AF08211 /* [CP] Embed Pods Frameworks */,
-				CC5FE7E1F908D4D2291A8A1C /* [CP] Copy Pods Resources */,
+				586CF741E161922E1DF927DE /* [CP] Embed Pods Frameworks */,
+				3B238B92AFC018A7E1D9799E /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -241,22 +241,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/scripts/react-native-xcode.sh";
 		};
-		9651B1E6E4D304C81AF08211 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-react-native-svg-charts/Pods-react-native-svg-charts-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		CC5FE7E1F908D4D2291A8A1C /* [CP] Copy Pods Resources */ = {
+		3B238B92AFC018A7E1D9799E /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -271,7 +256,22 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-react-native-svg-charts/Pods-react-native-svg-charts-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		DA4227464F791D6422ADD898 /* [CP] Check Pods Manifest.lock */ = {
+		586CF741E161922E1DF927DE /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-react-native-svg-charts/Pods-react-native-svg-charts-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		813AC2038AE37FA7C7E7410D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -373,7 +373,7 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FAB3084DF1B70BA2FB734304 /* Pods-react-native-svg-charts.debug.xcconfig */;
+			baseConfigurationReference = B8254F96906C99DE77615C3D /* Pods-react-native-svg-charts.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
@@ -394,7 +394,7 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4C3EF29ABECB490F4E9FE5C3 /* Pods-react-native-svg-charts.release.xcconfig */;
+			baseConfigurationReference = A28E5C742E3AEEE32F3515F2 /* Pods-react-native-svg-charts.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CURRENT_PROJECT_VERSION = 1;
