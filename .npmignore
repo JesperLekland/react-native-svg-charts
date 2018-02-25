@@ -3,19 +3,18 @@
 /storybook/
 /screenshots/
 /src/assets/
-/src/app.js
-/src/horizontal-*
 /src/chart-decorators/
 /.circleci/
 
+.babelrc
 .buckconfig
-.gitattributes
-.gitignore
 .eslintrc.json
 .flowconfig
+.gitattributes
+.gitignore
 .watchmanconfig
-index.android.js
-index.ios.js
+CHANGELOG.md
+./index.js
 ISSUE_TEMPLATE.md
 README.md
 yarn.lock
