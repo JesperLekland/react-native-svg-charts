@@ -3,7 +3,6 @@
 /storybook/
 /screenshots/
 /src/assets/
-/src/chart-decorators/
 /.circleci/
 
 .babelrc
