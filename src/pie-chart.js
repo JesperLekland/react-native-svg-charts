@@ -35,20 +35,29 @@ class PieChart extends PureComponent {
             return defaultVal
         }
     }
+    _getDinamicOuterRadiuses(index, length, max) {
+        let { innerRadius, outerRadius } = this.props
+        if (typeof innerRadius === 'string') innerRadius = (innerRadius.split('%')[0] / 100) * max
+        if (typeof outerRadius === 'string') outerRadius = (outerRadius.split('%')[0] / 100) * max
+        const diff = (outerRadius - innerRadius) / 2
+        const step = diff / length
+        return innerRadius + diff + ((length - index) * step)
+    }
 
     render() {
         const {
                   data,
-                  dataPoints,
-                  innerRadius,
-                  outerRadius,
-                  labelRadius,
-                  padAngle,
-                  animate,
-                  animationDuration,
-                  style,
-                  renderDecorator,
-                  sort,
+            dataPoints,
+            innerRadius,
+            outerRadius,
+            labelRadius,
+            padAngle,
+            animate,
+            animationDuration,
+            style,
+            renderDecorator,
+            sort,
+            dinamicWidth,
               } = this.props
 
         const { height, width } = this.state
@@ -75,23 +84,31 @@ class PieChart extends PureComponent {
             console.warn('innerRadius is equal to or greater than outerRadius')
         }
 
-        const arc = shape.arc()
+        let arc = shape.arc()
             .outerRadius(_outerRadius)
             .innerRadius(_innerRadius)
             .padAngle(padAngle) // Angle between sections
 
         const labelArc = labelRadius ?
-                         shape.arc()
-                             .outerRadius(_labelRadius)
-                             .innerRadius(_labelRadius)
-                             .padAngle(padAngle) :
-                         arc
+            shape.arc()
+                .outerRadius(_labelRadius)
+                .innerRadius(_labelRadius)
+                .padAngle(padAngle) :
+            arc
 
         const pieSlices = shape.pie()
             .value(d => d.value)
             .sort(sort)
             (data)
 
+        const getDinamicAcr = (index, length) => {
+            return (
+                shape.arc()
+                    .outerRadius(this._getDinamicOuterRadiuses(index, length, maxRadius))
+                    .innerRadius(_innerRadius)
+                    .padAngle(padAngle)
+            )
+        }
         return (
             <View style={style}>
                 <View
@@ -102,6 +119,9 @@ class PieChart extends PureComponent {
                         <G x={width / 2} y={height / 2}>
                             { pieSlices.map((slice, index) => {
                                 const { key, color, onPress } = data[ index ]
+                                if (dinamicWidth) {
+                                    arc = getDinamicAcr(index, pieSlices.length)
+                                }
                                 return (
                                     <Path
                                         key={key}
@@ -144,6 +164,7 @@ PieChart.propTypes = {
     style: PropTypes.any,
     renderDecorator: PropTypes.func,
     sort: PropTypes.func,
+    dinamicWidth: PropTypes.bool,
 }
 
 PieChart.defaultProps = {
@@ -151,9 +172,11 @@ PieChart.defaultProps = {
     height: 100,
     padAngle: 0.05,
     innerRadius: '50%',
+    outerRadius: '100%',
     sort: (a, b) => b.value - a.value,
     renderDecorator: () => {
     },
+    dinamicWidth: false,
 }
 
 export default PieChart
