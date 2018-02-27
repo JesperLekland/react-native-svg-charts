@@ -5,6 +5,11 @@
 ![circleci](https://circleci.com/gh/JesperLekland/react-native-svg-charts.svg?style=shield&circle-token=1a809ccdfbd0df3ed425a08f09c558401f794140)
 [![license](https://img.shields.io/npm/l/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
 
+In order to not bloat this README to much we've moved some examples over to 
+[`react-native-svg-charts-examples`](https://github.com/JesperLekland/react-native-svg-charts-examples).
+There we will try to showcase the really cool things you can do with this library. 
+This README will try to keep things as simple as possible so that everybody can get up and running as fast as possible.  
+
 ### version 3 now available!
 Better API, greater extensibility and customisation!
 A lot of breaking changes are introduced in this version but we've taken great care to make sure migrating is easy. 

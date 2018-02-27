@@ -52,7 +52,7 @@ class YAxis extends PureComponent {
 
         const longestValue = ticks
             .map(value => formatLabel(value))
-            .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
+            .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, '')
 
         return (
             <View style={[ style ]}>
@@ -64,7 +64,7 @@ class YAxis extends PureComponent {
                     <Text
                         style={{ color: 'transparent', fontSize: svg.fontSize }}
                     >
-                        {formatLabel(longestValue)}
+                        {longestValue}
                     </Text>
                     <Svg style={StyleSheet.absoluteFill}>
                         {
