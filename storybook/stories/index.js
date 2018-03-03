@@ -7,6 +7,7 @@ import ShowcaseCard from './decorators/showcase-container'
 import LineChart from './line-chart'
 
 import BarChart from './bar-chart'
+import BarChartHorizontal from './bar-chart/horizontal'
 import MultipleBarChart from './bar-chart/grouped-bar-chart'
 
 import PieChart from './pie-chart'
@@ -52,6 +53,7 @@ storiesOf('LineChart', module)
 storiesOf('BarChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('Standard', () => <BarChart/>)
+    .add('Horizontal', () => <BarChartHorizontal/>)
     .add('Multiple data set', () => <MultipleBarChart/>)
     .add('Stacked', () => <StackedBarChartExample/>)
 

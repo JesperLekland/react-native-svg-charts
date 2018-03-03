@@ -613,7 +613,9 @@ class YAxisExample extends React.PureComponent {
 
 A helper component to layout your X-axis labels on the same coordinates as your chart.
 It's very important that the component has the exact same view bounds (preferably wrapped in the same parent view) as the chart it's supposed to match.
-If the chart has property `contentInset` set it's very important that the YAxis has the same horizontal contentInset.
+If the chart has property `contentInset` set it's very important that the XAxis has the same horizontal contentInset.
+
+The XAxis also supports the `xAccessor` prop, if it's not supplied it will assume that you're only interested in the index of the data set.
 
 #### Example
 ```javascript
@@ -639,7 +641,7 @@ class XAxisExample extends React.PureComponent {
                 <XAxis
                     style={{ marginHorizontal: -10 }}
                     data={ data }
-                    formatLabel={ (value, index) => index }
+                    formatLabel={ value => index }
                     contentInset={{ left: 10, right: 10 }}
                     svg={{ fontSize: 10 }}
                 />
@@ -659,7 +661,7 @@ class XAxisExample extends React.PureComponent {
 | scale | `d3Scale.scaleLinear`| Should be the same as passed into the charts `xScale` |
 | spacing | 0.05 | Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacing` prop on the actual BarChart.   |
 | svg | `{}` | supports all svg props an svg text normally supports |
-| formatLabel | `(value, index) => index}` | A utility function to format the text before it is displayed, e.g `value => "day" + value |
+| formatLabel | `value => value` | A utility function to format the text before it is displayed, e.g `value => "day" + value. Passes back the value provided by the `xAccessor` |
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
 
 

@@ -46,18 +46,10 @@ class XAxis extends PureComponent {
             return (value) => x(value) + (x.bandwidth() / 2)
         }
 
-        if (scale === d3Scale.scaleLinear) {
+        if (scale === d3Scale.scaleLinear || scale === d3Scale.scaleTime) {
             return scale()
                 .domain(domain)
                 .range([ left, width - right ])
-        }
-
-        if (scale === d3Scale.scaleTime) {
-
-            return scale()
-                .domain(domain)
-                .range([ left, width - right ])
-
         }
     }
 
@@ -79,12 +71,12 @@ class XAxis extends PureComponent {
             return <View style={style}/>
         }
 
-        const xValues = data.map((item, index) => xAccessor({ item, index }))
-        const extent  = array.extent(xValues)
-        const domain  = scale === d3Scale.scaleBand ? xValues : extent
+        const values = data.map((item, index) => xAccessor({ item, index }))
+        const extent  = array.extent(values)
+        const domain  = scale === d3Scale.scaleBand ? values : extent
 
         const x     = this._getX(domain)
-        const ticks = numberOfTicks ? x.ticks(numberOfTicks) : xValues
+        const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
 
         return (
             <View style={ style }>
@@ -94,7 +86,7 @@ class XAxis extends PureComponent {
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
-                        { formatLabel(data[ 0 ], 0) }
+                        { formatLabel(ticks[0]) }
                     </Text>
                     <Svg style={StyleSheet.absoluteFill}>
                         {
@@ -111,7 +103,7 @@ class XAxis extends PureComponent {
                                       key={index}
                                       x={x(value)}
                                     >
-                                        {formatLabel(value, index)}
+                                        {formatLabel(value)}
                                     </SVGText>
                                 )
                             })
@@ -144,7 +136,7 @@ XAxis.defaultProps = {
     svg: {},
     xAccessor: ({ index }) => index,
     scale: d3Scale.scaleLinear,
-    formatLabel: (value, index) => index,
+    formatLabel: value => value,
 }
 
 export default XAxis

@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { StyleSheet, Text, View } from 'react-native'
 import { Svg, Text as SVGText } from 'react-native-svg'
-import * as scale from 'd3-scale'
+import * as d3Scale from 'd3-scale'
 import * as array from 'd3-array'
 
 class YAxis extends PureComponent {
@@ -16,6 +16,37 @@ class YAxis extends PureComponent {
         this.setState({ height })
     }
 
+    getY(domain) {
+        const {
+            scale,
+            spacing,
+            contentInset: {
+                top = 0,
+                bottom = 0,
+            },
+        } = this.props
+
+        const { height } = this.state
+
+        const y = scale()
+            .domain(domain)
+            .range([ height - bottom, top ])
+
+        if (scale === d3Scale.scaleBand) {
+
+            // use index as domain identifier instead of value since
+            // same value can occur at several places in dataPoints
+            y
+                .paddingInner([ spacing ])
+                .paddingOuter([ spacing ])
+
+            //add half a bar to center label
+            return (value) => y(value) + (y.bandwidth() / 2)
+        }
+
+        return y
+    }
+
     render() {
 
         const {
@@ -25,10 +56,6 @@ class YAxis extends PureComponent {
             yAccessor,
             numberOfTicks,
             formatLabel,
-            contentInset: {
-                top = 0,
-                bottom = 0,
-            },
             min,
             max,
             svg,
@@ -40,19 +67,21 @@ class YAxis extends PureComponent {
             return <View style={style}/>
         }
 
-        const values = data.map(item => yAccessor({ item }))
+        const values = data.map((item, index) => yAccessor({ item, index }))
 
         const extent = array.extent([ ...values, min, max ])
-        const ticks = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
+        const ticks = numberOfTicks ?
+            array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks) :
+            values
+
+        const domain = scale === d3Scale.scaleBand ? values : extent
 
         //invert range to support svg coordinate system
-        const y = scale()
-            .domain(extent)
-            .range([ height - bottom, top ])
+        const y = this.getY(domain)
 
         const longestValue = ticks
-            .map(value => formatLabel(value))
-            .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, '')
+            .map((value, index) => formatLabel(value, index))
+            .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
 
         return (
             <View style={[ style ]}>
@@ -111,13 +140,15 @@ YAxis.propTypes = {
     max: PropTypes.number,
     yAccessor: PropTypes.func,
     scale: PropTypes.func,
+    spacing: PropTypes.number,
 }
 
 YAxis.defaultProps = {
-    numberOfTicks: 10,
+    // numberOfTicks: 10,
+    spacing: 0.05,
     contentInset: {},
     svg: {},
-    scale: scale.scaleLinear,
+    scale: d3Scale.scaleLinear,
     formatLabel: value => value && value.toString(),
     yAccessor: ({ item }) => item,
 }
