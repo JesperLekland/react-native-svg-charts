@@ -1,8 +1,8 @@
 import React from 'react'
 import { View } from 'react-native'
-import BarChart from 'src/bar-chart-new'
+import BarChart from 'src/bar-chart-new-multiple'
 import { YAxis } from 'react-native-svg-charts'
-import { Defs, Line, LinearGradient, Stop, Text } from 'react-native-svg'
+import { Defs, Line, LinearGradient, Stop } from 'react-native-svg'
 import * as scale from 'd3-scale'
 
 class BarChartExample extends React.PureComponent {
@@ -71,23 +71,8 @@ class BarChartExample extends React.PureComponent {
             )
         )
 
-        const CUT_OFF = 50
-        const Label = ({ item, x, y, index, bandwidth }) => (
-            <Text
-                key={item.label}
-                x={item.value > CUT_OFF ? x(item.value) - 10 : x(item.value) + 10}
-                y={y(index) + (bandwidth / 2)}
-                fontSize={14}
-                fill={item.value > CUT_OFF ? 'white' : 'black'}
-                alignmentBaseline={'middle'}
-                textAnchor={item.value > CUT_OFF ? 'end' : 'start'}
-            >
-                {item.label}
-            </Text>
-        )
-
         return (
-            <View style={{ flexDirection: 'row', height: 200, paddingVertical: 16 }}>
+            <View style={{ flexDirection: 'row', height: 500, paddingVertical: 16 }}>
                 <YAxis
                     data={data}
                     yAccessor={({ index }) => index}
@@ -98,18 +83,27 @@ class BarChartExample extends React.PureComponent {
                 />
                 <BarChart
                     style={{ flex: 1, marginLeft: 8 }}
-                    data={data}
-                    horizontal={true}
+                    data={[
+                        {
+                            data,
+                            svg: { fill: 'orange' },
+                        },
+                        {
+                            data: [ ...data ].reverse(),
+                            svg: { fill: 'red' },
+                        },
+                        { data },
+                    ]}
                     yAccessor={({ item }) => item.value}
                     svg={{
                         fill: 'blue',
                     }}
+                    horizontal={true}
                     extras={[ Gradient ]}
                     contentInset={{ top: 10, bottom: 10 }}
                     spacing={0.2}
                     gridMin={0}
-                    renderDecorator={Label}
-                    renderGrid={Grid}
+                    // renderGrid={Grid}
                 />
             </View>
         )

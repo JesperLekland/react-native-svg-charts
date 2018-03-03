@@ -8,6 +8,7 @@ import LineChart from './line-chart'
 
 import BarChart from './bar-chart'
 import BarChartHorizontal from './bar-chart/horizontal'
+import BarChartMultipleNew from './bar-chart/horizontal-multiple'
 import MultipleBarChart from './bar-chart/grouped-bar-chart'
 
 import PieChart from './pie-chart'
@@ -55,6 +56,7 @@ storiesOf('BarChart', module)
     .add('Standard', () => <BarChart/>)
     .add('Horizontal', () => <BarChartHorizontal/>)
     .add('Multiple data set', () => <MultipleBarChart/>)
+    .add('Multiple data set new', () => <BarChartMultipleNew/>)
     .add('Stacked', () => <StackedBarChartExample/>)
 
 storiesOf('PieChart', module)

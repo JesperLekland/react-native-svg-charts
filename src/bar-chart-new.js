@@ -20,49 +20,103 @@ class BarChart extends PureComponent {
         this.setState({ height, width })
     }
 
-    _getBar(value, x, y, barIndex, valueIndex, barWidth) {
-        return {
-            value,
-            area: shape.area()
-            // place the bar on the x-axis based on valueIndex + its index among the other bars in its group
-                .y((point, _index) =>
-                    _index === 0 ?
-                        y(valueIndex) + (barWidth * barIndex) :
-                        y(valueIndex) + barWidth + (barWidth * barIndex),
-                )
-                .x0(x(0))
-                .x1(point => x(point))
-                .defined(value => value)
-                ([ value, value ]),
+    _getXScale(domain) {
+        const {
+            horizontal,
+            contentInset: {
+                left = 0,
+                right = 0,
+            },
+            spacing,
+        } = this.props
+
+        const { width } = this.state
+
+        if (horizontal) {
+            return scale.scaleLinear()
+                .domain(domain)
+                .range([ left, width - right ])
         }
+
+        return scale.scaleBand()
+            .domain(domain)
+            .range([ left, width - right ])
+            .paddingInner([ spacing ])
+            .paddingOuter([ spacing ])
+    }
+
+    _getYScale(domain) {
+        const {
+            horizontal,
+            spacing,
+            contentInset: {
+                top = 0,
+                bottom = 0,
+            },
+        } = this.props
+
+        const { height } = this.state
+
+        if (horizontal) {
+            return scale.scaleBand()
+                .domain(domain)
+                .range([ top, height - bottom ])
+                .paddingInner([ spacing ])
+                .paddingOuter([ spacing ])
+        }
+
+        return scale.scaleLinear()
+            .domain(domain)
+            .range([ height - bottom, top ])
+    }
+
+    _calcArea(values, x, y) {
+        const { horizontal, data } = this.props
+
+        if (horizontal) {
+            return data.map((bar, index) => ({
+                bar,
+                path: shape.area()
+                    .y((value, _index) => _index === 0 ?
+                        y(index) :
+                        y(index) + y.bandwidth())
+                    .x0(x(0))
+                    .x1(value => x(value))
+                    .defined(value => value)
+                    ([ values[ index ], values[ index ] ]),
+            }))
+        }
+
+        return data.map((bar, index) => ({
+            bar,
+            path: shape.area()
+                .y0(y(0))
+                .y1(value => y(value))
+                .x((value, _index) => _index === 0 ?
+                    x(index) :
+                    x(index) + x.bandwidth())
+                .defined(value => value)
+                ([ values[ index ], values[ index ] ]),
+        }))
     }
 
     render() {
         const {
             data,
-            dataPoints,
-            spacing,
             animate,
             animationDuration,
             style,
             showGrid,
-            renderGradient,
             numberOfTicks,
-            contentInset: {
-                top = 0,
-                bottom = 0,
-                left = 0,
-                right = 0,
-            },
             gridMax,
             gridMin,
             gridProps,
             extras,
-            renderExtra,
             renderDecorator,
             renderGrid = Grid,
             yAccessor,
             svg,
+            horizontal,
         } = this.props
 
         const { height, width } = this.state
@@ -74,36 +128,18 @@ class BarChart extends PureComponent {
         const values = data.map(obj => yAccessor({ item: obj }))
 
         const extent = array.extent([ ...values, gridMax, gridMin ])
+        const indexes = data.map((_, index) => index)
         const ticks = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
-        //invert range to support svg coordinate system
-        const x = scale.scaleLinear()
-            .domain(extent)
-            .range([ left, width - right ])
+        const xDomain = horizontal ? extent : indexes
+        const yDomain = horizontal ? indexes : extent
 
-        // use index as domain identifier instead of value since
-        // same value can occur at several places in data
-        const y = scale.scaleBand()
-            .domain(values.map((_, index) => index))
-            .range([ top, height - bottom ])
-            .paddingInner([ spacing ])
-            .paddingOuter([ spacing ])
+        const x = this._getXScale(xDomain)
+        const y = this._getYScale(yDomain)
 
-        const barWidth = y.bandwidth()
+        const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
 
-        const areas = data.map((bar, index) => ({
-            bar,
-            path: shape.area()
-                .y((point, _index) =>
-                    _index === 0 ?
-                        y(index) :
-                        y(index) + barWidth,
-                )
-                .x0(x(0))
-                .x1(point => x(point))
-                .defined(value => value)
-                ([ values[ index ], values[ index ] ]),
-        }))
+        const areas = this._calcArea(values, x, y)
 
         return (
             <View style={style}>
@@ -121,7 +157,6 @@ class BarChart extends PureComponent {
                                 return (
                                     <Path
                                         key={index}
-                                        fill={'black'}
                                         {...svg}
                                         {...barSvg}
                                         d={path || null}
@@ -138,7 +173,7 @@ class BarChart extends PureComponent {
                                 x,
                                 y,
                                 index,
-                                bandwidth: y.bandwidth(),
+                                bandwidth,
                             }
                         ))}
                         {extras.map((extra, index) => extra({ item: extra, x, y, index, width, height }))}
@@ -155,7 +190,6 @@ BarChart.propTypes = {
         PropTypes.object,
     ])).isRequired,
     style: PropTypes.any,
-    renderGradient: PropTypes.func,
     spacing: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,

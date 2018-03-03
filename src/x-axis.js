@@ -32,13 +32,15 @@ class XAxis extends PureComponent {
 
         const { width } = this.state
 
+        const x = scale()
+            .domain(domain)
+            .range([ left, width - right ])
+
         if (scale === d3Scale.scaleBand) {
 
             // use index as domain identifier instead of value since
             // same value can occur at several places in dataPoints
-            const x = scale()
-                .domain(domain)
-                .range([ left, width - right ])
+            x
                 .paddingInner([ spacing ])
                 .paddingOuter([ spacing ])
 
@@ -46,11 +48,7 @@ class XAxis extends PureComponent {
             return (value) => x(value) + (x.bandwidth() / 2)
         }
 
-        if (scale === d3Scale.scaleLinear || scale === d3Scale.scaleTime) {
-            return scale()
-                .domain(domain)
-                .range([ left, width - right ])
-        }
+        return x
     }
 
     render() {
@@ -86,7 +84,7 @@ class XAxis extends PureComponent {
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
-                        { formatLabel(ticks[0]) }
+                        { formatLabel(ticks[0], 0) }
                     </Text>
                     <Svg style={StyleSheet.absoluteFill}>
                         {
@@ -103,7 +101,7 @@ class XAxis extends PureComponent {
                                       key={index}
                                       x={x(value)}
                                     >
-                                        {formatLabel(value)}
+                                        {formatLabel(value, index)}
                                     </SVGText>
                                 )
                             })
