@@ -97,19 +97,13 @@ This library currently provides the following components
 * [StackedBarChart](#stackedbarchart)
 * [Line](#linechart)
 * [Pie](#piechart)
-* [Progress- Circle / Gauge](#progresschart)
+* [ProgressCircle](#progresscircle)
 * [YAxis](#yaxis)
 * [XAxis](#xaxis)
 
 Also see [other examples](#other-examples)
-* [Gradient](#gradient)
 * [Decorator](#decorator)
 * [Extras](#extras)
-* [GridMin/Max](#gridminmax)
-* [Layered Charts](#layered-charts)
-* [PieChart with labels](#piechart-with-labels)
-* [Custom Grid](#custom-grid)
-* [Partial Chart](#partial-charts)
 
 ### AreaChart
 
