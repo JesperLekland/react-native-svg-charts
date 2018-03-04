@@ -1,59 +1,60 @@
-This release changes some fundamentals about the API but we're confident that they're all for the better. The new arguments passed to the `extras` functions opens up vast customisation options that allow us to really clean up the API. The switch to a arbitrary data structure also allows us to cater to more use cases and make sure we are future proof. 
+## Awesome new BarChart (breaking changes)
 
-We're super excited for you guys to try out version 3! 
+The BarChart has been rewritten from the ground up. It works the same as before
+but have a slightly different expectation on the `data` prop.
 
-We will soon try to tighten up the README and move most of the examples over to the [react-native-svg-charts-examples](https://github.com/JesperLekland/react-native-svg-charts-examples) repository. This repo will function as a showcase of all the cool uses of this library.
+As before you can pass in an array of number - nothing weird there.
 
-## Changes ( many of them *breaking* )
+### Complex objects
+But you can also pass in an array of complex objects! These objects can contain any data you want but you must also
+pass in a `yAccessor` prop to tell the chart what the actual value for the item is (same as Line/AreaChart).
+The entire object will be returned to you as `item` in the `renderDecorator` callback, allowing for nice label rendering.
+The BarChart looks for a `svg` property on each entry, allowing you to set custom svg props for each bar (!!!).
+The BarChart itself also takes an svg prop that will be passed to all bars (item specific svg properties will not be overriden)
 
-### XAxis & YAxis
+If you use grouped BarChart you
 
-* Axes are now rendered with `react-native-svg`'s [Text](https://github.com/react-native-community/react-native-svg#text), 
-    allowing for better alignment and a more streamligned api.
-* `svg` prop added to customize each `<Text>`
-* `values`/`dataPoints` renamed to `data` to better reflect rest of component api (supports complex data)
-* (XAxis) `xAccessor` prop added to extract correct value from `data` array
-* (YAxis) `yAccessor` prop added to extract correct value from `data` array
-* `scale` prop added to customize scale of axis
+### Horizontal support
 
-### `renderExtra` is removed
-Seeing how `renderExtra` was almost always used to just call 
-the function that was passed in as `extras` we decided to remove this step 
-and simply call the `extra` entry as a function directly, passing in the same props as before
+`horizontal={true}`, how nice is that!? 😄 Supports both the standard barChart and the grouped one (multiple data sets).
 
-In order to allow for the above change each entry in `extras`
-must now be a function that renders a component. See documentation for examples
+### Extras support
 
-### LineChart
+BarChart now has first class support for the extras prop.
+Render a clip path or a gradient in a specific bar, up to you!
 
-* `dataPoints` is now `data`
-* `data` supports complex data structures
-* `xAccessor` and `yAccessor` added to support extraction of values from complex data structure
-* `xScale` and `yScale` prop added to allow for custom scales
-* `renderExtra` is removed - See above
-* `extra` now passes `line` as an extra argument property. This is the line svg path
-    and can be used to render e.g line shadows.
-* no longer renders a shadow by default. Use `extras` instead
-* `renderGradient` is removed and can now be rendered via `extra`. See documentation for example
-* `shadowSvg` and `shadowOffset` is now removed. Render your own shadow using `renderExtra
+### Spacing is replaced
 
-### AreaChart
-* `dataPoints` is now `data`
-* `data` supports complex data structures
-* `xAccessor` and `yAccessor` added to support extraction of values from complex data structure
-* `xScale` and `yScale` prop added to allow for custom scales
-* `renderExtra` is removed - See above
-* `extra` now passes `area` and `line` as extra argument property. 
-    This is the area svg path as well as the path of line that follows the area's upper bound. See docs for example usage
-* `renderGradient` is removed and can now be rendered via `extra`. See documentation for example
-* no longer renders "top" line, use `extras` for this (see docs for example)
+We've replaced `spacing` with `spacingInner` and `spacingOuter` to give more control to the user. Same default as before - 0.05
+This is true for all places where `spacing` was being used.
 
-### WaterfallChart
-* deprecated - will be removed in future versions (due to low usage poor maintenance)
- 
-### `animate` default is now `false`
-We figured opt-in is better than opt-out considering how poorly the animations are working at the moment
+## YAxis supports scaleBand
 
-## Comments 
+In order to have a nice YAxis along with the horizontal BarChart we have now added support for `scale=d3.scaleBand` to the yAxis.
 
-Due to the inherent nature of a bar chart consisting of many areas the `BarChart` component has not yet been migrated to the new APIs  
+## PieChart
+
+### Takes `svg` prop
+
+PieChart has been upgraded to take the `svg` prop on each data entry, allowing you to customise your PieChart even further
+We've also added the `valueAccessor` prop to allow you to use different dataStructures, not forcing you to name the value "value" and aligning with the other APIs.
+
+### Takes `arc` prop
+
+You can now customize your arcs on an individual level. Want one arc to be bigger than the reset? No problem!
+
+## WaterfallChart is removed
+
+Due to low usage and high maintenance the WaterfallChart is removed.
+
+## Cleaned up README
+
+The README is now more focused on the basic usage of this library. Any cool custom behavior has been moved to the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples).
+This is the go to place where you want inspiration on how to do cool things with your charts or if you've ever asked yourself "can I do this with react-native-svg-charts?"
+
+We want to make sure that the README is concise and to the point. Here we want to explain the APIs and not much more.
+All charts and their APIs will still be documented here, but as an MVP.
+
+
+
+
