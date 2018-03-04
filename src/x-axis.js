@@ -23,7 +23,8 @@ class XAxis extends PureComponent {
     _getX(domain) {
         const {
                   scale,
-                  spacing,
+                  spacingInner,
+                  spacingOuter,
                   contentInset: {
                       left  = 0,
                       right = 0,
@@ -41,8 +42,8 @@ class XAxis extends PureComponent {
             // use index as domain identifier instead of value since
             // same value can occur at several places in dataPoints
             x
-                .paddingInner([ spacing ])
-                .paddingOuter([ spacing ])
+                .paddingInner([ spacingInner ])
+                .paddingOuter([ spacingOuter ])
 
             //add half a bar to center label
             return (value) => x(value) + (x.bandwidth() / 2)
@@ -116,7 +117,8 @@ class XAxis extends PureComponent {
 XAxis.propTypes = {
     data: PropTypes.array.isRequired,
     labelStyle: PropTypes.any,
-    spacing: PropTypes.number,
+    spacingInner: PropTypes.number,
+    spacingOuter: PropTypes.number,
     formatLabel: PropTypes.func,
     contentInset: PropTypes.shape({
         left: PropTypes.number,
@@ -129,7 +131,8 @@ XAxis.propTypes = {
 }
 
 XAxis.defaultProps = {
-    spacing: 0.05,
+    spacingInner: 0.05,
+    spacingOuter: 0.05,
     contentInset: {},
     svg: {},
     xAccessor: ({ index }) => index,

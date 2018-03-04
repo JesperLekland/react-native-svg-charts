@@ -62,7 +62,7 @@ class BarChartExample extends React.PureComponent {
                     yAccessor={({ index }) => index}
                     scale={scale.scaleBand}
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacing={0.2}
+                    spacingInner={0.2}
                     formatLabel={(_, index) => data[ index ].label}
                 />
                 <BarChart
@@ -85,7 +85,7 @@ class BarChartExample extends React.PureComponent {
                     horizontal={true}
                     extras={[ Gradient ]}
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacing={0.2}
+                    spacingInner={0.2}
                     gridMin={0}
                     renderGrid={Grid.Vertical}
                 />

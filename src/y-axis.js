@@ -19,7 +19,8 @@ class YAxis extends PureComponent {
     getY(domain) {
         const {
             scale,
-            spacing,
+            spacingInner,
+            spacingOuter,
             contentInset: {
                 top = 0,
                 bottom = 0,
@@ -39,8 +40,8 @@ class YAxis extends PureComponent {
             y
                 // set range top to bottom - we are not sorting on values in scaleBand
                 .range([ top, height - bottom ])
-                .paddingInner([ spacing ])
-                .paddingOuter([ spacing ])
+                .paddingInner([ spacingInner ])
+                .paddingOuter([ spacingOuter ])
 
             //add half a bar to center label
             return (value) => y(value) + (y.bandwidth() / 2)
@@ -142,12 +143,14 @@ YAxis.propTypes = {
     max: PropTypes.number,
     yAccessor: PropTypes.func,
     scale: PropTypes.func,
-    spacing: PropTypes.number,
+    spacingInner: PropTypes.number,
+    spacingOuter: PropTypes.number,
 }
 
 YAxis.defaultProps = {
     numberOfTicks: 10,
-    spacing: 0.05,
+    spacingInner: 0.05,
+    spacingOuter: 0.05,
     contentInset: {},
     svg: {},
     scale: d3Scale.scaleLinear,

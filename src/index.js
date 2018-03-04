@@ -5,7 +5,6 @@ import StackedBarChart from './stacked-bar-chart'
 import LineChart from './line-chart'
 import PieChart from './pie-chart'
 import ProgressCircle from './progress-circle'
-import WaterfallChart from './waterfall-chart'
 import XAxis from './x-axis'
 import YAxis from './y-axis'
 import Decorators from './chart-decorators'
@@ -22,7 +21,6 @@ export {
     XAxis,
     YAxis,
     ProgressCircle,
-    WaterfallChart,
     Decorators,
     Grid,
     Path,

@@ -13,7 +13,8 @@ class GroupedBarChart extends BarChart {
                 left = 0,
                 right = 0,
             },
-            spacing,
+            spacingInner,
+            spacingOuter,
         } = this.props
 
         const { width } = this.state
@@ -27,14 +28,15 @@ class GroupedBarChart extends BarChart {
         return scale.scaleBand()
             .domain(domain)
             .range([ left, width - right ])
-            .paddingInner([ spacing ])
-            .paddingOuter([ spacing ])
+            .paddingInner([ spacingInner ])
+            .paddingOuter([ spacingOuter ])
     }
 
     calcYScale(domain) {
         const {
             horizontal,
-            spacing,
+            spacingInner,
+            spacingOuter,
             contentInset: {
                 top = 0,
                 bottom = 0,
@@ -47,8 +49,8 @@ class GroupedBarChart extends BarChart {
             return scale.scaleBand()
                 .domain(domain)
                 .range([ top, height - bottom ])
-                .paddingInner([ spacing ])
-                .paddingOuter([ spacing ])
+                .paddingInner([ spacingInner ])
+                .paddingOuter([ spacingOuter ])
         }
 
         return scale.scaleLinear()

@@ -27,7 +27,8 @@ class BarChart extends PureComponent {
                 left = 0,
                 right = 0,
             },
-            spacing,
+            spacingInner,
+            spacingOuter,
         } = this.props
 
         const { width } = this.state
@@ -41,18 +42,19 @@ class BarChart extends PureComponent {
         return scale.scaleBand()
             .domain(domain)
             .range([ left, width - right ])
-            .paddingInner([ spacing ])
-            .paddingOuter([ spacing ])
+            .paddingInner([ spacingInner ])
+            .paddingOuter([ spacingOuter ])
     }
 
     calcYScale(domain) {
         const {
             horizontal,
-            spacing,
             contentInset: {
                 top = 0,
                 bottom = 0,
             },
+            spacingInner,
+            spacingOuter,
         } = this.props
 
         const { height } = this.state
@@ -61,8 +63,8 @@ class BarChart extends PureComponent {
             return scale.scaleBand()
                 .domain(domain)
                 .range([ top, height - bottom ])
-                .paddingInner([ spacing ])
-                .paddingOuter([ spacing ])
+                .paddingInner([ spacingInner ])
+                .paddingOuter([ spacingOuter ])
         }
 
         return scale.scaleLinear()
@@ -199,7 +201,8 @@ BarChart.propTypes = {
         PropTypes.object,
     ])).isRequired,
     style: PropTypes.any,
-    spacing: PropTypes.number,
+    spacingInner: PropTypes.number,
+    spacingOuter: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     contentInset: PropTypes.shape({
@@ -220,9 +223,8 @@ BarChart.propTypes = {
 }
 
 BarChart.defaultProps = {
-    spacing: 0.05,
-    width: 100,
-    height: 100,
+    spacingInner: 0.05,
+    spacingOuter: 0.05,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,

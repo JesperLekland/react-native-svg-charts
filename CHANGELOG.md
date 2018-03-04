@@ -23,6 +23,11 @@ If you use grouped BarChart you
 BarChart now has first class support for the extras prop.
 Render a clip path or a gradient in a specific bar, up to you!
 
+### Spacing is replaced
+
+We've replaced `spacing` with `spacingInner` and `spacingOuter` to give more control to the user. Same default as before - 0.05
+This is true for all places where `spacing` was being used.
+
 ## YAxis supports scaleBand
 
 In order to have a nice YAxis along with the horizontal BarChart we have now added support for `scale=d3.scaleBand` to the yAxis.
@@ -37,6 +42,10 @@ We've also added the `valueAccessor` prop to allow you to use different dataStru
 ### Takes `arc` prop
 
 You can now customize your arcs on an individual level. Want one arc to be bigger than the reset? No problem!
+
+## WaterfallChart is removed
+
+Due to low usage and high maintenance the WaterfallChart is removed.
 
 ## Cleaned up README
 

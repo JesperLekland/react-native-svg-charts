@@ -265,7 +265,8 @@ Also see [Common Props](#common-props)
 | --- | --- | --- |
 | data | **required** |  The data prop in a barChart can look exactly like in a Line- or AreaChart, i.e an array of just numbers or complex objects. It can however also be an array with several data sets. See [the examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples)|
 | horizontal | false | Boolean whether or not the bars should be horizontal |
-| spacing | 0.05 | Spacing between the bars (or groups of bars). Percentage of one bars width. Default = 5% of bar width |
+| spacingInner | 0.05 | Spacing between the bars (or groups of bars) |
+| spacingOuter | 0.05 | Spacing outside of the bars (or groups of bars). Percentage of one bars width |
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
 
 ### StackedBarChart

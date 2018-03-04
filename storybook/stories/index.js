@@ -27,7 +27,6 @@ import XAxisScaleLinearExample from './x-axis/scale-linear'
 
 import YAxisExample from './y-axis'
 
-import WaterfallChartExample from './waterfall-chart'
 import GradientExample from './gradient'
 
 import AreaStack from './area-stack'
@@ -64,10 +63,6 @@ storiesOf('PieChart', module)
     .add('Standard', () => <PieChart/>)
     .add('With labels', () => <PieChartWithLabels/>)
     .add('With labels', () => <PieChartWithLabels/>)
-
-storiesOf('WaterfallChart', module)
-    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('Standard', () => <WaterfallChartExample/>)
 
 storiesOf('ProgressCircle', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)

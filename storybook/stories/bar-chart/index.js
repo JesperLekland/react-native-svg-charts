@@ -14,7 +14,6 @@ class BarChartExample extends React.PureComponent {
                 data={data}
                 svg={{ fill }}
                 contentInset={ { top: 30, bottom: 30 } }
-                { ...this.props }
             />
         )
     }

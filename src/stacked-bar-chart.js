@@ -38,7 +38,8 @@ class BarChart extends PureComponent {
                   colors,
                   order,
                   offset,
-                  spacing,
+                  spacingInner,
+                  spacingOuter,
                   animate,
                   animationDuration,
                   style,
@@ -87,8 +88,8 @@ class BarChart extends PureComponent {
         const x = scale.scaleBand()
             .domain(data.map((_, index) => index))
             .range([ left, width - right ])
-            .paddingInner([ spacing ])
-            .paddingOuter([ spacing ])
+            .paddingInner([ spacingInner ])
+            .paddingOuter([ spacingOuter ])
 
         const areas = array.merge(series.map((serie, keyIndex) => {
             return serie.map((entry, entryIndex) => {
@@ -160,7 +161,8 @@ BarChart.propTypes = {
     style: PropTypes.any,
     strokeColor: PropTypes.string,
     renderGradient: PropTypes.func,
-    spacing: PropTypes.number,
+    spacingInner: PropTypes.number,
+    spacingOuter: PropTypes.number,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     contentInset: PropTypes.shape({
@@ -179,7 +181,8 @@ BarChart.propTypes = {
 }
 
 BarChart.defaultProps = {
-    spacing: 0.05,
+    spacingInner: 0.05,
+    spacingOuter: 0.05,
     offset: shape.stackOffsetNone,
     order: shape.stackOrderNone,
     width: 100,
