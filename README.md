@@ -33,9 +33,9 @@ We use [react-native-svg](https://github.com/react-native-community/react-native
 We utilize the very popular [d3](https://d3js.org/) library to create our SVG paths and to calculate the coordinates.
 
 We built this library to be as extensible as possible while still providing you with the most common charts and data visualization tools out of the box.
-The Line-, Bar-, Area- and Waterfall -charts can all be extended with "decorators" and "extras".
-The `renderDecorator` prop is called on each passed `dataPoint` and allows you to simply add things such as points or other decorators to your charts.
-The `extras` and `renderExtra` prop is used to further decorate your charts with e.g intersections and projections, see the examples for more info.
+The Line-, Bar-, Area- and Pie- charts can all be extended with "decorators" and "extras".
+The `renderDecorator` prop is called on each passed `data` entry and allows you to easily add things such as points or other decorators to your charts.
+The `extras` prop is used to further decorate your charts with e.g intersections, projections, gradients and much more, see the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) for more info.
 
 Feedback and PR's are more than welcome 🙂
 
@@ -147,7 +147,7 @@ See [Common Props](#common-props)
 
 Very similar to an area chart but with multiple sets of data stacked together. Notice that the `dataPoints` prop has changed to `data` and have a different signature.
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
-See [Area stack chart with Y axis](#area-stack-chart-with-yaxis) to see how to use a YAxis with this component
+See [Area stack chart with Y axis](https://github.com/JesperLekland/react-native-svg-charts-examples/blob/master/storybook/stories/area-stack/with-y-axis.js) to see how to use a YAxis with this component
 
 ![Stacked area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack.png)
 
