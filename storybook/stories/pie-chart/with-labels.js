@@ -14,7 +14,7 @@ class PieChartWithLabelExample extends React.PureComponent {
             .filter(value => value > 0)
             .map((value, index) => ({
                 value,
-                color: randomColor(),
+                svg: { fill: randomColor() },
                 key: `pie-${index}`,
             }))
 
@@ -33,13 +33,13 @@ class PieChartWithLabelExample extends React.PureComponent {
                             y1={ labelCentroid[ 1 ] }
                             x2={ pieCentroid[ 0 ] }
                             y2={ pieCentroid[ 1 ] }
-                            stroke={ item.color }
+                            stroke={ item.svg.fill }
                         />
                         <Circle
                             cx={ labelCentroid[ 0 ] }
                             cy={ labelCentroid[ 1 ] }
                             r={ 15 }
-                            fill={ item.color }
+                            fill={ item.svg.fill }
                         />
                     </G>
                 ) }

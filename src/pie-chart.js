@@ -17,15 +17,6 @@ class PieChart extends PureComponent {
         this.setState({ height, width })
     }
 
-    _onLabelLayout(event, key) {
-        const { nativeEvent: { layout: { height, width } } } = event
-
-        this.setState({
-            [`labelHeight_${key}`]: height,
-            [`labelWidth_${key}`]: width,
-        })
-    }
-
     _calculateRadius(arg, max, defaultVal) {
         if (typeof arg === 'string') {
             return (arg.split('%')[ 0 ] / 100) * max
@@ -49,12 +40,13 @@ class PieChart extends PureComponent {
                   style,
                   renderDecorator,
                   sort,
+            valueAccessor,
               } = this.props
 
         const { height, width } = this.state
 
         if (!data && dataPoints) {
-            throw `"dataPoints" have been renamed to "data" to better reflect the fact that it's an array of  objects`
+            throw `"dataPoints" have been renamed to "data" to better reflect the fact that it's an array of objects`
         }
 
         if (data.length === 0) {
@@ -63,7 +55,7 @@ class PieChart extends PureComponent {
 
         const maxRadius = Math.min(width, height) / 2
 
-        if (Math.min(...data.map(obj => obj.value)) < 0) {
+        if (Math.min(...data.map(obj => valueAccessor({ item: obj }))) < 0) {
             console.error('don\'t pass negative numbers to pie-chart, it makes no sense!')
         }
 
@@ -88,7 +80,7 @@ class PieChart extends PureComponent {
                          arc
 
         const pieSlices = shape.pie()
-            .value(d => d.value)
+            .value(d => valueAccessor({ item: d }))
             .sort(sort)
             (data)
 
@@ -101,15 +93,15 @@ class PieChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         <G x={width / 2} y={height / 2}>
                             { pieSlices.map((slice, index) => {
-                                const { key, color, onPress } = data[ index ]
+                                const { key, onPress, svg } = data[ index ]
                                 return (
                                     <Path
                                         key={key}
-                                        fill={color}
+                                        onPress={onPress}
+                                        {...svg}
                                         d={ arc(slice) }
                                         animate={animate}
                                         animationDuration={animationDuration}
-                                        onPress={onPress}
                                     />
                                 )
                             })}
@@ -131,9 +123,9 @@ class PieChart extends PureComponent {
 
 PieChart.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({
-        color: PropTypes.string.isRequired,
+        svg: PropTypes.object,
         key: PropTypes.string.isRequired,
-        value: PropTypes.number.isRequired,
+        value: PropTypes.number,
     })).isRequired,
     innerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     outerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
@@ -144,12 +136,14 @@ PieChart.propTypes = {
     style: PropTypes.any,
     renderDecorator: PropTypes.func,
     sort: PropTypes.func,
+    valueAccessor: PropTypes.func,
 }
 
 PieChart.defaultProps = {
     width: 100,
     height: 100,
     padAngle: 0.05,
+    valueAccessor: ({ item }) => item.value,
     innerRadius: '50%',
     sort: (a, b) => b.value - a.value,
     renderDecorator: () => {
