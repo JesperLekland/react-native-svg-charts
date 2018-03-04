@@ -8,8 +8,8 @@ import LineChart from './line-chart'
 
 import BarChart from './bar-chart'
 import BarChartHorizontal from './bar-chart/horizontal'
-import BarChartMultipleNew from './bar-chart/horizontal-multiple'
-import MultipleBarChart from './bar-chart/grouped-bar-chart'
+import BarChartHorizontalGrouped from './bar-chart/horizontal-grouped'
+import BarChartGrouped from './bar-chart/grouped'
 
 import PieChart from './pie-chart'
 import PieChartWithLabels from './pie-chart/with-labels'
@@ -55,8 +55,8 @@ storiesOf('BarChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('Standard', () => <BarChart/>)
     .add('Horizontal', () => <BarChartHorizontal/>)
-    .add('Multiple data set', () => <MultipleBarChart/>)
-    .add('Multiple data set new', () => <BarChartMultipleNew/>)
+    .add('Grouped', () => <BarChartGrouped/>)
+    .add('Grouped - Horizontal', () => <BarChartHorizontalGrouped/>)
     .add('Stacked', () => <StackedBarChartExample/>)
 
 storiesOf('PieChart', module)

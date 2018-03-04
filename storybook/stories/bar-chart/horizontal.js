@@ -1,8 +1,7 @@
 import React from 'react'
 import { View } from 'react-native'
-import BarChart from 'src/bar-chart-new'
-import { YAxis } from 'react-native-svg-charts'
-import { Defs, Line, LinearGradient, Stop, Text } from 'react-native-svg'
+import { BarChart, Grid, YAxis } from 'react-native-svg-charts'
+import { Defs, LinearGradient, Stop, Text } from 'react-native-svg'
 import * as scale from 'd3-scale'
 
 class BarChartExample extends React.PureComponent {
@@ -56,31 +55,15 @@ class BarChartExample extends React.PureComponent {
             </Defs>
         )
 
-        const Grid = ({ ticks, x }) => (
-
-            ticks.map((tick, index) => (
-                    <Line
-                        key={index}
-                        x={x(tick)}
-                        y1={'0%'}
-                        y2={'100%'}
-                        stroke={'rgba(0,0,0,0.2)'}
-
-                    />
-                )
-            )
-        )
-
         const CUT_OFF = 50
         const Label = ({ item, x, y, index, bandwidth }) => (
             <Text
                 key={item.label}
-                x={item.value > CUT_OFF ? x(item.value) - 10 : x(item.value) + 10}
+                x={item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10}
                 y={y(index) + (bandwidth / 2)}
                 fontSize={14}
                 fill={item.value > CUT_OFF ? 'white' : 'black'}
                 alignmentBaseline={'middle'}
-                textAnchor={item.value > CUT_OFF ? 'end' : 'start'}
             >
                 {item.label}
             </Text>
@@ -109,7 +92,7 @@ class BarChartExample extends React.PureComponent {
                     spacing={0.2}
                     gridMin={0}
                     renderDecorator={Label}
-                    renderGrid={Grid}
+                    renderGrid={Grid.Vertical}
                 />
             </View>
         )

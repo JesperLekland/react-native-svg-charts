@@ -1,7 +1,6 @@
 import React from 'react'
 import { View } from 'react-native'
-import BarChart from 'src/bar-chart-new-multiple'
-import { YAxis } from 'react-native-svg-charts'
+import { YAxis, BarChart, Grid } from 'react-native-svg-charts'
 import { Defs, Line, LinearGradient, Stop } from 'react-native-svg'
 import * as scale from 'd3-scale'
 
@@ -56,21 +55,6 @@ class BarChartExample extends React.PureComponent {
             </Defs>
         )
 
-        const Grid = ({ ticks, x }) => (
-
-            ticks.map((tick, index) => (
-                    <Line
-                        key={index}
-                        x={x(tick)}
-                        y1={'0%'}
-                        y2={'100%'}
-                        stroke={'rgba(0,0,0,0.2)'}
-
-                    />
-                )
-            )
-        )
-
         return (
             <View style={{ flexDirection: 'row', height: 500, paddingVertical: 16 }}>
                 <YAxis
@@ -103,7 +87,7 @@ class BarChartExample extends React.PureComponent {
                     contentInset={{ top: 10, bottom: 10 }}
                     spacing={0.2}
                     gridMin={0}
-                    // renderGrid={Grid}
+                    renderGrid={Grid.Vertical}
                 />
             </View>
         )

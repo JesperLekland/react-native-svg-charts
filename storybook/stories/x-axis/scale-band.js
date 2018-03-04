@@ -9,26 +9,16 @@ class XAxisExample extends React.PureComponent {
 
         const data = [ 14, 80, 100, 55 ]
 
-        const barData = [
-            {
-                values: data,
-                positive: {
-                    fill: 'rgb(134, 65, 244)',
-                },
-                negative: {
-                    fill: 'rgba(134, 65, 244, 0.2)',
-                },
-            },
-        ]
-
         return (
             <View style={{ height: 200, padding: 20 }}>
                 <BarChart
                     style={{ flex: 1 }}
-                    data={ barData }
+                    data={data}
                     gridMin={0}
+                    svg={{ fill: 'rgb(134, 65, 244)' }}
                 />
                 <XAxis
+                    style={{ marginTop: 10 }}
                     data={ data }
                     scale={scale.scaleBand}
                     formatLabel={ (value, index) => index }

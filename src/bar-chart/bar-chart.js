@@ -5,8 +5,8 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
-import Path from './animated-path'
-import Grid from './grid'
+import Path from '../animated-path'
+import Grid from '../grid'
 
 class BarChart extends PureComponent {
 
@@ -20,7 +20,7 @@ class BarChart extends PureComponent {
         this.setState({ height, width })
     }
 
-    _getXScale(domain) {
+    calcXScale(domain) {
         const {
             horizontal,
             contentInset: {
@@ -45,7 +45,7 @@ class BarChart extends PureComponent {
             .paddingOuter([ spacing ])
     }
 
-    _getYScale(domain) {
+    calcYScale(domain) {
         const {
             horizontal,
             spacing,
@@ -70,8 +70,10 @@ class BarChart extends PureComponent {
             .range([ height - bottom, top ])
     }
 
-    _calcArea(values, x, y) {
-        const { horizontal, data } = this.props
+    calcAreas(x, y) {
+        const { horizontal, data, yAccessor } = this.props
+
+        const values = data.map(item => yAccessor({ item }))
 
         if (horizontal) {
             return data.map((bar, index) => ({
@@ -100,6 +102,18 @@ class BarChart extends PureComponent {
         }))
     }
 
+    calcExtent() {
+        const { data, gridMin, gridMax, yAccessor } = this.props
+        const values = data.map(obj => yAccessor({ item: obj }))
+
+        return array.extent([ ...values, gridMax, gridMin ])
+    }
+
+    calcIndexes() {
+        const { data } = this.props
+        return data.map((_, index) => index)
+    }
+
     render() {
         const {
             data,
@@ -108,13 +122,10 @@ class BarChart extends PureComponent {
             style,
             showGrid,
             numberOfTicks,
-            gridMax,
-            gridMin,
             gridProps,
             extras,
             renderDecorator,
             renderGrid = Grid,
-            yAccessor,
             svg,
             horizontal,
         } = this.props
@@ -125,21 +136,19 @@ class BarChart extends PureComponent {
             return <View style={style}/>
         }
 
-        const values = data.map(obj => yAccessor({ item: obj }))
-
-        const extent = array.extent([ ...values, gridMax, gridMin ])
-        const indexes = data.map((_, index) => index)
+        const extent = this.calcExtent()
+        const indexes = this.calcIndexes()
         const ticks = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const xDomain = horizontal ? extent : indexes
         const yDomain = horizontal ? indexes : extent
 
-        const x = this._getXScale(xDomain)
-        const y = this._getYScale(yDomain)
+        const x = this.calcXScale(xDomain)
+        const y = this.calcYScale(yDomain)
 
         const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
 
-        const areas = this._calcArea(values, x, y)
+        const areas = this.calcAreas(x, y)
 
         return (
             <View style={style}>

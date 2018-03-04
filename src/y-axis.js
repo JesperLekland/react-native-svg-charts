@@ -37,6 +37,8 @@ class YAxis extends PureComponent {
             // use index as domain identifier instead of value since
             // same value can occur at several places in dataPoints
             y
+                // set range top to bottom - we are not sorting on values in scaleBand
+                .range([ top, height - bottom ])
                 .paddingInner([ spacing ])
                 .paddingOuter([ spacing ])
 
@@ -70,9 +72,9 @@ class YAxis extends PureComponent {
         const values = data.map((item, index) => yAccessor({ item, index }))
 
         const extent = array.extent([ ...values, min, max ])
-        const ticks = numberOfTicks ?
-            array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks) :
-            values
+        const ticks = scale === d3Scale.scaleBand ?
+            values :
+            array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const domain = scale === d3Scale.scaleBand ? values : extent
 
@@ -144,7 +146,7 @@ YAxis.propTypes = {
 }
 
 YAxis.defaultProps = {
-    // numberOfTicks: 10,
+    numberOfTicks: 10,
     spacing: 0.05,
     contentInset: {},
     svg: {},
