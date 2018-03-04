@@ -19,6 +19,7 @@ class YAxisExample extends React.PureComponent {
                       fill: 'grey',
                       fontSize: 10,
                   }}
+                  numberOfTicks={10}
                   formatLabel={ value => `${value}ºC` }
                 />
                 <LineChart

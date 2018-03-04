@@ -7,7 +7,9 @@ import ShowcaseCard from './decorators/showcase-container'
 import LineChart from './line-chart'
 
 import BarChart from './bar-chart'
-import MultipleBarChart from './bar-chart/grouped-bar-chart'
+import BarChartHorizontal from './bar-chart/horizontal'
+import BarChartHorizontalGrouped from './bar-chart/horizontal-grouped'
+import BarChartGrouped from './bar-chart/grouped'
 
 import PieChart from './pie-chart'
 import PieChartWithLabels from './pie-chart/with-labels'
@@ -25,7 +27,6 @@ import XAxisScaleLinearExample from './x-axis/scale-linear'
 
 import YAxisExample from './y-axis'
 
-import WaterfallChartExample from './waterfall-chart'
 import GradientExample from './gradient'
 
 import AreaStack from './area-stack'
@@ -52,7 +53,9 @@ storiesOf('LineChart', module)
 storiesOf('BarChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('Standard', () => <BarChart/>)
-    .add('Multiple data set', () => <MultipleBarChart/>)
+    .add('Horizontal', () => <BarChartHorizontal/>)
+    .add('Grouped', () => <BarChartGrouped/>)
+    .add('Grouped - Horizontal', () => <BarChartHorizontalGrouped/>)
     .add('Stacked', () => <StackedBarChartExample/>)
 
 storiesOf('PieChart', module)
@@ -60,10 +63,6 @@ storiesOf('PieChart', module)
     .add('Standard', () => <PieChart/>)
     .add('With labels', () => <PieChartWithLabels/>)
     .add('With labels', () => <PieChartWithLabels/>)
-
-storiesOf('WaterfallChart', module)
-    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('Standard', () => <WaterfallChartExample/>)
 
 storiesOf('ProgressCircle', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)

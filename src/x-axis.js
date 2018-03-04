@@ -23,7 +23,8 @@ class XAxis extends PureComponent {
     _getX(domain) {
         const {
                   scale,
-                  spacing,
+                  spacingInner,
+                  spacingOuter,
                   contentInset: {
                       left  = 0,
                       right = 0,
@@ -32,33 +33,23 @@ class XAxis extends PureComponent {
 
         const { width } = this.state
 
+        const x = scale()
+            .domain(domain)
+            .range([ left, width - right ])
+
         if (scale === d3Scale.scaleBand) {
 
             // use index as domain identifier instead of value since
             // same value can occur at several places in dataPoints
-            const x = scale()
-                .domain(domain)
-                .range([ left, width - right ])
-                .paddingInner([ spacing ])
-                .paddingOuter([ spacing ])
+            x
+                .paddingInner([ spacingInner ])
+                .paddingOuter([ spacingOuter ])
 
             //add half a bar to center label
             return (value) => x(value) + (x.bandwidth() / 2)
         }
 
-        if (scale === d3Scale.scaleLinear) {
-            return scale()
-                .domain(domain)
-                .range([ left, width - right ])
-        }
-
-        if (scale === d3Scale.scaleTime) {
-
-            return scale()
-                .domain(domain)
-                .range([ left, width - right ])
-
-        }
+        return x
     }
 
     render() {
@@ -79,12 +70,12 @@ class XAxis extends PureComponent {
             return <View style={style}/>
         }
 
-        const xValues = data.map((item, index) => xAccessor({ item, index }))
-        const extent  = array.extent(xValues)
-        const domain  = scale === d3Scale.scaleBand ? xValues : extent
+        const values = data.map((item, index) => xAccessor({ item, index }))
+        const extent  = array.extent(values)
+        const domain  = scale === d3Scale.scaleBand ? values : extent
 
         const x     = this._getX(domain)
-        const ticks = numberOfTicks ? x.ticks(numberOfTicks) : xValues
+        const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
 
         return (
             <View style={ style }>
@@ -94,7 +85,7 @@ class XAxis extends PureComponent {
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
-                        { formatLabel(data[ 0 ], 0) }
+                        { formatLabel(ticks[0], 0) }
                     </Text>
                     <Svg style={StyleSheet.absoluteFill}>
                         {
@@ -126,7 +117,8 @@ class XAxis extends PureComponent {
 XAxis.propTypes = {
     data: PropTypes.array.isRequired,
     labelStyle: PropTypes.any,
-    spacing: PropTypes.number,
+    spacingInner: PropTypes.number,
+    spacingOuter: PropTypes.number,
     formatLabel: PropTypes.func,
     contentInset: PropTypes.shape({
         left: PropTypes.number,
@@ -139,12 +131,13 @@ XAxis.propTypes = {
 }
 
 XAxis.defaultProps = {
-    spacing: 0.05,
+    spacingInner: 0.05,
+    spacingOuter: 0.05,
     contentInset: {},
     svg: {},
     xAccessor: ({ index }) => index,
     scale: d3Scale.scaleLinear,
-    formatLabel: (value, index) => index,
+    formatLabel: value => value,
 }
 
 export default XAxis
