@@ -10,10 +10,10 @@ In order to not bloat this README to much we've moved some examples over to
 There we will try to showcase the really cool things you can do with this library. 
 This README will try to keep things as simple as possible so that everybody can get up and running as fast as possible.  
 
-### version 3 now available!
-Better API, greater extensibility and customisation!
-A lot of breaking changes are introduced in this version but we've taken great care to make sure migrating is easy. 
-See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information
+### version 4 now available!
+BarChart and PieChart have joined the latest API!
+A few of breaking changes are introduced in this version but we've taken great care to make sure migrating is easy.
+See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information.
 
 
 ## Prerequisites
@@ -427,7 +427,7 @@ class PieChartExample extends React.PureComponent {
 
 | Property | Default | Description |
 | --- | --- | --- |
-| data | **required** | Very similar to the data prop of our other charts, the only exception is that the PieChart only accepts complex objects (not just numbers) |
+| data | **required** | Very similar to the data prop of our other charts, the only exception is that the PieChart only accepts complex objects (not just numbers). An item can also contain the `arc` property which allows you two override settings on that specific arc. See [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) |
 | valueAccessor | ({ item }) => item.value | Very similar to the `yAccessor` of the other charts |
 | outerRadius | "100%" | The outer radius, use this to tweak how close your pie is to the edge of it's container. Takes either percentages or absolute numbers (pixels) |
 | innerRadius | "50%" | The inner radius, use this to create a donut. Takes either percentages or absolute numbers (pixels) |
@@ -590,55 +590,6 @@ class XAxisExample extends React.PureComponent {
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
 
 
-
-## Other Examples
-
-### Gradient
-Gradients are supported by the `AreaChart`, `LineChart` and `BarChart` and is used with the `extras` prop according to the example below.
-To get more information on exactly what arguments are passed take a look in the source code (shouldn't be too complicated)
-You can read more about the available gradients [here](https://github.com/react-native-community/react-native-svg#lineargradient)
-
-You can also view more examples in the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples)
-
-![Gradient AreaChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient.png)
-![Gradient LineChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient-line.png)
-![Gradient BarChart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/gradient-bar.png)
-
-```javascript
-import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
-import { Defs, LinearGradient, Stop } from 'react-native-svg'
-
-class GradientExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        const Gradient = ({ index }) => (
-            <Defs key={index}>
-                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
-                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
-                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
-                </LinearGradient>
-            </Defs>
-        )
-
-        return (
-            <AreaChart
-                style={{ height: 200 }}
-                data={data}
-                contentInset={{ top: 20, bottom: 20 }}
-                extras={[ Gradient ]}
-                svg={{ fill: 'url(#gradient)' }}
-            />
-        )
-    }
-
-}
-
-```
-
 ### Decorator
 
 The `renderDecorator` prop allow for decorations on each of the provided data points. The `renderDecorator` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
@@ -657,44 +608,12 @@ Remember that all components returned by `renderDecorator` must be one that is r
 
 ![Decorator](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/decorators.png)
 
-```javascript
-import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
-import { Circle } from 'react-native-svg'
-
-class DecoratorExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        return (
-            <AreaChart
-                style={ { height: 200 } }
-                data={ data }
-                svg={ { fill: 'rgba(134, 65, 244, 0.2)' } }
-                contentInset={ { top: 20, bottom: 30 } }
-                renderDecorator={ ({ x, y, index, value }) => (
-                    <Circle
-                        key={ index }
-                        cx={ x(index) }
-                        cy={ y(value) }
-                        r={ 4 }
-                        stroke={ 'rgb(134, 65, 244)' }
-                        fill={ 'white' }
-                    />
-                ) }
-            />
-        )
-    }
-
-}
-```
+[Examples](https://github.com/JesperLekland/react-native-svg-charts-examples)
 
 ### Extras
 The `extras` prop allow for arbitrary decorators on your chart.
 and is a function that is called with an object as an arguments to help the layout of the extra decorator.
-This prop is what really makes this library special. With this prop you can customize your charts to your hearts content.
+This prop is what really makes this library special. With this prop you can customize your charts to your hearts content - gradients, toolTips, clips, images, anything that is supported by `react-native-svg` can be added to your chart through this prop.
 See the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) for some really cool use cases
 
 The content of the extras argument object is as follows:
@@ -719,216 +638,9 @@ svg path for the line following the upper bounds of the area.
 
 Take a look in the source code for additional details.
 
-See [Partial Chart](#partial-chart) for use case for this.
+![Decorator](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/extras.png)
 
-Remember that all components returned by an `extras` function must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
-
-![Extras](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/extras.png)
-
-#### Example
-
-```javascript
-import React from 'react'
-import { LineChart } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
-import { Circle, G, Line, Rect, Text } from 'react-native-svg'
-
-class ExtrasExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        /**
-         * Both below functions should preferably be their own React Components
-         */
-
-        const HorizontalLine = (({ y }) => (
-            <Line
-                key={ 'zero-axis' }
-                x1={ '0%' }
-                x2={ '100%' }
-                y1={ y(50) }
-                y2={ y(50) }
-                stroke={ 'grey' }
-                strokeDasharray={ [ 4, 8 ] }
-                strokeWidth={ 2 }
-            />
-        ))
-
-        const Tooltip = ({ x, y }) => (
-            <G
-                x={ x(5) - (75 / 2) }
-                key={ 'tooltip' }
-                onPress={ () => console.log('tooltip clicked') }
-            >
-                <G y={ 50 }>
-                    <Rect
-                        height={ 40 }
-                        width={ 75 }
-                        stroke={ 'grey' }
-                        fill={ 'white' }
-                        ry={ 10 }
-                        rx={ 10 }
-                    />
-                    <Text
-                        x={ 75 / 2 }
-                        dy={20}
-                        alignmentBaseline={'middle'}
-                        textAnchor={ 'middle' }
-                        stroke={ 'rgb(134, 65, 244)' }
-                    >
-                        { `${data[5]}ºC` }
-                    </Text>
-                </G>
-                <G x={ 75 / 2 }>
-                    <Line
-                        y1={ 50 + 40 }
-                        y2={ y(data[ 5 ]) }
-                        stroke={ 'grey' }
-                        strokeWidth={ 2 }
-                    />
-                    <Circle
-                        cy={ y(data[ 5 ]) }
-                        r={ 6 }
-                        stroke={ 'rgb(134, 65, 244)' }
-                        strokeWidth={2}
-                        fill={ 'white' }
-                    />
-                </G>
-            </G>
-        )
-
-        return (
-            <LineChart
-                style={ { height: 200 } }
-                data={ data }
-                svg={{
-                    stroke: 'rgb(134, 65, 244)',
-                    strokeWidth: 2,
-                }}
-                contentInset={ { top: 20, bottom: 20 } }
-                curve={ shape.curveLinear }
-                extras={ [ HorizontalLine, Tooltip ] }
-            />
-        )
-    }
-
-}
-```
-
-### gridMin/Max
-Charts normally render edge to edge, if this is not the wanted behaviour it can easily be altered with the `gridMin` and `gridMax` props. Just compare the below example with the example for the regular [AreaChart](#areachart)
-
-![Grid Min Max](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/grid-min-max.png)
-
-#### Example
-```javascript
-import React from 'react'
-import { AreaChart, Path } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
-
-class GridMinMaxExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        return (
-            <AreaChart
-                style={{ height: 200 }}
-                data={data}
-                svg={{ fill: 'rgba(134, 65, 244, 0.2)' }}
-                curve={shape.curveNatural}
-                gridMax={500}
-                gridMin={-500}
-                extras={[
-                    ({ line }) => (
-                        <Path
-                            key={'line '}
-                            d={line}
-                            stroke={'rgb(134, 65, 244)'}
-                            fill={'none'}
-                        />
-                    ),
-                ]}
-            />
-        )
-    }
-
-}
-```
-
-
-### PieChart with labels
-The PieChart as well as most of the charts support decorators.
-In the case of the PieChart you get `pieCentroid` and `labelCentroid` instead of the `x` and `y` as arguments in the `renderDecorator` callback.
-This will allow you to render labels aligned with your pie slices. Experiment with `outerRadius` and `labelRadius` to layout your labels in relation to your chart
-
-![PieChart with labels](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/pie-chart-with-labels.png)
-
-### Example
-```javascript
-import React from 'react'
-import { PieChart } from 'react-native-svg-charts'
-import { Circle, G, Line } from 'react-native-svg'
-
-class PieChartWithLabelExample extends React.PureComponent {
-
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91 ]
-
-        const randomColor = () => ('#' + (Math.random() * 0xFFFFFF << 0).toString(16) + '000000').slice(0, 7)
-
-        const pieData = data
-            .filter(value => value > 0)
-            .map((value, index) => ({
-                value,
-                color: randomColor(),
-                key: `pie-${index}`,
-            }))
-
-        return (
-            <PieChart
-                style={ { height: 200 } }
-                data={ pieData }
-                spacing={ 0 }
-                innerRadius={ 20 }
-                outerRadius={ 55 }
-                labelRadius={ 80 }
-                renderDecorator={ ({ item, pieCentroid, labelCentroid, index }) => (
-                    <G key={ index }>
-                        <Line
-                            x1={ labelCentroid[ 0 ] }
-                            y1={ labelCentroid[ 1 ] }
-                            x2={ pieCentroid[ 0 ] }
-                            y2={ pieCentroid[ 1 ] }
-                            stroke={ item.color }
-                        />
-                        <Circle
-                            cx={ labelCentroid[ 0 ] }
-                            cy={ labelCentroid[ 1 ] }
-                            r={ 15 }
-                            fill={ item.color }
-                        />
-                    </G>
-                ) }
-
-            />
-        )
-    }
-
-}
-```
-
-
-### Custom grid
-The default grid is just a collection of horizontal `Line`s. If you simply want to change the direction or styling look at the `renderGrid` & `gridProps` prop.
-Some projects might require more control of the grid ( direction, different distributions etc), therefore all affected components support the `renderGrid` prop.
-The `renderGrid` prop takes a function and provides the `x`, `y`, `ticks` and `dataPoints` arguments. Use them as in the example below
-
-![Custom grid](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/custom-grid.png)
+[Examples](https://github.com/JesperLekland/react-native-svg-charts-examples)
 
 
 ## License

@@ -27,8 +27,25 @@ Render a clip path or a gradient in a specific bar, up to you!
 
 In order to have a nice YAxis along with the horizontal BarChart we have now added support for `scale=d3.scaleBand` to the yAxis.
 
-## PieChart takes svg
+## PieChart
+
+### Takes `svg` prop
 
 PieChart has been upgraded to take the `svg` prop on each data entry, allowing you to customise your PieChart even further
 We've also added the `valueAccessor` prop to allow you to use different dataStructures, not forcing you to name the value "value" and aligning with the other APIs.
+
+### Takes `arc` prop
+
+You can now customize your arcs on an individual level. Want one arc to be bigger than the reset? No problem!
+
+## Cleaned up README
+
+The README is now more focused on the basic usage of this library. Any cool custom behavior has been moved to the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples).
+This is the go to place where you want inspiration on how to do cool things with your charts or if you've ever asked yourself "can I do this with react-native-svg-charts?"
+
+We want to make sure that the README is concise and to the point. Here we want to explain the APIs and not much more.
+All charts and their APIs will still be documented here, but as an MVP.
+
+
+
 

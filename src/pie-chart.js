@@ -67,17 +67,36 @@ class PieChart extends PureComponent {
             console.warn('innerRadius is equal to or greater than outerRadius')
         }
 
-        const arc = shape.arc()
-            .outerRadius(_outerRadius)
-            .innerRadius(_innerRadius)
-            .padAngle(padAngle) // Angle between sections
+        const arcs = data.map(item => {
+            const arc = shape.arc()
+                .outerRadius(_outerRadius)
+                .innerRadius(_innerRadius)
+                .padAngle(padAngle) // Angle between sections
 
-        const labelArc = labelRadius ?
-                         shape.arc()
-                             .outerRadius(_labelRadius)
-                             .innerRadius(_labelRadius)
-                             .padAngle(padAngle) :
-                         arc
+            item.arc && Object.entries(item.arc)
+                .forEach(([ key, value ]) => {
+                    if (typeof arc[ key ] === 'function') {
+                        if (typeof value === 'string') {
+                            arc[ key ](value.split('%')[ 0 ] / 100 * _outerRadius)
+                        } else {
+                            arc[ key ](value)
+                        }
+                    }
+                })
+
+            return arc
+        })
+
+        const labelArcs =
+            data.map((item, index) => {
+                if (labelRadius) {
+                    return shape.arc()
+                        .outerRadius(_labelRadius)
+                        .innerRadius(_labelRadius)
+                        .padAngle(padAngle)
+                }
+                return arcs[ index ]
+            })
 
         const pieSlices = shape.pie()
             .value(d => valueAccessor({ item: d }))
@@ -99,7 +118,7 @@ class PieChart extends PureComponent {
                                         key={key}
                                         onPress={onPress}
                                         {...svg}
-                                        d={ arc(slice) }
+                                        d={arcs[ index ](slice)}
                                         animate={animate}
                                         animationDuration={animationDuration}
                                     />
@@ -110,8 +129,8 @@ class PieChart extends PureComponent {
                                 item: data[ index ],
                                 height,
                                 width,
-                                pieCentroid: arc.centroid(slice),
-                                labelCentroid: labelArc.centroid(slice),
+                                pieCentroid: arcs[ index ].centroid(slice),
+                                labelCentroid: labelArcs[ index ].centroid(slice),
                             })) }
                         </G>
                     </Svg>
@@ -126,6 +145,7 @@ PieChart.propTypes = {
         svg: PropTypes.object,
         key: PropTypes.string.isRequired,
         value: PropTypes.number,
+        arc: PropTypes.object,
     })).isRequired,
     innerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     outerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
