@@ -143,7 +143,7 @@ class PieChart extends PureComponent {
 PieChart.propTypes = {
     data: PropTypes.arrayOf(PropTypes.shape({
         svg: PropTypes.object,
-        key: PropTypes.string.isRequired,
+        key: PropTypes.any.isRequired,
         value: PropTypes.number,
         arc: PropTypes.object,
     })).isRequired,
