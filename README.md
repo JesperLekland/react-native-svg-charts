@@ -259,7 +259,7 @@ Also see [Common Props](#common-props)
 | --- | --- | --- |
 | data | **required** |  The data prop in a barChart can look exactly like in a Line- or AreaChart, i.e an array of just numbers or complex objects. It can however also be an array with several data sets. A data object can contain a `svg` property which allows you two override styles on that specific object. See [the examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples)|
 | horizontal | false | Boolean whether or not the bars should be horizontal |
-| svg | `{}` | Default svg props **for all labels**. Supports all svg props an svg text normally supports. This styles will be overriden if there are specific styles for a given data object  |
+| svg | `{}` | Default svg props **for all bars**. Supports all svg props an svg path normally supports. This styles will be overriden if there are specific styles for a given data object  |
 | spacingInner | 0.05 | Spacing between the bars (or groups of bars) |
 | spacingOuter | 0.05 | Spacing outside of the bars (or groups of bars). Percentage of one bars width |
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
@@ -525,8 +525,8 @@ class YAxisExample extends React.PureComponent {
 | --- | --- | --- |
 | scale | `d3Scale.scaleLinear`| Should be the same as passed into the charts `yScale`, *or* d3Scale.scaleBand if used in conjunction with a horizontal BarChart |
 | svg | `{}` | supports all svg props an svg text normally supports |
-| spacingInner | 0.05 | Spacing between the labels |
-| spacingOuter | 0.05 | Spacing outside of the labels. Percentage of one label width |
+| spacingInner | 0.05 | Spacing between the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingInner` prop on the actual BarChart |
+| spacingOuter | 0.05 | Spacing outside of the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingOuter` prop on the actual BarChart  |
 | formatLabel | `value => {}` | A utility function to format the text before it is displayed, e.g `value => "$" + value |
 | contentInset | { top: 0, bottom: 0 } | Used to sync layout with chart (if same prop used there) |
 | min | undefined | Used to sync layout with chart (if gridMin is used there) |
@@ -583,10 +583,10 @@ class XAxisExample extends React.PureComponent {
 
 | Property | Default | Description |
 | --- | --- | --- |
-| data | **required** | An array of values or objects to render on the xAxis. Should preferably have the same length as the chart's dataPoints. If an object is used instead of a simple value, a `xAccessor`  prop might be needed to calculate the axis' extent. A data object can contain a `svg` property which allows you two override styles on that specific object  |
+| data | **required** | An array of values or objects to render on the xAxis. Should preferably have the same length as the chart's dataPoints. If a complex object is used instead of a simple value, a `xAccessor`  prop **is required** to calculate the axis' extent. A data object can contain a `svg` property which allows you to override styles on that specific object  |
 | scale | `d3Scale.scaleLinear`| Should be the same as passed into the charts `xScale` |
-| spacingInner | 0.05 | Spacing between the labels |
-| spacingOuter | 0.05 | Spacing outside of the labels. Percentage of one label width |
+| spacingInner | 0.05 | Spacing between the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingInner` prop on the actual BarChart |
+| spacingOuter | 0.05 | Spacing between the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingOuter` prop on the actual BarChart |
 | svg | `{}` | Default svg props **for all labels**. Supports all svg props an svg text normally supports. This styles will be overriden if there are specific styles for a given data object  |
 | formatLabel | `value => value` | A utility function to format the text before it is displayed, e.g `value => "day" + value`. Passes back the value provided by the `xAccessor` |
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
