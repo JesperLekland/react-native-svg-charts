@@ -24,6 +24,7 @@ import Extras from './extras'
 import XAxisScaleBandExample from './x-axis/scale-band'
 import XAxisScaleTimeExample from './x-axis/scale-time'
 import XAxisScaleLinearExample from './x-axis/scale-linear'
+import XAxisDataObjectExample from './x-axis/data-object'
 
 import YAxisExample from './y-axis'
 
@@ -75,6 +76,7 @@ storiesOf('Axes', module)
     .add('XAxis - scaleLinear', () => <XAxisScaleLinearExample/>)
     .add('XAxis - scaleTime', () => <XAxisScaleTimeExample/>)
     .add('XAxis - scaleBand', () => <XAxisScaleBandExample/>)
+    .add('XAxis - data object', () => <XAxisDataObjectExample />)
 
 storiesOf('Others', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)

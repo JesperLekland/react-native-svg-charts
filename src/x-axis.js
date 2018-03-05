@@ -93,12 +93,15 @@ class XAxis extends PureComponent {
                             // causes rendering issues
                             width > 0 &&
                             ticks.map((value, index) => {
+                                const { svg: valueSvg = {} } = data[ index ] || {}
+
                                 return (
                                     <SVGText
                                       textAnchor={'middle'}
                                       originX={x(value)}
                                       alignmentBaseline={'hanging'}
                                       {...svg}
+                                      {...valueSvg}
                                       key={index}
                                       x={x(value)}
                                     >
@@ -115,7 +118,10 @@ class XAxis extends PureComponent {
 }
 
 XAxis.propTypes = {
-    data: PropTypes.array.isRequired,
+    data: PropTypes.arrayOf(PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.object,
+    ])).isRequired,
     labelStyle: PropTypes.any,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
