@@ -1,8 +1,7 @@
 import React from 'react'
-import { StackedAreaChart } from '../../../src/index'
+import { StackedAreaChart, YAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import { View } from 'react-native'
-import YAxis from '../../../src/y-axis'
 
 class AreaStackWithAxisExample extends React.PureComponent {
 
@@ -54,14 +53,16 @@ class AreaStackWithAxisExample extends React.PureComponent {
                     { ...this.props }
                 />
                 <YAxis
-                    style={ { position: 'absolute', top: 0, bottom: 0, transform: [ { translateY: -5 } ] } }
-                    dataPoints={ StackedAreaChart.extractDataPoints(data, keys) }
+                    style={ { position: 'absolute', top: 0, bottom: 0 }}
+                    data={ StackedAreaChart.extractDataPoints(data, keys) }
                     contentInset={ { top: 10, bottom: 10 } }
-                    labelStyle={ {
+                    svg={ {
                         fontSize: 8,
-                        color: 'white',
-                        textShadowOffset: { width: 1, height: 1 },
-                        textShadowColor: 'rgba(0,0,0,0.3)',
+                        fill: 'white',
+                        stroke: 'black',
+                        strokeWidth: 0.1,
+                        alignmentBaseline: 'baseline',
+                        baselineShift: '3',
                     } }
                 />
             </View>

@@ -24,17 +24,17 @@ const Horizontal = ({ ticks = [], y, gridProps = {} }) => {
     )
 }
 
-const Vertical = ({ dataPoints = [], x, gridProps = {} }) => {
+const Vertical = ({ ticks, x, gridProps = {} }) => {
     return (
         <G>
             {
-                dataPoints.map((_, index) => (
+                ticks.map((tick, index) => (
                     <Line
                         key={ index }
                         y1={ '0%' }
                         y2={ '100%' }
-                        x1={ x(index) }
-                        x2={ x(index) }
+                        x1={ x(tick) }
+                        x2={ x(tick) }
                         strokeWidth={ 1 }
                         stroke={ 'rgba(0,0,0,0.2)' }
                         { ...gridProps }

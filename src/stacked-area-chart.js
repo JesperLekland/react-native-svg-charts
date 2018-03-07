@@ -84,7 +84,7 @@ class AreaStack extends PureComponent {
             .range([ height - bottom, top ])
 
         const x = scale.scaleLinear()
-            .domain([ 0, keys.length - 1 ])
+            .domain([ 0, data.length - 1 ])
             .range([ left, width - right ])
 
         const areas = series.map((serie, index) => {
@@ -93,7 +93,7 @@ class AreaStack extends PureComponent {
                 .y0(d => y(d[ 0 ]))
                 .y1(d => y(d[ 1 ]))
                 .curve(curve)
-                (keys.map((_, index) => serie[ index ]))
+                (data.map((_, index) => serie[ index ]))
 
             return {
                 path,
@@ -140,7 +140,7 @@ class AreaStack extends PureComponent {
                             )
                         ) }
                         { series.map((serie) => {
-                            return keys.map((key, index) => {
+                            return data.map((key, index) => {
                                 return renderDecorator({ x, y, index, value: serie[ index ][ 1 ] })
                             })
                         }) }
@@ -176,15 +176,13 @@ AreaStack.propTypes = {
 }
 
 AreaStack.defaultProps = {
-    curve: shape.curveCardinal,
+    curve: shape.curveLinear,
     offset: shape.stackOffsetNone,
     order: shape.stackOrderNone,
     strokeWidth: 2,
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
-    gridMin: 0,
-    gridMax: 0,
     extras: [],
     renderDecorator: () => {
     },
