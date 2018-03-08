@@ -102,7 +102,7 @@ class GroupedBarChart extends BarChart {
                                 y(valueIndex) + barWidth + (barWidth * collectionIndex))
                             .x0(x(0))
                             .x1(value => x(value))
-                            .defined(value => value)
+                            .defined(value => typeof value === 'number')
                             ([ item.value, item.value ]),
                     })
                 })
@@ -122,7 +122,7 @@ class GroupedBarChart extends BarChart {
                                 x(valueIndex) + barWidth + (barWidth * collectionIndex))
                             .y0(y(0))
                             .y1(value => y(value))
-                            .defined(value => value)
+                            .defined(value => typeof value === 'number')
                             ([ item.value, item.value ]),
                     })
                 })

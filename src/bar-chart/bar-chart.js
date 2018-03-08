@@ -86,7 +86,7 @@ class BarChart extends PureComponent {
                         y(index) + y.bandwidth())
                     .x0(x(0))
                     .x1(value => x(value))
-                    .defined(value => value)
+                    .defined(value => typeof value === 'number')
                     ([ values[ index ], values[ index ] ]),
             }))
         }
@@ -99,7 +99,7 @@ class BarChart extends PureComponent {
                 .x((value, _index) => _index === 0 ?
                     x(index) :
                     x(index) + x.bandwidth())
-                .defined(value => value)
+                .defined(value => typeof value === 'number')
                 ([ values[ index ], values[ index ] ]),
         }))
     }
@@ -151,6 +151,11 @@ class BarChart extends PureComponent {
         const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
 
         const areas = this.calcAreas(x, y)
+          .filter(area => (
+            area.bar !== null &&
+            area.bar !== undefined &&
+            area.path !== null
+          ))
 
         return (
             <View style={style}>
@@ -170,7 +175,7 @@ class BarChart extends PureComponent {
                                         key={index}
                                         {...svg}
                                         {...barSvg}
-                                        d={path || null}
+                                        d={path}
                                         animate={animate}
                                         animationDuration={animationDuration}
                                     />
