@@ -113,7 +113,7 @@ ProgressCircle.propTypes = {
 }
 
 ProgressCircle.defaultProps = {
-    progressColor: '#22B6B0',
+    progressColor: 'black',
     backgroundColor: '#ECECEC',
     strokeWidth: 5,
     startAngle: 0,
