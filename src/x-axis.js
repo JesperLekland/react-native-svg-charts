@@ -39,8 +39,6 @@ class XAxis extends PureComponent {
 
         if (scale === d3Scale.scaleBand) {
 
-            // use index as domain identifier instead of value since
-            // same value can occur at several places in dataPoints
             x
                 .paddingInner([ spacingInner ])
                 .paddingOuter([ spacingOuter ])
