@@ -21,8 +21,8 @@ class ProgressCircle extends PureComponent {
         const {
                   style,
                   progressColor,
-            backgroundColor,
-            strokeWidth,
+                  backgroundColor,
+                  strokeWidth,
                   startAngle,
                   endAngle,
                   animate,
