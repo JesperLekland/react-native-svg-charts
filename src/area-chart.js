@@ -1,11 +1,10 @@
-import React from 'react'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import Chart from './chart'
 
-class AreaChart extends React.PureComponent {
+class AreaChart extends Chart {
 
-    _createPaths = ({ data, x, y }) => {
+    createPaths({ data, x, y }) {
         const { curve, start } = this.props
 
         const area = shape.area()
@@ -28,15 +27,6 @@ class AreaChart extends React.PureComponent {
             area,
             line,
         }
-    }
-
-    render() {
-        return (
-            <Chart
-                createPaths={this._createPaths}
-                {...this.props}
-            />
-        )
     }
 }
 

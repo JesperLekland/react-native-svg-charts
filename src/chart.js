@@ -20,6 +20,10 @@ class Chart extends PureComponent {
         this.setState({ height, width })
     }
 
+    createPaths() {
+        throw 'Extending "Chart" requires you to override "createPaths'
+    }
+
     render() {
 
         const {
@@ -29,7 +33,6 @@ class Chart extends PureComponent {
             yScale,
             xScale,
             style,
-            createPaths,
             animate,
             animationDuration,
             showGrid,
@@ -75,7 +78,7 @@ class Chart extends PureComponent {
             .domain(xExtent)
             .range([ left, width - right ])
 
-        const paths = createPaths({
+        const paths = this.createPaths({
             data: mappedData,
             x,
             y,

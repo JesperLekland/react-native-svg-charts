@@ -21,6 +21,8 @@ class ProgressCircle extends PureComponent {
         const {
                   style,
                   progressColor,
+            backgroundColor,
+            strokeWidth,
                   startAngle,
                   endAngle,
                   animate,
@@ -39,20 +41,19 @@ class ProgressCircle extends PureComponent {
 
         const data = [
             {
+                key: 'rest',
+                value: 1 - progress,
+                color: backgroundColor,
+            },
+            {
                 key: 'progress',
                 value: progress,
                 color: progressColor,
-            },
-            {
-                key: 'rest',
-                value: 1 - progress,
-                color: '#ECECEC',
             },
         ]
 
         const pieSlices = shape
             .pie()
-            .sort(null)
             .startAngle(startAngle)
             .endAngle(endAngle)
             (data.map(d => d.value))
@@ -63,9 +64,9 @@ class ProgressCircle extends PureComponent {
                 ...slice,
                 path: shape.arc()
                     .outerRadius(outerDiameter / 2)  // Radius of the pie
-                    .innerRadius((outerDiameter / 2) - 5)  // Inner radius: to create a donut or pie
-                    .startAngle(slice.startAngle)
-                    .endAngle(slice.endAngle)
+                    .innerRadius((outerDiameter / 2) - strokeWidth)  // Inner radius: to create a donut or pie
+                    .startAngle(index === 0 ? startAngle : slice.startAngle)
+                    .endAngle(index === 0 ? endAngle : slice.endAngle)
                     .cornerRadius(45)
                     (),
             }
@@ -103,6 +104,8 @@ ProgressCircle.propTypes = {
     progress: PropTypes.number.isRequired,
     style: PropTypes.any,
     progressColor: PropTypes.any,
+    backgroundColor: PropTypes.any,
+    strokeWidth: PropTypes.number,
     startAngle: PropTypes.number,
     endAngle: PropTypes.number,
     animate: PropTypes.bool,
@@ -110,7 +113,9 @@ ProgressCircle.propTypes = {
 }
 
 ProgressCircle.defaultProps = {
-    progressColor: '#22B6B0',
+    progressColor: 'black',
+    backgroundColor: '#ECECEC',
+    strokeWidth: 5,
     startAngle: 0,
     endAngle: Math.PI * 2,
 }
