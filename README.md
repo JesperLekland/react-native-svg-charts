@@ -72,7 +72,7 @@ yarn storybook
 | data | **required** | An array of arbitrary data - use prop `xAccessor`/`yAccessor`to tell the chart about the data structure|
 | yAccessor | ({ item }) => item | A function that takes each entry of `data` (named "item") as well as the index and returns the y-value of that entry |
 | xAccessor | ({ index }) => index | Same as `yAccessor` but returns the x-value of that entry|
-| yScale | d3Scale.scaleLinear | A function that determines the scale of said axis (only tested with scaleLinear, scaleTime & scaleBand )| 
+| yScale | d3Scale.scaleLinear | A function that determines the scale of said axis (only tested with scaleLinear, scaleTime & scaleBand )|
 | xScale | d3Scale.scaleLinear | Same as `yScale` but for the x axis |
 | svg | `{}` | an object containing  all the props that should be passed down to the underlying `react-native-svg` component. [See available props](https://github.com/react-native-community/react-native-svg#common-props)|
 | animate | true | PropTypes.bool |
@@ -257,8 +257,9 @@ Also see [Common Props](#common-props)
 
 | Property | Default | Description |
 | --- | --- | --- |
-| data | **required** |  The data prop in a barChart can look exactly like in a Line- or AreaChart, i.e an array of just numbers or complex objects. It can however also be an array with several data sets. See [the examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples)|
+| data | **required** |  The data prop in a barChart can look exactly like in a Line- or AreaChart, i.e an array of just numbers or complex objects. It can however also be an array with several data sets. A data object can contain a `svg` property which allows you two override styles on that specific object. See [the examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples)|
 | horizontal | false | Boolean whether or not the bars should be horizontal |
+| svg | `{}` | Default svg props **for all bars**. Supports all svg props an svg path normally supports. This styles will be overriden if there are specific styles for a given data object  |
 | spacingInner | 0.05 | Spacing between the bars (or groups of bars) |
 | spacingOuter | 0.05 | Spacing outside of the bars (or groups of bars). Percentage of one bars width |
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
@@ -524,6 +525,8 @@ class YAxisExample extends React.PureComponent {
 | --- | --- | --- |
 | scale | `d3Scale.scaleLinear`| Should be the same as passed into the charts `yScale`, *or* d3Scale.scaleBand if used in conjunction with a horizontal BarChart |
 | svg | `{}` | supports all svg props an svg text normally supports |
+| spacingInner | 0.05 | Spacing between the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingInner` prop on the actual BarChart |
+| spacingOuter | 0.05 | Spacing outside of the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingOuter` prop on the actual BarChart  |
 | formatLabel | `value => {}` | A utility function to format the text before it is displayed, e.g `value => "$" + value |
 | contentInset | { top: 0, bottom: 0 } | Used to sync layout with chart (if same prop used there) |
 | min | undefined | Used to sync layout with chart (if gridMin is used there) |
@@ -580,11 +583,12 @@ class XAxisExample extends React.PureComponent {
 
 | Property | Default | Description |
 | --- | --- | --- |
-| values | **required** | An array of values to render on the xAxis. Should preferably have the same length as the chart's dataPoints. |
+| data | **required** | An array of values or objects to render on the xAxis. Should preferably have the same length as the chart's dataPoints. If a complex object is used instead of a simple value, a `xAccessor`  prop **is required** to calculate the axis' extent. A data object can contain a `svg` property which allows you to override styles on that specific object  |
 | scale | `d3Scale.scaleLinear`| Should be the same as passed into the charts `xScale` |
-| spacing | 0.05 | Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacing` prop on the actual BarChart.   |
-| svg | `{}` | supports all svg props an svg text normally supports |
-| formatLabel | `value => value` | A utility function to format the text before it is displayed, e.g `value => "day" + value. Passes back the value provided by the `xAccessor` |
+| spacingInner | 0.05 | Spacing between the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingInner` prop on the actual BarChart |
+| spacingOuter | 0.05 | Spacing between the labels. Only applicable if `scale=d3Scale.scaleBand` and should then be equal to `spacingOuter` prop on the actual BarChart |
+| svg | `{}` | Default svg props **for all labels**. Supports all svg props an svg text normally supports. This styles will be overriden if there are specific styles for a given data object  |
+| formatLabel | `value => value` | A utility function to format the text before it is displayed, e.g `value => "day" + value`. Passes back the value provided by the `xAccessor` |
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
 
 
@@ -630,8 +634,8 @@ There might be additional parameters sent to the `extras` functions as well, dep
 
 The `LineChart` passes the svg path data that rendered the line. (argument name `line`)
 
-The `AreaChart` passes both the area svg path as well as the 
-svg path for the line following the upper bounds of the area. 
+The `AreaChart` passes both the area svg path as well as the
+svg path for the line following the upper bounds of the area.
 (argument name `area` and `line` respectively)
 
 Take a look in the source code for additional details.
