@@ -141,29 +141,20 @@ class BarChart extends PureComponent {
         const {
             data,
             keys,
-            colors,
             order,
             offset,
-            spacingInner,
-            spacingOuter,
             animate,
             animationDuration,
             style,
             showGrid,
             renderGradient,
             numberOfTicks,
-            contentInset: {
-                top = 0,
-                bottom = 0,
-                left = 0,
-                right = 0,
-            },
             gridMax,
             gridMin,
             gridProps,
             renderDecorator,
             extras,
-            horizontal
+            horizontal,
         } = this.props
 
         const { height, width } = this.state
@@ -285,10 +276,10 @@ BarChart.defaultProps = {
     width: 100,
     height: 100,
     showZeroAxis: true,
-    contentInset: {},
+    contentInset: { },
     numberOfTicks: 10,
     showGrid: true,
-    extras: [],
+    extras: [ ],
     renderDecorator: () => {
     },
     renderExtra: () => {
