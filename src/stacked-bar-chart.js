@@ -152,7 +152,6 @@ class BarChart extends PureComponent {
             gridMax,
             gridMin,
             gridProps,
-            renderDecorator,
             extras,
             horizontal,
         } = this.props
@@ -223,15 +222,6 @@ class BarChart extends PureComponent {
                                 )
                             })
                         }
-                        { values.map((item, index) => renderDecorator(
-                            {
-                                item,
-                                x,
-                                y,
-                                index,
-                                bandwidth,
-                            }
-                        )) }
                         { extras.map((extra, index) => extra({ item: extra, x, y, index, width, height })) }
                     </Svg>
                 </View>
@@ -265,7 +255,7 @@ BarChart.propTypes = {
     gridMax: PropTypes.number,
     gridProps: PropTypes.object,
     extras: PropTypes.array,
-    renderExtra: PropTypes.func,
+    extra: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -280,9 +270,7 @@ BarChart.defaultProps = {
     numberOfTicks: 10,
     showGrid: true,
     extras: [ ],
-    renderDecorator: () => {
-    },
-    renderExtra: () => {
+    extra: () => {
     },
 }
 
