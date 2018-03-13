@@ -191,6 +191,8 @@ class BarChart extends PureComponent {
         const x = this.calcXScale(xDomain)
         const y = this.calcYScale(yDomain)
 
+        const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
+
         const areas = this.calcAreas(x, y, series)
 
         return (
@@ -230,7 +232,16 @@ class BarChart extends PureComponent {
                                 )
                             })
                         }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
+                        { values.map((item, index) => renderDecorator(
+                            {
+                                item,
+                                x,
+                                y,
+                                index,
+                                bandwidth,
+                            }
+                        )) }
+                        { extras.map((extra, index) => extra({ item: extra, x, y, index, width, height })) }
                     </Svg>
                 </View>
             </View>
