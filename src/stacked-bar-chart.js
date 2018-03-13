@@ -32,7 +32,7 @@ class BarChart extends PureComponent {
     }
 
     calcXScale(domain) {
-        const {data} = this.props
+        const { data } = this.props
 
         const {
             horizontal,
@@ -63,7 +63,7 @@ class BarChart extends PureComponent {
     }
 
     calcYScale(domain) {
-        const {data} = this.props
+        const { data } = this.props
         
         const {
             horizontal,
@@ -169,7 +169,7 @@ class BarChart extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={style} />
+            return <View style={ style } />
         }
 
         const series = shape.stack()
@@ -194,43 +194,43 @@ class BarChart extends PureComponent {
         const areas = this.calcAreas(x, y, series)
 
         return (
-            <View style={style}>
+            <View style={ style }>
                 <View
-                    style={{ flex: 1 }}
-                    onLayout={event => this._onLayout(event)}
+                    style={ { flex: 1 } }
+                    onLayout={ event => this._onLayout(event) }
                 >
-                    <Svg style={{ flex: 1 }}>
+                    <Svg style={ { flex: 1 } }>
                         {
                             showGrid &&
                             <Grid
-                                y={y}
-                                ticks={ticks}
-                                gridProps={gridProps}
+                                y={ y }
+                                ticks={ ticks }
+                                gridProps={ gridProps }
                             />
                         }
                         {
                             areas.map((bar, index) => {
                                 return (
-                                    <G key={index}>
+                                    <G key={ index }>
                                         <Defs>
                                             {
                                                 renderGradient && renderGradient({
-                                                    id: `gradient-${index}`,
+                                                    id: `gradient-${ index }`,
                                                     ...bar,
                                                 })
                                             }
                                         </Defs>
                                         <Path
-                                            fill={renderGradient ? `url(#gradient-${index})` : bar.color}
-                                            d={bar.path}
-                                            animate={animate}
-                                            animationDuration={animationDuration}
+                                            fill={ renderGradient ? `url(#gradient-${ index })` : bar.color }
+                                            d={ bar.path }
+                                            animate={ animate }
+                                            animationDuration={ animationDuration }
                                         />
                                     </G>
                                 )
                             })
                         }
-                        {extras.map((item, index) => renderExtra({ item, x, y, index, width, height }))}
+                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
                     </Svg>
                 </View>
             </View>
