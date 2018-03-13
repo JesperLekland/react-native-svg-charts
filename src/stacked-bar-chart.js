@@ -49,7 +49,7 @@ class BarChart extends PureComponent {
         if (horizontal) {
             return scale.scaleLinear()
                 .domain(domain)
-                .range([left, width - right])
+                .range([ left, width - right ])
         }
 
         // use index as domain identifier instead of value since
@@ -57,9 +57,9 @@ class BarChart extends PureComponent {
         // same value can occur at several places in data
         return scale.scaleBand()
             .domain(data.map((_, index) => index))
-            .range([left, width - right])
-            .paddingInner([spacingInner])
-            .paddingOuter([spacingOuter])
+            .range([ left, width - right ])
+            .paddingInner([ spacingInner ])
+            .paddingOuter([ spacingOuter ])
     }
 
     calcYScale(domain) {
@@ -80,34 +80,34 @@ class BarChart extends PureComponent {
         if (horizontal) {
             return scale.scaleBand()
                 .domain(data.map((_, index) => index))
-                .range([top, height - bottom])
-                .paddingInner([spacingInner])
-                .paddingOuter([spacingOuter])
+                .range([ top, height - bottom ])
+                .paddingInner([ spacingInner ])
+                .paddingOuter([ spacingOuter ])
         }
 
         return scale.scaleLinear()
             .domain(domain)
-            .range([height - bottom, top])
+            .range([ height - bottom, top ])
     }
 
     calcAreas(x, y, series) {
-        const { horizontal, data, colors } = this.props
+        const { horizontal, colors } = this.props
 
         if (horizontal) {
             return array.merge(series.map((serie, keyIndex) => {
                 return serie.map((entry, entryIndex) => {
                     const path = shape.area()
-                        .x0(d => x(d[0]))
-                        .x1(d => x(d[1]))
+                        .x0(d => x(d[ 0 ]))
+                        .x1(d => x(d[ 1 ]))
                         .y((d, _index) => _index === 0
                             ? y(entryIndex)
                             : y(entryIndex) + y.bandwidth())
-                        .defined(d => !isNaN(d[0]) && !isNaN(d[1]))
-                        ([entry, entry])
+                        .defined(d => !isNaN(d[ 0 ]) && !isNaN(d[ 1 ]))
+                        ([ entry, entry ])
     
                     return {
                         path,
-                        color: colors[keyIndex],
+                        color: colors[ keyIndex ],
                     }
                 })
             }))
@@ -116,17 +116,17 @@ class BarChart extends PureComponent {
         return array.merge(series.map((serie, keyIndex) => {
             return serie.map((entry, entryIndex) => {
                 const path = shape.area()
-                    .y0(d => y(d[0]))
-                    .y1(d => y(d[1]))
+                    .y0(d => y(d[ 0 ]))
+                    .y1(d => y(d[ 1 ]))
                     .x((d, _index) => _index === 0
                         ? x(entryIndex)
                         : x(entryIndex) + x.bandwidth())
-                    .defined(d => !isNaN(d[0]) && !isNaN(d[1]))
-                    ([entry, entry])
+                    .defined(d => !isNaN(d[ 0 ]) && !isNaN(d[ 1 ]))
+                    ([ entry, entry ])
 
                 return {
                     path,
-                    color: colors[keyIndex],
+                    color: colors[ keyIndex ],
                 }
             })
         }))
@@ -182,8 +182,8 @@ class BarChart extends PureComponent {
         const values = array.merge(array.merge(series))
         const indexes = values.map((_, index) => index)
 
-        const extent = array.extent([...values, gridMin, gridMax])
-        const ticks = array.ticks(extent[0], extent[1], numberOfTicks)
+        const extent = array.extent([ ...values, gridMin, gridMax ])
+        const ticks = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
         const xDomain = horizontal ? extent : indexes
         const yDomain = horizontal ? indexes : extent
