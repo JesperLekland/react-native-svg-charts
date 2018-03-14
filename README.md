@@ -270,6 +270,7 @@ The same as the [StackedAreaChart](#stackedareachart) except with bars.
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
 
 ![Stacked bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack.png)
+![Stacked bar chart - horizontal](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack-horizontal.png)
 
 #### Example
 
