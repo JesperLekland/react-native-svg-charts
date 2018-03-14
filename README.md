@@ -342,7 +342,7 @@ class StackedBarChartExample extends React.PureComponent {
 | order | [d3.stackOrderNone](https://github.com/d3/d3-shape#stackOrderNone) | The order in which to sort the areas |
 | offset | [d3.stackOffsetNone](https://github.com/d3/d3-shape#stackOffsetNone) | A function to determine the offset of the areas |
 
-*Note:* `renderDecorator` is not yet supported for this chart type.
+*Note:* `renderDecorator` is not supported for this chart type.
 
 Also see [Common Props](#common-props)
 
