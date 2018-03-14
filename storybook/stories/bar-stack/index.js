@@ -2,9 +2,7 @@ import React from 'react'
 import StackedBartChart from '../../../src/stacked-bar-chart'
 
 class StackedBarChartExample extends React.PureComponent {
-
     render() {
-
         const data = [
             {
                 month: new Date(2015, 0, 1),
@@ -38,21 +36,20 @@ class StackedBarChartExample extends React.PureComponent {
         ]
 
         const colors = [ '#8800cc', '#aa00ff', '#cc66ff', '#eeccff' ]
-        const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
+        const keys = [ 'apples', 'bananas', 'cherries', 'dates' ]
 
         return (
             <StackedBartChart
-                style={ { height: 200 } }
-                keys={ keys }
-                colors={ colors }
-                data={ data }
-                showGrid={ false }
-                contentInset={ { top: 30, bottom: 30 } }
-                { ...this.props }
+                style={{ height: 200 }}
+                keys={keys}
+                colors={colors}
+                data={data}
+                showGrid={false}
+                contentInset={{ top: 30, bottom: 30 }}
+                {...this.props}
             />
         )
     }
-
 }
 
 export default StackedBarChartExample
