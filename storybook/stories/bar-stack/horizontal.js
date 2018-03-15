@@ -1,5 +1,5 @@
 import React from 'react'
-import StackedBartChart from '../../../src/stacked-bar-chart'
+import StackedBartChart from 'react-native-svg-charts'
 
 class StackedBarChartExample extends React.PureComponent {
     render() {
@@ -35,20 +35,20 @@ class StackedBarChartExample extends React.PureComponent {
             },
         ]
 
-        const colors = [ '#8800cc', '#aa00ff', '#cc66ff', '#eeccff' ]
-        const keys = [ 'apples', 'bananas', 'cherries', 'dates' ]
+        const colors = ['#8800cc', '#aa00ff', '#cc66ff', '#eeccff']
+        const keys = ['apples', 'bananas', 'cherries', 'dates']
 
         return (
-      <StackedBartChart
-        style={{ height: 200 }}
-        keys={keys}
-        colors={colors}
-        data={data}
-        showGrid={false}
-        contentInset={{ top: 30, bottom: 30 }}
-        horizontal={true}
-        {...this.props}
-      />
+            <StackedBartChart
+                style={ { height: 200 } }
+                keys={ keys }
+                colors={ colors }
+                data={ data }
+                showGrid={ false }
+                contentInset={ { top: 30, bottom: 30 } }
+                horizontal={ true }
+                { ...this.props }
+            />
         )
     }
 }

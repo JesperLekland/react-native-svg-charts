@@ -1,46 +1,42 @@
 {
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended"
-  ],
-  "plugins": [
-    "react",
-    "react-native"
-  ],
-  "parser": "babel-eslint",
-  "parserOptions": {
-    "ecmaVersion": 6,
-    "sourceType": "module",
-    "ecmaFeatures": {
-      "classes": true,
-      "jsx": true,
-      "modules": true,
-      "experimentalObjectRestSpread": true
+    "extends": ["eslint:recommended", "plugin:react/recommended"],
+    "plugins": ["react", "react-native"],
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "classes": true,
+            "jsx": true,
+            "modules": true,
+            "experimentalObjectRestSpread": true
+        }
+    },
+    "globals": {
+        "Promise": true,
+        "__DEV__": true
+    },
+    "env": {
+        "jasmine": true,
+        "node": true,
+        "browser": true
+    },
+    "rules": {
+        "no-multiple-empty-lines": ["error", { "max": 1 }],
+        "react/prop-types": [0],
+        "react/jsx-curly-spacing": ["error", { "when": "always" }],
+        "react/jsx-tag-spacing": ["error", { "beforeSelfClosing": "never" }],
+        "indent": ["error", 4, { "SwitchCase": 1 }],
+        "object-curly-spacing": ["error", "always"],
+        "array-bracket-spacing": ["error", "never"],
+        "comma-dangle": ["error", "always-multiline"],
+        "no-console": "off",
+        "semi": ["error", "never"],
+        "quotes": ["error", "single", { "allowTemplateLiterals": true }],
+        "eol-last": ["error", "always"],
+        "react/display-name": 0,
+        "no-unexpected-multiline": "off",
+        "max-len": ["error", 120, { "ignoreStrings": true, "ignoreTemplateLiterals": true }],
+        "space-infix-ops": "error"
     }
-  },
-  "globals": {
-    "Promise": true,
-    "__DEV__": true
-  },
-  "env": {
-    "jasmine": true,
-    "node": true,
-    "browser": true
-  },
-  "rules": {
-    "no-multiple-empty-lines": [ "error", { "max": 1 } ],
-    "react/prop-types": [ 0 ],
-    "indent": [ "error", 4, { "SwitchCase": 1 } ],
-    "object-curly-spacing": [ "error", "always" ],
-    "array-bracket-spacing": [ "error", "always" ],
-    "comma-dangle": [ "error", "always-multiline" ],
-    "no-console": "off",
-    "semi": [ "error", "never" ],
-    "quotes": [ "error", "single", { "allowTemplateLiterals": true } ],
-    "eol-last": [ "error", "always" ],
-    "react/display-name": 0,
-    "no-unexpected-multiline": "off",
-    "max-len": [ "error", 120, { "ignoreStrings": true, "ignoreTemplateLiterals": true } ],
-    "space-infix-ops": "error"
-  }
 }

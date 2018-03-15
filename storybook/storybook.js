@@ -17,7 +17,7 @@ const StorybookUIRoot = getStorybookUI({ port: 7008, onDeviceUI: true })
 // eslint-disable-next-line react/prefer-stateless-function
 class StorybookUIHMRRoot extends Component {
     render() {
-        return <StorybookUIRoot />
+        return <StorybookUIRoot/>
     }
 }
 
