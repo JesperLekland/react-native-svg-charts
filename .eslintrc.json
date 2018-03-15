@@ -24,7 +24,7 @@
     "rules": {
         "no-multiple-empty-lines": ["error", { "max": 1 }],
         "react/prop-types": [0],
-        "react/jsx-curly-spacing": ["error", { "when": "always" }],
+        "react/jsx-curly-spacing": ["error", { "when": "always", "children": true }],
         "react/jsx-tag-spacing": ["error", { "beforeSelfClosing": "never" }],
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "object-curly-spacing": ["error", "always"],
