@@ -41,7 +41,7 @@ class BarChart extends PureComponent {
             return scale
                 .scaleLinear()
                 .domain(domain)
-                .range([left, width - right])
+                .range([ left, width - right ])
         }
 
         // use index as domain identifier instead of value since
@@ -50,9 +50,9 @@ class BarChart extends PureComponent {
         return scale
             .scaleBand()
             .domain(data.map((_, index) => index))
-            .range([left, width - right])
-            .paddingInner([spacingInner])
-            .paddingOuter([spacingOuter])
+            .range([ left, width - right ])
+            .paddingInner([ spacingInner ])
+            .paddingOuter([ spacingOuter ])
     }
 
     calcYScale(domain) {
@@ -66,15 +66,15 @@ class BarChart extends PureComponent {
             return scale
                 .scaleBand()
                 .domain(data.map((_, index) => index))
-                .range([top, height - bottom])
-                .paddingInner([spacingInner])
-                .paddingOuter([spacingOuter])
+                .range([ top, height - bottom ])
+                .paddingInner([ spacingInner ])
+                .paddingOuter([ spacingOuter ])
         }
 
         return scale
             .scaleLinear()
             .domain(domain)
-            .range([height - bottom, top])
+            .range([ height - bottom, top ])
     }
 
     calcAreas(x, y, series) {
@@ -89,7 +89,7 @@ class BarChart extends PureComponent {
                             .x0(d => x(d[0]))
                             .x1(d => x(d[1]))
                             .y((d, _index) => (_index === 0 ? y(entryIndex) : y(entryIndex) + y.bandwidth()))
-                            .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([entry, entry])
+                            .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
 
                         return {
                             path,
@@ -108,7 +108,7 @@ class BarChart extends PureComponent {
                         .y0(d => y(d[0]))
                         .y1(d => y(d[1]))
                         .x((d, _index) => (_index === 0 ? x(entryIndex) : x(entryIndex) + x.bandwidth()))
-                        .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([entry, entry])
+                        .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
 
                     return {
                         path,
@@ -146,7 +146,7 @@ class BarChart extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={ style }/>
+            return <View style={style} />
         }
 
         const series = shape
@@ -159,7 +159,7 @@ class BarChart extends PureComponent {
         const values = array.merge(array.merge(series))
         const indexes = values.map((_, index) => index)
 
-        const extent = array.extent([...values, gridMin, gridMax])
+        const extent = array.extent([ ...values, gridMin, gridMax ])
         const ticks = array.ticks(extent[0], extent[1], numberOfTicks)
 
         const xDomain = horizontal ? extent : indexes
@@ -171,13 +171,13 @@ class BarChart extends PureComponent {
         const areas = this.calcAreas(x, y, series)
 
         return (
-            <View style={ style }>
-                <View style={ { flex: 1 } } onLayout={ event => this._onLayout(event) }>
-                    <Svg style={ { flex: 1 } }>
-                        {showGrid && <Grid y={ y } ticks={ ticks } gridProps={ gridProps }/>}
+            <View style={style}>
+                <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
+                    <Svg style={{ flex: 1 }}>
+                        {showGrid && <Grid y={y} ticks={ticks} gridProps={gridProps} />}
                         {areas.map((bar, index) => {
                             return (
-                                <G key={ index }>
+                                <G key={index}>
                                     <Defs>
                                         {renderGradient &&
                                             renderGradient({
@@ -186,10 +186,10 @@ class BarChart extends PureComponent {
                                             })}
                                     </Defs>
                                     <Path
-                                        fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
-                                        d={ bar.path }
-                                        animate={ animate }
-                                        animationDuration={ animationDuration }
+                                        fill={renderGradient ? `url(#gradient-${index})` : bar.color}
+                                        d={bar.path}
+                                        animate={animate}
+                                        animationDuration={animationDuration}
                                     />
                                 </G>
                             )
