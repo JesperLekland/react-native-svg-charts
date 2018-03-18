@@ -11,9 +11,12 @@ class YAxis extends PureComponent {
         height: 0,
     }
 
-    _onLayout(event) {
+    _onLayout = (event) => {
+        const { onLayout } = this.props
         const { nativeEvent: { layout: { height } } } = event
         this.setState({ height })
+
+        onLayout && onLayout(event)
     }
 
     getY(domain) {
@@ -87,22 +90,21 @@ class YAxis extends PureComponent {
             .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
 
         return (
-            <View style={ [ style ] }>
-                <View
-                    style={{ flexGrow: 1 }}
-                    onLayout={ event => this._onLayout(event) }
+            <View
+                style={ style }
+                onLayout={ this._onLayout }
+            >
+                {/*invisible text to allow for parent resizing*/}
+                <Text
+                    style={{ color: 'transparent', fontSize: svg.fontSize }}
                 >
-                    {/*invisible text to allow for parent resizing*/}
-                    <Text
-                        style={{ color: 'transparent', fontSize: svg.fontSize }}
-                    >
-                        {longestValue}
-                    </Text>
-                    <Svg style={ StyleSheet.absoluteFill }>
-                        {
-                            // don't render labels if width isn't measured yet,
-                            // causes rendering issues
-                            height > 0 &&
+                    {longestValue}
+                </Text>
+                <Svg style={ StyleSheet.absoluteFill }>
+                    {
+                        // don't render labels if width isn't measured yet,
+                        // causes rendering issues
+                        height > 0 &&
                             ticks.map((value, index) => {
                                 return (
                                     <SVGText
@@ -118,9 +120,8 @@ class YAxis extends PureComponent {
                                     </SVGText>
                                 )
                             })
-                        }
-                    </Svg>
-                </View>
+                    }
+                </Svg>
             </View>
         )
     }

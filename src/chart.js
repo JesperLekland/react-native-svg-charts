@@ -15,9 +15,12 @@ class Chart extends PureComponent {
         height: 0,
     }
 
-    _onLayout(event) {
+    _onLayout = (event) => {
+        const { onLayout } = this.props
         const { nativeEvent: { layout: { height, width } } } = event
         this.setState({ height, width })
+
+        onLayout && onLayout(event)
     }
 
     createPaths() {
@@ -95,21 +98,19 @@ class Chart extends PureComponent {
         }
 
         return (
-            <View style={ style }>
-                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    <Svg style={{ flex: 1 }}>
-                        {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
-                        <Path
-                            fill={ 'none' }
-                            { ...svg }
-                            d={ paths.path }
-                            animate={ animate }
-                            animationDuration={ animationDuration }
-                        />
-                        {data.map((value, index) => renderDecorator({ x, y, value, index }))}
-                        {extras.map((item, index) => item({ ...extraData, index }))}
-                    </Svg>
-                </View>
+            <View style={ style } onLayout={ this._onLayout } >
+                <Svg style={{ flex: 1 }}>
+                    {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
+                    <Path
+                        fill={ 'none' }
+                        { ...svg }
+                        d={ paths.path }
+                        animate={ animate }
+                        animationDuration={ animationDuration }
+                    />
+                    {data.map((value, index) => renderDecorator({ x, y, value, index }))}
+                    {extras.map((item, index) => item({ ...extraData, index }))}
+                </Svg>
             </View>
         )
     }

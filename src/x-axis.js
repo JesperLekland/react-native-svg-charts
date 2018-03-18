@@ -12,12 +12,15 @@ class XAxis extends PureComponent {
         height: 0,
     }
 
-    _onLayout(event) {
+    _onLayout = (event) => {
+        const { onLayout } = this.props
         const { nativeEvent: { layout: { width } } } = event
 
         if (width !== this.state.width) {
             this.setState({ width })
         }
+
+        onLayout && onLayout(event)
     }
 
     _getX(domain) {
@@ -79,7 +82,7 @@ class XAxis extends PureComponent {
             <View style={ style }>
                 <View
                     style={{ flexGrow: 1 }}
-                    onLayout={ event => this._onLayout(event) }
+                    onLayout={ this._onLayout }
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
