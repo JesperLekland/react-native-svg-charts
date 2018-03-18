@@ -50,7 +50,6 @@ class AreaStackWithAxisExample extends React.PureComponent {
                     keys={ keys }
                     colors={ colors }
                     curve={ shape.curveNatural }
-                    { ...this.props }
                 />
                 <YAxis
                     style={ { position: 'absolute', top: 0, bottom: 0 }}

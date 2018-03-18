@@ -46,7 +46,6 @@ class StackedBarChartExample extends React.PureComponent {
                 data={data}
                 showGrid={false}
                 contentInset={{ top: 30, bottom: 30 }}
-                {...this.props}
             />
         )
     }

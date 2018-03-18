@@ -31,7 +31,6 @@ class GroupedBarChartExample extends React.PureComponent {
                     fill: 'green',
                 }}
                 contentInset={ { top: 30, bottom: 30 } }
-                { ...this.props }
             />
         )
     }
