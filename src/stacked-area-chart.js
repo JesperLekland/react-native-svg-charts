@@ -102,6 +102,13 @@ class AreaStack extends PureComponent {
             }
         })
 
+        const extraData = {
+            x,
+            y,
+            width,
+            height,
+        }
+
         return (
             <View style={ style }>
                 <View
@@ -144,7 +151,7 @@ class AreaStack extends PureComponent {
                                 return renderDecorator({ x, y, index, value: serie[ index ][ 1 ] })
                             })
                         }) }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
+                        { extras.map((item, index) => item({ ...extraData, index })) }
                     </Svg>
                 </View>
             </View>
