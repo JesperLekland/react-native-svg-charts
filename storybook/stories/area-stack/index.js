@@ -42,7 +42,7 @@ class AreaStackChartExample extends React.PureComponent {
 
         return (
             <StackedAreaChart
-                style={ { height: 200, paddingVertical: 16 } }
+                style={{ height: 200, paddingVertical: 16 }}
                 data={ data }
                 keys={ keys }
                 colors={ colors }

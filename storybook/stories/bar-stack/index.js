@@ -41,10 +41,10 @@ class StackedBarChartExample extends React.PureComponent {
         return (
             <StackedBarChart
                 style={{ height: 200 }}
-                keys={keys}
-                colors={colors}
-                data={data}
-                showGrid={false}
+                keys={ keys }
+                colors={ colors }
+                data={ data }
+                showGrid={ false }
                 contentInset={{ top: 30, bottom: 30 }}
             />
         )

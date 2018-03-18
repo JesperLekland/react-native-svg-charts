@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 
 const ShowcaseContainer = ({ children }) => (
-    <View style={ {
+    <View style={{
         margin: 16,
         paddingHorizontal: 16,
         backgroundColor: 'white',
@@ -13,7 +13,7 @@ const ShowcaseContainer = ({ children }) => (
         elevation: 4,
         shadowColor: 'black',
         shadowOpacity: 0.5,
-    } }>
+    }}>
         { children }
     </View>
 )

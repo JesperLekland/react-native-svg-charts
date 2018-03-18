@@ -17,7 +17,7 @@ class Card extends React.PureComponent {
         const { style, children } = this.props
 
         return (
-            <View style={[ styles.container, style ]}>
+            <View style={ [ styles.container, style ] }>
                 {
                     hasError ?
                         <Text>{'Something went wrong'}</Text> :

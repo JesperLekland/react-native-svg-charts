@@ -32,7 +32,10 @@
         "react/prop-types": [0],
         "indent": ["error", 4, { "SwitchCase": 1 }],
         "object-curly-spacing": ["error", "always"],
-        "array-bracket-spacing": ["error", "always"],
+        "array-bracket-spacing": ["error", "always", {
+          "objectsInArrays": false,
+          "arraysInArrays": false
+        }],
         "comma-dangle": ["error", "always-multiline"],
         "no-console": "off",
         "semi": ["error", "never"],
@@ -41,6 +44,9 @@
         "react/display-name": 0,
         "no-unexpected-multiline": "off",
         "max-len": ["error", 120, { "ignoreStrings": true, "ignoreTemplateLiterals": true }],
-        "space-infix-ops": "error"
+        "space-infix-ops": "error",
+        "react/jsx-curly-spacing": [2, {"when": "always", "spacing": {
+          "objectLiterals": "never"
+        }}]
     }
 }

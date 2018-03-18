@@ -22,7 +22,7 @@ class PieChartExample extends React.PureComponent {
 
         return (
             <PieChart
-                style={ { height: 200 } }
+                style={{ height: 200 }}
                 data={ pieData }
             />
         )

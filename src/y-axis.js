@@ -67,7 +67,7 @@ class YAxis extends PureComponent {
         const { height } = this.state
 
         if (data.length === 0) {
-            return <View style={style}/>
+            return <View style={ style }/>
         }
 
         const values = data.map((item, index) => yAccessor({ item, index }))
@@ -87,10 +87,10 @@ class YAxis extends PureComponent {
             .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
 
         return (
-            <View style={[ style ]}>
+            <View style={ [ style ] }>
                 <View
                     style={{ flexGrow: 1 }}
-                    onLayout={event => this._onLayout(event)}
+                    onLayout={ event => this._onLayout(event) }
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text
@@ -98,7 +98,7 @@ class YAxis extends PureComponent {
                     >
                         {longestValue}
                     </Text>
-                    <Svg style={StyleSheet.absoluteFill}>
+                    <Svg style={ StyleSheet.absoluteFill }>
                         {
                             // don't render labels if width isn't measured yet,
                             // causes rendering issues
@@ -106,13 +106,13 @@ class YAxis extends PureComponent {
                             ticks.map((value, index) => {
                                 return (
                                     <SVGText
-                                        originY={y(value)}
-                                        textAnchor={'middle'}
-                                        x={'50%'}
-                                        alignmentBaseline={'middle'}
-                                        {...svg}
-                                        key={index}
-                                        y={y(value)}
+                                        originY={ y(value) }
+                                        textAnchor={ 'middle' }
+                                        x={ '50%' }
+                                        alignmentBaseline={ 'middle' }
+                                        { ...svg }
+                                        key={ index }
+                                        y={ y(value) }
                                     >
                                         {formatLabel(value, index)}
                                     </SVGText>

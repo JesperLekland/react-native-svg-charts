@@ -47,10 +47,10 @@ class BarChartExample extends React.PureComponent {
         ]
 
         const Gradient = () => (
-            <Defs key={'gradient'}>
-                <LinearGradient id={'gradient'} x1={'0'} y={'0%'} x2={'100%'} y2={'0%'}>
-                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'}/>
-                    <Stop offset={'100%'} stopColor={'rgb(66, 194, 244)'}/>
+            <Defs key={ 'gradient' }>
+                <LinearGradient id={ 'gradient' } x1={ '0' } y={ '0%' } x2={ '100%' } y2={ '0%' }>
+                    <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' }/>
+                    <Stop offset={ '100%' } stopColor={ 'rgb(66, 194, 244)' }/>
                 </LinearGradient>
             </Defs>
         )
@@ -58,16 +58,16 @@ class BarChartExample extends React.PureComponent {
         return (
             <View style={{ flexDirection: 'row', height: 500, paddingVertical: 16 }}>
                 <YAxis
-                    data={data}
-                    yAccessor={({ index }) => index}
-                    scale={scale.scaleBand}
+                    data={ data }
+                    yAccessor={ ({ index }) => index }
+                    scale={ scale.scaleBand }
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacingInner={0.2}
-                    formatLabel={(_, index) => data[ index ].label}
+                    spacingInner={ 0.2 }
+                    formatLabel={ (_, index) => data[ index ].label }
                 />
                 <BarChart
                     style={{ flex: 1, marginLeft: 8 }}
-                    data={[
+                    data={ [
                         {
                             data,
                             svg: { fill: 'orange' },
@@ -77,17 +77,17 @@ class BarChartExample extends React.PureComponent {
                             svg: { fill: 'red' },
                         },
                         { data },
-                    ]}
-                    yAccessor={({ item }) => item.value}
+                    ] }
+                    yAccessor={ ({ item }) => item.value }
                     svg={{
                         fill: 'blue',
                     }}
-                    horizontal={true}
-                    extras={[ Gradient ]}
+                    horizontal={ true }
+                    extras={ [ Gradient ] }
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacingInner={0.2}
-                    gridMin={0}
-                    renderGrid={Grid.Vertical}
+                    spacingInner={ 0.2 }
+                    gridMin={ 0 }
+                    renderGrid={ Grid.Vertical }
                 />
             </View>
         )

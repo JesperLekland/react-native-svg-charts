@@ -19,15 +19,15 @@ class ProgressCircle extends PureComponent {
 
     render() {
         const {
-                  style,
-                  progressColor,
-                  backgroundColor,
-                  strokeWidth,
-                  startAngle,
-                  endAngle,
-                  animate,
-                  animateDuration,
-              } = this.props
+            style,
+            progressColor,
+            backgroundColor,
+            strokeWidth,
+            startAngle,
+            endAngle,
+            animate,
+            animateDuration,
+        } = this.props
 
         let { progress } = this.props
 
@@ -74,22 +74,22 @@ class ProgressCircle extends PureComponent {
 
         return (
             <View
-                style={style}
-                onLayout={event => this._onLayout(event)}
+                style={ style }
+                onLayout={ event => this._onLayout(event) }
             >
                 <Svg style={{ flex: 1 }}>
                     <G
-                        x={width / 2}
-                        y={height / 2}
+                        x={ width / 2 }
+                        y={ height / 2 }
                     >
                         {arcs.map((shape, index) => {
                             return (
                                 <Path
-                                    key={index}
-                                    fill={shape.color}
-                                    d={shape.path}
-                                    animate={animate}
-                                    animationDuration={animateDuration}
+                                    key={ index }
+                                    fill={ shape.color }
+                                    d={ shape.path }
+                                    animate={ animate }
+                                    animationDuration={ animateDuration }
                                 />
                             )
                         })}

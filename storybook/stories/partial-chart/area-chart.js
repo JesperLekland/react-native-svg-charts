@@ -9,61 +9,61 @@ class PartialAreaChartExample extends React.PureComponent {
         const indexToClipFrom = 10
 
         const Gradient = () => (
-            <Defs key={'defs'}>
-                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
-                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8}/>
-                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2}/>
+            <Defs key={ 'defs' }>
+                <LinearGradient id={ 'gradient' } x1={ '0%' } y={ '0%' } x2={ '0%' } y2={ '100%' }>
+                    <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.8 }/>
+                    <Stop offset={ '100%' } stopColor={ 'rgb(134, 65, 244)' } stopOpacity={ 0.2 }/>
                 </LinearGradient>
             </Defs>
         )
 
         const Clips = ({ x, width }) => (
-            <Defs key={'clips'}>
-                <ClipPath id={'clip-path-1'} key={'0'}>
-                    <Rect x={0} y={'0'} width={x(indexToClipFrom)} height={'100%'}/>
+            <Defs key={ 'clips' }>
+                <ClipPath id={ 'clip-path-1' } key={ '0' }>
+                    <Rect x={ 0 } y={ '0' } width={ x(indexToClipFrom) } height={ '100%' }/>
                 </ClipPath>
-                <ClipPath id="clip-path-2" key={'1'}>
-                    <Rect x={x(indexToClipFrom)} y={'0'} width={width - x(indexToClipFrom)} height={'100%'}/>
+                <ClipPath id="clip-path-2" key={ '1' }>
+                    <Rect x={ x(indexToClipFrom) } y={ '0' } width={ width - x(indexToClipFrom) } height={ '100%' }/>
                 </ClipPath>
             </Defs>
         )
 
         const Line = ({ line }) => (
             <Path
-                key={'line'}
-                d={line}
-                stroke={'green'}
-                fill={'none'}
-                clipPath={'url(#clip-path-1)'}
+                key={ 'line' }
+                d={ line }
+                stroke={ 'green' }
+                fill={ 'none' }
+                clipPath={ 'url(#clip-path-1)' }
             />
         )
 
         const DashedLine = ({ line }) => (
             <Path
-                key={'dashed-line'}
-                stroke={'green'}
-                d={line}
-                fill={'none'}
-                clipPath={'url(#clip-path-2)'}
-                strokeDasharray={[ 4, 4 ]}
+                key={ 'dashed-line' }
+                stroke={ 'green' }
+                d={ line }
+                fill={ 'none' }
+                clipPath={ 'url(#clip-path-2)' }
+                strokeDasharray={ [ 4, 4 ] }
             />
         )
 
         return (
             <AreaChart
                 style={{ height: 200 }}
-                data={data}
+                data={ data }
                 contentInset={{ top: 30, bottom: 30 }}
                 svg={{
                     fill: 'url(#gradient)',
                     clipPath: 'url(#clip-path-1)',
                 }}
-                extras={[
+                extras={ [
                     Gradient,
                     Clips,
                     Line,
                     DashedLine,
-                ]}
+                ] }
             />
         )
     }

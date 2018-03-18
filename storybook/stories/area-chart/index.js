@@ -10,10 +10,10 @@ class AreaChartExample extends React.PureComponent {
 
         return (
             <AreaChart
-                style={ { height: 200 } }
+                style={{ height: 200 }}
                 data={ data }
-                contentInset={ { top: 30, bottom: 30 } }
-                curve={shape.curveNatural}
+                contentInset={{ top: 30, bottom: 30 }}
+                curve={ shape.curveNatural }
                 svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
             />
         )

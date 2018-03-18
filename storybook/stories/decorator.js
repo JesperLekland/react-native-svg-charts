@@ -10,10 +10,10 @@ class DecoratorExample extends React.PureComponent {
 
         return (
             <AreaChart
-                style={ { height: 200 } }
+                style={{ height: 200 }}
                 data={ data }
-                svg={ { fill: 'rgba(134, 65, 244, 0.2)' } }
-                contentInset={ { top: 20, bottom: 30 } }
+                svg={{ fill: 'rgba(134, 65, 244, 0.2)' }}
+                contentInset={{ top: 20, bottom: 30 }}
                 renderDecorator={ ({ x, y, index, value }) => (
                     <Circle
                         key={ index }

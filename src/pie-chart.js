@@ -29,19 +29,19 @@ class PieChart extends PureComponent {
 
     render() {
         const {
-                  data,
-                  dataPoints,
-                  innerRadius,
-                  outerRadius,
-                  labelRadius,
-                  padAngle,
-                  animate,
-                  animationDuration,
-                  style,
-                  renderDecorator,
-                  sort,
+            data,
+            dataPoints,
+            innerRadius,
+            outerRadius,
+            labelRadius,
+            padAngle,
+            animate,
+            animationDuration,
+            style,
+            renderDecorator,
+            sort,
             valueAccessor,
-              } = this.props
+        } = this.props
 
         const { height, width } = this.state
 
@@ -104,23 +104,23 @@ class PieChart extends PureComponent {
             (data)
 
         return (
-            <View style={style}>
+            <View style={ style }>
                 <View
                     style={{ flex: 1 }}
-                    onLayout={event => this._onLayout(event)}
+                    onLayout={ event => this._onLayout(event) }
                 >
                     <Svg style={{ flex: 1 }}>
-                        <G x={width / 2} y={height / 2}>
+                        <G x={ width / 2 } y={ height / 2 }>
                             { pieSlices.map((slice, index) => {
                                 const { key, onPress, svg } = data[ index ]
                                 return (
                                     <Path
-                                        key={key}
-                                        onPress={onPress}
-                                        {...svg}
-                                        d={arcs[ index ](slice)}
-                                        animate={animate}
-                                        animationDuration={animationDuration}
+                                        key={ key }
+                                        onPress={ onPress }
+                                        { ...svg }
+                                        d={ arcs[ index ](slice) }
+                                        animate={ animate }
+                                        animationDuration={ animationDuration }
                                     />
                                 )
                             })}

@@ -42,27 +42,27 @@ class AreaStackWithAxisExample extends React.PureComponent {
         const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
 
         return (
-            <View style={ { flexDirection: 'row', height: 200 } }>
+            <View style={{ flexDirection: 'row', height: 200 }}>
                 <StackedAreaChart
-                    style={ { flex: 1 } }
-                    contentInset={ { top: 10, bottom: 10 } }
+                    style={{ flex: 1 }}
+                    contentInset={{ top: 10, bottom: 10 }}
                     data={ data }
                     keys={ keys }
                     colors={ colors }
                     curve={ shape.curveNatural }
                 />
                 <YAxis
-                    style={ { position: 'absolute', top: 0, bottom: 0 }}
+                    style={{ position: 'absolute', top: 0, bottom: 0 }}
                     data={ StackedAreaChart.extractDataPoints(data, keys) }
-                    contentInset={ { top: 10, bottom: 10 } }
-                    svg={ {
+                    contentInset={{ top: 10, bottom: 10 }}
+                    svg={{
                         fontSize: 8,
                         fill: 'white',
                         stroke: 'black',
                         strokeWidth: 0.1,
                         alignmentBaseline: 'baseline',
                         baselineShift: '3',
-                    } }
+                    }}
                 />
             </View>
         )

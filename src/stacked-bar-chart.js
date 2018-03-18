@@ -146,7 +146,7 @@ class BarChart extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={style} />
+            return <View style={ style } />
         }
 
         const series = shape
@@ -171,13 +171,13 @@ class BarChart extends PureComponent {
         const areas = this.calcAreas(x, y, series)
 
         return (
-            <View style={style}>
-                <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
+            <View style={ style }>
+                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
                     <Svg style={{ flex: 1 }}>
-                        {showGrid && <Grid y={y} ticks={ticks} gridProps={gridProps} />}
+                        {showGrid && <Grid y={ y } ticks={ ticks } gridProps={ gridProps } />}
                         {areas.map((bar, index) => {
                             return (
-                                <G key={index}>
+                                <G key={ index }>
                                     <Defs>
                                         {renderGradient &&
                                             renderGradient({
@@ -186,10 +186,10 @@ class BarChart extends PureComponent {
                                             })}
                                     </Defs>
                                     <Path
-                                        fill={renderGradient ? `url(#gradient-${index})` : bar.color}
-                                        d={bar.path}
-                                        animate={animate}
-                                        animationDuration={animationDuration}
+                                        fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
+                                        d={ bar.path }
+                                        animate={ animate }
+                                        animationDuration={ animationDuration }
                                     />
                                 </G>
                             )

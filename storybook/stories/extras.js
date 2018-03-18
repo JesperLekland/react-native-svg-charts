@@ -43,8 +43,8 @@ class ExtrasExample extends React.PureComponent {
                     />
                     <Text
                         x={ 75 / 2 }
-                        dy={20}
-                        alignmentBaseline={'middle'}
+                        dy={ 20 }
+                        alignmentBaseline={ 'middle' }
                         textAnchor={ 'middle' }
                         stroke={ 'rgb(134, 65, 244)' }
                     >
@@ -62,7 +62,7 @@ class ExtrasExample extends React.PureComponent {
                         cy={ y(data[ 5 ]) }
                         r={ 6 }
                         stroke={ 'rgb(134, 65, 244)' }
-                        strokeWidth={2}
+                        strokeWidth={ 2 }
                         fill={ 'white' }
                     />
                 </G>
@@ -71,13 +71,13 @@ class ExtrasExample extends React.PureComponent {
 
         return (
             <LineChart
-                style={ { height: 200 } }
+                style={{ height: 200 }}
                 data={ data }
                 svg={{
                     stroke: 'rgb(134, 65, 244)',
                     strokeWidth: 2,
                 }}
-                contentInset={ { top: 20, bottom: 20 } }
+                contentInset={{ top: 20, bottom: 20 }}
                 curve={ shape.curveLinear }
                 extras={ [ HorizontalLine, Tooltip ] }
             />
