@@ -2,33 +2,9 @@ import * as array from 'd3-array'
 import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
-import { View } from 'react-native'
-import Svg, { Defs, G } from 'react-native-svg'
-import Path from './animated-path'
-import Grid from './grid'
+import ChartStack from './chart-stacked'
 
-class BarChart extends PureComponent {
-    static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
-        const series = shape
-            .stack()
-            .keys(keys)
-            .order(order)
-            .offset(offset)(data)
-
-        //double merge arrays to extract just the values
-        return array.merge(array.merge(series))
-    }
-
-    state = {
-        width: 0,
-        height: 0,
-    }
-
-    _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
-        this.setState({ height, width })
-    }
+class BarStack extends ChartStack {
 
     calcXScale(domain) {
         const { data } = this.props
@@ -77,7 +53,7 @@ class BarChart extends PureComponent {
             .range([ height - bottom, top ])
     }
 
-    calcAreas(x, y, series) {
+    calcAreas(series, x, y) {
         const { horizontal, colors } = this.props
 
         if (horizontal) {
@@ -118,131 +94,18 @@ class BarChart extends PureComponent {
             })
         )
     }
-
-    calcIndexes() {
-        const { data } = this.props
-        return data.map((_, index) => index)
-    }
-
-    render() {
-        const {
-            data,
-            keys,
-            order,
-            offset,
-            animate,
-            animationDuration,
-            style,
-            showGrid,
-            renderGradient,
-            numberOfTicks,
-            gridMax,
-            gridMin,
-            gridProps,
-            extras,
-            horizontal,
-        } = this.props
-
-        const { height, width } = this.state
-
-        if (data.length === 0) {
-            return <View style={ style } />
-        }
-
-        const series = shape
-            .stack()
-            .keys(keys)
-            .order(order)
-            .offset(offset)(data)
-
-        //double merge arrays to extract just the values
-        const values = array.merge(array.merge(series))
-        const indexes = values.map((_, index) => index)
-
-        const extent = array.extent([ ...values, gridMin, gridMax ])
-        const ticks = array.ticks(extent[0], extent[1], numberOfTicks)
-
-        const xDomain = horizontal ? extent : indexes
-        const yDomain = horizontal ? indexes : extent
-
-        const x = this.calcXScale(xDomain)
-        const y = this.calcYScale(yDomain)
-
-        const areas = this.calcAreas(x, y, series)
-
-        return (
-            <View style={ style }>
-                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    <Svg style={{ flex: 1 }}>
-                        {showGrid && <Grid y={ y } ticks={ ticks } gridProps={ gridProps } />}
-                        {areas.map((bar, index) => {
-                            return (
-                                <G key={ index }>
-                                    <Defs>
-                                        {renderGradient &&
-                                            renderGradient({
-                                                id: `gradient-${index}`,
-                                                ...bar,
-                                            })}
-                                    </Defs>
-                                    <Path
-                                        fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
-                                        d={ bar.path }
-                                        animate={ animate }
-                                        animationDuration={ animationDuration }
-                                    />
-                                </G>
-                            )
-                        })}
-                        {extras.map((extra, index) => extra({ item: extra, x, y, index, width, height }))}
-                    </Svg>
-                </View>
-            </View>
-        )
-    }
 }
 
-BarChart.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object),
-    keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-    colors: PropTypes.arrayOf(PropTypes.string).isRequired,
-    offset: PropTypes.func,
-    order: PropTypes.func,
-    style: PropTypes.any,
-    strokeColor: PropTypes.string,
-    renderGradient: PropTypes.func,
+BarStack.propTypes = {
+    ...ChartStack.propTypes,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
-    animate: PropTypes.bool,
-    animationDuration: PropTypes.number,
-    contentInset: PropTypes.shape({
-        top: PropTypes.number,
-        left: PropTypes.number,
-        right: PropTypes.number,
-        bottom: PropTypes.number,
-    }),
-    numberOfTicks: PropTypes.number,
-    showGrid: PropTypes.bool,
-    gridMin: PropTypes.number,
-    gridMax: PropTypes.number,
-    gridProps: PropTypes.object,
-    extras: PropTypes.array,
-    extra: PropTypes.func,
 }
 
-BarChart.defaultProps = {
+BarStack.defaultProps = {
+    ...ChartStack.defaultProps,
     spacingInner: 0.05,
     spacingOuter: 0.05,
-    offset: shape.stackOffsetNone,
-    order: shape.stackOrderNone,
-    width: 100,
-    height: 100,
-    showZeroAxis: true,
-    contentInset: {},
-    numberOfTicks: 10,
-    showGrid: true,
-    extras: [],
-    extra: () => {},
 }
 
-export default BarChart
+export default BarStack

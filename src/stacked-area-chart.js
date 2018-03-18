@@ -1,92 +1,46 @@
-import PropTypes from 'prop-types'
-import * as array from 'd3-array'
 import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
-import React, { PureComponent } from 'react'
-import { View } from 'react-native'
-import { Defs, G, Svg } from 'react-native-svg'
-import Grid from './grid'
-import Path from './animated-path'
+import ChartStack from './chart-stacked'
 
-class AreaStack extends PureComponent {
+class AreaStack extends ChartStack {
 
-    static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
-        const series = shape.stack()
-            .keys(keys)
-            .order(order)
-            .offset(offset)
-            (data)
-
-        //double merge arrays to extract just the values
-        return array.merge(array.merge(series))
-    }
-
-    state = {
-        height: 0,
-        width: 0,
-    }
-
-    _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
-        this.setState({ height, width })
-    }
-
-    render() {
-
+    calcYScale(domain) {
         const {
-            data,
-            keys,
-            colors,
-            animate,
-            animationDuration,
-            style,
-            renderGradient,
-            curve,
-            showGrid,
-            numberOfTicks,
+            yScale,
             contentInset: {
-                top    = 0,
+                top = 0,
                 bottom = 0,
-                left   = 0,
-                right  = 0,
             },
-            gridMin,
-            gridMax,
-            gridProps,
-            renderDecorator,
-            extras,
-            offset,
-            order,
         } = this.props
 
-        const { height, width } = this.state
-
-        if (data.length === 0) {
-            return <View style={ style }/>
-        }
-
-        const series = shape.stack()
-            .keys(keys)
-            .order(order)
-            .offset(offset)
-            (data)
-
-        //double merge arrays to extract just the values
-        const values = array.merge(array.merge(series))
-
-        const extent = array.extent([ ...values, gridMin, gridMax ])
-        const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
+        const { height } = this.state
 
         //invert range to support svg coordinate system
-        const y = scale.scaleLinear()
-            .domain([ extent[ 0 ], extent[ 1 ] ])
+        return yScale()
+            .domain(domain)
             .range([ height - bottom, top ])
+    }
 
-        const x = scale.scaleLinear()
-            .domain([ 0, data.length - 1 ])
+    calcXScale(domain) {
+        const {
+            xScale,
+            contentInset: {
+                left = 0,
+                right = 0,
+            },
+        } = this.props
+
+        const { width } = this.state
+
+        return xScale()
+            .domain(domain)
             .range([ left, width - right ])
+    }
 
-        const areas = series.map((serie, index) => {
+    calcAreas(series, x, y) {
+        const { data, curve, keys, colors } = this.props
+
+        return series.map((serie, index) => {
             const path = shape.area()
                 .x((d, index) => x(index))
                 .y0(d => y(d[ 0 ]))
@@ -100,97 +54,13 @@ class AreaStack extends PureComponent {
                 color: colors[ index ],
             }
         })
-
-        const extraData = {
-            x,
-            y,
-            width,
-            height,
-        }
-
-        return (
-            <View style={ style }>
-                <View
-                    style={{ flex: 1 }}
-                    onLayout={ event => this._onLayout(event) }
-                >
-                    <Svg style={{ flex: 1 }}>
-                        { showGrid &&
-                          <Grid
-                              ticks={ ticks }
-                              y={ y }
-                              gridProps={ gridProps }
-                          />
-                        }
-                        { areas.map((area, index) => (
-                            <G key={ area.key }>
-                                <Defs>
-                                    { renderGradient && renderGradient({
-                                        id: `gradient-${area.key}`,
-                                        width,
-                                        height,
-                                        x,
-                                        y,
-                                        index,
-                                        key: area.key,
-                                        color: area.color,
-                                    }) }
-                                </Defs>
-                                <Path
-                                    animate={ animate }
-                                    animationDuration={ animationDuration }
-                                    d={ area.path }
-                                    fill={ renderGradient ? `url(#gradient-${area.key})` : area.color }
-                                />
-                            </G>
-                        )
-                        ) }
-                        { series.map((serie) => {
-                            return data.map((key, index) => {
-                                return renderDecorator({ x, y, index, value: serie[ index ][ 1 ] })
-                            })
-                        }) }
-                        { extras.map((item, index) => item({ ...extraData, index })) }
-                    </Svg>
-                </View>
-            </View>
-        )
     }
 }
 
-AreaStack.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.object).isRequired,
-    keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-    colors: PropTypes.arrayOf(PropTypes.string).isRequired,
-    offset: PropTypes.func,
-    order: PropTypes.func,
-    renderGradient: PropTypes.func,
-    style: PropTypes.any,
-    animate: PropTypes.bool,
-    animationDuration: PropTypes.number,
-    contentInset: PropTypes.shape({
-        top: PropTypes.number,
-        left: PropTypes.number,
-        right: PropTypes.number,
-        bottom: PropTypes.number,
-    }),
-    numberOfTicks: PropTypes.number,
-    showGrid: PropTypes.bool,
-    extras: PropTypes.array,
-    renderDecorator: PropTypes.func,
-}
-
 AreaStack.defaultProps = {
-    curve: shape.curveLinear,
-    offset: shape.stackOffsetNone,
-    order: shape.stackOrderNone,
-    strokeWidth: 2,
-    contentInset: {},
-    numberOfTicks: 10,
-    showGrid: true,
-    extras: [],
-    renderDecorator: () => {
-    },
+    ...ChartStack.defaultProps,
+    xScale: scale.scaleLinear,
+    yScale: scale.scaleLinear,
 }
 
 export default AreaStack
