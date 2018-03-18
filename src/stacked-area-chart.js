@@ -55,7 +55,6 @@ class AreaStack extends PureComponent {
                   gridProps,
                   renderDecorator,
                   extras,
-                  renderExtra,
                   offset,
                   order,
               } = this.props
@@ -179,7 +178,6 @@ AreaStack.propTypes = {
     showGrid: PropTypes.bool,
     extras: PropTypes.array,
     renderDecorator: PropTypes.func,
-    renderExtra: PropTypes.func,
 }
 
 AreaStack.defaultProps = {
@@ -192,8 +190,6 @@ AreaStack.defaultProps = {
     showGrid: true,
     extras: [],
     renderDecorator: () => {
-    },
-    renderExtra: () => {
     },
 }
 
