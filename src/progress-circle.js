@@ -10,6 +10,7 @@ class ProgressCircle extends PureComponent {
     state = {
         height: 0,
         width: 0,
+        progress: 0,
     }
 
     _onLayout(event) {
@@ -41,19 +42,20 @@ class ProgressCircle extends PureComponent {
 
         const data = [
             {
-                key: 'rest',
-                value: 1 - progress,
-                color: backgroundColor,
-            },
-            {
                 key: 'progress',
                 value: progress,
                 color: progressColor,
+            },
+            {
+                key: 'rest',
+                value: 1 - progress,
+                color: backgroundColor,
             },
         ]
 
         const pieSlices = shape
             .pie()
+            .sort(null)
             .startAngle(startAngle)
             .endAngle(endAngle)
             (data.map(d => d.value))
@@ -65,12 +67,12 @@ class ProgressCircle extends PureComponent {
                 path: shape.arc()
                     .outerRadius(outerDiameter / 2)  // Radius of the pie
                     .innerRadius((outerDiameter / 2) - strokeWidth)  // Inner radius: to create a donut or pie
-                    .startAngle(index === 0 ? startAngle : slice.startAngle)
-                    .endAngle(index === 0 ? endAngle : slice.endAngle)
+                    .startAngle(index === 1 ? startAngle : slice.startAngle)
+                    .endAngle(index === 1 ? endAngle : slice.endAngle)
                     .cornerRadius(45)
                     (),
             }
-        ))
+        )).reverse()
 
         return (
             <View
