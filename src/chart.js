@@ -55,7 +55,7 @@ class Chart extends PureComponent {
         const { width, height } = this.state
 
         if (data.length === 0) {
-            return <View style={style}/>
+            return <View style={ style }/>
         }
 
         const mappedData = data.map((item, index) => ({
@@ -95,16 +95,16 @@ class Chart extends PureComponent {
         }
 
         return (
-            <View style={style}>
-                <View style={{ flex: 1 }} onLayout={event => this._onLayout(event)}>
+            <View style={ style }>
+                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
                     <Svg style={{ flex: 1 }}>
                         {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
                         <Path
-                            fill={'none'}
-                            {...svg}
-                            d={paths.path}
-                            animate={animate}
-                            animationDuration={animationDuration}
+                            fill={ 'none' }
+                            { ...svg }
+                            d={ paths.path }
+                            animate={ animate }
+                            animationDuration={ animationDuration }
                         />
                         {data.map((value, index) => renderDecorator({ x, y, value, index }))}
                         {extras.map((item, index) => item({ ...extraData, index }))}

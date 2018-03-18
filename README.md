@@ -270,6 +270,7 @@ The same as the [StackedAreaChart](#stackedareachart) except with bars.
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
 
 ![Stacked bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack.png)
+![Stacked bar chart - horizontal](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack-horizontal.png)
 
 #### Example
 
@@ -339,8 +340,11 @@ class StackedBarChartExample extends React.PureComponent {
 | data | **required** | An array of the data entries  |
 | keys | **required** | This array should contain the object keys of interest (see above example)
 | colors | **required** | An array of equal size as `keys` with the color for each key |
+| horizontal | false | Boolean whether or not the bars should be horizontal |
 | order | [d3.stackOrderNone](https://github.com/d3/d3-shape#stackOrderNone) | The order in which to sort the areas |
 | offset | [d3.stackOffsetNone](https://github.com/d3/d3-shape#stackOffsetNone) | A function to determine the offset of the areas |
+
+*Note:* `renderDecorator` is not supported for this chart type.
 
 Also see [Common Props](#common-props)
 

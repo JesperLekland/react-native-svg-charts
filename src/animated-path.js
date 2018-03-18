@@ -70,8 +70,8 @@ class AnimatedPath extends Component {
     render() {
         return (
             <Path
-                ref={ref => this.component = ref}
-                {...this.props}
+                ref={ ref => this.component = ref }
+                { ...this.props }
             />
         )
     }

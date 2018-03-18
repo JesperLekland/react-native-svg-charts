@@ -34,31 +34,30 @@ class AreaStack extends PureComponent {
     render() {
 
         const {
-                  data,
-                  keys,
-                  colors,
-                  animate,
-                  animationDuration,
-                  style,
-                  renderGradient,
-                  curve,
-                  showGrid,
-                  numberOfTicks,
-                  contentInset: {
-                      top    = 0,
-                      bottom = 0,
-                      left   = 0,
-                      right  = 0,
-                  },
-                  gridMin,
-                  gridMax,
-                  gridProps,
-                  renderDecorator,
-                  extras,
-                  renderExtra,
-                  offset,
-                  order,
-              } = this.props
+            data,
+            keys,
+            colors,
+            animate,
+            animationDuration,
+            style,
+            renderGradient,
+            curve,
+            showGrid,
+            numberOfTicks,
+            contentInset: {
+                top    = 0,
+                bottom = 0,
+                left   = 0,
+                right  = 0,
+            },
+            gridMin,
+            gridMax,
+            gridProps,
+            renderDecorator,
+            extras,
+            offset,
+            order,
+        } = this.props
 
         const { height, width } = this.state
 
@@ -102,13 +101,20 @@ class AreaStack extends PureComponent {
             }
         })
 
+        const extraData = {
+            x,
+            y,
+            width,
+            height,
+        }
+
         return (
             <View style={ style }>
                 <View
-                    style={ { flex: 1 } }
+                    style={{ flex: 1 }}
                     onLayout={ event => this._onLayout(event) }
                 >
-                    <Svg style={ { flex: 1 } }>
+                    <Svg style={{ flex: 1 }}>
                         { showGrid &&
                           <Grid
                               ticks={ ticks }
@@ -117,34 +123,34 @@ class AreaStack extends PureComponent {
                           />
                         }
                         { areas.map((area, index) => (
-                                <G key={ area.key }>
-                                    <Defs>
-                                        { renderGradient && renderGradient({
-                                            id: `gradient-${area.key}`,
-                                            width,
-                                            height,
-                                            x,
-                                            y,
-                                            index,
-                                            key: area.key,
-                                            color: area.color,
-                                        }) }
-                                    </Defs>
-                                    <Path
-                                        animate={ animate }
-                                        animationDuration={ animationDuration }
-                                        d={ area.path }
-                                        fill={ renderGradient ? `url(#gradient-${area.key})` : area.color }
-                                    />
-                                </G>
-                            )
+                            <G key={ area.key }>
+                                <Defs>
+                                    { renderGradient && renderGradient({
+                                        id: `gradient-${area.key}`,
+                                        width,
+                                        height,
+                                        x,
+                                        y,
+                                        index,
+                                        key: area.key,
+                                        color: area.color,
+                                    }) }
+                                </Defs>
+                                <Path
+                                    animate={ animate }
+                                    animationDuration={ animationDuration }
+                                    d={ area.path }
+                                    fill={ renderGradient ? `url(#gradient-${area.key})` : area.color }
+                                />
+                            </G>
+                        )
                         ) }
                         { series.map((serie) => {
                             return data.map((key, index) => {
                                 return renderDecorator({ x, y, index, value: serie[ index ][ 1 ] })
                             })
                         }) }
-                        { extras.map((item, index) => renderExtra({ item, x, y, index, width, height })) }
+                        { extras.map((item, index) => item({ ...extraData, index })) }
                     </Svg>
                 </View>
             </View>
@@ -172,7 +178,6 @@ AreaStack.propTypes = {
     showGrid: PropTypes.bool,
     extras: PropTypes.array,
     renderDecorator: PropTypes.func,
-    renderExtra: PropTypes.func,
 }
 
 AreaStack.defaultProps = {
@@ -185,8 +190,6 @@ AreaStack.defaultProps = {
     showGrid: true,
     extras: [],
     renderDecorator: () => {
-    },
-    renderExtra: () => {
     },
 }
 

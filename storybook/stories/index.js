@@ -33,6 +33,7 @@ import GradientExample from './gradient'
 import AreaStack from './area-stack'
 import AreaStackWithAxisExample from './area-stack/with-y-axis'
 import StackedBarChartExample from './bar-stack/index'
+import StackedBarChartHorizontalExample from './bar-stack/horizontal'
 import GradientLineExample from './gradient-line'
 import GradientBarExample from './gradient-bar'
 
@@ -58,6 +59,7 @@ storiesOf('BarChart', module)
     .add('Grouped', () => <BarChartGrouped/>)
     .add('Grouped - Horizontal', () => <BarChartHorizontalGrouped/>)
     .add('Stacked', () => <StackedBarChartExample/>)
+    .add('Stacked - Horizontal', () => <StackedBarChartHorizontalExample/>)
 
 storiesOf('PieChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)

@@ -41,13 +41,13 @@ class CustomGridExample extends React.PureComponent {
         )
 
         return (
-            <View style={ { height: 200, flexDirection: 'row' } }>
+            <View style={{ height: 200, flexDirection: 'row' }}>
                 <LineChart
-                    style={ { flex: 1 } }
+                    style={{ flex: 1 }}
                     data={ data }
-                    svg={ {
+                    svg={{
                         stroke: 'rgb(134, 65, 244)',
-                    } }
+                    }}
                     renderGrid={ CustomGrid }
                 />
             </View>

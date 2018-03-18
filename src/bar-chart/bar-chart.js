@@ -135,7 +135,7 @@ class BarChart extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={style}/>
+            return <View style={ style }/>
         }
 
         const extent = this.calcExtent()
@@ -151,17 +151,17 @@ class BarChart extends PureComponent {
         const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
 
         const areas = this.calcAreas(x, y)
-          .filter(area => (
-            area.bar !== null &&
+            .filter(area => (
+                area.bar !== null &&
             area.bar !== undefined &&
             area.path !== null
-          ))
+            ))
 
         return (
-            <View style={style}>
+            <View style={ style }>
                 <View
                     style={{ flex: 1 }}
-                    onLayout={event => this._onLayout(event)}
+                    onLayout={ event => this._onLayout(event) }
                 >
                     <Svg style={{ flex: 1 }}>
                         {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
@@ -172,12 +172,12 @@ class BarChart extends PureComponent {
 
                                 return (
                                     <Path
-                                        key={index}
-                                        {...svg}
-                                        {...barSvg}
-                                        d={path}
-                                        animate={animate}
-                                        animationDuration={animationDuration}
+                                        key={ index }
+                                        { ...svg }
+                                        { ...barSvg }
+                                        d={ path }
+                                        animate={ animate }
+                                        animationDuration={ animationDuration }
                                     />
                                 )
                             })

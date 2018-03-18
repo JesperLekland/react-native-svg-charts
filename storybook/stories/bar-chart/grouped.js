@@ -24,14 +24,13 @@ class GroupedBarChartExample extends React.PureComponent {
 
         return (
             <BarChart
-                style={ { height: 200 } }
+                style={{ height: 200 }}
                 data={ barData }
-                yAccessor={({ item }) => item.value}
+                yAccessor={ ({ item }) => item.value }
                 svg={{
                     fill: 'green',
                 }}
-                contentInset={ { top: 30, bottom: 30 } }
-                { ...this.props }
+                contentInset={{ top: 30, bottom: 30 }}
             />
         )
     }

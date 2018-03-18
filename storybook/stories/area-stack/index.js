@@ -1,5 +1,5 @@
 import React from 'react'
-import { StackedAreaChart } from '../../../src/index'
+import { StackedAreaChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class AreaStackChartExample extends React.PureComponent {
@@ -42,13 +42,12 @@ class AreaStackChartExample extends React.PureComponent {
 
         return (
             <StackedAreaChart
-                style={ { height: 200, paddingVertical: 16 } }
+                style={{ height: 200, paddingVertical: 16 }}
                 data={ data }
                 keys={ keys }
                 colors={ colors }
                 curve={ shape.curveNatural }
                 showGrid={ false }
-                { ...this.props }
             />
         )
     }

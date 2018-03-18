@@ -47,10 +47,10 @@ class BarChartExample extends React.PureComponent {
         ]
 
         const Gradient = () => (
-            <Defs key={'gradient'}>
-                <LinearGradient id={'gradient'} x1={'0'} y={'0%'} x2={'100%'} y2={'0%'}>
-                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'}/>
-                    <Stop offset={'100%'} stopColor={'rgb(66, 194, 244)'}/>
+            <Defs key={ 'gradient' }>
+                <LinearGradient id={ 'gradient' } x1={ '0' } y={ '0%' } x2={ '100%' } y2={ '0%' }>
+                    <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' }/>
+                    <Stop offset={ '100%' } stopColor={ 'rgb(66, 194, 244)' }/>
                 </LinearGradient>
             </Defs>
         )
@@ -58,12 +58,12 @@ class BarChartExample extends React.PureComponent {
         const CUT_OFF = 50
         const Label = ({ item, x, y, index, bandwidth }) => (
             <Text
-                key={item.label}
-                x={item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10}
-                y={y(index) + (bandwidth / 2)}
-                fontSize={14}
-                fill={item.value > CUT_OFF ? 'white' : 'black'}
-                alignmentBaseline={'middle'}
+                key={ item.label }
+                x={ item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10 }
+                y={ y(index) + (bandwidth / 2) }
+                fontSize={ 14 }
+                fill={ item.value > CUT_OFF ? 'white' : 'black' }
+                alignmentBaseline={ 'middle' }
             >
                 {item.label}
             </Text>
@@ -72,27 +72,27 @@ class BarChartExample extends React.PureComponent {
         return (
             <View style={{ flexDirection: 'row', height: 200, paddingVertical: 16 }}>
                 <YAxis
-                    data={data}
-                    yAccessor={({ index }) => index}
-                    scale={scale.scaleBand}
+                    data={ data }
+                    yAccessor={ ({ index }) => index }
+                    scale={ scale.scaleBand }
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacingInner={0.2}
-                    formatLabel={(_, index) => data[ index ].label}
+                    spacingInner={ 0.2 }
+                    formatLabel={ (_, index) => data[ index ].label }
                 />
                 <BarChart
                     style={{ flex: 1, marginLeft: 8 }}
-                    data={data}
-                    horizontal={true}
-                    yAccessor={({ item }) => item.value}
+                    data={ data }
+                    horizontal={ true }
+                    yAccessor={ ({ item }) => item.value }
                     svg={{
                         fill: 'blue',
                     }}
-                    extras={[ Gradient ]}
+                    extras={ [ Gradient ] }
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacingInner={0.2}
-                    gridMin={0}
-                    renderDecorator={Label}
-                    renderGrid={Grid.Vertical}
+                    spacingInner={ 0.2 }
+                    gridMin={ 0 }
+                    renderDecorator={ Label }
+                    renderGrid={ Grid.Vertical }
                 />
             </View>
         )

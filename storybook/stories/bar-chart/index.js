@@ -10,10 +10,10 @@ class BarChartExample extends React.PureComponent {
 
         return (
             <BarChart
-                style={ { height: 200 } }
-                data={data}
+                style={{ height: 200 }}
+                data={ data }
                 svg={{ fill }}
-                contentInset={ { top: 30, bottom: 30 } }
+                contentInset={{ top: 30, bottom: 30 }}
             />
         )
     }

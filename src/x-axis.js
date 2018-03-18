@@ -22,14 +22,14 @@ class XAxis extends PureComponent {
 
     _getX(domain) {
         const {
-                  scale,
-                  spacingInner,
-                  spacingOuter,
-                  contentInset: {
-                      left  = 0,
-                      right = 0,
-                  },
-              } = this.props
+            scale,
+            spacingInner,
+            spacingOuter,
+            contentInset: {
+                left  = 0,
+                right = 0,
+            },
+        } = this.props
 
         const { width } = this.state
 
@@ -53,19 +53,19 @@ class XAxis extends PureComponent {
     render() {
 
         const {
-                  style,
-                  scale,
-                  data,
-                  xAccessor,
-                  formatLabel,
-                  numberOfTicks,
-                  svg,
-              } = this.props
+            style,
+            scale,
+            data,
+            xAccessor,
+            formatLabel,
+            numberOfTicks,
+            svg,
+        } = this.props
 
         const { width } = this.state
 
         if (data.length === 0) {
-            return <View style={style}/>
+            return <View style={ style }/>
         }
 
         const values = data.map((item, index) => xAccessor({ item, index }))
@@ -78,14 +78,14 @@ class XAxis extends PureComponent {
         return (
             <View style={ style }>
                 <View
-                  style={{ flexGrow: 1 }}
-                  onLayout={event => this._onLayout(event)}
+                    style={{ flexGrow: 1 }}
+                    onLayout={ event => this._onLayout(event) }
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
                         { formatLabel(ticks[0], 0) }
                     </Text>
-                    <Svg style={StyleSheet.absoluteFill}>
+                    <Svg style={ StyleSheet.absoluteFill }>
                         {
                             // don't render labels if width isn't measured yet,
                             // causes rendering issues
@@ -95,13 +95,13 @@ class XAxis extends PureComponent {
 
                                 return (
                                     <SVGText
-                                      textAnchor={'middle'}
-                                      originX={x(value)}
-                                      alignmentBaseline={'hanging'}
-                                      {...svg}
-                                      {...valueSvg}
-                                      key={index}
-                                      x={x(value)}
+                                        textAnchor={ 'middle' }
+                                        originX={ x(value) }
+                                        alignmentBaseline={ 'hanging' }
+                                        { ...svg }
+                                        { ...valueSvg }
+                                        key={ index }
+                                        x={ x(value) }
                                     >
                                         {formatLabel(value, index)}
                                     </SVGText>
