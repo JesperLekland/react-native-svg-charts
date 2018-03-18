@@ -471,8 +471,10 @@ class ProgressCircleExample extends React.PureComponent {
 | --- | --- | --- |
 | progress | **required** | PropTypes.number.isRequired |
 | progressColor | 'black' | PropTypes.any |
+| backgroundColor | '#ECECEC' |  PropTypes.any |
 | startAngle | `0` | PropTypes.number |
 | endAngle | `Math.PI * 2` |  PropTypes.number |
+| strokeWidth | 5 |  PropTypes.number |
 
 ### YAxis
 

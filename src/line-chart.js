@@ -1,10 +1,9 @@
-import React from 'react'
 import * as shape from 'd3-shape'
 import Chart from './chart'
 
-class LineChart extends React.PureComponent {
+class LineChart extends Chart {
 
-    _createPaths = ({ data, x, y }) => {
+    createPaths({ data, x, y }) {
         const { curve } = this.props
 
         const line = shape.line()
@@ -18,16 +17,6 @@ class LineChart extends React.PureComponent {
             path: line,
             line,
         }
-    }
-
-    render() {
-
-        return (
-            <Chart
-                createPaths={this._createPaths}
-                {...this.props}
-            />
-        )
     }
 }
 

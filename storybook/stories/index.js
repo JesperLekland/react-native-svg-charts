@@ -78,7 +78,7 @@ storiesOf('Axes', module)
     .add('XAxis - scaleLinear', () => <XAxisScaleLinearExample/>)
     .add('XAxis - scaleTime', () => <XAxisScaleTimeExample/>)
     .add('XAxis - scaleBand', () => <XAxisScaleBandExample/>)
-    .add('XAxis - data object', () => <XAxisDataObjectExample/>)
+    .add('XAxis - data object', () => <XAxisDataObjectExample />)
 
 storiesOf('Others', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
