@@ -27,6 +27,7 @@ class ProgressCircle extends PureComponent {
             endAngle,
             animate,
             animateDuration,
+            extras,
         } = this.props
 
         let { progress } = this.props
@@ -72,6 +73,16 @@ class ProgressCircle extends PureComponent {
             }
         ))
 
+        const x = width / 2
+        const y = height / 2
+
+        const extraData = {
+            width,
+            height,
+            x,
+            y,
+        }
+
         return (
             <View
                 style={ style }
@@ -79,8 +90,8 @@ class ProgressCircle extends PureComponent {
             >
                 <Svg style={{ flex: 1 }}>
                     <G
-                        x={ width / 2 }
-                        y={ height / 2 }
+                        x={ x }
+                        y={ y }
                     >
                         {arcs.map((shape, index) => {
                             return (
@@ -93,6 +104,7 @@ class ProgressCircle extends PureComponent {
                                 />
                             )
                         })}
+                        {extras.map((item, index) => item({ ...extraData, index }))}
                     </G>
                 </Svg>
             </View>
@@ -110,6 +122,7 @@ ProgressCircle.propTypes = {
     endAngle: PropTypes.number,
     animate: PropTypes.bool,
     animateDuration: PropTypes.number,
+    extras: PropTypes.arrayOf(PropTypes.func),
 }
 
 ProgressCircle.defaultProps = {
@@ -118,6 +131,7 @@ ProgressCircle.defaultProps = {
     strokeWidth: 5,
     startAngle: 0,
     endAngle: Math.PI * 2,
+    extras: [],
 }
 
 export default ProgressCircle
