@@ -41,6 +41,7 @@ class PieChart extends PureComponent {
             renderDecorator,
             sort,
             valueAccessor,
+            extras,
         } = this.props
 
         const { height, width } = this.state
@@ -103,6 +104,11 @@ class PieChart extends PureComponent {
             .sort(sort)
             (data)
 
+        const extraData = {
+            width,
+            height,
+        }
+
         return (
             <View style={ style }>
                 <View
@@ -132,6 +138,7 @@ class PieChart extends PureComponent {
                                 pieCentroid: arcs[ index ].centroid(slice),
                                 labelCentroid: labelArcs[ index ].centroid(slice),
                             })) }
+                            { extras.map((item, index) => item({ ...extraData, index })) }
                         </G>
                     </Svg>
                 </View>
@@ -157,6 +164,7 @@ PieChart.propTypes = {
     renderDecorator: PropTypes.func,
     sort: PropTypes.func,
     valueAccessor: PropTypes.func,
+    extras: PropTypes.arrayOf(PropTypes.func),
 }
 
 PieChart.defaultProps = {
@@ -168,6 +176,7 @@ PieChart.defaultProps = {
     sort: (a, b) => b.value - a.value,
     renderDecorator: () => {
     },
+    extras: [],
 }
 
 export default PieChart

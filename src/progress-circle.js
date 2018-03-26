@@ -79,8 +79,6 @@ class ProgressCircle extends PureComponent {
         const extraData = {
             width,
             height,
-            x,
-            y,
         }
 
         return (
