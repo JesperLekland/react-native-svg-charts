@@ -407,8 +407,8 @@ class PieChartExample extends React.PureComponent {
             .filter(value => value > 0)
             .map((value, index) => ({
                 value,
+                color: randomColor(),
                 svg: {
-                    fill: randomColor(),
                     onPress: () => console.log('press', index),
                 },
                 key: `pie-${index}`,
