@@ -437,6 +437,7 @@ class PieChartExample extends React.PureComponent {
 | labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |
 | padAngle | |  The angle between the slices |
 | sort | `(a,b) => b.value - a.value` | Like any normal sort function it expects either 0, a positive or negative return value. The arguments are each an object from the `dataPoints` array |
+| extras | [ ] | see [extras](#extras) |
 
 
 ### ProgressCircle
@@ -475,6 +476,7 @@ class ProgressCircleExample extends React.PureComponent {
 | startAngle | `0` | PropTypes.number |
 | endAngle | `Math.PI * 2` |  PropTypes.number |
 | strokeWidth | 5 |  PropTypes.number |
+| extras | [ ] | see [extras](#extras) |
 
 ### YAxis
 
@@ -621,7 +623,7 @@ Remember that all components returned by `renderDecorator` must be one that is r
 ### Extras
 The `extras` prop allow for arbitrary decorators on your chart.
 and is a function that is called with an object as an arguments to help the layout of the extra decorator.
-This prop is what really makes this library special. With this prop you can customize your charts to your hearts content - gradients, toolTips, clips, images, anything that is supported by `react-native-svg` can be added to your chart through this prop.
+This prop is what really makes this library special. With this prop you can customize your charts to your hearts content - gradients, toolTips, clips, images, text, anything that is supported by `react-native-svg` can be added to your chart through this prop.
 See the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) for some really cool use cases
 
 The content of the extras argument object is as follows:
@@ -636,6 +638,16 @@ The content of the extras argument object is as follows:
     height: number, // the number fo the svg canvas,
 }
 ```
+
+For `PieChart` and `ProgressCircle` the extras argument object is:
+
+```javascript
+{
+    width: number, // the width of the svg canvas
+    height: number, // the number fo the svg canvas
+}
+```
+
 There might be additional parameters sent to the `extras` functions as well, depending on the chart type.
 
 The `LineChart` passes the svg path data that rendered the line. (argument name `line`)
@@ -643,6 +655,7 @@ The `LineChart` passes the svg path data that rendered the line. (argument name 
 The `AreaChart` passes both the area svg path as well as the
 svg path for the line following the upper bounds of the area.
 (argument name `area` and `line` respectively)
+
 
 Take a look in the source code for additional details.
 
