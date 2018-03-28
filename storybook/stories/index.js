@@ -13,8 +13,10 @@ import BarChartGrouped from './bar-chart/grouped'
 
 import PieChart from './pie-chart'
 import PieChartWithLabels from './pie-chart/with-labels'
+import PieChartWithCenterText from './pie-chart/with-center-text'
 
 import ProgressCircle from './progress-circle'
+import ProgressCircleWithCenterTextExample from './progress-circle/with-center-text'
 import ProgressGauge from './progress-gauge'
 
 import LayeredCharts from './layered-charts'
@@ -65,12 +67,13 @@ storiesOf('PieChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('Standard', () => <PieChart/>)
     .add('With labels', () => <PieChartWithLabels/>)
-    .add('With labels', () => <PieChartWithLabels/>)
+    .add('With center text', () => <PieChartWithCenterText/>)
 
 storiesOf('ProgressCircle', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
     .add('Standard', () => <ProgressCircle/>)
     .add('Gauge', () => <ProgressGauge/>)
+    .add('With center text', () => <ProgressCircleWithCenterTextExample/>)
 
 storiesOf('Axes', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
