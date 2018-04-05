@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
-import Svg, {G} from 'react-native-svg'
+import Svg, { G } from 'react-native-svg'
 import Path from './animated-path'
 import Grid from './grid'
 
@@ -16,7 +16,7 @@ class Chart extends PureComponent {
     }
 
     _getComponentOrder(key) {
-        return this.props.renderOrder().findIndex(o => o === key);
+        return this.props.renderOrder().findIndex(o => o === key)
     }
 
     _onLayout(event) {
@@ -54,7 +54,6 @@ class Chart extends PureComponent {
             gridProps,
             svg,
             renderGrid = Grid,
-            renderOrder
         } = this.props
 
         const { width, height } = this.state
@@ -100,19 +99,19 @@ class Chart extends PureComponent {
         }
 
         const components = [
-            {key: 'grid', render: () => showGrid && renderGrid({ x, y, ticks, data, gridProps })},
-            {key: 'chart', render: () => <Path fill={ 'none' } { ...svg } d={ paths.path } animate={ animate } animationDuration={ animationDuration }/>},
-            {key: 'decorators', render: () => data.map((value, index) => renderDecorator({ x, y, value, index }))},
-            {key: 'extras', render: () => extras.map((item, index) => item({ ...extraData, index }))},
+            { key: 'grid', render: () => showGrid && renderGrid({ x, y, ticks, data, gridProps }) },
+            { key: 'chart', render: () => <Path fill={ 'none' } { ...svg } d={ paths.path } animate={ animate } animationDuration={ animationDuration }/> },
+            { key: 'decorators', render: () => data.map((value, index) => renderDecorator({ x, y, value, index })) },
+            { key: 'extras', render: () => extras.map((item, index) => item({ ...extraData, index })) },
         ]
-        .filter(it => this._getComponentOrder(it.key) > -1)
-        .sort((a,b) => this._getComponentOrder(a.key) > this._getComponentOrder(b.key) ? 1 : -1)
+            .filter(it => this._getComponentOrder(it.key) > -1)
+            .sort((a,b) => this._getComponentOrder(a.key) > this._getComponentOrder(b.key) ? 1 : -1)
 
         return (
             <View style={ style }>
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
                     <Svg style={{ flex: 1 }}>
-                        {components.map((it, i) => <G key={i}>{it.render(i)}</G>)}
+                        { components.map((it, i) => <G key={ i }>{it.render(i)}</G>) }
                     </Svg>
                 </View>
             </View>
@@ -156,7 +155,7 @@ Chart.propTypes = {
     xAccessor: PropTypes.func,
     yAccessor: PropTypes.func,
 
-    renderOrder: PropTypes.func
+    renderOrder: PropTypes.func,
 }
 
 Chart.defaultProps = {
@@ -173,7 +172,7 @@ Chart.defaultProps = {
     xAccessor: ({ index }) => index,
     yAccessor: ({ item }) => item,
     renderDecorator: () => {},
-    renderOrder: () => ['chart', 'grid', 'decorators', 'extras']
+    renderOrder: () => [ 'chart', 'grid', 'decorators', 'extras' ],
 }
 
 export default Chart

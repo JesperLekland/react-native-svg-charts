@@ -44,7 +44,7 @@ import CustomGrid from './custom-grid'
 import PartialAreaChart from './partial-chart/area-chart'
 import PartialLineChart from './partial-chart/line-chart'
 
-import OrderExample from './order';
+import OrderExample from './order'
 
 storiesOf('AreaChart', module)
     .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
