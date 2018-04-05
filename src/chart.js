@@ -172,7 +172,7 @@ Chart.defaultProps = {
     xAccessor: ({ index }) => index,
     yAccessor: ({ item }) => item,
     renderDecorator: () => {},
-    renderOrder: () => [ 'chart', 'grid', 'decorators', 'extras' ],
+    renderOrder: () => [ 'grid', 'chart', 'decorators', 'extras' ],
 }
 
 export default Chart
