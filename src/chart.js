@@ -37,6 +37,8 @@ class Chart extends PureComponent {
             animationDuration,
             showGrid,
             numberOfTicks,
+            showPlotLines,
+            plotLines,
             contentInset: {
                 top = 0,
                 bottom = 0,
@@ -99,6 +101,7 @@ class Chart extends PureComponent {
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
                     <Svg style={{ flex: 1 }}>
                         {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
+                        {showPlotLines && plotLines}
                         <Path
                             fill={ 'none' }
                             { ...svg }
@@ -141,6 +144,8 @@ Chart.propTypes = {
 
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
+    showPlotLines: PropTypes.bool,
+    plotLines: PropTypes.object,
     showGrid: PropTypes.bool,
     gridProps: PropTypes.object,
     renderGrid: PropTypes.func,
@@ -159,6 +164,7 @@ Chart.defaultProps = {
     curve: shape.curveLinear,
     contentInset: {},
     numberOfTicks: 10,
+    showPlotLines: false,
     showGrid: true,
     extras: [],
     xScale: scale.scaleLinear,
