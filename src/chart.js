@@ -3,16 +3,18 @@ import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
-import { View } from 'react-native'
-import Svg from 'react-native-svg'
+import { View, Text } from 'react-native'
+import Svg, {Line} from 'react-native-svg'
 import Path from './animated-path'
 import Grid from './grid'
+
 
 class Chart extends PureComponent {
 
     state = {
         width: 0,
         height: 0,
+        plotLinesArray: []
     }
 
     _onLayout(event) {
@@ -23,6 +25,75 @@ class Chart extends PureComponent {
     createPaths() {
         throw 'Extending "Chart" requires you to override "createPaths'
     }
+
+    buildPlotLinesArray = ({ x, y, index, value }) => (
+        {x: x(index), index, value}
+    )
+
+
+ binaryInsert(item,sortedList,low = 0,high = (sortedList.length - 1)) {
+        if(sortedList && sortedList.length > 0){
+    	if (low == high) {
+    		// hit end of sortedList - done
+    		return low > 0 ? sortedList[low-1].value : 0;
+    	}
+
+    	// get midpoint of list and item value
+    	let mid = low + Math.floor((high - low) / 2),
+    		itemCompare = sortedList[mid].x;
+
+    	if (item > itemCompare) {
+    		// work higher end of list
+    		return this.binaryInsert(item,sortedList,mid + 1,high);
+    	}
+
+    	if (item < itemCompare) {
+    		// work lower end of list
+    		return this.binaryInsert(item,sortedList,low,mid);
+    	}
+
+    	// found equal value - done
+    	return mid > 0 ? sortedList[mid-1].value : 0;
+        }
+        return 0
+    }
+
+componentWillReceiveProps (newProps) {
+    if(newProps.data && newProps.data.length > 0) {
+        const xScale = scale.scaleLinear
+        const yScale = scale.scaleLinear
+        const xAccessor = ({ index }) => index
+        const yAccessor = ({ item }) => item
+
+            const mappedData = newProps.data.map((item, index) => ({
+                y: yAccessor({ item, index }),
+                x: xAccessor({ item, index }),
+            }))
+
+            const yValues = mappedData.map(item => item.y)
+            const xValues = mappedData.map(item => item.x)
+            const height = this.state.height
+            const width = this.state.width
+            const bottom = 0
+            const top = 0
+            const left = 0
+            const right = 0
+
+
+            const yExtent = array.extent([ ...yValues ])
+            const xExtent = array.extent([ ...xValues ])
+            const y = yScale()
+                .domain(yExtent)
+                .range([ height - bottom, top ])
+
+            const x = xScale()
+                .domain(xExtent)
+                .range([ left, width - right ])
+            const plotLinesArray = newProps.data.map((value, index) => (this.buildPlotLinesArray({ x, y, value, index })))
+            this.setState({plotLinesArray})
+    }
+}
+
 
     render() {
 
@@ -53,7 +124,6 @@ class Chart extends PureComponent {
             svg,
             renderGrid = Grid,
         } = this.props
-
         const { width, height } = this.state
 
         if (data.length === 0) {
@@ -68,14 +138,13 @@ class Chart extends PureComponent {
         const yValues = mappedData.map(item => item.y)
         const xValues = mappedData.map(item => item.x)
 
-        const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
-        const xExtent = array.extent([ ...xValues ])
 
+        const yExtent = array.extent([ ...yValues ])
+        const xExtent = array.extent([ ...xValues ])
         //invert range to support svg coordinate system
         const y = yScale()
             .domain(yExtent)
             .range([ height - bottom, top ])
-
         const x = xScale()
             .domain(xExtent)
             .range([ left, width - right ])
@@ -96,12 +165,20 @@ class Chart extends PureComponent {
             ...paths,
         }
 
+
         return (
             <View style={ style }>
+        <Text>{this.binaryInsert(plotLines.nativeEventX, this.state.plotLinesArray)}</Text>
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
                     <Svg style={{ flex: 1 }}>
                         {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
-                        {showPlotLines && plotLines}
+                        {showPlotLines && <Line
+                                                x1= { plotLines.nativeEventX }
+                                                y1="0"
+                                                x2= { plotLines.nativeEventX }
+                                                y2= { height }
+                                                stroke="red"
+                                                strokeWidth="2" />}
                         <Path
                             fill={ 'none' }
                             { ...svg }
@@ -109,6 +186,7 @@ class Chart extends PureComponent {
                             animate={ animate }
                             animationDuration={ animationDuration }
                         />
+
                         {data.map((value, index) => renderDecorator({ x, y, value, index }))}
                         {extras.map((item, index) => item({ ...extraData, index }))}
                     </Svg>
