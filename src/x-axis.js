@@ -60,7 +60,7 @@ class XAxis extends PureComponent {
             formatLabel,
             numberOfTicks,
             svg,
-            children
+            children,
         } = this.props
 
         const { width } = this.state

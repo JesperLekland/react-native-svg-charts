@@ -62,7 +62,7 @@ class YAxis extends PureComponent {
             min,
             max,
             svg,
-            children
+            children,
         } = this.props
 
         const { height } = this.state
