@@ -62,6 +62,7 @@ class YAxis extends PureComponent {
             min,
             max,
             svg,
+            children
         } = this.props
 
         const { height } = this.state
@@ -99,6 +100,7 @@ class YAxis extends PureComponent {
                         {longestValue}
                     </Text>
                     <Svg style={ StyleSheet.absoluteFill }>
+                        {children}
                         {
                             // don't render labels if width isn't measured yet,
                             // causes rendering issues
