@@ -90,8 +90,8 @@ yarn storybook
 
 | Property | Description |
 | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas |
+| x | a function that normally accepts the index of a data point an returns its 'x' location on the canvas |
+| y | a function that normally accepts the value of a data point an returns its 'y' location on the canvas |
 | width | the width of the canvas in pixels |
 | height | the height of the canvas in pixels |
 | data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
@@ -111,7 +111,8 @@ This library currently provides the following components
 * [YAxis](#yaxis)
 * [XAxis](#xaxis)
 
-Also see [other examples](#other-examples)
+Also see
+* [Children](#children)
 * [Grid](#grid)
 
 
@@ -155,16 +156,7 @@ See [Common Props](#common-props)
 
 #### Arguments to children
 
-| Property | Description | Supported |
-| --- | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
-| width | the width of the canvas in pixels | ✔️ |
-| height | the height of the canvas in pixels | ✔️ |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
-| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
-
-See [Common arguments to children](#common-arguments-to-children)
+Supports all [Common arguments to children](#common-arguments-to-children)
 
 ### StackedAreaChart
 
@@ -248,14 +240,14 @@ Also see [Common Props](#common-props)
 
 #### Arguments to children
 
-| Property | Description | Supported |
-| --- | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
-| width | the width of the canvas in pixels | ✔️ |
-| height | the height of the canvas in pixels | ✔️ |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✘ |
-| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+| Property | Description
+| --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas |
+| width | the width of the canvas in pixels |
+| height | the height of the canvas in pixels |
+| ~~data~~ | ~~the same data array provided to the chart, use this to map over your data points if you want decorators on each point~ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) |
 
 This chart does not call a child with the `data` argument. This is due to the fact that a lot of calculations go into
 creating the stacked chart, meaning that the original `data` prop doesn't provide especially valuable information
@@ -304,20 +296,11 @@ Also see [Common Props](#common-props)
 
 #### Arguments to children
 
-| Property | Description | Supported |
-| --- | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
-| width | the width of the canvas in pixels | ✔️ |
-| height | the height of the canvas in pixels | ✔️ |
-| bandwidth |  the width of a band (a.k.a bar) | ✔️ |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
-| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
-
-| Property | Description |
+| Property | Description
 | --- | --- |
+| bandwidth |  the width of a band (a.k.a bar) |
 
-Also see [Common arguments to children](#common-arguments-to-children)
+Also supports all [Common arguments to children](#common-arguments-to-children)
 
 ### StackedBarChart
 
@@ -403,14 +386,14 @@ Also see [Common Props](#common-props)
 
 #### Arguments to children
 
-| Property | Description | Supported |
-| --- | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
-| width | the width of the canvas in pixels | ✔️ |
-| height | the height of the canvas in pixels | ✔️ |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✘ |
-| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+| Property | Description |
+| --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas |
+| width | the width of the canvas in pixels |
+| height | the height of the canvas in pixels |
+| ~~data~~ | ~~the same data array provided to the chart, use this to map over your data points if you want decorators on each point~~ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) |
 
 This chart does not call a child with the `data` argument. This is due to the fact that a lot of calculations go into
 creating the stacked chart, meaning that the original `data` prop doesn't provide especially valuable information
@@ -450,14 +433,7 @@ See [Common Props](#common-props)
 
 #### Arguments to children
 
-| Property | Description | Supported |
-| --- | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
-| width | the width of the canvas in pixels | ✔️ |
-| height | the height of the canvas in pixels | ✔️ |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
-| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+Supports all [Common arguments to children](#common-arguments-to-children)
 
 ### PieChart
 
@@ -516,15 +492,12 @@ class PieChartExample extends React.PureComponent {
 
 #### Arguments to children
 
-| Property | Description | Supported |
-| --- | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✗️ |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✗️ |
-| width | the width of the canvas in pixels | ✔️ |
-| height | the height of the canvas in pixels | ✔️ |
-| slices | an array of the pie chart slices. See source code and examples for what it includes | ✔️️ |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
-| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✗️ |
+| Property | Description
+| --- | --- |
+| width | the width of the canvas in pixels
+| height | the height of the canvas in pixels
+| slices | an array of the pie chart slices. See source code and examples for what it includes
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point
 
 
 ### ProgressCircle
@@ -566,14 +539,11 @@ class ProgressCircleExample extends React.PureComponent {
 
 #### Common arguments to children
 
-| Property | Description | Supported |
-| --- | --- | --- |
-| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✗️ |
-| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✗️ |
-| width | the width of the canvas in pixels | ✔️ |
-| height | the height of the canvas in pixels | ✔️ |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✗ |
-| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✗️ |
+| Property | Description
+| --- | --- |
+| width | the width of the canvas in pixels |
+| height | the height of the canvas in pixels |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
 
 
 ### YAxis
@@ -643,7 +613,6 @@ class YAxisExample extends React.PureComponent {
 No arguments
 
 
-
 ### XAxis
 
 ![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/x-axis.png)
@@ -705,6 +674,16 @@ class XAxisExample extends React.PureComponent {
 #### Arguments to children
 
 No arguments
+
+### Children
+
+New for version 5.0.
+Each chart (and axes) component now accepts React children. *Important*  note is that all children must be a `react-native-svg` component
+on order for it to be rendered by the chart. This API deprecates the old one with `extras` and `decorators`.
+Everything that should be rendered above or below the chart should now be supplied as a child to said chart.
+This allows you to declare the order in which your decorators should be rendered. If you want anything rendered below the chart,
+simply add the prop `belowChart={true}`. There's a ton of examples in the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) go and have a look.
+
 
 ### Grid
 
