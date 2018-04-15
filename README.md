@@ -87,6 +87,7 @@ yarn storybook
 | renderGrid | `Grid.Horizontal` | A function that returns the component to be rendered as the grid |
 | extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
 | renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |
+| renderOrder | `[ 'grid', 'chart', 'decorators', 'extras' ]` | A function, returning an array of strings, defining the order in which components should be rendered. First item from array gets rendered first. 
 
 ## Components
 
