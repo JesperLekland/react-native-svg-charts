@@ -1,5 +1,5 @@
 import React from 'react'
-import { StackedAreaChart } from 'react-native-svg-charts'
+import { StackedAreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class AreaStackChartExample extends React.PureComponent {
@@ -48,7 +48,9 @@ class AreaStackChartExample extends React.PureComponent {
                 colors={ colors }
                 curve={ shape.curveNatural }
                 showGrid={ false }
-            />
+            >
+                <Grid/>
+            </StackedAreaChart>
         )
     }
 }

@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, YAxis } from 'react-native-svg-charts'
+import { LineChart, YAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'
 
 class YAxisExample extends React.PureComponent {
@@ -27,7 +27,9 @@ class YAxisExample extends React.PureComponent {
                     data={ data }
                     svg={{ stroke: 'rgb(134, 65, 244)' }}
                     contentInset={ contentInset }
-                />
+                >
+                    <Grid/>
+                </LineChart>
             </View>
         )
     }

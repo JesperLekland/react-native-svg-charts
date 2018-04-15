@@ -18,6 +18,29 @@ class PieChartWithLabelExample extends React.PureComponent {
                 key: `pie-${index}`,
             }))
 
+        const Labels = ({ slices }) => {
+            return slices.map((slice, index) => {
+                const { labelCentroid, pieCentroid, data } = slice
+                return (
+                    <G key={ index }>
+                        <Line
+                            x1={ labelCentroid[ 0 ] }
+                            y1={ labelCentroid[ 1 ] }
+                            x2={ pieCentroid[ 0 ] }
+                            y2={ pieCentroid[ 1 ] }
+                            stroke={ data.svg.fill }
+                        />
+                        <Circle
+                            cx={ labelCentroid[ 0 ] }
+                            cy={ labelCentroid[ 1 ] }
+                            r={ 15 }
+                            fill={ data.svg.fill }
+                        />
+                    </G>
+                )
+            })
+        }
+
         return (
             <PieChart
                 style={{ height: 200 }}
@@ -25,25 +48,9 @@ class PieChartWithLabelExample extends React.PureComponent {
                 innerRadius={ 20 }
                 outerRadius={ 55 }
                 labelRadius={ 80 }
-                renderDecorator={ ({ item, pieCentroid, labelCentroid, index }) => (
-                    <G key={ index }>
-                        <Line
-                            x1={ labelCentroid[ 0 ] }
-                            y1={ labelCentroid[ 1 ] }
-                            x2={ pieCentroid[ 0 ] }
-                            y2={ pieCentroid[ 1 ] }
-                            stroke={ item.svg.fill }
-                        />
-                        <Circle
-                            cx={ labelCentroid[ 0 ] }
-                            cy={ labelCentroid[ 1 ] }
-                            r={ 15 }
-                            fill={ item.svg.fill }
-                        />
-                    </G>
-                ) }
-
-            />
+            >
+                <Labels/>
+            </PieChart>
         )
     }
 

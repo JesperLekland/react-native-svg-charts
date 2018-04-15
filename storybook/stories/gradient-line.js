@@ -26,8 +26,9 @@ class GradientLineExample extends React.PureComponent {
                     strokeWidth: 2,
                     stroke: 'url(#gradient)',
                 }}
-                extras={ [ Gradient ] }
-            />
+            >
+                <Gradient/>
+            </LineChart>
         )
     }
 

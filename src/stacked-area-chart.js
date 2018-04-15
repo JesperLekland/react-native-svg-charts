@@ -5,7 +5,6 @@ import * as shape from 'd3-shape'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import { Defs, G, Svg } from 'react-native-svg'
-import Grid from './grid'
 import Path from './animated-path'
 
 class AreaStack extends PureComponent {
@@ -42,7 +41,6 @@ class AreaStack extends PureComponent {
             style,
             renderGradient,
             curve,
-            showGrid,
             numberOfTicks,
             contentInset: {
                 top    = 0,
@@ -52,9 +50,7 @@ class AreaStack extends PureComponent {
             },
             gridMin,
             gridMax,
-            gridProps,
-            renderDecorator,
-            extras,
+            children,
             offset,
             order,
         } = this.props
@@ -101,11 +97,12 @@ class AreaStack extends PureComponent {
             }
         })
 
-        const extraData = {
+        const extraProps = {
             x,
             y,
             width,
             height,
+            ticks,
         }
 
         return (
@@ -115,12 +112,13 @@ class AreaStack extends PureComponent {
                     onLayout={ event => this._onLayout(event) }
                 >
                     <Svg style={{ flex: 1 }}>
-                        { showGrid &&
-                          <Grid
-                              ticks={ ticks }
-                              y={ y }
-                              gridProps={ gridProps }
-                          />
+                        {
+                            React.Children.map(children, child => {
+                                if (child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
                         }
                         { areas.map((area, index) => (
                             <G key={ area.key }>
@@ -145,12 +143,14 @@ class AreaStack extends PureComponent {
                             </G>
                         )
                         ) }
-                        { series.map((serie) => {
-                            return data.map((key, index) => {
-                                return renderDecorator({ x, y, index, value: serie[ index ][ 1 ] })
+                        {
+                            React.Children.map(children, child => {
+                                if (!child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
                             })
-                        }) }
-                        { extras.map((item, index) => item({ ...extraData, index })) }
+                        }
                     </Svg>
                 </View>
             </View>

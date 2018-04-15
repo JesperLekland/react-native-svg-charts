@@ -8,7 +8,7 @@ class ProgressCircleExample extends React.PureComponent {
         return (
             <ProgressCircle
                 style={{ height: 200 }}
-                progress={ 0.7 }
+                progress={ 0.4 }
                 progressColor={ 'rgb(134, 65, 244)' }
             />
         )
