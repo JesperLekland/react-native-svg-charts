@@ -18,7 +18,7 @@ class PieChartWithLabelExample extends React.PureComponent {
                 key: `pie-${index}`,
             }))
 
-        const Labels = ({ slices, width, height }) => {
+        const Labels = ({ slices }) => {
             return slices.map((slice, index) => {
                 const { labelCentroid, pieCentroid, data } = slice
                 return (

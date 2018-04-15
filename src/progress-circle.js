@@ -57,7 +57,7 @@ class ProgressCircle extends PureComponent {
         const pieSlices = shape
             .pie()
             .value(d => d.value)
-            .sort((a, b) => a.key === 'rest' ? 1 : -1)
+            .sort((a) => a.key === 'rest' ? 1 : -1)
             .startAngle(startAngle)
             .endAngle(endAngle)
             (data)
@@ -76,9 +76,6 @@ class ProgressCircle extends PureComponent {
             }
         ))
 
-        const x = width / 2
-        const y = height / 2
-
         const extraProps = {
             width,
             height,
@@ -90,9 +87,10 @@ class ProgressCircle extends PureComponent {
                 onLayout={ event => this._onLayout(event) }
             >
                 <Svg style={{ flex: 1 }}>
+                    {/* center the progress circle*/}
                     <G
-                        x={x}
-                        y={y}
+                        x={ width / 2 }
+                        y={ height / 2 }
                     >
                         {
                             React.Children.map(children, child => {
