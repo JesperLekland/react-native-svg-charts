@@ -6,13 +6,9 @@ class PieChartWithCenterTextExample extends React.PureComponent {
 
     render() {
 
-        const TextGroup = ({ width, height }) => (
-            <G
-                x={ width / 2 }
-                y={ height / 2 }
-            >
+        const TextGroup = () => (
+            <G key="title">
                 <Text
-                    key="title"
                     textAnchor="middle"
                     alignmentBaseline="text-bottom"
                     fontSize="20"

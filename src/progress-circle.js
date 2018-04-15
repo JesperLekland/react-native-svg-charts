@@ -40,6 +40,7 @@ class ProgressCircle extends PureComponent {
             progress = 0
         }
 
+        // important order to have progress render over "rest"
         const data = [
             {
                 key: 'rest',
@@ -55,9 +56,11 @@ class ProgressCircle extends PureComponent {
 
         const pieSlices = shape
             .pie()
+            .value(d => d.value)
+            .sort((a, b) => a.key === 'rest' ? 1 : -1)
             .startAngle(startAngle)
             .endAngle(endAngle)
-            (data.map(d => d.value))
+            (data)
 
         const arcs = pieSlices.map((slice, index) => (
             {
@@ -87,18 +90,18 @@ class ProgressCircle extends PureComponent {
                 onLayout={ event => this._onLayout(event) }
             >
                 <Svg style={{ flex: 1 }}>
-                    {
-                        React.Children.map(children, child => {
-                            if (child.props.belowChart) {
-                                return React.cloneElement(child, extraProps)
-                            }
-                            return null
-                        })
-                    }
                     <G
-                        x={ x }
-                        y={ y }
+                        x={x}
+                        y={y}
                     >
+                        {
+                            React.Children.map(children, child => {
+                                if (child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                         {arcs.map((shape, index) => {
                             return (
                                 <Path
@@ -110,15 +113,15 @@ class ProgressCircle extends PureComponent {
                                 />
                             )
                         })}
+                        {
+                            React.Children.map(children, child => {
+                                if (!child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                     </G>
-                    {
-                        React.Children.map(children, child => {
-                            if (!child.props.belowChart) {
-                                return React.cloneElement(child, extraProps)
-                            }
-                            return null
-                        })
-                    }
                 </Svg>
             </View>
         )

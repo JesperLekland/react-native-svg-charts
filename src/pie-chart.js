@@ -116,8 +116,6 @@ class PieChart extends PureComponent {
             slices,
         }
 
-        console.log('pieCentroid', slices.map(item => item.pieCentroid))
-
         return (
             <View style={ style }>
                 <View
@@ -125,15 +123,15 @@ class PieChart extends PureComponent {
                     onLayout={ event => this._onLayout(event) }
                 >
                     <Svg style={{ flex: 1 }}>
-                        {
-                            React.Children.map(children, child => {
-                                if (child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
                         <G x={ width / 2 } y={ height / 2 }>
+                            {
+                                React.Children.map(children, child => {
+                                    if (child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
                             { pieSlices.map((slice, index) => {
                                 const { key, onPress, svg } = data[ index ]
                                 return (
@@ -147,15 +145,15 @@ class PieChart extends PureComponent {
                                     />
                                 )
                             })}
+                            {
+                                React.Children.map(children, child => {
+                                    if (!child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
                         </G>
-                        {
-                            React.Children.map(children, child => {
-                                if (!child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
                     </Svg>
                 </View>
             </View>

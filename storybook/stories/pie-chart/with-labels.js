@@ -20,14 +20,9 @@ class PieChartWithLabelExample extends React.PureComponent {
 
         const Labels = ({ slices, width, height }) => {
             return slices.map((slice, index) => {
-                console.log('slice', slice)
                 const { labelCentroid, pieCentroid, data } = slice
                 return (
-                    <G
-                        x={ width / 2 }
-                        y={ height / 2 }
-                        key={ index }
-                    >
+                    <G key={ index }>
                         <Line
                             x1={ labelCentroid[ 0 ] }
                             y1={ labelCentroid[ 1 ] }
