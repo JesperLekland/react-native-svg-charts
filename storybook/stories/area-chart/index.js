@@ -1,5 +1,5 @@
 import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
+import { AreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class AreaChartExample extends React.PureComponent {
@@ -15,7 +15,9 @@ class AreaChartExample extends React.PureComponent {
                 contentInset={{ top: 30, bottom: 30 }}
                 curve={ shape.curveNatural }
                 svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
-            />
+            >
+                <Grid/>
+            </AreaChart>
         )
     }
 }

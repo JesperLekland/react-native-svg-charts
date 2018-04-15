@@ -1,5 +1,5 @@
 import React from 'react'
-import { StackedBarChart } from 'react-native-svg-charts'
+import { StackedBarChart, Grid } from 'react-native-svg-charts'
 
 class StackedBarChartExample extends React.PureComponent {
     render() {
@@ -46,7 +46,9 @@ class StackedBarChartExample extends React.PureComponent {
                 data={ data }
                 showGrid={ false }
                 contentInset={{ top: 30, bottom: 30 }}
-            />
+            >
+                <Grid/>
+            </StackedBarChart>
         )
     }
 }

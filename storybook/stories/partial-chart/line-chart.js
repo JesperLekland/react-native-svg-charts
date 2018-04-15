@@ -55,12 +55,11 @@ class PartialLineChartExample extends React.PureComponent {
                     strokeWidth: 2,
                     clipPath: 'url(#clip-path-1)',
                 }}
-                extras={ [
-                    Clips,
-                    Shadow,
-                    DashedLine,
-                ] }
-            />
+            >
+                <Clips/>
+                <Shadow/>
+                <DashedLine/>
+            </LineChart>
         )
     }
 }

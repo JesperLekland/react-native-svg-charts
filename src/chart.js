@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
 import Path from './animated-path'
-import Grid from './grid'
 
 class Chart extends PureComponent {
 
@@ -35,7 +34,6 @@ class Chart extends PureComponent {
             style,
             animate,
             animationDuration,
-            showGrid,
             numberOfTicks,
             contentInset: {
                 top = 0,
@@ -45,11 +43,8 @@ class Chart extends PureComponent {
             },
             gridMax,
             gridMin,
-            renderDecorator,
-            extras,
-            gridProps,
             svg,
-            renderGrid = Grid,
+            children,
         } = this.props
 
         const { width, height } = this.state
@@ -89,6 +84,8 @@ class Chart extends PureComponent {
         const extraData = {
             x,
             y,
+            data,
+            ticks,
             width,
             height,
             ...paths,
@@ -98,7 +95,14 @@ class Chart extends PureComponent {
             <View style={ style }>
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
                     <Svg style={{ flex: 1 }}>
-                        {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
+                        {
+                            React.Children.map(children, child => {
+                                if (child.props.belowChart) {
+                                    return React.cloneElement(child, extraData)
+                                }
+                                return null
+                            })
+                        }
                         <Path
                             fill={ 'none' }
                             { ...svg }
@@ -106,8 +110,14 @@ class Chart extends PureComponent {
                             animate={ animate }
                             animationDuration={ animationDuration }
                         />
-                        {data.map((value, index) => renderDecorator({ x, y, value, index }))}
-                        {extras.map((item, index) => item({ ...extraData, index }))}
+                        {
+                            React.Children.map(children, child => {
+                                if (!child.props.belowChart) {
+                                    return React.cloneElement(child, extraData)
+                                }
+                                return null
+                            })
+                        }
                     </Svg>
                 </View>
             </View>
@@ -135,15 +145,10 @@ Chart.propTypes = {
         bottom: PropTypes.number,
     }),
     numberOfTicks: PropTypes.number,
-    extras: PropTypes.arrayOf(PropTypes.func),
-
-    renderDecorator: PropTypes.func,
 
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    showGrid: PropTypes.bool,
     gridProps: PropTypes.object,
-    renderGrid: PropTypes.func,
 
     xScale: PropTypes.func,
     yScale: PropTypes.func,
@@ -159,14 +164,10 @@ Chart.defaultProps = {
     curve: shape.curveLinear,
     contentInset: {},
     numberOfTicks: 10,
-    showGrid: true,
-    extras: [],
     xScale: scale.scaleLinear,
     yScale: scale.scaleLinear,
     xAccessor: ({ index }) => index,
     yAccessor: ({ item }) => item,
-    renderDecorator: () => {
-    },
 }
 
 export default Chart

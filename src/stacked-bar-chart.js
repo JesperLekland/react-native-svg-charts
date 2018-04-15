@@ -139,7 +139,7 @@ class BarChart extends PureComponent {
             gridMax,
             gridMin,
             gridProps,
-            extras,
+            children,
             horizontal,
         } = this.props
 
@@ -170,11 +170,27 @@ class BarChart extends PureComponent {
 
         const areas = this.calcAreas(x, y, series)
 
+        const extraProps = {
+            x,
+            y,
+            width,
+            height,
+            ticks,
+            data,
+        }
+
         return (
             <View style={ style }>
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
                     <Svg style={{ flex: 1 }}>
-                        {showGrid && <Grid y={ y } ticks={ ticks } gridProps={ gridProps } />}
+                        {
+                            React.Children.map(children, child => {
+                                if (child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                         {areas.map((bar, index) => {
                             return (
                                 <G key={ index }>
@@ -194,7 +210,14 @@ class BarChart extends PureComponent {
                                 </G>
                             )
                         })}
-                        {extras.map((extra, index) => extra({ item: extra, x, y, index, width, height }))}
+                        {
+                            React.Children.map(children, child => {
+                                if (!child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                     </Svg>
                 </View>
             </View>
