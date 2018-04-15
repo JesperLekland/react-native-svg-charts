@@ -81,7 +81,7 @@ class Chart extends PureComponent {
 
         const ticks = y.ticks(numberOfTicks)
 
-        const extraData = {
+        const extraProps = {
             x,
             y,
             data,
@@ -98,7 +98,7 @@ class Chart extends PureComponent {
                         {
                             React.Children.map(children, child => {
                                 if (child.props.belowChart) {
-                                    return React.cloneElement(child, extraData)
+                                    return React.cloneElement(child, extraProps)
                                 }
                                 return null
                             })
@@ -113,7 +113,7 @@ class Chart extends PureComponent {
                         {
                             React.Children.map(children, child => {
                                 if (!child.props.belowChart) {
-                                    return React.cloneElement(child, extraData)
+                                    return React.cloneElement(child, extraProps)
                                 }
                                 return null
                             })

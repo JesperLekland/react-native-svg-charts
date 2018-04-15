@@ -27,7 +27,7 @@ class ProgressCircle extends PureComponent {
             endAngle,
             animate,
             animateDuration,
-            extras,
+            children,
         } = this.props
 
         let { progress } = this.props
@@ -76,7 +76,7 @@ class ProgressCircle extends PureComponent {
         const x = width / 2
         const y = height / 2
 
-        const extraData = {
+        const extraProps = {
             width,
             height,
         }
@@ -87,6 +87,14 @@ class ProgressCircle extends PureComponent {
                 onLayout={ event => this._onLayout(event) }
             >
                 <Svg style={{ flex: 1 }}>
+                    {
+                        React.Children.map(children, child => {
+                            if (child.props.belowChart) {
+                                return React.cloneElement(child, extraProps)
+                            }
+                            return null
+                        })
+                    }
                     <G
                         x={ x }
                         y={ y }
@@ -102,8 +110,15 @@ class ProgressCircle extends PureComponent {
                                 />
                             )
                         })}
-                        {extras.map((item, index) => item({ ...extraData, index }))}
                     </G>
+                    {
+                        React.Children.map(children, child => {
+                            if (!child.props.belowChart) {
+                                return React.cloneElement(child, extraProps)
+                            }
+                            return null
+                        })
+                    }
                 </Svg>
             </View>
         )
@@ -120,7 +135,6 @@ ProgressCircle.propTypes = {
     endAngle: PropTypes.number,
     animate: PropTypes.bool,
     animateDuration: PropTypes.number,
-    extras: PropTypes.arrayOf(PropTypes.func),
 }
 
 ProgressCircle.defaultProps = {
@@ -129,7 +143,6 @@ ProgressCircle.defaultProps = {
     strokeWidth: 5,
     startAngle: 0,
     endAngle: Math.PI * 2,
-    extras: [],
 }
 
 export default ProgressCircle
