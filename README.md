@@ -7,9 +7,8 @@
 
 Welcome to react-native-svg-charts!
 
-### version 4 now available!
-BarChart and PieChart have joined the latest API!
-A few of breaking changes are introduced in this version but we've taken great care to make sure migrating is easy.
+### version 5 is now available!
+A much improved decorator system has been introduced, allowing for greater flexibility and less complexity.
 See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information.
 
 ---
@@ -33,9 +32,10 @@ We use [react-native-svg](https://github.com/react-native-community/react-native
 We utilize the very popular [d3](https://d3js.org/) library to create our SVG paths and to calculate the coordinates.
 
 We built this library to be as extensible as possible while still providing you with the most common charts and data visualization tools out of the box.
-The Line-, Bar-, Area- and Pie- charts can all be extended with "decorators" and "extras".
-The `renderDecorator` prop is called on each passed `data` entry and allows you to easily add things such as points or other decorators to your charts.
-The `extras` prop is used to further decorate your charts with e.g intersections, projections, gradients and much more, see the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) for more info.
+We're very proud of our "decorator" support. All charts can be extended with "decorators", a component that somehow styles or enhances your chart.
+Simply pass in a `react-native-svg` compliant component as a child to the graph and it will be called with all the necessary information to layout your decorator.
+See each chart for information on what data the decorator will be called with.
+
 
 Feedback and PR's are more than welcome 🙂
 
@@ -75,7 +75,7 @@ yarn storybook
 | yScale | d3Scale.scaleLinear | A function that determines the scale of said axis (only tested with scaleLinear, scaleTime & scaleBand )|
 | xScale | d3Scale.scaleLinear | Same as `yScale` but for the x axis |
 | svg | `{}` | an object containing  all the props that should be passed down to the underlying `react-native-svg` component. [See available props](https://github.com/react-native-community/react-native-svg#common-props)|
-| animate | true | PropTypes.bool |
+| animate | false | PropTypes.bool |
 | animationDuration | 300 | PropTypes.number |
 | style | undefined | Supports all [ViewStyleProps](https://facebook.github.io/react-native/docs/viewstyleproptypes.html) |
 | curve | d3.curveLinear | A function like [this](https://github.com/d3/d3-shape#curves) |
@@ -84,9 +84,19 @@ yarn storybook
 | showGrid | true | Whether or not to show the grid lines |
 | gridMin | undefined | Normally the graph tries to draw from edge to edge within the view bounds. Using this prop will allow the grid to reach further than the actual dataPoints. [Example](#gridmin/max) |
 | gridMax | undefined | The same as "gridMin" but will instead increase the grids maximum value |
-| renderGrid | `Grid.Horizontal` | A function that returns the component to be rendered as the grid |
-| extras | undefined | An array of whatever data you want to render. Each item in the array will call `renderExtra`. [See example](#extras) |
-| renderDecorator | `() => {}`| Called once for each entry in `dataPoints` and expects a component. Use this prop to render e.g points (circles) on each data point. [See example](#decorator) |
+| children | undefined | One or many `react-native-svg` components that will be used to enhance your chart|
+
+## Common arguments to children
+
+| Property | Description |
+| --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas |
+| width | the width of the canvas in pixels |
+| height | the height of the canvas in pixels |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) |
+
 
 ## Components
 
@@ -102,8 +112,8 @@ This library currently provides the following components
 * [XAxis](#xaxis)
 
 Also see [other examples](#other-examples)
-* [Decorator](#decorator)
-* [Extras](#extras)
+* [Grid](#grid)
+
 
 ### AreaChart
 
@@ -142,6 +152,19 @@ See [Common Props](#common-props)
 | Property | Default | Description |
 | --- | --- | --- |
 | start | 0 | The value of which the area should start (will always end on the data point)  |
+
+#### Arguments to children
+
+| Property | Description | Supported |
+| --- | --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
+| width | the width of the canvas in pixels | ✔️ |
+| height | the height of the canvas in pixels | ✔️ |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+
+See [Common arguments to children](#common-arguments-to-children)
 
 ### StackedAreaChart
 
@@ -223,6 +246,21 @@ class StackedAreaExample extends React.PureComponent {
 
 Also see [Common Props](#common-props)
 
+#### Arguments to children
+
+| Property | Description | Supported |
+| --- | --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
+| width | the width of the canvas in pixels | ✔️ |
+| height | the height of the canvas in pixels | ✔️ |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✘ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+
+This chart does not call a child with the `data` argument. This is due to the fact that a lot of calculations go into
+creating the stacked chart, meaning that the original `data` prop doesn't provide especially valuable information
+when trying to layout decorators. It does however call with the rest of the [common arguments](#common-arguments-to-children)
+
 ### BarChart
 ![Bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-chart.png)
 
@@ -263,6 +301,23 @@ Also see [Common Props](#common-props)
 | spacingInner | 0.05 | Spacing between the bars (or groups of bars) |
 | spacingOuter | 0.05 | Spacing outside of the bars (or groups of bars). Percentage of one bars width |
 | contentInset | `{ top: 0, left: 0, right: 0, bottom: 0 }` | PropTypes.shape |
+
+#### Arguments to children
+
+| Property | Description | Supported |
+| --- | --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
+| width | the width of the canvas in pixels | ✔️ |
+| height | the height of the canvas in pixels | ✔️ |
+| bandwidth |  the width of a band (a.k.a bar) | ✔️ |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+
+| Property | Description |
+| --- | --- |
+
+Also see [Common arguments to children](#common-arguments-to-children)
 
 ### StackedBarChart
 
@@ -344,9 +399,22 @@ class StackedBarChartExample extends React.PureComponent {
 | order | [d3.stackOrderNone](https://github.com/d3/d3-shape#stackOrderNone) | The order in which to sort the areas |
 | offset | [d3.stackOffsetNone](https://github.com/d3/d3-shape#stackOffsetNone) | A function to determine the offset of the areas |
 
-*Note:* `renderDecorator` is not supported for this chart type.
-
 Also see [Common Props](#common-props)
+
+#### Arguments to children
+
+| Property | Description | Supported |
+| --- | --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
+| width | the width of the canvas in pixels | ✔️ |
+| height | the height of the canvas in pixels | ✔️ |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✘ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+
+This chart does not call a child with the `data` argument. This is due to the fact that a lot of calculations go into
+creating the stacked chart, meaning that the original `data` prop doesn't provide especially valuable information
+when trying to layout decorators. It does however call with the rest of the [common arguments](#common-arguments-to-children)
 
 ### LineChart
 ![Line chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/line-chart.png)
@@ -380,12 +448,20 @@ class LineChartExample extends React.PureComponent {
 #### Props
 See [Common Props](#common-props)
 
+#### Arguments to children
+
+| Property | Description | Supported |
+| --- | --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✔️ |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✔️ |
+| width | the width of the canvas in pixels | ✔️ |
+| height | the height of the canvas in pixels | ✔️ |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✔️ |
+
 ### PieChart
 
 The PieChart is a really nice component with great support for custom behavior.
-The PieChart does not support the `extras` prop as it doesn't make much sense in the context of a pie chart.
-It does however support the decorator prop with some extra arguments to help you layout your labels (and whatnot).
-
 See more examples in the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples)
 
 ![Pie chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/pie-chart.png)
@@ -437,7 +513,18 @@ class PieChartExample extends React.PureComponent {
 | labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |
 | padAngle | |  The angle between the slices |
 | sort | `(a,b) => b.value - a.value` | Like any normal sort function it expects either 0, a positive or negative return value. The arguments are each an object from the `dataPoints` array |
-| extras | [ ] | see [extras](#extras) |
+
+#### Arguments to children
+
+| Property | Description | Supported |
+| --- | --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✗️ |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✗️ |
+| width | the width of the canvas in pixels | ✔️ |
+| height | the height of the canvas in pixels | ✔️ |
+| slices | an array of the pie chart slices. See source code and examples for what it includes | ✔️️ |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✔️ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✗️ |
 
 
 ### ProgressCircle
@@ -476,7 +563,18 @@ class ProgressCircleExample extends React.PureComponent {
 | startAngle | `0` | PropTypes.number |
 | endAngle | `Math.PI * 2` |  PropTypes.number |
 | strokeWidth | 5 |  PropTypes.number |
-| extras | [ ] | see [extras](#extras) |
+
+#### Common arguments to children
+
+| Property | Description | Supported |
+| --- | --- | --- |
+| x | a function that normally accepts the index of a data points an returns its 'x' location on the canvas | ✗️ |
+| y | a function that normally accepts the value of a data points an returns its 'y' location on the canvas | ✗️ |
+| width | the width of the canvas in pixels | ✔️ |
+| height | the height of the canvas in pixels | ✔️ |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point | ✗ |
+| ticks | if `numberOfTicks` has been provided to the chart this array will include the calculated tick values (useful for grids) | ✗️ |
+
 
 ### YAxis
 
@@ -540,6 +638,11 @@ class YAxisExample extends React.PureComponent {
 | min | undefined | Used to sync layout with chart (if gridMin is used there) |
 | max | undefined | Used to sync layout with chart (if gridMax is used there) |
 
+#### Arguments to children
+
+No arguments
+
+
 
 ### XAxis
 
@@ -599,69 +702,25 @@ class XAxisExample extends React.PureComponent {
 | formatLabel | `value => value` | A utility function to format the text before it is displayed, e.g `value => "day" + value`. Passes back the value provided by the `xAccessor` |
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
 
+#### Arguments to children
 
-### Decorator
+No arguments
 
-The `renderDecorator` prop allow for decorations on each of the provided data points. The `renderDecorator` is very similar to the `renderItem` of a [FlatList](https://facebook.github.io/react-native/docs/flatlist.html)
-and is a function that is called with an object as an arguments to help the layout of the extra decorator. The content of the argument object is as follows:
+### Grid
 
-```javascript
-{
-    value: number, // the value of the data points. Pass to y function to get y coordinate of data point
-    index: number, // the index of the data points. Pass to x function to get x coordinate of data point
-    x: function, // the function used to calculate the x coordinate of a specific data point index
-    y: function, // the function used to calculate the y coordinate of a specific data point value
-}
-```
+This library provides a helper component for drawing grids.
+Simply place it as child to the chart of your choice and (if necessary) set its direction.
 
-Remember that all components returned by `renderDecorator` must be one that is renderable by the [`<Svg/>`](https://github.com/react-native-community/react-native-svg#svg) element, i.e all components supported by [react-native-svg](https://github.com/react-native-community/react-native-svg)
+#### Props
 
-![Decorator](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/decorators.png)
+| Property | Default | Description |
+| --- | --- | --- |
+| svg | `{}` | an object containing  all the props that should be passed down to the underlying `react-native-svg` component. [See available props](https://github.com/react-native-community/react-native-svg#common-props)  |
+| direction | Grid.Direction.HORIZONTAL | The direction of the grid lines.   |
+| belowChart | true | whether or not to render below the chart |
 
-[Examples](https://github.com/JesperLekland/react-native-svg-charts-examples)
-
-### Extras
-The `extras` prop allow for arbitrary decorators on your chart.
-and is a function that is called with an object as an arguments to help the layout of the extra decorator.
-This prop is what really makes this library special. With this prop you can customize your charts to your hearts content - gradients, toolTips, clips, images, text, anything that is supported by `react-native-svg` can be added to your chart through this prop.
-See the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) for some really cool use cases
-
-The content of the extras argument object is as follows:
-
-```javascript
-{
-    item: any, // the entry of the 'extras' array
-    x: function, // the function used to calculate the x coordinate of a specific data point index
-    y: function, // the function used to calculate the y coordinate of a specific data point value
-    index: number, // the index of the item in the 'extras' array
-    width: number, // the width of the svg canvas,
-    height: number, // the number fo the svg canvas,
-}
-```
-
-For `PieChart` and `ProgressCircle` the extras argument object is:
-
-```javascript
-{
-    width: number, // the width of the svg canvas
-    height: number, // the number fo the svg canvas
-}
-```
-
-There might be additional parameters sent to the `extras` functions as well, depending on the chart type.
-
-The `LineChart` passes the svg path data that rendered the line. (argument name `line`)
-
-The `AreaChart` passes both the area svg path as well as the
-svg path for the line following the upper bounds of the area.
-(argument name `area` and `line` respectively)
-
-
-Take a look in the source code for additional details.
-
-![Decorator](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/extras.png)
-
-[Examples](https://github.com/JesperLekland/react-native-svg-charts-examples)
+### Examples
+There is a ton of examples over at [react-native-svg-chart-exampels](https://github.com/JesperLekland/react-native-svg-charts-examples)
 
 
 ## License
