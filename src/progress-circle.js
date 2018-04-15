@@ -27,7 +27,7 @@ class ProgressCircle extends PureComponent {
             endAngle,
             animate,
             animateDuration,
-            extras,
+            children,
         } = this.props
 
         let { progress } = this.props
@@ -40,6 +40,7 @@ class ProgressCircle extends PureComponent {
             progress = 0
         }
 
+        // important order to have progress render over "rest"
         const data = [
             {
                 key: 'rest',
@@ -55,9 +56,11 @@ class ProgressCircle extends PureComponent {
 
         const pieSlices = shape
             .pie()
+            .value(d => d.value)
+            .sort((a) => a.key === 'rest' ? 1 : -1)
             .startAngle(startAngle)
             .endAngle(endAngle)
-            (data.map(d => d.value))
+            (data)
 
         const arcs = pieSlices.map((slice, index) => (
             {
@@ -73,10 +76,7 @@ class ProgressCircle extends PureComponent {
             }
         ))
 
-        const x = width / 2
-        const y = height / 2
-
-        const extraData = {
+        const extraProps = {
             width,
             height,
         }
@@ -87,10 +87,19 @@ class ProgressCircle extends PureComponent {
                 onLayout={ event => this._onLayout(event) }
             >
                 <Svg style={{ flex: 1 }}>
+                    {/* center the progress circle*/}
                     <G
-                        x={ x }
-                        y={ y }
+                        x={ width / 2 }
+                        y={ height / 2 }
                     >
+                        {
+                            React.Children.map(children, child => {
+                                if (child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                         {arcs.map((shape, index) => {
                             return (
                                 <Path
@@ -102,7 +111,14 @@ class ProgressCircle extends PureComponent {
                                 />
                             )
                         })}
-                        {extras.map((item, index) => item({ ...extraData, index }))}
+                        {
+                            React.Children.map(children, child => {
+                                if (!child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                     </G>
                 </Svg>
             </View>
@@ -120,7 +136,6 @@ ProgressCircle.propTypes = {
     endAngle: PropTypes.number,
     animate: PropTypes.bool,
     animateDuration: PropTypes.number,
-    extras: PropTypes.arrayOf(PropTypes.func),
 }
 
 ProgressCircle.defaultProps = {
@@ -129,7 +144,6 @@ ProgressCircle.defaultProps = {
     strokeWidth: 5,
     startAngle: 0,
     endAngle: Math.PI * 2,
-    extras: [],
 }
 
 export default ProgressCircle

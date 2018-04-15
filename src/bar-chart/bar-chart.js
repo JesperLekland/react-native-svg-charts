@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
 import Path from '../animated-path'
-import Grid from '../grid'
 
 class BarChart extends PureComponent {
 
@@ -122,14 +121,10 @@ class BarChart extends PureComponent {
             animate,
             animationDuration,
             style,
-            showGrid,
             numberOfTicks,
-            gridProps,
-            extras,
-            renderDecorator,
-            renderGrid = Grid,
             svg,
             horizontal,
+            children,
         } = this.props
 
         const { height, width } = this.state
@@ -157,6 +152,16 @@ class BarChart extends PureComponent {
             area.path !== null
             ))
 
+        const extraProps = {
+            x,
+            y,
+            width,
+            height,
+            bandwidth,
+            ticks,
+            data,
+        }
+
         return (
             <View style={ style }>
                 <View
@@ -164,7 +169,13 @@ class BarChart extends PureComponent {
                     onLayout={ event => this._onLayout(event) }
                 >
                     <Svg style={{ flex: 1 }}>
-                        {showGrid && renderGrid({ x, y, ticks, data, gridProps })}
+                        {
+                            React.Children.map(children, child => {
+                                if(child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                            })
+                        }
                         {
                             areas.map((area, index) => {
 
@@ -182,17 +193,13 @@ class BarChart extends PureComponent {
                                 )
                             })
                         }
-
-                        {data.map((item, index) => renderDecorator(
-                            {
-                                item,
-                                x,
-                                y,
-                                index,
-                                bandwidth,
-                            }
-                        ))}
-                        {extras.map((extra, index) => extra({ item: extra, x, y, index, width, height }))}
+                        {
+                            React.Children.map(children, child => {
+                                if(!child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                            })
+                        }
                     </Svg>
                 </View>
             </View>
@@ -217,13 +224,8 @@ BarChart.propTypes = {
         bottom: PropTypes.number,
     }),
     numberOfTicks: PropTypes.number,
-    showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    gridProps: PropTypes.object,
-    extras: PropTypes.array,
-    renderDecorator: PropTypes.func,
-    renderGrid: PropTypes.func,
     svg: PropTypes.object,
 }
 
@@ -232,11 +234,7 @@ BarChart.defaultProps = {
     spacingOuter: 0.05,
     contentInset: {},
     numberOfTicks: 10,
-    showGrid: true,
-    extras: [],
     svg: {},
-    renderDecorator: () => {
-    },
     yAccessor: ({ item }) => item,
 }
 

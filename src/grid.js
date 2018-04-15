@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { G, Line } from 'react-native-svg'
 
-const Horizontal = ({ ticks = [], y, gridProps = {} }) => {
+const Horizontal = ({ ticks = [], y, svg }) => {
     return (
         <G>
             {
@@ -15,16 +15,15 @@ const Horizontal = ({ ticks = [], y, gridProps = {} }) => {
                         y2={ y(tick) }
                         strokeWidth={ 1 }
                         stroke={ 'rgba(0,0,0,0.2)' }
-                        { ...gridProps }
+                        { ...svg }
                     />
                 ))
-
             }
         </G>
     )
 }
 
-const Vertical = ({ ticks, x, gridProps = {} }) => {
+const Vertical = ({ ticks = [], x, svg }) => {
     return (
         <G>
             {
@@ -37,7 +36,7 @@ const Vertical = ({ ticks, x, gridProps = {} }) => {
                         x2={ x(tick) }
                         strokeWidth={ 1 }
                         stroke={ 'rgba(0,0,0,0.2)' }
-                        { ...gridProps }
+                        { ...svg }
                     />
                 ))
 
@@ -56,15 +55,14 @@ const Both = (props) => {
 }
 
 Vertical.propTypes = {
-    x: PropTypes.func.isRequired,
-    dataPoints: PropTypes.array.isRequired,
-    gridProps: PropTypes.object,
+    x: PropTypes.func,
+    dataPoints: PropTypes.array,
+    svg: PropTypes.object,
 }
 
 Horizontal.propTypes = {
-    y: PropTypes.func.isRequired,
-    ticks: PropTypes.array.isRequired,
-    gridProps: PropTypes.object,
+    y: PropTypes.func,
+    ticks: PropTypes.array,
 }
 
 Both.propTypes = {
@@ -72,10 +70,35 @@ Both.propTypes = {
     ...Horizontal.propTypes,
 }
 
-export default Horizontal
-
-export {
-    Horizontal,
-    Vertical,
-    Both,
+const Direction = {
+    VERTICAL: 'VERTICAL',
+    HORIZONTAL: 'HORIZONTAL',
+    BOTH: 'BOTH',
 }
+
+const Grid = ({ direction, ...props }) => {
+    if (direction === Direction.VERTICAL) {
+        return <Vertical { ...props } />
+    } else if (direction === Direction.HORIZONTAL) {
+        return <Horizontal { ...props } />
+    } else if (direction === Direction.BOTH) {
+        return <Both { ...props } />
+    }
+
+    return null
+}
+
+Grid.Direction = Direction
+
+Grid.propTypes = {
+    direction: PropTypes.oneOf(Object.values(Direction)),
+    belowChart: PropTypes.bool,
+    svg: PropTypes.object,
+}
+
+Grid.defaultProps = {
+    direction: Direction.HORIZONTAL,
+    belowChart: true,
+}
+
+export default Grid
