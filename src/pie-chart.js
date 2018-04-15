@@ -41,7 +41,7 @@ class PieChart extends PureComponent {
             renderDecorator,
             sort,
             valueAccessor,
-            extras,
+            children,
         } = this.props
 
         const { height, width } = this.state
@@ -104,10 +104,20 @@ class PieChart extends PureComponent {
             .sort(sort)
             (data)
 
-        const extraData = {
+        const slices = pieSlices.map((slice, index) =>({
+            ...slice,
+            pieCentroid: arcs[index].centroid(slice),
+            labelCentroid: labelArcs[index].centroid(slice),
+        }))
+
+        const extraProps = {
             width,
             height,
+            data,
+            slices,
         }
+
+        console.log('pieCentroid', slices.map(item => item.pieCentroid))
 
         return (
             <View style={ style }>
@@ -116,6 +126,14 @@ class PieChart extends PureComponent {
                     onLayout={ event => this._onLayout(event) }
                 >
                     <Svg style={{ flex: 1 }}>
+                        {
+                            React.Children.map(children, child => {
+                                if (child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                         <G x={ width / 2 } y={ height / 2 }>
                             { pieSlices.map((slice, index) => {
                                 const { key, onPress, svg } = data[ index ]
@@ -130,16 +148,15 @@ class PieChart extends PureComponent {
                                     />
                                 )
                             })}
-                            { pieSlices.map((slice, index) => renderDecorator({
-                                index,
-                                item: data[ index ],
-                                height,
-                                width,
-                                pieCentroid: arcs[ index ].centroid(slice),
-                                labelCentroid: labelArcs[ index ].centroid(slice),
-                            })) }
-                            { extras.map((item, index) => item({ ...extraData, index })) }
                         </G>
+                        {
+                            React.Children.map(children, child => {
+                                if (!child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })
+                        }
                     </Svg>
                 </View>
             </View>
@@ -161,10 +178,8 @@ PieChart.propTypes = {
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     style: PropTypes.any,
-    renderDecorator: PropTypes.func,
     sort: PropTypes.func,
     valueAccessor: PropTypes.func,
-    extras: PropTypes.arrayOf(PropTypes.func),
 }
 
 PieChart.defaultProps = {
@@ -174,9 +189,6 @@ PieChart.defaultProps = {
     valueAccessor: ({ item }) => item.value,
     innerRadius: '50%',
     sort: (a, b) => b.value - a.value,
-    renderDecorator: () => {
-    },
-    extras: [],
 }
 
 export default PieChart

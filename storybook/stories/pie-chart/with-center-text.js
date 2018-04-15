@@ -1,13 +1,16 @@
 import React from 'react'
-import { Text } from 'react-native-svg'
+import { Text, G } from 'react-native-svg'
 import { PieChart } from 'react-native-svg-charts'
 
 class PieChartWithCenterTextExample extends React.PureComponent {
 
     render() {
 
-        const titleText = () => {
-            return (
+        const TextGroup = ({ width, height }) => (
+            <G
+                x={ width / 2 }
+                y={ height / 2 }
+            >
                 <Text
                     key="title"
                     textAnchor="middle"
@@ -16,19 +19,14 @@ class PieChartWithCenterTextExample extends React.PureComponent {
                     fontWeight="bold">
                     Title
                 </Text>
-            )
-        }
-
-        const subtitleText = () => {
-            return (
                 <Text
                     key="subtitle"
                     textAnchor="middle"
                     alignmentBaseline="text-top">
                     Subtitle
                 </Text>
-            )
-        }
+            </G>
+        )
 
         const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
 
@@ -49,8 +47,9 @@ class PieChartWithCenterTextExample extends React.PureComponent {
             <PieChart
                 style={{ height: 200 }}
                 data={ pieData }
-                extras={ [ titleText, subtitleText ] }
-            />
+            >
+                <TextGroup/>
+            </PieChart>
         )
     }
 
