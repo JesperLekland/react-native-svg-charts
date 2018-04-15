@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg, { Defs, G } from 'react-native-svg'
 import Path from './animated-path'
-import Grid from './grid'
 
 class BarChart extends PureComponent {
     static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
@@ -133,12 +132,10 @@ class BarChart extends PureComponent {
             animate,
             animationDuration,
             style,
-            showGrid,
             renderGradient,
             numberOfTicks,
             gridMax,
             gridMin,
-            gridProps,
             children,
             horizontal,
         } = this.props

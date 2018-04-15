@@ -5,7 +5,6 @@ import * as shape from 'd3-shape'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import { Defs, G, Svg } from 'react-native-svg'
-import Grid from './grid'
 import Path from './animated-path'
 
 class AreaStack extends PureComponent {

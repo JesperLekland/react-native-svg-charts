@@ -6,7 +6,6 @@ import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
 import Path from '../animated-path'
-import Grid from '../grid'
 
 class BarChart extends PureComponent {
 

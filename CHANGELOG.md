@@ -31,10 +31,16 @@ contributing with PRs.
     A grid show now be rendered through as a child. We still expose a default `Grid`
     component as part of the API but this must no manually be added to all charts that want to display a grid.
 
+    As a result of this the following props are deprecated:
+    * `showGrid`
+    * `gridProps`
+    * `renderGrid`
+
 
 * **Grids are consolidate into one**
 
     Before we hade `Grid.Vertical`,`Grid.Horizontal` and `Grid.Both`,
     now we simply have `Grid` with a `direction` property. See [README](https://github.com/JesperLekland/react-native-svg-charts#react-native-svg-charts)
     for more info
+
 

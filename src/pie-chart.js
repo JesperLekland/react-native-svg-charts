@@ -38,7 +38,6 @@ class PieChart extends PureComponent {
             animate,
             animationDuration,
             style,
-            renderDecorator,
             sort,
             valueAccessor,
             children,
