@@ -124,7 +124,7 @@ Also see
 
 ```javascript
 import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
+import { AreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class AreaChartExample extends React.PureComponent {
@@ -135,12 +135,14 @@ class AreaChartExample extends React.PureComponent {
 
         return (
             <AreaChart
-                style={ { height: 200 } }
+                style={{ height: 200 }}
                 data={ data }
-                contentInset={ { top: 30, bottom: 30 } }
-                curve={shape.curveNatural}
+                contentInset={{ top: 30, bottom: 30 }}
+                curve={ shape.curveNatural }
                 svg={{ fill: 'rgba(134, 65, 244, 0.8)' }}
-            />
+            >
+                <Grid/>
+            </AreaChart>
         )
     }
 }
@@ -259,23 +261,24 @@ when trying to layout decorators. It does however call with the rest of the [com
 #### Example
 ```javascript
 import React from 'react'
-import { BarChart } from 'react-native-svg-charts'
+import { BarChart, Grid } from 'react-native-svg-charts'
 
 class BarChartExample extends React.PureComponent {
 
     render() {
 
         const fill = 'rgb(134, 65, 244)'
-        const data    = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
+        const data   = [ 50, 10, 40, 95, -4, -24, null, 85, undefined, 0, 35, 53, -53, 24, 50, -20, -80 ]
 
         return (
             <BarChart
-                style={ { height: 200 } }
-                data={data}
+                style={{ height: 200 }}
+                data={ data }
                 svg={{ fill }}
-                contentInset={ { top: 30, bottom: 30 } }
-                { ...this.props }
-            />
+                contentInset={{ top: 30, bottom: 30 }}
+            >
+                <Grid/>
+            </BarChart>
         )
     }
 
@@ -406,7 +409,7 @@ when trying to layout decorators. It does however call with the rest of the [com
 
 ```javascript
 import React from 'react'
-import { LineChart } from 'react-native-svg-charts'
+import { LineChart, Grid } from 'react-native-svg-charts'
 
 class LineChartExample extends React.PureComponent {
 
@@ -416,11 +419,13 @@ class LineChartExample extends React.PureComponent {
 
         return (
             <LineChart
-                style={ { height: 200 } }
+                style={{ height: 200 }}
                 data={ data }
                 svg={{ stroke: 'rgb(134, 65, 244)' }}
-                contentInset={ { top: 20, bottom: 20 } }
-            />
+                contentInset={{ top: 20, bottom: 20 }}
+            >
+                <Grid/>
+            </LineChart>
         )
     }
 
@@ -537,7 +542,7 @@ class ProgressCircleExample extends React.PureComponent {
 | endAngle | `Math.PI * 2` |  PropTypes.number |
 | strokeWidth | 5 |  PropTypes.number |
 
-#### Common arguments to children
+#### Arguments to children
 
 | Property | Description
 | --- | --- |
@@ -557,7 +562,7 @@ If the chart has property `contentInset` set it's very important that the YAxis 
 #### Example
 ```javascript
 import React from 'react'
-import { LineChart, YAxis } from 'react-native-svg-charts'
+import { LineChart, YAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'
 
 class YAxisExample extends React.PureComponent {
@@ -569,22 +574,25 @@ class YAxisExample extends React.PureComponent {
         const contentInset = { top: 20, bottom: 20 }
 
         return (
-            <View style={ { height: 200, flexDirection: 'row' } }>
+            <View style={{ height: 200, flexDirection: 'row' }}>
                 <YAxis
-                  data={data}
-                  contentInset={ contentInset }
-                  svg={{
-                      fill: 'grey',
-                      fontSize: 10,
-                  }}
-                  formatLabel={ value => `${value}ºC` }
+                    data={ data }
+                    contentInset={ contentInset }
+                    svg={{
+                        fill: 'grey',
+                        fontSize: 10,
+                    }}
+                    numberOfTicks={ 10 }
+                    formatLabel={ value => `${value}ºC` }
                 />
                 <LineChart
-                    style={ { flex: 1, marginLeft: 16 } }
-                    data={data}
+                    style={{ flex: 1, marginLeft: 16 }}
+                    data={ data }
                     svg={{ stroke: 'rgb(134, 65, 244)' }}
                     contentInset={ contentInset }
-                />
+                >
+                    <Grid/>
+                </LineChart>
             </View>
         )
     }
@@ -626,7 +634,7 @@ The XAxis also supports the `xAccessor` prop, if it's not supplied it will assum
 #### Example
 ```javascript
 import React from 'react'
-import { LineChart, XAxis } from 'react-native-svg-charts'
+import { LineChart, XAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'
 
 class XAxisExample extends React.PureComponent {
@@ -639,17 +647,19 @@ class XAxisExample extends React.PureComponent {
             <View style={{ height: 200, padding: 20 }}>
                 <LineChart
                     style={{ flex: 1 }}
-                    data={data}
-                    gridMin={0}
+                    data={ data }
+                    gridMin={ 0 }
                     contentInset={{ top: 10, bottom: 10 }}
                     svg={{ stroke: 'rgb(134, 65, 244)' }}
-                />
+                >
+                    <Grid/>
+                </LineChart>
                 <XAxis
                     style={{ marginHorizontal: -10 }}
                     data={ data }
-                    formatLabel={ value => index }
+                    formatLabel={ (value, index) => index }
                     contentInset={{ left: 10, right: 10 }}
-                    svg={{ fontSize: 10 }}
+                    svg={{ fontSize: 10, fill: 'black' }}
                 />
             </View>
         )
@@ -682,7 +692,7 @@ Each chart (and axes) component now accepts React children. *Important*  note is
 on order for it to be rendered by the chart. This API deprecates the old one with `extras` and `decorators`.
 Everything that should be rendered above or below the chart should now be supplied as a child to said chart.
 This allows you to declare the order in which your decorators should be rendered. If you want anything rendered below the chart,
-simply add the prop `belowChart={true}`. There's a ton of examples in the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples) go and have a look.
+simply add the prop `belowChart={true}`. There's a ton of examples in the [examples repo](https://github.com/JesperLekland/react-native-svg-charts-examples), go and have a look.
 
 
 ### Grid
