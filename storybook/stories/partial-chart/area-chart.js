@@ -58,13 +58,12 @@ class PartialAreaChartExample extends React.PureComponent {
                     fill: 'url(#gradient)',
                     clipPath: 'url(#clip-path-1)',
                 }}
-                extras={ [
-                    Gradient,
-                    Clips,
-                    Line,
-                    DashedLine,
-                ] }
-            />
+            >
+                <Gradient/>
+                <Clips/>
+                <Line/>
+                <DashedLine/>
+            </AreaChart>
         )
     }
 }

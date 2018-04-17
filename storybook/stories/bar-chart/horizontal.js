@@ -56,17 +56,19 @@ class BarChartExample extends React.PureComponent {
         )
 
         const CUT_OFF = 50
-        const Label = ({ item, x, y, index, bandwidth }) => (
-            <Text
-                key={ item.label }
-                x={ item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10 }
-                y={ y(index) + (bandwidth / 2) }
-                fontSize={ 14 }
-                fill={ item.value > CUT_OFF ? 'white' : 'black' }
-                alignmentBaseline={ 'middle' }
-            >
-                {item.label}
-            </Text>
+        const Labels = ({  x, y, bandwidth, data }) => (
+            data.map((item, index) => (
+                <Text
+                    key={ item.label }
+                    x={ item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10 }
+                    y={ y(index) + (bandwidth / 2) }
+                    fontSize={ 14 }
+                    fill={ item.value > CUT_OFF ? 'white' : 'black' }
+                    alignmentBaseline={ 'middle' }
+                >
+                    {item.label}
+                </Text>
+            ))
         )
 
         return (
@@ -87,13 +89,14 @@ class BarChartExample extends React.PureComponent {
                     svg={{
                         fill: 'blue',
                     }}
-                    extras={ [ Gradient ] }
                     contentInset={{ top: 10, bottom: 10 }}
                     spacingInner={ 0.2 }
                     gridMin={ 0 }
-                    renderDecorator={ Label }
-                    renderGrid={ Grid.Vertical }
-                />
+                >
+                    <Grid direction={ Grid.Direction.VERTICAL }/>
+                    <Gradient/>
+                    <Labels/>
+                </BarChart>
             </View>
         )
     }

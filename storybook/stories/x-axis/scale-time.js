@@ -1,5 +1,5 @@
 import React from 'react'
-import { AreaChart, XAxis } from 'react-native-svg-charts'
+import { AreaChart, XAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'
 import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
@@ -47,7 +47,9 @@ class XAxisScaleTimeExample extends React.PureComponent {
                     contentInset={{ top: 10, bottom: 10 }}
                     svg={{ fill: 'rgba(134, 65, 244, 0.5)' }}
                     curve={ shape.curveLinear }
-                />
+                >
+                    <Grid/>
+                </AreaChart>
                 <XAxis
                     data={ data }
                     svg={{

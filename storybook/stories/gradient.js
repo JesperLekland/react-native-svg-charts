@@ -22,9 +22,10 @@ class GradientExample extends React.PureComponent {
                 style={{ height: 200 }}
                 data={ data }
                 contentInset={{ top: 20, bottom: 20 }}
-                extras={ [ Gradient ] }
                 svg={{ fill: 'url(#gradient)' }}
-            />
+            >
+                <Gradient/>
+            </AreaChart>
         )
     }
 

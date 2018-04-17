@@ -60,6 +60,7 @@ class XAxis extends PureComponent {
             formatLabel,
             numberOfTicks,
             svg,
+            children,
         } = this.props
 
         const { width } = this.state
@@ -86,6 +87,7 @@ class XAxis extends PureComponent {
                         { formatLabel(ticks[0], 0) }
                     </Text>
                     <Svg style={ StyleSheet.absoluteFill }>
+                        {children}
                         {
                             // don't render labels if width isn't measured yet,
                             // causes rendering issues

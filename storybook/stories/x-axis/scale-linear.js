@@ -1,5 +1,5 @@
 import React from 'react'
-import { LineChart, XAxis } from 'react-native-svg-charts'
+import { LineChart, XAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'
 
 class XAxisExample extends React.PureComponent {
@@ -16,7 +16,9 @@ class XAxisExample extends React.PureComponent {
                     gridMin={ 0 }
                     contentInset={{ top: 10, bottom: 10 }}
                     svg={{ stroke: 'rgb(134, 65, 244)' }}
-                />
+                >
+                    <Grid/>
+                </LineChart>
                 <XAxis
                     style={{ marginHorizontal: -10 }}
                     data={ data }
