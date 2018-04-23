@@ -122,7 +122,7 @@ class PieChart extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={ event => this._onLayout(event) }
                 >
-                    <Svg style={{ flex: 1 }}>
+                    <Svg style={{ width: this.state.width, height: this.state.height }}>
                         {/* center the progress circle*/}
                         <G
                             x={ width / 2 }
