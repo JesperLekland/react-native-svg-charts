@@ -158,7 +158,7 @@ export interface AxisProps<T> {
   data: T[];
   spacingInner?: number;
   spacingOuter?: number;
-  formatLabel?: (value: T, index: number) => number | string;
+  formatLabel?: (value: any, index: number) => number | string;
   scale?: ScaleLinear | ScaleTime | ScaleBand;
   numberOfTicks?: number;
   svg?: TextProps;
@@ -169,7 +169,7 @@ export interface XAxisProps<T> extends AxisProps<T> {
     left?: number;
     right?: number
   };
-  xAccessor?: AccessorFunction<T, string | number>;
+  xAccessor?: AccessorFunction<T, any>;
 }
 
 export class XAxis<T> extends React.PureComponent<XAxisProps<T>> {
@@ -184,7 +184,7 @@ export interface YAxisProps<T> extends AxisProps<T> {
   };
   min?: number;
   max?: number;
-  yAccessor?: AccessorFunction<T, string | number>;
+  yAccessor?: AccessorFunction<T, any>;
 }
 
 export class YAxis<T> extends React.PureComponent<YAxisProps<T>> {
