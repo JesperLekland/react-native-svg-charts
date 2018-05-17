@@ -168,39 +168,42 @@ class BarChart extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={ event => this._onLayout(event) }
                 >
-                    <Svg style={{ flex: 1 }}>
-                        {
-                            React.Children.map(children, child => {
-                                if(child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                            })
-                        }
-                        {
-                            areas.map((area, index) => {
+                    {
+                        height > 0 && width > 0 &&
+                        <Svg style={{ height, width }}>
+                            {
+                                React.Children.map(children, child => {
+                                    if(child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                })
+                            }
+                            {
+                                areas.map((area, index) => {
 
-                                const { bar: { svg: barSvg = {} }, path } = area
+                                    const { bar: { svg: barSvg = {} }, path } = area
 
-                                return (
-                                    <Path
-                                        key={ index }
-                                        { ...svg }
-                                        { ...barSvg }
-                                        d={ path }
-                                        animate={ animate }
-                                        animationDuration={ animationDuration }
-                                    />
-                                )
-                            })
-                        }
-                        {
-                            React.Children.map(children, child => {
-                                if(!child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                            })
-                        }
-                    </Svg>
+                                    return (
+                                        <Path
+                                            key={ index }
+                                            { ...svg }
+                                            { ...barSvg }
+                                            d={ path }
+                                            animate={ animate }
+                                            animationDuration={ animationDuration }
+                                        />
+                                    )
+                                })
+                            }
+                            {
+                                React.Children.map(children, child => {
+                                    if(!child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                })
+                            }
+                        </Svg>
+                    }
                 </View>
             </View>
         )

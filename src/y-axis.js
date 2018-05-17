@@ -9,11 +9,12 @@ class YAxis extends PureComponent {
 
     state = {
         height: 0,
+        width: 0,
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height } } } = event
-        this.setState({ height })
+        const { nativeEvent: { layout: { height, width } } } = event
+        this.setState({ height, width })
     }
 
     getY(domain) {
@@ -65,7 +66,7 @@ class YAxis extends PureComponent {
             children,
         } = this.props
 
-        const { height } = this.state
+        const { height, width } = this.state
 
         if (data.length === 0) {
             return <View style={ style }/>
@@ -99,29 +100,38 @@ class YAxis extends PureComponent {
                     >
                         {longestValue}
                     </Text>
-                    <Svg style={ StyleSheet.absoluteFill }>
-                        {children}
-                        {
-                            // don't render labels if width isn't measured yet,
-                            // causes rendering issues
-                            height > 0 &&
-                            ticks.map((value, index) => {
-                                return (
-                                    <SVGText
-                                        originY={ y(value) }
-                                        textAnchor={ 'middle' }
-                                        x={ '50%' }
-                                        alignmentBaseline={ 'middle' }
-                                        { ...svg }
-                                        key={ index }
-                                        y={ y(value) }
-                                    >
-                                        {formatLabel(value, index)}
-                                    </SVGText>
-                                )
-                            })
-                        }
-                    </Svg>
+                    {
+                        height > 0 && width > 0 &&
+                        <Svg style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            height,
+                            width,
+                        }}>
+                            {children}
+                            {
+                                // don't render labels if width isn't measured yet,
+                                // causes rendering issues
+                                height > 0 &&
+                                ticks.map((value, index) => {
+                                    return (
+                                        <SVGText
+                                            originY={y(value)}
+                                            textAnchor={'middle'}
+                                            x={'50%'}
+                                            alignmentBaseline={'middle'}
+                                            {...svg}
+                                            key={index}
+                                            y={y(value)}
+                                        >
+                                            {formatLabel(value, index)}
+                                        </SVGText>
+                                    )
+                                })
+                            }
+                        </Svg>
+                    }
                 </View>
             </View>
         )

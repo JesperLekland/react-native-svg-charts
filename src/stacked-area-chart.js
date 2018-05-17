@@ -111,47 +111,50 @@ class AreaStack extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={ event => this._onLayout(event) }
                 >
-                    <Svg style={{ flex: 1 }}>
-                        {
-                            React.Children.map(children, child => {
-                                if (child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                        { areas.map((area, index) => (
-                            <G key={ area.key }>
-                                <Defs>
-                                    { renderGradient && renderGradient({
-                                        id: `gradient-${area.key}`,
-                                        width,
-                                        height,
-                                        x,
-                                        y,
-                                        index,
-                                        key: area.key,
-                                        color: area.color,
-                                    }) }
-                                </Defs>
-                                <Path
-                                    animate={ animate }
-                                    animationDuration={ animationDuration }
-                                    d={ area.path }
-                                    fill={ renderGradient ? `url(#gradient-${area.key})` : area.color }
-                                />
-                            </G>
-                        )
-                        ) }
-                        {
-                            React.Children.map(children, child => {
-                                if (!child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                    </Svg>
+                    {
+                        height > 0 && width > 0 &&
+                        <Svg style={{ height, width }}>
+                            {
+                                React.Children.map(children, child => {
+                                    if (child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                            {areas.map((area, index) => (
+                                <G key={ area.key }>
+                                    <Defs>
+                                        {renderGradient && renderGradient({
+                                            id: `gradient-${area.key}`,
+                                            width,
+                                            height,
+                                            x,
+                                            y,
+                                            index,
+                                            key: area.key,
+                                            color: area.color,
+                                        })}
+                                    </Defs>
+                                    <Path
+                                        animate={ animate }
+                                        animationDuration={ animationDuration }
+                                        d={ area.path }
+                                        fill={ renderGradient ? `url(#gradient-${area.key})` : area.color }
+                                    />
+                                </G>
+                            )
+                            )}
+                            {
+                                React.Children.map(children, child => {
+                                    if (!child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                        </Svg>
+                    }
                 </View>
             </View>
         )
