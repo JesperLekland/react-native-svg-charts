@@ -28,6 +28,7 @@ class ProgressCircle extends PureComponent {
             animate,
             animateDuration,
             children,
+            cornerRadius,
         } = this.props
 
         let { progress } = this.props
@@ -71,7 +72,7 @@ class ProgressCircle extends PureComponent {
                     .innerRadius((outerDiameter / 2) - strokeWidth)  // Inner radius: to create a donut or pie
                     .startAngle(index === 0 ? startAngle : slice.startAngle)
                     .endAngle(index === 0 ? endAngle : slice.endAngle)
-                    .cornerRadius(45)
+                    .cornerRadius(cornerRadius)
                     (),
             }
         ))
@@ -135,6 +136,7 @@ ProgressCircle.propTypes = {
     startAngle: PropTypes.number,
     endAngle: PropTypes.number,
     animate: PropTypes.bool,
+    cornerRadius: PropTypes.number,
     animateDuration: PropTypes.number,
 }
 
@@ -144,6 +146,7 @@ ProgressCircle.defaultProps = {
     strokeWidth: 5,
     startAngle: 0,
     endAngle: Math.PI * 2,
+    cornerRadius: 45,
 }
 
 export default ProgressCircle

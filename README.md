@@ -541,6 +541,8 @@ class ProgressCircleExample extends React.PureComponent {
 | startAngle | `0` | PropTypes.number |
 | endAngle | `Math.PI * 2` |  PropTypes.number |
 | strokeWidth | 5 |  PropTypes.number |
+| cornerRadius | 45 |  PropTypes.number |
+
 
 #### Arguments to children
 
