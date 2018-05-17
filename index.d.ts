@@ -1,5 +1,5 @@
 import { ScaleBand, ScaleLinear, ScaleLogarithmic, ScalePower, ScaleTime } from 'd3-scale';
-import { CurveFactory } from 'd3-shape';
+import { CurveFactory, Series } from 'd3-shape';
 import React from 'react';
 import { StyleProp, ViewStyle } from 'react-native';
 import { CommonPathProps, SvgProps } from 'react-native-svg';
@@ -7,6 +7,8 @@ import { CommonPathProps, SvgProps } from 'react-native-svg';
 type ScaleType = ScaleLinear | ScaleLogarithmic | ScalePower;
 type AccessorFunction<T, U> = (props: { item: T, index: number }) => U;
 type SortFunction<T> = (a: T, b: T) => number;
+type OffsetFunction = (series: Series<any, any>, order: number[]) => void;
+type OrderFunction = (series: Series<any, any>) => number[];
 
 // Chart
 
@@ -27,7 +29,7 @@ export interface ChartProps<T> {
   };
   gridMin?: number;
   gridMax?: number;
-  gridProps?: {}; // @TODO Add details
+  gridProps?: GridProps<T>;
   numberOfTicks?: number;
   xScale?: ScaleType;
   yScale?: ScaleType;
@@ -50,7 +52,10 @@ type PieChartData = {
   svg?: SvgProps;
   key: string | number;
   value?: number;
-  arc?: {}; // @TODO Add details
+  arc?: {
+    outerRadius?: number | string;
+    cornerRadius?: number | string;
+  };
 };
 
 export interface PieChartProps<T extends PieChartData> extends ChartProps<T> {
@@ -79,8 +84,8 @@ export class AreaChart<T> extends Chart<AreaChartProps<T>> {
 export interface StackedAreaChartProps<T> extends ChartProps<T> {
   keys: string[];
   colors: string[];
-  offset?: Function; // @TODO Add details
-  order?: Function; // @TODO Add details
+  offset?: OffsetFunction;
+  order?: OrderFunction;
   renderGradient?: Function; // @TODO Add details
   showGrid?: boolean;
   extras?: any[]; // @TODO Add details
@@ -97,8 +102,8 @@ export class StackedAreaChart<T> extends Chart<StackedAreaChartProps<T>> {
 export interface StackedBarChartProps<T> extends ChartProps<T> {
   keys: string[];
   colors: string[];
-  offset?: Function; // @TODO Add details
-  order?: Function; // @TODO Add details
+  offset?: OffsetFunction;
+  order?: OrderFunction;
   strokeColor?: string;
   renderGradient: Function; // @TODO Add details
   spacingInner?: number;
@@ -200,8 +205,8 @@ class HorizontalLine extends React.Component<HorizontalLineProps> {
 // Point
 
 export interface PointProps {
-  x: Function; // @TODO Add details
-  y: Function; // @TODO Add details
+  x: (index: number) => number;
+  y: (value: number) => number;
   value?: number;
   radius?: number;
   index?: number;
@@ -215,12 +220,13 @@ class Point extends React.Component<PointProps> {
 // Tooltip
 
 export interface TooltipProps {
-  x: Function; // @TODO Add details
-  y: Function; // @TODO Add details
+  x: (index: number) => number;
+  y: (value: number) => number;
   value?: number;
   index?: number;
   height?: number;
   stroke?: string;
+  text: string;
   pointStroke?: string;
 }
 
@@ -238,14 +244,15 @@ type GridDirection = 'VERTICAL' | 'HORIZONTAL' | 'BOTH';
 
 export interface GridProps<T> {
   direction?: GridDirection;
-  belowChart?: bool;
+  belowChart?: boolean;
   svg?: SvgProps;
   ticks?: T[]; // @TODO Add details
   x?: (t: T) => number;
   y?: (t: T) => number;
 }
 
-declare const Grid: React.SFC<GridProps<T>>;
+declare function Grid<T>(): React.SFC<GridProps<T>>;
+
 Grid.Direction = {
   VERTICAL: 'VERTICAL',
   HORIZONTAL: 'HORIZONTAL',
