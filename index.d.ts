@@ -1,14 +1,14 @@
 import { ScaleBand, ScaleLinear, ScaleLogarithmic, ScalePower, ScaleTime } from 'd3-scale';
 import { CurveFactory, Series } from 'd3-shape';
 import React from 'react';
-import { StyleProp, TextProps, ViewStyle } from 'react-native';
+import { StyleProp, ViewStyle } from 'react-native';
 import {
   CommonPathProps,
   LinearGradientProps,
   LineProps,
   PathProps,
   RadialGradientProps,
-  SvgProps
+  TextProps
 } from 'react-native-svg';
 
 type ScaleType = ScaleLinear | ScaleLogarithmic | ScalePower;
