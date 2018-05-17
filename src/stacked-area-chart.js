@@ -176,8 +176,6 @@ AreaStack.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
-    extras: PropTypes.array,
-    renderDecorator: PropTypes.func,
 }
 
 AreaStack.defaultProps = {
@@ -188,9 +186,6 @@ AreaStack.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
-    extras: [],
-    renderDecorator: () => {
-    },
 }
 
 export default AreaStack

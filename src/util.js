@@ -44,10 +44,7 @@ export const Constants = {
             bottom: PropTypes.number,
         }),
         numberOfTicks: PropTypes.number,
-        extras: PropTypes.array,
 
-        renderDecorator: PropTypes.func,
-        renderExtra: PropTypes.func,
         renderGradient: PropTypes.func,
 
         gridMin: PropTypes.number,
@@ -65,11 +62,6 @@ export const Constants = {
         gridMax: 0,
         gridStroke: 'rgba(0,0,0,0.2)',
         gridWidth: 0.5,
-        extras: [],
-        renderDecorator: () => {
-        },
-        renderExtra: () => {
-        },
     },
 }
 
