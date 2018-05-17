@@ -138,7 +138,7 @@ export interface AxisProps<T> {
   labelStyle?: StyleProp<ViewStyle>;
   spacingInner?: number;
   spacingOuter?: number;
-  formatLabel: Function; // @TODO Add details
+  formatLabel?: (value: T) => number | string;
   scale?: ScaleLinear | ScaleTime | ScaleBand;
   numberOfTicks?: number;
   svg?: SvgProps;

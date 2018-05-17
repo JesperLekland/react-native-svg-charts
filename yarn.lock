@@ -149,9 +149,41 @@
     react-treebeard "^2.0.3"
     redux "^3.7.2"
 
+"@types/d3-path@*":
+  version "1.0.6"
+  resolved "https://registry.yarnpkg.com/@types/d3-path/-/d3-path-1.0.6.tgz#c1a7d2dc07b295fdd1c84dabe4404df991b48693"
+
+"@types/d3-scale@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/d3-scale/-/d3-scale-2.0.0.tgz#d40f2ff137f4fe9b13b45c5a8e14f39edd498dcf"
+  dependencies:
+    "@types/d3-time" "*"
+
+"@types/d3-shape@^1.2.2":
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/@types/d3-shape/-/d3-shape-1.2.2.tgz#f8dcdff7772a7ae37858bf04abd43848a78e590e"
+  dependencies:
+    "@types/d3-path" "*"
+
+"@types/d3-time@*":
+  version "1.0.7"
+  resolved "https://registry.yarnpkg.com/@types/d3-time/-/d3-time-1.0.7.tgz#4266d7c9be15fa81256a88d1d052d61cd8dc572c"
+
 "@types/inline-style-prefixer@^3.0.0":
   version "3.0.1"
   resolved "https://registry.yarnpkg.com/@types/inline-style-prefixer/-/inline-style-prefixer-3.0.1.tgz#8541e636b029124b747952e9a28848286d2b5bf6"
+
+"@types/react-native@^0.55.14":
+  version "0.55.14"
+  resolved "https://registry.yarnpkg.com/@types/react-native/-/react-native-0.55.14.tgz#9a702845c7d72f2774b4e2004cb698c099f9b50e"
+  dependencies:
+    "@types/react" "*"
+
+"@types/react@*", "@types/react@^16.3.14":
+  version "16.3.14"
+  resolved "https://registry.yarnpkg.com/@types/react/-/react-16.3.14.tgz#f90ac6834de172e13ecca430dcb6814744225d36"
+  dependencies:
+    csstype "^2.2.0"
 
 "@types/react@^16.0.18":
   version "16.0.20"
@@ -2587,6 +2619,10 @@ cssom@0.3.x, "cssom@>= 0.3.2 < 0.4.0":
   resolved "https://registry.yarnpkg.com/cssstyle/-/cssstyle-0.2.37.tgz#541097234cb2513c83ceed3acddc27ff27987d54"
   dependencies:
     cssom "0.3.x"
+
+csstype@^2.2.0:
+  version "2.5.2"
+  resolved "https://registry.yarnpkg.com/csstype/-/csstype-2.5.2.tgz#4534308476ceede8fbe148b9b99f9baf1c80fa06"
 
 csurf@~1.8.3:
   version "1.8.3"
