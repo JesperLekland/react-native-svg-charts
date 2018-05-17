@@ -2,7 +2,14 @@ import { ScaleBand, ScaleLinear, ScaleLogarithmic, ScalePower, ScaleTime } from 
 import { CurveFactory, Series } from 'd3-shape';
 import React from 'react';
 import { StyleProp, TextProps, ViewStyle } from 'react-native';
-import { CommonPathProps, LinearGradientProps, RadialGradientProps, SvgProps } from 'react-native-svg';
+import {
+  CommonPathProps,
+  LinearGradientProps,
+  LineProps,
+  PathProps,
+  RadialGradientProps,
+  SvgProps
+} from 'react-native-svg';
 
 type ScaleType = ScaleLinear | ScaleLogarithmic | ScalePower;
 type AccessorFunction<T, U> = (props: { item: T, index: number }) => U;
@@ -17,7 +24,7 @@ export interface ChartProps<T> {
   style: StyleProp<ViewStyle>;
   animate?: boolean;
   animationDuration?: number;
-  svg?: SvgProps;
+  svg?: PathProps;
   width?: number;
   height?: number;
   curve?: CurveFactory;
@@ -49,7 +56,7 @@ export class LineChart<T> extends Chart<ChartProps<T>> {
 // Pie Chart
 
 type PieChartData = {
-  svg?: SvgProps;
+  svg?: PathProps;
   key: string | number;
   value?: number;
   arc?: {
@@ -149,13 +156,12 @@ export class BarChart<T> extends Chart<BarChartProps<T>> {
 
 export interface AxisProps<T> {
   data: T[];
-  labelStyle?: StyleProp<TextProps>;
   spacingInner?: number;
   spacingOuter?: number;
   formatLabel?: (value: T, index: number) => number | string;
   scale?: ScaleLinear | ScaleTime | ScaleBand;
   numberOfTicks?: number;
-  svg?: SvgProps;
+  svg?: TextProps;
 }
 
 export interface XAxisProps<T> extends AxisProps<T> {
@@ -254,12 +260,13 @@ type GridDirection = 'VERTICAL' | 'HORIZONTAL' | 'BOTH';
 export interface GridProps<T> {
   direction?: GridDirection;
   belowChart?: boolean;
-  svg?: SvgProps;
+  svg?: LineProps;
   ticks?: T[];
   x?: (t: T) => number;
   y?: (t: T) => number;
 }
 
+// Export as Component despite it's SFC.
 export class Grid<T> extends React.Component<GridProps<T>> {
   static Direction: {
     VERTICAL: 'VERTICAL',

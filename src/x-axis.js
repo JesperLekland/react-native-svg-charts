@@ -122,7 +122,6 @@ XAxis.propTypes = {
         PropTypes.number,
         PropTypes.object,
     ])).isRequired,
-    labelStyle: PropTypes.any,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
     formatLabel: PropTypes.func,
