@@ -1,8 +1,8 @@
 import { ScaleBand, ScaleLinear, ScaleLogarithmic, ScalePower, ScaleTime } from 'd3-scale';
 import { CurveFactory, Series } from 'd3-shape';
 import React from 'react';
-import { StyleProp, ViewStyle } from 'react-native';
-import { CommonPathProps, SvgProps } from 'react-native-svg';
+import { StyleProp, TextProps, ViewStyle } from 'react-native';
+import { CommonPathProps, LinearGradientProps, RadialGradientProps, SvgProps } from 'react-native-svg';
 
 type ScaleType = ScaleLinear | ScaleLogarithmic | ScalePower;
 type AccessorFunction<T, U> = (props: { item: T, index: number }) => U;
@@ -82,39 +82,48 @@ export class AreaChart<T> extends Chart<AreaChartProps<T>> {
 // Stacked Area Chart
 
 export interface StackedAreaChartProps<T> extends ChartProps<T> {
-  keys: string[];
+  keys: (keyof T)[];
   colors: string[];
   offset?: OffsetFunction;
   order?: OrderFunction;
-  renderGradient?: Function; // @TODO Add details
+  renderGradient?: (props: {
+    id: string,
+    width: number,
+    height: number,
+    x: number,
+    y: number,
+    index: number,
+    key: keyof T,
+    color: string,
+  }) => React.Component<LinearGradientProps | RadialGradientProps>;
   showGrid?: boolean;
-  extras?: any[]; // @TODO Add details
-  renderDecorator?: Function; // @TODO Add details
+  extras?: any[];
+  renderDecorator?: () => {};
 }
 
 export class StackedAreaChart<T> extends Chart<StackedAreaChartProps<T>> {
-  static extractDataPoints<T>(data: T[], keys: string[], order: Function, offset: Function): number[];
+  static extractDataPoints<T>(data: T[], keys: (keyof T)[], order?: OrderFunction, offset?: OffsetFunction): number[];
 
 }
 
 // Stacked Bar Chart
 
 export interface StackedBarChartProps<T> extends ChartProps<T> {
-  keys: string[];
+  keys: (keyof T)[];
   colors: string[];
   offset?: OffsetFunction;
   order?: OrderFunction;
   strokeColor?: string;
-  renderGradient: Function; // @TODO Add details
+  renderGradient: (props: { id: string }) => React.Component<LinearGradientProps | RadialGradientProps>;
   spacingInner?: number;
   spacingOuter?: number;
   showGrid?: boolean;
   extras?: any[];
-  extra?: Function; // @TODO Add details
+  extra?: () => {};
 }
 
 export class StackedBarChart<T> extends Chart<StackedBarChartProps<T>> {
-
+  static extractDataPoints<T>(data: T, keys: (keyof T)[], order?: OrderFunction, offset?: OffsetFunction);
 }
 
 // Bar Chart
@@ -140,10 +149,10 @@ export class BarChart<T> extends Chart<BarChartProps<T>> {
 
 export interface AxisProps<T> {
   data: T[];
-  labelStyle?: StyleProp<ViewStyle>;
+  labelStyle?: StyleProp<TextProps>;
   spacingInner?: number;
   spacingOuter?: number;
-  formatLabel?: (value: T) => number | string;
+  formatLabel?: (value: T, index: number) => number | string;
   scale?: ScaleLinear | ScaleTime | ScaleBand;
   numberOfTicks?: number;
   svg?: SvgProps;
@@ -246,18 +255,18 @@ export interface GridProps<T> {
   direction?: GridDirection;
   belowChart?: boolean;
   svg?: SvgProps;
-  ticks?: T[]; // @TODO Add details
+  ticks?: T[];
   x?: (t: T) => number;
   y?: (t: T) => number;
 }
 
-declare function Grid<T>(): React.SFC<GridProps<T>>;
-
-Grid.Direction = {
-  VERTICAL: 'VERTICAL',
-  HORIZONTAL: 'HORIZONTAL',
-  BOTH: 'BOTH',
-};
+export class Grid<T> extends React.Component<GridProps<T>> {
+  static Direction: {
+    VERTICAL: 'VERTICAL',
+    HORIZONTAL: 'HORIZONTAL',
+    BOTH: 'BOTH',
+  };
+}
 
 export interface AnimatedPathProps extends CommonPathProps {
   animated?: boolean;
