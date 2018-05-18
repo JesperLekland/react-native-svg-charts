@@ -37,10 +37,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@types/d3-scale": "^2.0.0",
-    "@types/d3-shape": "^1.2.2",
-    "@types/react": "^16.3.14",
-    "@types/react-native": "^0.55.14",
     "d3-array": "^1.2.0",
     "d3-interpolate-path": "2.0.0",
     "d3-scale": "^1.0.6",
