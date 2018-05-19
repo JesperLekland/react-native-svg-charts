@@ -249,8 +249,6 @@ BarChart.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     gridProps: PropTypes.object,
-    extras: PropTypes.array,
-    extra: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -264,8 +262,6 @@ BarChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
-    extras: [],
-    extra: () => {},
 }
 
 export default BarChart
