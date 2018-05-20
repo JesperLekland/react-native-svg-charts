@@ -132,7 +132,7 @@ class PieChart extends PureComponent {
                             >
                                 {
                                     React.Children.map(children, child => {
-                                        if (child.props.belowChart) {
+                                        if (child && child.props.belowChart) {
                                             return React.cloneElement(child, extraProps)
                                         }
                                         return null
@@ -153,7 +153,7 @@ class PieChart extends PureComponent {
                                 })}
                                 {
                                     React.Children.map(children, child => {
-                                        if (!child.props.belowChart) {
+                                        if (child && !child.props.belowChart) {
                                             return React.cloneElement(child, extraProps)
                                         }
                                         return null
