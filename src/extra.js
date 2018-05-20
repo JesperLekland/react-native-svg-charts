@@ -6,7 +6,7 @@ const Extra = ({ children, ...props }) => {
         <G>
             {
                 React.Children.map(children, child => {
-                    return React.cloneElement(child, props)
+                    return child ? React.cloneElement(child, props) : null
                 })
             }
         </G>

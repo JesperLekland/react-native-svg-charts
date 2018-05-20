@@ -6,7 +6,7 @@ const Decorator = ({ children, data, ...props }) => {
         <G>
             {
                 React.Children.map(children, child => {
-                    return data.map((value, index) => React.cloneElement(child, { value, index, ...props }))
+                    return child ? data.map((value, index) => React.cloneElement(child, { value, index, ...props })) : null
                 })
             }
         </G>

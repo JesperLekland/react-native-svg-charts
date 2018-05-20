@@ -171,7 +171,7 @@ class BarChart extends PureComponent {
                     <Svg style={{ flex: 1 }}>
                         {
                             React.Children.map(children, child => {
-                                if(child.props.belowChart) {
+                                if(child && child.props.belowChart) {
                                     return React.cloneElement(child, extraProps)
                                 }
                             })
@@ -195,7 +195,7 @@ class BarChart extends PureComponent {
                         }
                         {
                             React.Children.map(children, child => {
-                                if(!child.props.belowChart) {
+                                if(child && !child.props.belowChart) {
                                     return React.cloneElement(child, extraProps)
                                 }
                             })
