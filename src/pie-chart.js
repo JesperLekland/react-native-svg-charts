@@ -127,8 +127,8 @@ class PieChart extends PureComponent {
                         <Svg style={{ height, width }}>
                             {/* center the progress circle*/}
                             <G
-                                x={width / 2}
-                                y={height / 2}
+                                x={ width / 2 }
+                                y={ height / 2 }
                             >
                                 {
                                     React.Children.map(children, child => {
@@ -142,12 +142,12 @@ class PieChart extends PureComponent {
                                     const { key, onPress, svg } = data[ index ]
                                     return (
                                         <Path
-                                            key={key}
-                                            onPress={onPress}
-                                            {...svg}
-                                            d={arcs[ index ](slice)}
-                                            animate={animate}
-                                            animationDuration={animationDuration}
+                                            key={ key }
+                                            onPress={ onPress }
+                                            { ...svg }
+                                            d={ arcs[ index ](slice) }
+                                            animate={ animate }
+                                            animationDuration={ animationDuration }
                                         />
                                     )
                                 })}

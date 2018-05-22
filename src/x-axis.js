@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import * as d3Scale from 'd3-scale'
 import * as array from 'd3-array'
 import Svg, { Text as SVGText } from 'react-native-svg'
