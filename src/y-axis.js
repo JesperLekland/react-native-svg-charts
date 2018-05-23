@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import { Svg, Text as SVGText } from 'react-native-svg'
 import * as d3Scale from 'd3-scale'
 import * as array from 'd3-array'
@@ -117,13 +117,13 @@ class YAxis extends PureComponent {
                                 ticks.map((value, index) => {
                                     return (
                                         <SVGText
-                                            originY={y(value)}
-                                            textAnchor={'middle'}
-                                            x={'50%'}
-                                            alignmentBaseline={'middle'}
-                                            {...svg}
-                                            key={index}
-                                            y={y(value)}
+                                            originY={ y(value) }
+                                            textAnchor={ 'middle' }
+                                            x={ '50%' }
+                                            alignmentBaseline={ 'middle' }
+                                            { ...svg }
+                                            key={ index }
+                                            y={ y(value) }
                                         >
                                             {formatLabel(value, index)}
                                         </SVGText>
