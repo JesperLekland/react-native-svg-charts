@@ -25,14 +25,23 @@ class BarChart extends PureComponent {
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
+        const {
+            nativeEvent: {
+                layout: { height, width },
+            },
+        } = event
         this.setState({ height, width })
     }
 
     calcXScale(domain) {
         const { data } = this.props
 
-        const { horizontal, contentInset: { left = 0, right = 0 }, spacingInner, spacingOuter } = this.props
+        const {
+            horizontal,
+            contentInset: { left = 0, right = 0 },
+            spacingInner,
+            spacingOuter,
+        } = this.props
 
         const { width } = this.state
 
@@ -57,7 +66,12 @@ class BarChart extends PureComponent {
     calcYScale(domain) {
         const { data } = this.props
 
-        const { horizontal, contentInset: { top = 0, bottom = 0 }, spacingInner, spacingOuter } = this.props
+        const {
+            horizontal,
+            contentInset: { top = 0, bottom = 0 },
+            spacingInner,
+            spacingOuter,
+        } = this.props
 
         const { height } = this.state
 
@@ -146,11 +160,12 @@ class BarChart extends PureComponent {
             return <View style={ style } />
         }
 
+        const shapes = data.map(({ value }) => value)
         const series = shape
             .stack()
             .keys(keys)
             .order(order)
-            .offset(offset)(data)
+            .offset(offset)(shapes)
 
         //double merge arrays to extract just the values
         const values = array.merge(array.merge(series))
@@ -179,28 +194,28 @@ class BarChart extends PureComponent {
         return (
             <View style={ style }>
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    {
-                        height > 0 && width > 0 &&
+                    {height > 0 &&
+                        width > 0 && (
                         <Svg style={{ height, width }}>
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                            {React.Children.map(children, child => {
+                                if (child && child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                             {areas.map((bar, index) => {
+                                const { onPress } = data[index % data.length]
                                 return (
                                     <G key={ index }>
                                         <Defs>
                                             {renderGradient &&
-                                            renderGradient({
-                                                id: `gradient-${index}`,
-                                                ...bar,
-                                            })}
+                                                    renderGradient({
+                                                        id: `gradient-${index}`,
+                                                        ...bar,
+                                                    })}
                                         </Defs>
                                         <Path
+                                            onPress={ onPress }
                                             fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
                                             d={ bar.path }
                                             animate={ animate }
@@ -209,16 +224,14 @@ class BarChart extends PureComponent {
                                     </G>
                                 )
                             })}
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && !child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                            {React.Children.map(children, child => {
+                                if (child && !child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )
