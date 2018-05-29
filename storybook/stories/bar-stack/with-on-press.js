@@ -1,19 +1,34 @@
 import React from 'react'
 import { Grid, StackedBarChart } from 'react-native-svg-charts'
 
-const getItem = (index, key) => {
-    // const value = getRandomInt()
-    const value = Math.round(Math.random() * 3440 + 480)
-    const onPress = () => console.warn(`onPress => ${index}:${key}:${value}`)
-    return { value, onPress }
-}
-
-const times = 5
 const colors = [ '#33691E', '#689F38', '#9CCC65', '#DCEDC8' ]
+const data = [
+    {
+        broccoli: { value: 3840, onPress: () => console.warn('onPress => 0:broccoli:3840') },
+        celery: { value: 1920, onPress: () => console.warn('onPress => 0:celery:1920') },
+        onions: { value: 960, onPress: () => console.warn('onPress => 0:onions:960') },
+        tomato: { value: 400, onPress: () => console.warn('onPress => 0:tomato:400') },
+    },
+    {
+        broccoli: { value: 1600, onPress: () => console.warn('onPress => 1:broccoli:1600') },
+        celery: { value: 1440, onPress: () => console.warn('onPress => 1:celery:1440') },
+        onions: { value: 960, onPress: () => console.warn('onPress => 1:onions:960') },
+        tomato: { value: 400, onPress: () => console.warn('onPress => 1:tomato:400') },
+    },
+    {
+        broccoli: { value: 640, onPress: () => console.warn('onPress => 2:broccoli:640') },
+        celery: { value: 960, onPress: () => console.warn('onPress => 2:celery:960') },
+        onions: { value: 3640, onPress: () => console.warn('onPress => 2:onions:3640') },
+        tomato: { value: 400, onPress: () => console.warn('onPress => 2:tomato:400') },
+    },
+    {
+        broccoli: { value: 3320, onPress: () => console.warn('onPress => 3:broccoli:3320') },
+        celery: { value: 480, onPress: () => console.warn('onPress => 3:celery:480') },
+        onions: { value: 640, onPress: () => console.warn('onPress => 3:onions:640') },
+        tomato: { value: 400, onPress: () => console.warn('onPress => 3:tomato:400') },
+    },
+]
 const keys = [ 'broccoli', 'celery', 'onions', 'tomato' ]
-const data = [ ...Array(times) ].map((_, index) =>
-    keys.reduce((obj, key) => ({ ...obj, [key]: getItem(index, key) }), {})
-)
 
 class StackedBarChartWithOnPressExample extends React.PureComponent {
     valueAccessor = ({ item, key }) => item[key].value

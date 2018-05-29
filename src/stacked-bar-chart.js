@@ -197,47 +197,51 @@ class BarChart extends PureComponent {
         return (
             <View style={ style }>
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    {height > 0 &&
-                        width > 0 && (
-                        <Svg style={{ height, width }}>
-                            {React.Children.map(children, child => {
-                                if (child && child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
+                    {
+                        height > 0 && width > 0 && (
+                            <Svg style={{ height, width }}>
+                                {
+                                    React.Children.map(children, child => {
+                                        if (child && child.props.belowChart) {
+                                            return React.cloneElement(child, extraProps)
+                                        }
+                                        return null
+                                    })
                                 }
-                                return null
-                            })}
-                            {areas.map((bar, index) => {
-                                const keyIndex = index % data.length
-                                const key = `${keyIndex}-${bar.key}`
-                                const { onPress } = data[keyIndex][bar.key]
+                                {areas.map((bar, index) => {
+                                    const keyIndex = index % data.length
+                                    const key = `${keyIndex}-${bar.key}`
+                                    const { onPress } = data[keyIndex][bar.key]
 
-                                return (
-                                    <G key={ key }>
-                                        <Defs>
-                                            {renderGradient &&
+                                    return (
+                                        <G key={ key }>
+                                            <Defs>
+                                                {renderGradient &&
                                                     renderGradient({
                                                         id: `gradient-${index}`,
                                                         ...bar,
                                                     })}
-                                        </Defs>
-                                        <Path
-                                            onPress={ onPress }
-                                            fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
-                                            d={ bar.path }
-                                            animate={ animate }
-                                            animationDuration={ animationDuration }
-                                        />
-                                    </G>
-                                )
-                            })}
-                            {React.Children.map(children, child => {
-                                if (child && !child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
+                                            </Defs>
+                                            <Path
+                                                onPress={ onPress }
+                                                fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
+                                                d={ bar.path }
+                                                animate={ animate }
+                                                animationDuration={ animationDuration }
+                                            />
+                                        </G>
+                                    )
+                                })}
+                                {
+                                    React.Children.map(children, child => {
+                                        if (child && !child.props.belowChart) {
+                                            return React.cloneElement(child, extraProps)
+                                        }
+                                        return null
+                                    })
                                 }
-                                return null
-                            })}
-                        </Svg>
-                    )}
+                            </Svg>
+                        )}
                 </View>
             </View>
         )
