@@ -197,7 +197,7 @@ class BarChart extends PureComponent {
                             {areas.map((bar, index) => {
                                 const keyIndex = index % data.length
                                 const key = `${keyIndex}-${bar.key}`
-                                const { onPress } = data[keyIndex][bar.key]
+                                const { svg } = data[keyIndex][bar.key]
 
                                 return (
                                     <G key={ key }>
@@ -209,8 +209,8 @@ class BarChart extends PureComponent {
                                                 })}
                                         </Defs>
                                         <Path
-                                            onPress={ onPress }
                                             fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
+                                            { ...svg }
                                             d={ bar.path }
                                             animate={ animate }
                                             animationDuration={ animationDuration }
