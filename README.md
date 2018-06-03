@@ -319,8 +319,8 @@ Also supports all [Common arguments to children](#common-arguments-to-children)
 The same as the [StackedAreaChart](#stackedareachart) except with bars (and different `svgs` prop).
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
 
-The `svgs` prop here is not based on keys as the user might want to specify different props
-for each entry in each bar. Therefore each key entry can contain a complex object that contains e.g an `svg` prop. See [this example](./storybook/bar-stack/with-on-press) for inspiration
+The `svgs` prop here is not based on keys, but rather entries, as the user might want to specify different props
+for each entry in each bar. Therefore each key entry can contain a complex object that contains e.g an `svg` prop. See [this example](./storybook/stories/bar-stack/with-on-press.js) for inspiration
 
 
 ![Stacked bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack.png)
