@@ -53,6 +53,7 @@ class AreaStack extends PureComponent {
             children,
             offset,
             order,
+            svgs,
         } = this.props
 
         const { height, width } = this.state
@@ -122,29 +123,18 @@ class AreaStack extends PureComponent {
                                     return null
                                 })
                             }
-                            {areas.map((area, index) => (
-                                <G key={ area.key }>
-                                    <Defs>
-                                        {renderGradient && renderGradient({
-                                            id: `gradient-${area.key}`,
-                                            width,
-                                            height,
-                                            x,
-                                            y,
-                                            index,
-                                            key: area.key,
-                                            color: area.color,
-                                        })}
-                                    </Defs>
+                            {
+                                areas.map((area, index) => (
                                     <Path
+                                        key={ area.key }
+                                        fill={ area.color }
+                                        { ...svgs[ index ] }
                                         animate={ animate }
                                         animationDuration={ animationDuration }
                                         d={ area.path }
-                                        fill={ renderGradient ? `url(#gradient-${area.key})` : area.color }
                                     />
-                                </G>
-                            )
-                            )}
+                                ))
+                            }
                             {
                                 React.Children.map(children, child => {
                                     if (child && !child.props.belowChart) {
@@ -165,9 +155,9 @@ AreaStack.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
     keys: PropTypes.arrayOf(PropTypes.string).isRequired,
     colors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    svgs: PropTypes.arrayOf(PropTypes.object),
     offset: PropTypes.func,
     order: PropTypes.func,
-    renderGradient: PropTypes.func,
     style: PropTypes.any,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,

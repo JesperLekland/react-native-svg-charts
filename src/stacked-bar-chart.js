@@ -134,13 +134,13 @@ class BarChart extends PureComponent {
             animate,
             animationDuration,
             style,
-            renderGradient,
             numberOfTicks,
             gridMax,
             gridMin,
             children,
             horizontal,
             valueAccessor,
+            svgs,
         } = this.props
 
         const { height, width } = this.state
@@ -194,30 +194,24 @@ class BarChart extends PureComponent {
                                     return null
                                 })
                             }
-                            {areas.map((bar, index) => {
-                                const keyIndex = index % data.length
-                                const key = `${keyIndex}-${bar.key}`
-                                const { svg } = data[keyIndex][bar.key]
+                            {
+                                areas.map((bar, index) => {
+                                    const keyIndex = index % data.length
+                                    const key = `${keyIndex}-${bar.key}`
+                                    const { svg } = data[ keyIndex ][ bar.key ]
 
-                                return (
-                                    <G key={ key }>
-                                        <Defs>
-                                            {renderGradient &&
-                                                renderGradient({
-                                                    id: `gradient-${index}`,
-                                                    ...bar,
-                                                })}
-                                        </Defs>
+                                    return (
                                         <Path
-                                            fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
+                                            key={ key }
+                                            fill={ bar.color }
                                             { ...svg }
                                             d={ bar.path }
                                             animate={ animate }
                                             animationDuration={ animationDuration }
                                         />
-                                    </G>
-                                )
-                            })}
+                                    )
+                                })
+                            }
                             {
                                 React.Children.map(children, child => {
                                     if (child && !child.props.belowChart) {
@@ -241,8 +235,6 @@ BarChart.propTypes = {
     offset: PropTypes.func,
     order: PropTypes.func,
     style: PropTypes.any,
-    strokeColor: PropTypes.string,
-    renderGradient: PropTypes.func,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
     animate: PropTypes.bool,
@@ -253,11 +245,8 @@ BarChart.propTypes = {
         right: PropTypes.number,
         bottom: PropTypes.number,
     }),
-    numberOfTicks: PropTypes.number,
-    showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    gridProps: PropTypes.object,
     valueAccessor: PropTypes.func,
 }
 
