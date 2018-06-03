@@ -41,6 +41,8 @@ class PieChart extends PureComponent {
             sort,
             valueAccessor,
             children,
+            startAngle,
+            endAngle,
         } = this.props
 
         const { height, width } = this.state
@@ -101,6 +103,8 @@ class PieChart extends PureComponent {
         const pieSlices = shape.pie()
             .value(d => valueAccessor({ item: d }))
             .sort(sort)
+            .startAngle(startAngle)
+            .endAngle(endAngle)
             (data)
 
         const slices = pieSlices.map((slice, index) =>({
@@ -190,6 +194,8 @@ PieChart.defaultProps = {
     width: 100,
     height: 100,
     padAngle: 0.05,
+    startAngle: 0,
+    endAngle: Math.PI * 2,
     valueAccessor: ({ item }) => item.value,
     innerRadius: '50%',
     sort: (a, b) => b.value - a.value,
