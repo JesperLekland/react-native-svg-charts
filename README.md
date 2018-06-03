@@ -571,6 +571,15 @@ class ProgressCircleExample extends React.PureComponent {
 | data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
 
 
+#### Arguments to children
+
+| Property | Description
+| --- | --- |
+| width | the width of the canvas in pixels |
+| height | the height of the canvas in pixels |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
+
+
 ### YAxis
 
 ![Y-axis](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/y-axis.png)
