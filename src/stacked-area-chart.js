@@ -174,6 +174,7 @@ AreaStack.defaultProps = {
     curve: shape.curveLinear,
     offset: shape.stackOffsetNone,
     order: shape.stackOrderNone,
+    svgs: [],
     strokeWidth: 2,
     contentInset: {},
     numberOfTicks: 10,
