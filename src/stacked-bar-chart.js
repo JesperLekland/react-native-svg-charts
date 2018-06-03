@@ -77,7 +77,7 @@ class BarChart extends PureComponent {
     }
 
     calcAreas(x, y, series) {
-        const { horizontal, colors } = this.props
+        const { horizontal, colors, keys } = this.props
 
         if (horizontal) {
             return array.merge(
@@ -93,6 +93,7 @@ class BarChart extends PureComponent {
                         return {
                             path,
                             color: colors[keyIndex],
+                            key: keys[keyIndex],
                         }
                     })
                 })
@@ -112,6 +113,7 @@ class BarChart extends PureComponent {
                     return {
                         path,
                         color: colors[keyIndex],
+                        key: keys[keyIndex],
                     }
                 })
             })
@@ -138,6 +140,7 @@ class BarChart extends PureComponent {
             gridMin,
             children,
             horizontal,
+            valueAccessor,
         } = this.props
 
         const { height, width } = this.state
@@ -149,6 +152,7 @@ class BarChart extends PureComponent {
         const series = shape
             .stack()
             .keys(keys)
+            .value((item, key) => valueAccessor({ item, key }))
             .order(order)
             .offset(offset)(data)
 
@@ -191,17 +195,22 @@ class BarChart extends PureComponent {
                                 })
                             }
                             {areas.map((bar, index) => {
+                                const keyIndex = index % data.length
+                                const key = `${keyIndex}-${bar.key}`
+                                const { svg } = data[keyIndex][bar.key]
+
                                 return (
-                                    <G key={ index }>
+                                    <G key={ key }>
                                         <Defs>
                                             {renderGradient &&
-                                            renderGradient({
-                                                id: `gradient-${index}`,
-                                                ...bar,
-                                            })}
+                                                renderGradient({
+                                                    id: `gradient-${index}`,
+                                                    ...bar,
+                                                })}
                                         </Defs>
                                         <Path
                                             fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
+                                            { ...svg }
                                             d={ bar.path }
                                             animate={ animate }
                                             animationDuration={ animationDuration }
@@ -249,6 +258,7 @@ BarChart.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     gridProps: PropTypes.object,
+    valueAccessor: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -262,6 +272,7 @@ BarChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    valueAccessor: ({ item, key }) => item[key],
 }
 
 export default BarChart
