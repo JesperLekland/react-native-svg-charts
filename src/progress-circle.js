@@ -28,6 +28,7 @@ class ProgressCircle extends PureComponent {
             animate,
             animateDuration,
             children,
+            cornerRadius,
         } = this.props
 
         let { progress } = this.props
@@ -71,7 +72,7 @@ class ProgressCircle extends PureComponent {
                     .innerRadius((outerDiameter / 2) - strokeWidth)  // Inner radius: to create a donut or pie
                     .startAngle(index === 0 ? startAngle : slice.startAngle)
                     .endAngle(index === 0 ? endAngle : slice.endAngle)
-                    .cornerRadius(45)
+                    .cornerRadius(cornerRadius)
                     (),
             }
         ))
@@ -86,41 +87,44 @@ class ProgressCircle extends PureComponent {
                 style={ style }
                 onLayout={ event => this._onLayout(event) }
             >
-                <Svg style={{ flex: 1 }}>
-                    {/* center the progress circle*/}
-                    <G
-                        x={ width / 2 }
-                        y={ height / 2 }
-                    >
-                        {
-                            React.Children.map(children, child => {
-                                if (child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                        {arcs.map((shape, index) => {
-                            return (
-                                <Path
-                                    key={ index }
-                                    fill={ shape.color }
-                                    d={ shape.path }
-                                    animate={ animate }
-                                    animationDuration={ animateDuration }
-                                />
-                            )
-                        })}
-                        {
-                            React.Children.map(children, child => {
-                                if (!child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                    </G>
-                </Svg>
+                {
+                    height > 0 && width > 0 &&
+                    <Svg style={{ height, width }}>
+                        {/* center the progress circle*/}
+                        <G
+                            x={ width / 2 }
+                            y={ height / 2 }
+                        >
+                            {
+                                React.Children.map(children, child => {
+                                    if (child && child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                            {arcs.map((shape, index) => {
+                                return (
+                                    <Path
+                                        key={ index }
+                                        fill={ shape.color }
+                                        d={ shape.path }
+                                        animate={ animate }
+                                        animationDuration={ animateDuration }
+                                    />
+                                )
+                            })}
+                            {
+                                React.Children.map(children, child => {
+                                    if (child && !child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                        </G>
+                    </Svg>
+                }
             </View>
         )
     }
@@ -135,6 +139,7 @@ ProgressCircle.propTypes = {
     startAngle: PropTypes.number,
     endAngle: PropTypes.number,
     animate: PropTypes.bool,
+    cornerRadius: PropTypes.number,
     animateDuration: PropTypes.number,
 }
 
@@ -144,6 +149,7 @@ ProgressCircle.defaultProps = {
     strokeWidth: 5,
     startAngle: 0,
     endAngle: Math.PI * 2,
+    cornerRadius: 45,
 }
 
 export default ProgressCircle

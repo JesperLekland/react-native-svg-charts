@@ -41,6 +41,8 @@ class PieChart extends PureComponent {
             sort,
             valueAccessor,
             children,
+            startAngle,
+            endAngle,
         } = this.props
 
         const { height, width } = this.state
@@ -101,6 +103,8 @@ class PieChart extends PureComponent {
         const pieSlices = shape.pie()
             .value(d => valueAccessor({ item: d }))
             .sort(sort)
+            .startAngle(startAngle)
+            .endAngle(endAngle)
             (data)
 
         const slices = pieSlices.map((slice, index) =>({
@@ -122,43 +126,46 @@ class PieChart extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={ event => this._onLayout(event) }
                 >
-                    <Svg style={{ width: this.state.width, height: this.state.height }}>
-                        {/* center the progress circle*/}
-                        <G
-                            x={ width / 2 }
-                            y={ height / 2 }
-                        >
-                            {
-                                React.Children.map(children, child => {
-                                    if (child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
-                            { pieSlices.map((slice, index) => {
-                                const { key, onPress, svg } = data[ index ]
-                                return (
-                                    <Path
-                                        key={ key }
-                                        onPress={ onPress }
-                                        { ...svg }
-                                        d={ arcs[ index ](slice) }
-                                        animate={ animate }
-                                        animationDuration={ animationDuration }
-                                    />
-                                )
-                            })}
-                            {
-                                React.Children.map(children, child => {
-                                    if (!child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
-                        </G>
-                    </Svg>
+                    {
+                        height > 0 && width > 0 &&
+                        <Svg style={{ height, width }}>
+                            {/* center the progress circle*/}
+                            <G
+                                x={ width / 2 }
+                                y={ height / 2 }
+                            >
+                                {
+                                    React.Children.map(children, child => {
+                                        if (child && child.props.belowChart) {
+                                            return React.cloneElement(child, extraProps)
+                                        }
+                                        return null
+                                    })
+                                }
+                                {pieSlices.map((slice, index) => {
+                                    const { key, onPress, svg } = data[ index ]
+                                    return (
+                                        <Path
+                                            key={ key }
+                                            onPress={ onPress }
+                                            { ...svg }
+                                            d={ arcs[ index ](slice) }
+                                            animate={ animate }
+                                            animationDuration={ animationDuration }
+                                        />
+                                    )
+                                })}
+                                {
+                                    React.Children.map(children, child => {
+                                        if (child && !child.props.belowChart) {
+                                            return React.cloneElement(child, extraProps)
+                                        }
+                                        return null
+                                    })
+                                }
+                            </G>
+                        </Svg>
+                    }
                 </View>
             </View>
         )
@@ -187,6 +194,8 @@ PieChart.defaultProps = {
     width: 100,
     height: 100,
     padAngle: 0.05,
+    startAngle: 0,
+    endAngle: Math.PI * 2,
     valueAccessor: ({ item }) => item.value,
     innerRadius: '50%',
     sort: (a, b) => b.value - a.value,

@@ -122,7 +122,7 @@ Also see
 
 #### Example
 
-```javascript
+```jsx
 import React from 'react'
 import { AreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
@@ -162,15 +162,16 @@ Supports all [Common arguments to children](#common-arguments-to-children)
 
 ### StackedAreaChart
 
-Very similar to an area chart but with multiple sets of data stacked together. Notice that the `dataPoints` prop has changed to `data` and have a different signature.
+Very similar to an area chart but with multiple sets of data stacked together.
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
 See [Area stack chart with Y axis](https://github.com/JesperLekland/react-native-svg-charts-examples/blob/master/storybook/stories/area-stack/with-y-axis.js) to see how to use a YAxis with this component
+Use the `svgs` prop to pass in `react-native-svg` compliant props to each area.
 
 ![Stacked area chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/area-stack.png)
 
 #### Example
 
-```javascript
+```jsx
 import React from 'react'
 import { StackedAreaChart } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
@@ -212,6 +213,12 @@ class StackedAreaExample extends React.PureComponent {
 
         const colors = [ '#8800cc', '#aa00ff', '#cc66ff', '#eeccff' ]
         const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
+        const svgs = [
+                    { onPress: () => console.log('apples') },
+                    { onPress: () => console.log('bananas') },
+                    { onPress: () => console.log('cherries') },
+                    { onPress: () => console.log('dates') },
+                ]
 
         return (
             <StackedAreaChart
@@ -221,6 +228,7 @@ class StackedAreaExample extends React.PureComponent {
                 colors={ colors }
                 curve={ shape.curveNatural }
                 showGrid={ false }
+                svgs={ svgs }
             />
         )
     }
@@ -259,7 +267,8 @@ when trying to layout decorators. It does however call with the rest of the [com
 ![Bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-chart.png)
 
 #### Example
-```javascript
+
+```jsx
 import React from 'react'
 import { BarChart, Grid } from 'react-native-svg-charts'
 
@@ -307,15 +316,19 @@ Also supports all [Common arguments to children](#common-arguments-to-children)
 
 ### StackedBarChart
 
-The same as the [StackedAreaChart](#stackedareachart) except with bars.
+The same as the [StackedAreaChart](#stackedareachart) except with bars (and different `svgs` prop).
 We suggest that you read up on [d3 stacks](https://github.com/d3/d3-shape#stacks) in order to better understand this chart and its props
+
+The `svgs` prop here is not based on keys, but rather entries, as the user might want to specify different props
+for each entry in each bar. Therefore each key entry can contain a complex object that contains e.g an `svg` prop. See [this example](./storybook/stories/bar-stack/with-on-press.js) for inspiration
+
 
 ![Stacked bar chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack.png)
 ![Stacked bar chart - horizontal](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/bar-stack-horizontal.png)
 
 #### Example
 
-```javascript
+```jsx
 import React from 'react'
 import { StackedBarChart } from 'react-native-svg-charts'
 
@@ -378,9 +391,10 @@ class StackedBarChartExample extends React.PureComponent {
 
 | Property | Default | Description |
 | --- | --- | --- |
-| data | **required** | An array of the data entries  |
+| data | **required** | An array of the data entries: each value can be a number or a complex object with custom `svg` props for example |
 | keys | **required** | This array should contain the object keys of interest (see above example)
 | colors | **required** | An array of equal size as `keys` with the color for each key |
+| valueAccessor | ({ item, key }) => item[key] | Very similar to the `yAccessor` of the other charts, usually needed when using complex objects as values |
 | horizontal | false | Boolean whether or not the bars should be horizontal |
 | order | [d3.stackOrderNone](https://github.com/d3/d3-shape#stackOrderNone) | The order in which to sort the areas |
 | offset | [d3.stackOffsetNone](https://github.com/d3/d3-shape#stackOffsetNone) | A function to determine the offset of the areas |
@@ -407,7 +421,7 @@ when trying to layout decorators. It does however call with the rest of the [com
 
 #### Example
 
-```javascript
+```jsx
 import React from 'react'
 import { LineChart, Grid } from 'react-native-svg-charts'
 
@@ -448,7 +462,8 @@ See more examples in the [examples repo](https://github.com/JesperLekland/react-
 ![Pie chart](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/pie-chart.png)
 
 #### Example
-```javascript
+
+```jsx
 import React from 'react'
 import { PieChart } from 'react-native-svg-charts'
 
@@ -493,6 +508,8 @@ class PieChartExample extends React.PureComponent {
 | innerRadius | "50%" | The inner radius, use this to create a donut. Takes either percentages or absolute numbers (pixels) |
 | labelRadius | undefined | The radius of the circle that will help you layout your labels. Takes either percentages or absolute numbers (pixels) |
 | padAngle | |  The angle between the slices |
+| startAngle | 0 | The start angle in radians of the entire pie |
+| endAngle | Math.PI * 2 | The end angle in radians of the entire pie |
 | sort | `(a,b) => b.value - a.value` | Like any normal sort function it expects either 0, a positive or negative return value. The arguments are each an object from the `dataPoints` array |
 
 #### Arguments to children
@@ -509,7 +526,8 @@ class PieChartExample extends React.PureComponent {
 ![Progress circle](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/progress-circle.png)
 
 #### Example
-```javascript
+
+```jsx
 import React from 'react'
 import { ProgressCircle }  from 'react-native-svg-charts'
 
@@ -541,6 +559,17 @@ class ProgressCircleExample extends React.PureComponent {
 | startAngle | `0` | PropTypes.number |
 | endAngle | `Math.PI * 2` |  PropTypes.number |
 | strokeWidth | 5 |  PropTypes.number |
+| cornerRadius | 45 |  PropTypes.number |
+
+
+#### Arguments to children
+
+| Property | Description
+| --- | --- |
+| width | the width of the canvas in pixels |
+| height | the height of the canvas in pixels |
+| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
+
 
 #### Arguments to children
 
@@ -560,7 +589,8 @@ It's very important that the component has the exact same view bounds (preferabl
 If the chart has property `contentInset` set it's very important that the YAxis has the same vertical contentInset.
 
 #### Example
-```javascript
+
+```jsx
 import React from 'react'
 import { LineChart, YAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'
@@ -632,7 +662,8 @@ If the chart has property `contentInset` set it's very important that the XAxis 
 The XAxis also supports the `xAccessor` prop, if it's not supplied it will assume that you're only interested in the index of the data set.
 
 #### Example
-```javascript
+
+```jsx
 import React from 'react'
 import { LineChart, XAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'

@@ -1,6 +1,6 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
-import { StyleSheet, Text, View } from 'react-native'
+import { Text, View } from 'react-native'
 import * as d3Scale from 'd3-scale'
 import * as array from 'd3-array'
 import Svg, { Text as SVGText } from 'react-native-svg'
@@ -13,10 +13,10 @@ class XAxis extends PureComponent {
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { width } } } = event
+        const { nativeEvent: { layout: { width, height } } } = event
 
         if (width !== this.state.width) {
-            this.setState({ width })
+            this.setState({ width, height })
         }
     }
 
@@ -63,7 +63,7 @@ class XAxis extends PureComponent {
             children,
         } = this.props
 
-        const { width } = this.state
+        const { height, width } = this.state
 
         if (data.length === 0) {
             return <View style={ style }/>
@@ -86,31 +86,40 @@ class XAxis extends PureComponent {
                     <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
                         { formatLabel(ticks[0], 0) }
                     </Text>
-                    <Svg style={ StyleSheet.absoluteFill }>
-                        {children}
-                        {
-                            // don't render labels if width isn't measured yet,
-                            // causes rendering issues
-                            width > 0 &&
-                            ticks.map((value, index) => {
-                                const { svg: valueSvg = {} } = data[ index ] || {}
+                    {
+                        height > 0 && width > 0 &&
+                        <Svg style={{
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            height,
+                            width,
+                        }}>
+                            {children}
+                            {
+                                // don't render labels if width isn't measured yet,
+                                // causes rendering issues
+                                width > 0 &&
+                                ticks.map((value, index) => {
+                                    const { svg: valueSvg = {} } = data[ index ] || {}
 
-                                return (
-                                    <SVGText
-                                        textAnchor={ 'middle' }
-                                        originX={ x(value) }
-                                        alignmentBaseline={ 'hanging' }
-                                        { ...svg }
-                                        { ...valueSvg }
-                                        key={ index }
-                                        x={ x(value) }
-                                    >
-                                        {formatLabel(value, index)}
-                                    </SVGText>
-                                )
-                            })
-                        }
-                    </Svg>
+                                    return (
+                                        <SVGText
+                                            textAnchor={ 'middle' }
+                                            originX={ x(value) }
+                                            alignmentBaseline={ 'hanging' }
+                                            { ...svg }
+                                            { ...valueSvg }
+                                            key={ index }
+                                            x={ x(value) }
+                                        >
+                                            {formatLabel(value, index)}
+                                        </SVGText>
+                                    )
+                                })
+                            }
+                        </Svg>
+                    }
                 </View>
             </View>
         )
@@ -122,7 +131,6 @@ XAxis.propTypes = {
         PropTypes.number,
         PropTypes.object,
     ])).isRequired,
-    labelStyle: PropTypes.any,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
     formatLabel: PropTypes.func,

@@ -58,6 +58,7 @@ Tooltip.propTypes = {
     height: PropTypes.number,
     stroke: PropTypes.string,
     pointStroke: PropTypes.string,
+    text: PropTypes.string,
 }
 
 export default Tooltip

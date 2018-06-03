@@ -4,7 +4,7 @@ import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
-import { Defs, G, Svg } from 'react-native-svg'
+import { Svg } from 'react-native-svg'
 import Path from './animated-path'
 
 class AreaStack extends PureComponent {
@@ -39,7 +39,6 @@ class AreaStack extends PureComponent {
             animate,
             animationDuration,
             style,
-            renderGradient,
             curve,
             numberOfTicks,
             contentInset: {
@@ -53,6 +52,7 @@ class AreaStack extends PureComponent {
             children,
             offset,
             order,
+            svgs,
         } = this.props
 
         const { height, width } = this.state
@@ -111,47 +111,39 @@ class AreaStack extends PureComponent {
                     style={{ flex: 1 }}
                     onLayout={ event => this._onLayout(event) }
                 >
-                    <Svg style={{ flex: 1 }}>
-                        {
-                            React.Children.map(children, child => {
-                                if (child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                        { areas.map((area, index) => (
-                            <G key={ area.key }>
-                                <Defs>
-                                    { renderGradient && renderGradient({
-                                        id: `gradient-${area.key}`,
-                                        width,
-                                        height,
-                                        x,
-                                        y,
-                                        index,
-                                        key: area.key,
-                                        color: area.color,
-                                    }) }
-                                </Defs>
-                                <Path
-                                    animate={ animate }
-                                    animationDuration={ animationDuration }
-                                    d={ area.path }
-                                    fill={ renderGradient ? `url(#gradient-${area.key})` : area.color }
-                                />
-                            </G>
-                        )
-                        ) }
-                        {
-                            React.Children.map(children, child => {
-                                if (!child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                    </Svg>
+                    {
+                        height > 0 && width > 0 &&
+                        <Svg style={{ height, width }}>
+                            {
+                                React.Children.map(children, child => {
+                                    if (child && child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                            {
+                                areas.map((area, index) => (
+                                    <Path
+                                        key={ area.key }
+                                        fill={ area.color }
+                                        { ...svgs[ index ] }
+                                        animate={ animate }
+                                        animationDuration={ animationDuration }
+                                        d={ area.path }
+                                    />
+                                ))
+                            }
+                            {
+                                React.Children.map(children, child => {
+                                    if (child && !child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                        </Svg>
+                    }
                 </View>
             </View>
         )
@@ -162,9 +154,9 @@ AreaStack.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object).isRequired,
     keys: PropTypes.arrayOf(PropTypes.string).isRequired,
     colors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    svgs: PropTypes.arrayOf(PropTypes.object),
     offset: PropTypes.func,
     order: PropTypes.func,
-    renderGradient: PropTypes.func,
     style: PropTypes.any,
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
@@ -176,8 +168,6 @@ AreaStack.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
-    extras: PropTypes.array,
-    renderDecorator: PropTypes.func,
 }
 
 AreaStack.defaultProps = {
@@ -188,9 +178,6 @@ AreaStack.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
-    extras: [],
-    renderDecorator: () => {
-    },
 }
 
 export default AreaStack

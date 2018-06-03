@@ -39,6 +39,12 @@ class AreaStackChartExample extends React.PureComponent {
 
         const colors = [ '#8800cc', '#aa00ff', '#cc66ff', '#eeccff' ]
         const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
+        const svgs = [
+            { onPress: () => console.log('apples') },
+            { onPress: () => console.log('bananas') },
+            { onPress: () => console.log('cherries') },
+            { onPress: () => console.log('dates') },
+        ]
 
         return (
             <StackedAreaChart
@@ -48,6 +54,7 @@ class AreaStackChartExample extends React.PureComponent {
                 colors={ colors }
                 curve={ shape.curveNatural }
                 showGrid={ false }
+                svgs={ svgs }
             >
                 <Grid/>
             </StackedAreaChart>

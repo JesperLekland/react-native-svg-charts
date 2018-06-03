@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
-import Svg, { Defs, G } from 'react-native-svg'
+import Svg from 'react-native-svg'
 import Path from './animated-path'
 
 class BarChart extends PureComponent {
@@ -77,7 +77,7 @@ class BarChart extends PureComponent {
     }
 
     calcAreas(x, y, series) {
-        const { horizontal, colors } = this.props
+        const { horizontal, colors, keys } = this.props
 
         if (horizontal) {
             return array.merge(
@@ -93,6 +93,7 @@ class BarChart extends PureComponent {
                         return {
                             path,
                             color: colors[keyIndex],
+                            key: keys[keyIndex],
                         }
                     })
                 })
@@ -112,6 +113,7 @@ class BarChart extends PureComponent {
                     return {
                         path,
                         color: colors[keyIndex],
+                        key: keys[keyIndex],
                     }
                 })
             })
@@ -132,12 +134,12 @@ class BarChart extends PureComponent {
             animate,
             animationDuration,
             style,
-            renderGradient,
             numberOfTicks,
             gridMax,
             gridMin,
             children,
             horizontal,
+            valueAccessor,
         } = this.props
 
         const { height, width } = this.state
@@ -149,6 +151,7 @@ class BarChart extends PureComponent {
         const series = shape
             .stack()
             .keys(keys)
+            .value((item, key) => valueAccessor({ item, key }))
             .order(order)
             .offset(offset)(data)
 
@@ -179,43 +182,45 @@ class BarChart extends PureComponent {
         return (
             <View style={ style }>
                 <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    <Svg style={{ flex: 1 }}>
-                        {
-                            React.Children.map(children, child => {
-                                if (child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                        {areas.map((bar, index) => {
-                            return (
-                                <G key={ index }>
-                                    <Defs>
-                                        {renderGradient &&
-                                            renderGradient({
-                                                id: `gradient-${index}`,
-                                                ...bar,
-                                            })}
-                                    </Defs>
-                                    <Path
-                                        fill={ renderGradient ? `url(#gradient-${index})` : bar.color }
-                                        d={ bar.path }
-                                        animate={ animate }
-                                        animationDuration={ animationDuration }
-                                    />
-                                </G>
-                            )
-                        })}
-                        {
-                            React.Children.map(children, child => {
-                                if (!child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })
-                        }
-                    </Svg>
+                    {
+                        height > 0 && width > 0 &&
+                        <Svg style={{ height, width }}>
+                            {
+                                React.Children.map(children, child => {
+                                    if (child && child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                            {
+                                areas.map((bar, index) => {
+                                    const keyIndex = index % data.length
+                                    const key = `${keyIndex}-${bar.key}`
+                                    const { svg } = data[ keyIndex ][ bar.key ]
+
+                                    return (
+                                        <Path
+                                            key={ key }
+                                            fill={ bar.color }
+                                            { ...svg }
+                                            d={ bar.path }
+                                            animate={ animate }
+                                            animationDuration={ animationDuration }
+                                        />
+                                    )
+                                })
+                            }
+                            {
+                                React.Children.map(children, child => {
+                                    if (child && !child.props.belowChart) {
+                                        return React.cloneElement(child, extraProps)
+                                    }
+                                    return null
+                                })
+                            }
+                        </Svg>
+                    }
                 </View>
             </View>
         )
@@ -229,8 +234,6 @@ BarChart.propTypes = {
     offset: PropTypes.func,
     order: PropTypes.func,
     style: PropTypes.any,
-    strokeColor: PropTypes.string,
-    renderGradient: PropTypes.func,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
     animate: PropTypes.bool,
@@ -241,13 +244,9 @@ BarChart.propTypes = {
         right: PropTypes.number,
         bottom: PropTypes.number,
     }),
-    numberOfTicks: PropTypes.number,
-    showGrid: PropTypes.bool,
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    gridProps: PropTypes.object,
-    extras: PropTypes.array,
-    extra: PropTypes.func,
+    valueAccessor: PropTypes.func,
 }
 
 BarChart.defaultProps = {
@@ -261,8 +260,7 @@ BarChart.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
-    extras: [],
-    extra: () => {},
+    valueAccessor: ({ item, key }) => item[key],
 }
 
 export default BarChart

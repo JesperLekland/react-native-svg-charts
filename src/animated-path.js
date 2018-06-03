@@ -11,9 +11,9 @@ class AnimatedPath extends Component {
         this.state = { d: props.d }
     }
 
-    componentWillReceiveProps(props) {
-        const { d: newD, animate } = props
-        const { d: oldD }          = this.props
+    componentDidUpdate(props) {
+        const { d: newD, animate } = this.props
+        const { d: oldD }          = props
 
         this.newD = newD
 
