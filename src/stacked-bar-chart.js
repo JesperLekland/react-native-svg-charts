@@ -4,7 +4,7 @@ import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
-import Svg, { Defs, G } from 'react-native-svg'
+import Svg from 'react-native-svg'
 import Path from './animated-path'
 
 class BarChart extends PureComponent {
@@ -140,7 +140,6 @@ class BarChart extends PureComponent {
             children,
             horizontal,
             valueAccessor,
-            svgs,
         } = this.props
 
         const { height, width } = this.state
