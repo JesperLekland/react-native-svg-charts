@@ -73,7 +73,7 @@ class PieChart extends PureComponent {
             const arc = shape.arc()
                 .outerRadius(_outerRadius)
                 .innerRadius(_innerRadius)
-                .padAngle(padAngle) // Angle between sections
+                .padAngle(item.padAngle !== undefined ? item.padAngle : padAngle) // Angle between sections
 
             item.arc && Object.entries(item.arc)
                 .forEach(([ key, value ]) => {
@@ -178,6 +178,7 @@ PieChart.propTypes = {
         key: PropTypes.any.isRequired,
         value: PropTypes.number,
         arc: PropTypes.object,
+        padAngle: PropTypes.number,
     })).isRequired,
     innerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
     outerRadius: PropTypes.oneOfType([ PropTypes.number, PropTypes.string ]),
