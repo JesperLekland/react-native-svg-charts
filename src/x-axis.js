@@ -29,12 +29,14 @@ class XAxis extends PureComponent {
                 left  = 0,
                 right = 0,
             },
+            min,
+            max,
         } = this.props
 
         const { width } = this.state
 
         const x = scale()
-            .domain(domain)
+            .domain([ min || domain[ 0 ], max || domain[ 1 ] ])
             .range([ left, width - right ])
 
         if (scale === d3Scale.scaleBand) {
@@ -142,6 +144,8 @@ XAxis.propTypes = {
     numberOfTicks: PropTypes.number,
     xAccessor: PropTypes.func,
     svg: PropTypes.object,
+    min: PropTypes.any,
+    max: PropTypes.any,
 }
 
 XAxis.defaultProps = {
