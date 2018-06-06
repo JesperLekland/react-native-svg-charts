@@ -1,7 +1,7 @@
 import React from 'react'
 import { SafeAreaView, View } from 'react-native'
 
-const ShowcaseContainer = ({ children }) => (
+const ShowcaseCard = ({ children }) => (
     <SafeAreaView>
         <View style={{
             margin: 16,
@@ -20,4 +20,4 @@ const ShowcaseContainer = ({ children }) => (
     </SafeAreaView>
 )
 
-export default ShowcaseContainer
+export default ShowcaseCard
