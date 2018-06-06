@@ -53,6 +53,8 @@ class AreaStack extends PureComponent {
             offset,
             order,
             svgs,
+            xAccessor,
+            xScale,
         } = this.props
 
         const { height, width } = this.state
@@ -67,24 +69,27 @@ class AreaStack extends PureComponent {
             .offset(offset)
             (data)
 
-        //double merge arrays to extract just the values
-        const values = array.merge(array.merge(series))
+        //double merge arrays to extract just the yValues
+        const yValues = array.merge(array.merge(series))
+        const xValues = data.map((item, index) => xAccessor({ item, index }))
 
-        const extent = array.extent([ ...values, gridMin, gridMax ])
-        const ticks  = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
+        const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
+        const xExtent = array.extent(xValues)
+
+        const ticks = array.ticks(yExtent[ 0 ], yExtent[ 1 ], numberOfTicks)
 
         //invert range to support svg coordinate system
         const y = scale.scaleLinear()
-            .domain([ extent[ 0 ], extent[ 1 ] ])
+            .domain([ yExtent[ 0 ], yExtent[ 1 ] ])
             .range([ height - bottom, top ])
 
-        const x = scale.scaleLinear()
-            .domain([ 0, data.length - 1 ])
+        const x = xScale()
+            .domain(xExtent)
             .range([ left, width - right ])
 
         const areas = series.map((serie, index) => {
             const path = shape.area()
-                .x((d, index) => x(index))
+                .x((d, index) => x(xAccessor({ item: d.data, index })))
                 .y0(d => y(d[ 0 ]))
                 .y1(d => y(d[ 1 ]))
                 .curve(curve)
@@ -168,6 +173,8 @@ AreaStack.propTypes = {
     }),
     numberOfTicks: PropTypes.number,
     showGrid: PropTypes.bool,
+    xScale: PropTypes.func,
+    xAccessor: PropTypes.func,
 }
 
 AreaStack.defaultProps = {
@@ -179,6 +186,8 @@ AreaStack.defaultProps = {
     contentInset: {},
     numberOfTicks: 10,
     showGrid: true,
+    xScale: scale.scaleLinear,
+    xAccessor: ({ index }) => index,
 }
 
 export default AreaStack
