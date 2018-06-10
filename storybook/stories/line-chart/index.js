@@ -1,24 +1,13 @@
 import React from 'react'
-import { LineChart, Grid } from 'react-native-svg-charts'
+import { storiesOf } from '@storybook/react-native'
 
-class LineChartExample extends React.PureComponent {
+import Standard from './standard'
+import Partial from './partial'
+import WithGradient from './with-gradient'
+import ShowcaseCard from '../showcase-card'
 
-    render() {
-
-        const data = [ 50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80 ]
-
-        return (
-            <LineChart
-                style={{ height: 200 }}
-                data={ data }
-                svg={{ stroke: 'rgb(134, 65, 244)' }}
-                contentInset={{ top: 20, bottom: 20 }}
-            >
-                <Grid/>
-            </LineChart>
-        )
-    }
-
-}
-
-export default LineChartExample
+storiesOf('LineChart')
+    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
+    .add('Standard', () => <Standard/>)
+    .add('Partial', () => <Partial/>)
+    .add('With gradient', () => <WithGradient/>)

@@ -1,19 +1,13 @@
 import React from 'react'
-import { ProgressCircle } from 'react-native-svg-charts'
+import { storiesOf } from '@storybook/react-native'
 
-class ProgressCircleExample extends React.PureComponent {
+import Standard from './standard'
+import WithCenteredText from './with-center-text'
+import Gauge from './gauge'
+import ShowcaseCard from '../showcase-card'
 
-    render() {
-
-        return (
-            <ProgressCircle
-                style={{ height: 200 }}
-                progress={ 0.4 }
-                progressColor={ 'rgb(134, 65, 244)' }
-            />
-        )
-    }
-
-}
-
-export default ProgressCircleExample
+storiesOf('ProgressCircle', module)
+    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
+    .add('Standard', () => <Standard/>)
+    .add('Gauge', () => <Gauge/>)
+    .add('With centered text', () => <WithCenteredText/>)

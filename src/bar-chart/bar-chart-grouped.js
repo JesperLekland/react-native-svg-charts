@@ -15,6 +15,7 @@ class GroupedBarChart extends BarChart {
             },
             spacingInner,
             spacingOuter,
+            clamp,
         } = this.props
 
         const { width } = this.state
@@ -23,6 +24,7 @@ class GroupedBarChart extends BarChart {
             return scale.scaleLinear()
                 .domain(domain)
                 .range([ left, width - right ])
+                .clamp(clamp)
         }
 
         return scale.scaleBand()
@@ -41,6 +43,7 @@ class GroupedBarChart extends BarChart {
                 top = 0,
                 bottom = 0,
             },
+            clamp,
         } = this.props
 
         const { height } = this.state
@@ -56,6 +59,7 @@ class GroupedBarChart extends BarChart {
         return scale.scaleLinear()
             .domain(domain)
             .range([ height - bottom, top ])
+            .clamp(clamp)
     }
 
     calcAreas(x, y) {
@@ -138,7 +142,14 @@ class GroupedBarChart extends BarChart {
             data.map(obj => obj.data.map(item => yAccessor({ item })))
         )
 
-        return array.extent([ ...dataExtent, gridMax, gridMin ])
+        const extent = array.extent([ ...dataExtent, gridMax, gridMin ])
+
+        const {
+            yMin = extent[ 0 ],
+            yMax = extent[ 1 ],
+        } = this.props
+
+        return [ yMin, yMax ]
     }
 
     calcIndexes() {
