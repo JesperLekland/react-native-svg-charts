@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import { Path } from 'react-native-svg'
-import * as interpolate from 'd3-interpolate-path'
+import * as flubber from 'flubber'
 
 class AnimatedPath extends Component {
 
@@ -26,7 +26,7 @@ class AnimatedPath extends Component {
         }
 
         this.newD         = newD
-        this.interpolator = interpolate.interpolatePath(oldD, newD)
+        this.interpolator = flubber.interpolate(oldD, newD)
 
         this._animate()
     }

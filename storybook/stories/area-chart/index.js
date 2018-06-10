@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react-native'
 import Regular from './standard'
 import Partial from './partial'
 import WithGradient from './with-gradient'
+import WithAnimatiom from './with-animation'
 import WithDifferentBase from './with-differen-base'
 import ShowcaseCard from '../showcase-card'
 
@@ -12,4 +13,5 @@ storiesOf('AreaChart', module)
     .add('Standard', () => <Regular/>)
     .add('Partial', () => <Partial/>)
     .add('With gradient', () => <WithGradient/>)
+    .add('With animation', () => <WithAnimatiom/>)
     .add('With different base', () => <WithDifferentBase/>)

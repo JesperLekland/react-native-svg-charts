@@ -46,9 +46,9 @@
   "license": "MIT",
   "dependencies": {
     "d3-array": "^1.2.0",
-    "d3-interpolate-path": "2.0.0",
     "d3-scale": "^1.0.6",
     "d3-shape": "^1.0.6",
+    "flubber": "^0.4.2",
     "prop-types": "^15.6.0"
   },
   "peerDependencies": {
@@ -57,7 +57,6 @@
     "react-native-svg": "^6.2.1"
   },
   "devDependencies": {
-    "date-fns": "^1.28.5",
     "@storybook/addon-actions": "^3.2.14",
     "@storybook/addon-knobs": "^3.2.14",
     "@storybook/addon-links": "^3.2.14",
@@ -65,6 +64,7 @@
     "babel-eslint": "^7.2.3",
     "babel-jest": "20.0.1",
     "babel-preset-react-native": "1.9.1",
+    "date-fns": "^1.28.5",
     "eslint": "^4.19.0",
     "eslint-config-standard": "^10.2.1",
     "eslint-plugin-import": "^2.6.0",

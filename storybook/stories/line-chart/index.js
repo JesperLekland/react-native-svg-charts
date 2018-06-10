@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react-native'
 import Standard from './standard'
 import Partial from './partial'
 import WithGradient from './with-gradient'
+import WithAnimation from './with-animation'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('LineChart')
@@ -11,3 +12,4 @@ storiesOf('LineChart')
     .add('Standard', () => <Standard/>)
     .add('Partial', () => <Partial/>)
     .add('With gradient', () => <WithGradient/>)
+    .add('With animation', () => <WithAnimation/>)
