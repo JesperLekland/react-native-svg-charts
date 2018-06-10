@@ -143,6 +143,7 @@ Chart.propTypes = {
     data: PropTypes.oneOfType([
         PropTypes.arrayOf(PropTypes.object),
         PropTypes.arrayOf(PropTypes.number),
+        PropTypes.arrayOf(PropTypes.array),
     ]).isRequired,
     svg: PropTypes.object,
 
