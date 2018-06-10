@@ -29,14 +29,12 @@ class XAxis extends PureComponent {
                 left  = 0,
                 right = 0,
             },
-            min,
-            max,
         } = this.props
 
         const { width } = this.state
 
         const x = scale()
-            .domain([ min || domain[ 0 ], max || domain[ 1 ] ])
+            .domain(domain)
             .range([ left, width - right ])
 
         if (scale === d3Scale.scaleBand) {
@@ -63,6 +61,8 @@ class XAxis extends PureComponent {
             numberOfTicks,
             svg,
             children,
+            min,
+            max,
         } = this.props
 
         const { height, width } = this.state
@@ -73,7 +73,9 @@ class XAxis extends PureComponent {
 
         const values = data.map((item, index) => xAccessor({ item, index }))
         const extent  = array.extent(values)
-        const domain  = scale === d3Scale.scaleBand ? values : extent
+        const domain = scale === d3Scale.scaleBand ?
+            values :
+            [ min || extent[ 0 ], max || extent[ 1 ] ]
 
         const x     = this._getX(domain)
         const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
