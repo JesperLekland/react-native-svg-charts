@@ -43,6 +43,8 @@ class Chart extends PureComponent {
             },
             gridMax,
             gridMin,
+            clampX,
+            clampY,
             svg,
             children,
         } = this.props
@@ -64,14 +66,23 @@ class Chart extends PureComponent {
         const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
         const xExtent = array.extent([ ...xValues ])
 
+        const {
+            yMin = yExtent[ 0 ],
+            yMax = yExtent[ 1 ],
+            xMin = xExtent[ 0 ],
+            xMax = xExtent[ 1 ],
+        } = this.props
+
         //invert range to support svg coordinate system
         const y = yScale()
-            .domain(yExtent)
+            .domain([ yMin, yMax ])
             .range([ height - bottom, top ])
+            .clamp(clampY)
 
         const x = xScale()
-            .domain(xExtent)
+            .domain([ xMin, xMax ])
             .range([ left, width - right ])
+            .clamp(clampX)
 
         const paths = this.createPaths({
             data: mappedData,
@@ -152,7 +163,13 @@ Chart.propTypes = {
 
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
-    gridProps: PropTypes.object,
+
+    yMin: PropTypes.any,
+    yMax: PropTypes.any,
+    xMin: PropTypes.any,
+    xMax: PropTypes.any,
+    clampX: PropTypes.bool,
+    clampY: PropTypes.bool,
 
     xScale: PropTypes.func,
     yScale: PropTypes.func,

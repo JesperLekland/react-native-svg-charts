@@ -1,12 +1,10 @@
-5.x.0
+5.2.0
 
-* Added `cornerRadius` to progressCircle
-* Adhere to `Svg` api with `height` and `width` instead of `flex: 1`
-* StackedBarChart now supports `svg` prop for each data entry! Allowing onPress among other things.
-* StackedAreaChart now supports `svg` prop for each area! Allowing onPress among other things
-    * The two above changes does remove the other "svg" props from the charts, for example `renderGradient`
-    that is now replaces with the same gradient API as the other charts (i.e children).
-* PieChart supports `(start|end)Angle`
+* Add `x(Min|Max)` and `y(Min|Max)`
+* Add `clamp(X|Y)` to use in conjunction with above props (default `false`)
+* Add xScale to StackedAreaChart
+* Deprecate `AreaChart` prop `start` in favour of `baseline` due to better naming.
+
 
 
 

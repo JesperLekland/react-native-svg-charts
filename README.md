@@ -82,9 +82,11 @@ yarn storybook
 | contentInset | { top: 0, left: 0, right: 0, bottom: 0 } | An object that specifies how much fake "margin" to use inside of the SVG canvas. This is particularly helpful on Android where `overflow: "visible"` isn't supported and might cause clipping. Note: important to have same contentInset on axis's and chart |
 | numberOfTicks | 10 | We use [d3-array](https://github.com/d3/d3-array#ticks) to evenly distribute the grid and dataPoints on the yAxis. This prop specifies how many "ticks" we should try to render. Note: important that this prop is the same on both the chart and on the yAxis |
 | showGrid | true | Whether or not to show the grid lines |
-| gridMin | undefined | Normally the graph tries to draw from edge to edge within the view bounds. Using this prop will allow the grid to reach further than the actual dataPoints. [Example](#gridmin/max) |
-| gridMax | undefined | The same as "gridMin" but will instead increase the grids maximum value |
-| children | undefined | One or many `react-native-svg` components that will be used to enhance your chart|
+| yMin | undefined | Alter how the chart bounds are calculated |
+| yMax | undefined | Alter how the chart bounds are calculated |
+| xMin | undefined | Alter how the chart bounds are calculated |
+| xMax | undefined | Alter how the chart bounds are calculated |
+| children | undefined | One or many `react-native-svg` components that will be used to enhance your chart |
 
 ## Common arguments to children
 

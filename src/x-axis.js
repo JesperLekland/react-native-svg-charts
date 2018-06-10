@@ -61,6 +61,8 @@ class XAxis extends PureComponent {
             numberOfTicks,
             svg,
             children,
+            min,
+            max,
         } = this.props
 
         const { height, width } = this.state
@@ -71,7 +73,9 @@ class XAxis extends PureComponent {
 
         const values = data.map((item, index) => xAccessor({ item, index }))
         const extent  = array.extent(values)
-        const domain  = scale === d3Scale.scaleBand ? values : extent
+        const domain = scale === d3Scale.scaleBand ?
+            values :
+            [ min || extent[ 0 ], max || extent[ 1 ] ]
 
         const x     = this._getX(domain)
         const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
@@ -142,6 +146,8 @@ XAxis.propTypes = {
     numberOfTicks: PropTypes.number,
     xAccessor: PropTypes.func,
     svg: PropTypes.object,
+    min: PropTypes.any,
+    max: PropTypes.any,
 }
 
 XAxis.defaultProps = {
