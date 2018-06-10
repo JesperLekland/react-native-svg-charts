@@ -60,8 +60,6 @@ class YAxis extends PureComponent {
             yAccessor,
             numberOfTicks,
             formatLabel,
-            min,
-            max,
             svg,
             children,
         } = this.props
@@ -75,14 +73,20 @@ class YAxis extends PureComponent {
         const values = data.map((item, index) => yAccessor({ item, index }))
 
         const extent = array.extent([ ...values, min, max ])
-        const ticks = scale === d3Scale.scaleBand ?
-            values :
-            array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
 
-        const domain = scale === d3Scale.scaleBand ? values : extent
+        const {
+            min = extent[ 0 ],
+            max = extent[ 1 ],
+        } = this.props
+
+        const domain = scale === d3Scale.scaleBand ? values : [ min, max ]
 
         //invert range to support svg coordinate system
         const y = this.getY(domain)
+
+        const ticks = scale === d3Scale.scaleBand ?
+            values :
+            y.ticks(numberOfTicks)
 
         const longestValue = ticks
             .map((value, index) => formatLabel(value, index))

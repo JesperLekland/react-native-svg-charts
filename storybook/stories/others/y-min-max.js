@@ -23,8 +23,8 @@ class GridMinMaxExample extends React.PureComponent {
                 data={ data }
                 svg={{ fill: 'rgba(134, 65, 244, 0.2)' }}
                 curve={ shape.curveNatural }
-                gridMax={ 500 }
-                gridMin={ -500 }
+                yMax={ 500 }
+                yMin={ -500 }
             >
                 <Line/>
             </AreaChart>

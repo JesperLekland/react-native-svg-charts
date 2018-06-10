@@ -28,6 +28,7 @@ class BarChart extends PureComponent {
             },
             spacingInner,
             spacingOuter,
+            clamp,
         } = this.props
 
         const { width } = this.state
@@ -36,6 +37,7 @@ class BarChart extends PureComponent {
             return scale.scaleLinear()
                 .domain(domain)
                 .range([ left, width - right ])
+                .clamp(clamp)
         }
 
         return scale.scaleBand()
@@ -54,6 +56,7 @@ class BarChart extends PureComponent {
             },
             spacingInner,
             spacingOuter,
+            clamp,
         } = this.props
 
         const { height } = this.state
@@ -69,6 +72,7 @@ class BarChart extends PureComponent {
         return scale.scaleLinear()
             .domain(domain)
             .range([ height - bottom, top ])
+            .clamp(clamp)
     }
 
     calcAreas(x, y) {
@@ -107,7 +111,14 @@ class BarChart extends PureComponent {
         const { data, gridMin, gridMax, yAccessor } = this.props
         const values = data.map(obj => yAccessor({ item: obj }))
 
-        return array.extent([ ...values, gridMax, gridMin ])
+        const extent = array.extent([ ...values, gridMax, gridMin ])
+
+        const {
+            yMin = extent[ 0 ],
+            yMax = extent[ 1 ],
+        } = this.props
+
+        return [ yMin, yMax ]
     }
 
     calcIndexes() {
@@ -230,6 +241,10 @@ BarChart.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     svg: PropTypes.object,
+
+    yMin: PropTypes.any,
+    yMax: PropTypes.any,
+    clamp: PropTypes.bool,
 }
 
 BarChart.defaultProps = {
