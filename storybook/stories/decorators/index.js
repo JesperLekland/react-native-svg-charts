@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react-native'
 import Grid from './custom-grid'
 import Decorator1 from './decorator-1'
 import Decorator2 from './decorator-2'
+import StackedBarChartLabels from './stacked-bar-chart-labels'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('Decorators', module)
@@ -11,4 +12,5 @@ storiesOf('Decorators', module)
     .add('Custom grid', () => <Grid/>)
     .add('1', () => <Decorator1/>)
     .add('2', () => <Decorator2/>)
+    .add('Stacked Bar - Labels', () => <StackedBarChartLabels/>)
 
