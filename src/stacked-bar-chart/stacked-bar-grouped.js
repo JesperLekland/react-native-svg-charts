@@ -30,9 +30,6 @@ class StackedBarGrouped extends PureComponent {
                 .range([ left, width - right ])
         }
 
-        // use index as domain identifier instead of value since
-        // domain must be same length as number of bars
-        // same value can occur at several places in data
         return scale
             .scaleBand()
             .domain(domain)
@@ -133,6 +130,7 @@ class StackedBarGrouped extends PureComponent {
     calcIndexes() {
         const { data } = this.props
 
+        // Must return an array with indexes for the number of groups to be shown
         return data[0].data.map((_, index) => index)
     }
 
