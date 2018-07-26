@@ -93,7 +93,7 @@ class YAxis extends PureComponent {
             .map((value, index) => formatLabel(value, index))
             .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
 
-        const x = textAnchor === 'middle' ? '50%' : 0;
+        const x = textAnchor === 'middle' ? '50%' : 0
             
         return (
             <View style={ [ style ] }>
@@ -164,7 +164,7 @@ YAxis.propTypes = {
     scale: PropTypes.func,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
-	textAnchor: PropTypes.oneOf(['middle', 'left']),
+    textAnchor: PropTypes.oneOf([ 'middle', 'left' ]),
 }
 
 YAxis.defaultProps = {
