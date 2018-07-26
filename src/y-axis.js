@@ -62,6 +62,7 @@ class YAxis extends PureComponent {
             formatLabel,
             svg,
             children,
+            textAnchor,
         } = this.props
 
         const { height, width } = this.state
@@ -92,6 +93,8 @@ class YAxis extends PureComponent {
             .map((value, index) => formatLabel(value, index))
             .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
 
+        const x = textAnchor === 'middle' ? '50%' : 0
+            
         return (
             <View style={ [ style ] }>
                 <View
@@ -122,8 +125,8 @@ class YAxis extends PureComponent {
                                     return (
                                         <SVGText
                                             originY={ y(value) }
-                                            textAnchor={ 'middle' }
-                                            x={ '50%' }
+                                            textAnchor={ textAnchor }
+                                            x={ x }
                                             alignmentBaseline={ 'middle' }
                                             { ...svg }
                                             key={ index }
@@ -161,6 +164,7 @@ YAxis.propTypes = {
     scale: PropTypes.func,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
+    textAnchor: PropTypes.oneOf([ 'middle', 'left' ]),
 }
 
 YAxis.defaultProps = {
@@ -172,6 +176,7 @@ YAxis.defaultProps = {
     scale: d3Scale.scaleLinear,
     formatLabel: value => value && value.toString(),
     yAccessor: ({ item }) => item,
+    textAnchor: 'middle',
 }
 
 export default YAxis
