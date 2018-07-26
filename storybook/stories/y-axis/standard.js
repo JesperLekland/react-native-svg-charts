@@ -19,7 +19,7 @@ class YAxisExample extends React.PureComponent {
                         fill: 'grey',
                         fontSize: 10,
                     }}
-                    textAnchor={'middle'}
+                    textAnchor={ 'middle' }
                     numberOfTicks={ 10 }
                     formatLabel={ value => `${value}ºC` }
                 />
