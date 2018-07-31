@@ -1,6 +1,4 @@
 import * as array from 'd3-array'
-// import * as scale from 'd3-scale'
-// import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
