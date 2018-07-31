@@ -1,5 +1,5 @@
 import * as shape from 'd3-shape'
-import Chart from './chart'
+import Chart from '../chart/chart'
 
 class LineChart extends Chart {
 

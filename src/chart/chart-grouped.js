@@ -1,13 +1,14 @@
 import * as array from 'd3-array'
-import * as scale from 'd3-scale'
-import * as shape from 'd3-shape'
+// import * as scale from 'd3-scale'
+// import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
-import Path from './animated-path'
+import Path from '../animated-path'
+import Chart from './chart'
 
-class Chart extends PureComponent {
+class ChartGrouped extends PureComponent {
 
     state = {
         width: 0,
@@ -20,7 +21,7 @@ class Chart extends PureComponent {
     }
 
     createPaths() {
-        throw 'Extending "Chart" requires you to override "createPaths'
+        throw 'Extending "ChartGrouped" requires you to override "createPaths'
     }
 
     render() {
@@ -52,25 +53,25 @@ class Chart extends PureComponent {
         const { width, height } = this.state
 
         if (data.length === 0) {
-            return <View style={ style }/>
+            return <View style={ style } />
         }
 
-        const mappedData = data.map((item, index) => ({
+        const mappedData = data.map((dataArray) => dataArray.data.map((item, index) => ({
             y: yAccessor({ item, index }),
             x: xAccessor({ item, index }),
-        }))
+        })))
 
-        const yValues = mappedData.map(item => item.y)
-        const xValues = mappedData.map(item => item.x)
+        const yValues = array.merge(mappedData).map(item => item.y)
+        const xValues = array.merge(mappedData).map(item => item.x)
 
         const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
         const xExtent = array.extent([ ...xValues ])
 
         const {
-            yMin = yExtent[ 0 ],
-            yMax = yExtent[ 1 ],
-            xMin = xExtent[ 0 ],
-            xMax = xExtent[ 1 ],
+            yMin = yExtent[0],
+            yMax = yExtent[1],
+            xMin = xExtent[0],
+            xMax = xExtent[1],
         } = this.props
 
         //invert range to support svg coordinate system
@@ -116,13 +117,19 @@ class Chart extends PureComponent {
                                     return null
                                 })
                             }
-                            <Path
-                                fill={ 'none' }
-                                { ...svg }
-                                d={ paths.path }
-                                animate={ animate }
-                                animationDuration={ animationDuration }
-                            />
+                            {paths.path.map((path, index) => {
+                                const { svg: pathSvg } = data[index]
+                                return (
+                                    <Path
+                                        key={ path }
+                                        fill={ 'none' }
+                                        { ...svg }
+                                        { ...pathSvg }
+                                        d={ path }
+                                        animate={ animate }
+                                        animationDuration={ animationDuration }
+                                    />)
+                            })}
                             {
                                 React.Children.map(children, child => {
                                     if (child && !child.props.belowChart) {
@@ -139,56 +146,20 @@ class Chart extends PureComponent {
     }
 }
 
-Chart.propTypes = {
-    data: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.object),
-        PropTypes.arrayOf(PropTypes.number),
-        PropTypes.arrayOf(PropTypes.array),
-    ]).isRequired,
-    svg: PropTypes.object,
-
-    style: PropTypes.any,
-
-    animate: PropTypes.bool,
-    animationDuration: PropTypes.number,
-
-    curve: PropTypes.func,
-    contentInset: PropTypes.shape({
-        top: PropTypes.number,
-        left: PropTypes.number,
-        right: PropTypes.number,
-        bottom: PropTypes.number,
-    }),
-    numberOfTicks: PropTypes.number,
-
-    gridMin: PropTypes.number,
-    gridMax: PropTypes.number,
-
-    yMin: PropTypes.any,
-    yMax: PropTypes.any,
-    xMin: PropTypes.any,
-    xMax: PropTypes.any,
-    clampX: PropTypes.bool,
-    clampY: PropTypes.bool,
-
-    xScale: PropTypes.func,
-    yScale: PropTypes.func,
-
-    xAccessor: PropTypes.func,
-    yAccessor: PropTypes.func,
+ChartGrouped.propTypes = {
+    ...Chart.propTypes,
+    data: PropTypes.arrayOf(PropTypes.shape({
+        data: PropTypes.oneOfType([
+            PropTypes.arrayOf(PropTypes.object),
+            PropTypes.arrayOf(PropTypes.number),
+            PropTypes.arrayOf(PropTypes.array),
+        ]),
+        svg: PropTypes.object,
+    })).isRequired,
 }
 
-Chart.defaultProps = {
-    svg: {},
-    width: 100,
-    height: 100,
-    curve: shape.curveLinear,
-    contentInset: {},
-    numberOfTicks: 10,
-    xScale: scale.scaleLinear,
-    yScale: scale.scaleLinear,
-    xAccessor: ({ index }) => index,
-    yAccessor: ({ item }) => item,
+ChartGrouped.defaultProps = {
+    ...Chart.defaultProps,
 }
 
-export default Chart
+export default ChartGrouped
