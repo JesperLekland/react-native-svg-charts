@@ -177,6 +177,8 @@ class StackedBarGrouped extends PureComponent {
         const x = this.calcXScale(xDomain)
         const y = this.calcYScale(yDomain)
 
+        const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
+
         const stacks = this.calcAreas(x, y, series)
 
         const extraProps = {
@@ -186,6 +188,7 @@ class StackedBarGrouped extends PureComponent {
             height,
             ticks,
             data,
+            bandwidth,
         }
 
         return (
