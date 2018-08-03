@@ -742,7 +742,7 @@ Simply place it as child to the chart of your choice and (if necessary) set its 
 | belowChart | true | whether or not to render below the chart |
 
 ### Examples
-There is a ton of examples over at [react-native-svg-chart-exampels](https://github.com/JesperLekland/react-native-svg-charts-examples)
+There are tons of examples over at [react-native-svg-chart-examples](https://github.com/JesperLekland/react-native-svg-charts-examples)
 
 
 ## License
