@@ -7,6 +7,8 @@ import { View } from 'react-native'
 import Svg from 'react-native-svg'
 import Path from './animated-path'
 
+const CORNER_RADIUS = 10;
+
 class BarChart extends PureComponent {
     static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
         const series = shape
@@ -76,6 +78,11 @@ class BarChart extends PureComponent {
             .range([ height - bottom, top ])
     }
 
+
+    makeCorner(x, y) {
+      return `a${CORNER_RADIUS},${CORNER_RADIUS} 0 0 1 ${x * CORNER_RADIUS},${y * CORNER_RADIUS}`;
+    }
+
     calcAreas(x, y, series) {
         const { horizontal, colors, keys } = this.props
 
@@ -103,12 +110,43 @@ class BarChart extends PureComponent {
         return array.merge(
             series.map((serie, keyIndex) => {
                 return serie.map((entry, entryIndex) => {
-                    const path = shape
+                    let path = shape
                         .area()
                         .y0(d => y(d[0]))
                         .y1(d => y(d[1]))
-                        .x((d, _index) => (_index === 0 ? x(entryIndex) : x(entryIndex) + x.bandwidth()))
+                    .x((d, _index) => { return (_index === 0 ? x(entryIndex) : x(entryIndex) + x.bandwidth())})
                         .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
+
+                    const xLeft = x(entryIndex);
+                    const xRight = x(entryIndex) + x.bandwidth();
+                    const yTop= y(entry[1]);
+                    const yBottom= y(entry[0]);
+
+                    console.log('entryIndex');
+                    console.log(entryIndex);
+                    console.log(keyIndex);
+
+                    // Return line on '0' value for the bar
+                    if (yTop === yBottom) {
+                      const HEIGHT_OF_BAR = 2;
+                      const topOfBar = yBottom + HEIGHT_OF_BAR;
+                      path = 'M' + xLeft + ',' + topOfBar +  // Start at top-left
+                        ' L' + xRight + ',' + topOfBar +  // go to top-right
+                        ' v-' + HEIGHT_OF_BAR +  // Go down one pixel
+                        ' L' + xLeft + ',' + yBottom +  // go to bottom-left
+                        ' z';  // Return
+                    } else {
+                      path = 'M' + (xLeft + CORNER_RADIUS) + ',' + yTop +  // Start at top-left
+                        ' L' + xRight + ',' + yTop +  // Go to top-right
+                        ' h-10 ' + this.makeCorner(1, 1) +  // round clockwise corner
+                        ' L' + xRight + ',' + yBottom +  // Go to bottom-right
+                        ' v-10 ' + this.makeCorner(-1, 1) +  // round clockwise corner
+                        ' L' + xLeft + ',' + yBottom +  // Go to bottom-left
+                        ' h10 ' + this.makeCorner(-1, -1) +  // round clockwise corner
+                        ' L' + xLeft + ',' + yTop +  // Go to top-left
+                        ' v10 ' + this.makeCorner(1, -1) +  // round clockwise corner
+                        ' z';  // Return
+                    }
 
                     return {
                         path,
