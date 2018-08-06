@@ -145,8 +145,8 @@ class GroupedBarChart extends BarChart {
         const extent = array.extent([ ...dataExtent, gridMax, gridMin ])
 
         const {
-            yMin = extent[ 0 ],
-            yMax = extent[ 1 ],
+            yMin = extent[0],
+            yMax = extent[1],
         } = this.props
 
         return [ yMin, yMax ]
@@ -154,7 +154,7 @@ class GroupedBarChart extends BarChart {
 
     calcIndexes() {
         const { data } = this.props
-        return data[ 0 ].data.map((_, index) => index)
+        return data[0].data.map((_, index) => index)
     }
 }
 

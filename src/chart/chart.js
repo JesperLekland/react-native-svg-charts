@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
-import Path from './animated-path'
+import Path from '../animated-path'
 
 class Chart extends PureComponent {
 
