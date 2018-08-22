@@ -83,6 +83,33 @@ class BarChart extends PureComponent {
       return `a${CORNER_RADIUS},${CORNER_RADIUS} 0 0 1 ${x * CORNER_RADIUS},${y * CORNER_RADIUS}`;
     }
 
+    makeRoundedBar(xLeft, xRight, yBottom, yTop, dontRoundBottom, dontRoundTop) {
+      let topRightRound = ' h-10 ' + this.makeCorner(1, 1);
+      let bottomRightRound = ' v-10 ' + this.makeCorner(-1, 1);
+      let bottomLeftRound = ' h10 ' + this.makeCorner(-1, -1);
+      let topLeftRound = ' v10 ' + this.makeCorner(1, -1);
+
+      if (dontRoundTop) {
+        topRightRound = '';
+        topLeftRound = '';
+      }
+      if (dontRoundBottom) {
+        bottomRightRound = '';
+        bottomLeftRound = '';
+      }
+
+      return 'M' + (xLeft + CORNER_RADIUS) + ',' + yTop +  // Start at top-left
+        ' L' + xRight + ',' + yTop +  // Go to top-right
+        topRightRound +  // round clockwise corner
+        ' L' + xRight + ',' + yBottom +  // Go to bottom-right
+        bottomRightRound +  // round clockwise corner
+        ' L' + xLeft + ',' + yBottom +  // Go to bottom-left
+        bottomLeftRound +  // round clockwise corner
+        ' L' + xLeft + ',' + yTop +  // Go to top-left
+        topLeftRound +  // round clockwise corner
+        ' z';  // Return
+    }
+
     calcAreas(x, y, series) {
         const { horizontal, colors, keys } = this.props
 
@@ -122,10 +149,6 @@ class BarChart extends PureComponent {
                     const yTop= y(entry[1]);
                     const yBottom= y(entry[0]);
 
-                    console.log('entryIndex');
-                    console.log(entryIndex);
-                    console.log(keyIndex);
-
                     // Return line on '0' value for the bar
                     if (yTop === yBottom) {
                       const HEIGHT_OF_BAR = 2;
@@ -136,16 +159,22 @@ class BarChart extends PureComponent {
                         ' L' + xLeft + ',' + yBottom +  // go to bottom-left
                         ' z';  // Return
                     } else {
-                      path = 'M' + (xLeft + CORNER_RADIUS) + ',' + yTop +  // Start at top-left
-                        ' L' + xRight + ',' + yTop +  // Go to top-right
-                        ' h-10 ' + this.makeCorner(1, 1) +  // round clockwise corner
-                        ' L' + xRight + ',' + yBottom +  // Go to bottom-right
-                        ' v-10 ' + this.makeCorner(-1, 1) +  // round clockwise corner
-                        ' L' + xLeft + ',' + yBottom +  // Go to bottom-left
-                        ' h10 ' + this.makeCorner(-1, -1) +  // round clockwise corner
-                        ' L' + xLeft + ',' + yTop +  // Go to top-left
-                        ' v10 ' + this.makeCorner(1, -1) +  // round clockwise corner
-                        ' z';  // Return
+                      // If only 
+
+                      // If only one bar, round both bottom and top
+                      const numOfBars = series.length
+                      if (series.length === 1) {
+                        path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop);
+                      
+                      // Otherwise, if multiple bars, only round the bottom of the first bar and the 
+                      // top of the last bar
+                      } else if (series.length > 1) {
+                        if (keyIndex === 0) {
+                          path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, false, true);
+                        } else if (keyIndex === numOfBars - 1) {
+                          path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, true);
+                        }
+                      }
                     }
 
                     return {
