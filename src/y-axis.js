@@ -59,6 +59,7 @@ class YAxis extends PureComponent {
             scale,
             yAccessor,
             numberOfTicks,
+            tickValues,
             formatLabel,
             svg,
             children,
@@ -84,9 +85,9 @@ class YAxis extends PureComponent {
         //invert range to support svg coordinate system
         const y = this.getY(domain)
 
-        const ticks = scale === d3Scale.scaleBand ?
-            values :
-            y.ticks(numberOfTicks)
+        const ticks = tickValues ? tickValues :
+          scale === d3Scale.scaleBand ?  values :
+          y.ticks(numberOfTicks)
 
         const longestValue = ticks
             .map((value, index) => formatLabel(value, index))
