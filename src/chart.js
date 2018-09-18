@@ -15,6 +15,7 @@ class Chart extends PureComponent {
     }
 
     _onLayout(event) {
+        // this.props.onLayoutCb(event);
         const { nativeEvent: { layout: { height, width } } } = event
         this.setState({ height, width })
     }

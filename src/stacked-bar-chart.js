@@ -83,7 +83,7 @@ class BarChart extends PureComponent {
       return `a${CORNER_RADIUS},${CORNER_RADIUS} 0 0 1 ${x * CORNER_RADIUS},${y * CORNER_RADIUS}`;
     }
 
-    makeRoundedBar(xLeft, xRight, yBottom, yTop, dontRoundBottom, dontRoundTop) {
+    makeRoundedBar(xLeft, xRight, yBottom, yTop, dontRoundBottom, dontRoundTop, dontRoundLeft, dontRoundRight) {
       let topRightRound = ' h-10 ' + this.makeCorner(1, 1);
       let bottomRightRound = ' v-10 ' + this.makeCorner(-1, 1);
       let bottomLeftRound = ' h10 ' + this.makeCorner(-1, -1);
@@ -96,6 +96,14 @@ class BarChart extends PureComponent {
       if (dontRoundBottom) {
         bottomRightRound = '';
         bottomLeftRound = '';
+      }
+      if (dontRoundLeft) {
+        bottomLeftRound = '';
+        topLeftRound = '';
+      }
+      if (dontRoundRight) {
+        bottomRightRound = '';
+        topRightRound = '';
       }
 
       return 'M' + (xLeft + CORNER_RADIUS) + ',' + yTop +  // Start at top-left
@@ -117,12 +125,45 @@ class BarChart extends PureComponent {
             return array.merge(
                 series.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
-                        const path = shape
+                        let path = shape
                             .area()
                             .x0(d => x(d[0]))
                             .x1(d => x(d[1]))
                             .y((d, _index) => (_index === 0 ? y(entryIndex) : y(entryIndex) + y.bandwidth()))
                             .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
+
+                        const xLeft= x(entry[0]);
+                        const xRight= x(entry[1]);
+                        const yTop = y(entryIndex);
+                        const yBottom = y(entryIndex) + y.bandwidth();
+
+                        // Return line on '0' value for the bar
+                        if (xLeft === xRight) {
+                          const HEIGHT_OF_BAR = 2;
+                          const topOfBar = yBottom + HEIGHT_OF_BAR;
+                          path = 'M' + xLeft + ',' + topOfBar +  // Start at top-left
+                            ' L' + xRight + ',' + topOfBar +  // go to top-right
+                            ' v-' + HEIGHT_OF_BAR +  // Go down one pixel
+                            ' L' + xLeft + ',' + yBottom +  // go to bottom-left
+                            ' z';  // Return
+                        } else {
+                          // If only 
+
+                          // If only one bar, round both bottom and top
+                          const numOfBars = series.length
+                          if (series.length === 1) {
+                            path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop);
+                          
+                          // Otherwise, if multiple bars, only round the bottom of the first bar and the 
+                          // top of the last bar
+                          } else if (series.length > 1) {
+                            if (keyIndex === 0) {
+                              path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, false, false, false, true);
+                            } else if (keyIndex === numOfBars - 1) {
+                              path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, false, false, true);
+                            }
+                          }
+                        }
 
                         return {
                             path,

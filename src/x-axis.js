@@ -2,6 +2,8 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Text, View } from 'react-native'
 import * as d3Scale from 'd3-scale'
+import * as d3Axis from 'd3-axis'
+import { select as d3Select } from 'd3-selection'
 import * as array from 'd3-array'
 import Svg, { Text as SVGText } from 'react-native-svg'
 
@@ -79,6 +81,7 @@ class XAxis extends PureComponent {
 
         const x     = this._getX(domain)
         const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
+        // ticks = ticks.concat(domain);
 
         return (
             <View style={ style }>
@@ -92,7 +95,8 @@ class XAxis extends PureComponent {
                     </Text>
                     {
                         height > 0 && width > 0 &&
-                        <Svg style={{
+                        <Svg 
+                          style={{
                             position: 'absolute',
                             top: 0,
                             left: 0,
@@ -128,6 +132,54 @@ class XAxis extends PureComponent {
             </View>
         )
     }
+
+  /*
+                          ref={el => this.axisElement = el}
+  componentDidMount() {
+    this.renderAxis()
+  }
+
+  componentDidUpdate() {
+    this.renderAxis()
+  }
+
+  renderAxis() {
+    if (this.axisElement) {
+      // TODO: Merge this with code in render
+      // ----------
+        const {
+            style,
+            scale,
+            data,
+            xAccessor,
+            formatLabel,
+            numberOfTicks,
+            svg,
+            children,
+            min,
+            max,
+        } = this.props
+        const values = data.map((item, index) => xAccessor({ item, index }))
+        const extent  = array.extent(values)
+        const domain = scale === d3Scale.scaleBand ?
+            values :
+            [ min || extent[ 0 ], max || extent[ 1 ] ]
+
+        const x     = this._getX(domain)
+        const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
+      // ---------
+      const axis = d3Axis.axisBottom()
+        .ticks(20)
+        .scale(x)
+      /*
+        .tickSize(-this.props.tickSize)
+        .tickPadding([12])
+        .ticks([4])
+
+      d3Select(this.axisElement).call(axis)
+    }
+  }
+  */
 }
 
 XAxis.propTypes = {
