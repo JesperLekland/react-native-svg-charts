@@ -118,7 +118,7 @@ class BarChart extends PureComponent {
         ' z';  // Return
     }
 
-    calcAreas(x, y, series) {
+    calcAreas(x, y, series, roundBottom, roundTop) {
         const { horizontal, colors, keys } = this.props
 
         if (horizontal) {
@@ -200,20 +200,21 @@ class BarChart extends PureComponent {
                         ' L' + xLeft + ',' + yBottom +  // go to bottom-left
                         ' z';  // Return
                     } else {
-                      // If only 
+                        if (roundTop || roundBottom) {
 
-                      // If only one bar, round both bottom and top
-                      const numOfBars = series.length
-                      if (series.length === 1) {
-                        path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop);
-                      
-                      // Otherwise, if multiple bars, only round the bottom of the first bar and the 
-                      // top of the last bar
-                      } else if (series.length > 1) {
-                        if (keyIndex === 0) {
-                          path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, false, true);
-                        } else if (keyIndex === numOfBars - 1) {
-                          path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, true);
+                        // If only one bar, round both bottom and top
+                        const numOfBars = series.length
+                        if (series.length === 1) {
+                          path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, !roundBottom, !roundTop);
+                        
+                        // Otherwise, if multiple bars, only round the bottom of the first bar and the 
+                        // top of the last bar
+                        } else if (series.length > 1) {
+                          if (keyIndex === 0 && roundBottom) {
+                            path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, false, true);
+                          } else if (keyIndex === numOfBars - 1 && roundTop) {
+                            path = this.makeRoundedBar(xLeft, xRight, yBottom, yTop, true);
+                          }
                         }
                       }
                     }
@@ -248,6 +249,8 @@ class BarChart extends PureComponent {
             children,
             horizontal,
             valueAccessor,
+            roundBottom,
+            roundTop,
         } = this.props
 
         const { height, width } = this.state
@@ -276,7 +279,7 @@ class BarChart extends PureComponent {
         const x = this.calcXScale(xDomain)
         const y = this.calcYScale(yDomain)
 
-        const areas = this.calcAreas(x, y, series)
+        const areas = this.calcAreas(x, y, series, roundBottom, roundTop)
 
         const extraProps = {
             x,
@@ -355,6 +358,8 @@ BarChart.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     valueAccessor: PropTypes.func,
+    roundBottom: PropTypes.bool,
+    roundTop: PropTypes.bool,
 }
 
 BarChart.defaultProps = {
@@ -369,6 +374,8 @@ BarChart.defaultProps = {
     numberOfTicks: 10,
     showGrid: true,
     valueAccessor: ({ item, key }) => item[key],
+    roundBottom: true,
+    roundTop: true,
 }
 
 export default BarChart
