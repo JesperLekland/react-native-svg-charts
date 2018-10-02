@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Text, View } from 'react-native'
 import * as d3Scale from 'd3-scale'
 import * as array from 'd3-array'
-import Svg, { Text as SVGText } from 'react-native-svg'
+import Svg, { G, Text as SVGText } from 'react-native-svg'
 
 class XAxis extends PureComponent {
 
@@ -99,29 +99,31 @@ class XAxis extends PureComponent {
                             height,
                             width,
                         }}>
-                            {children}
-                            {
-                                // don't render labels if width isn't measured yet,
-                                // causes rendering issues
-                                width > 0 &&
-                                ticks.map((value, index) => {
-                                    const { svg: valueSvg = {} } = data[ index ] || {}
+                            <G>
+                                {children}
+                                {
+                                    // don't render labels if width isn't measured yet,
+                                    // causes rendering issues
+                                    width > 0 &&
+                                    ticks.map((value, index) => {
+                                        const { svg: valueSvg = {} } = data[ index ] || {}
 
-                                    return (
-                                        <SVGText
-                                            textAnchor={ 'middle' }
-                                            originX={ x(value) }
-                                            alignmentBaseline={ 'hanging' }
-                                            { ...svg }
-                                            { ...valueSvg }
-                                            key={ index }
-                                            x={ x(value) }
-                                        >
-                                            {formatLabel(value, index)}
-                                        </SVGText>
-                                    )
-                                })
-                            }
+                                        return (
+                                            <SVGText
+                                                textAnchor={ 'middle' }
+                                                originX={ x(value) }
+                                                alignmentBaseline={ 'hanging' }
+                                                { ...svg }
+                                                { ...valueSvg }
+                                                key={ index }
+                                                x={ x(value) }
+                                            >
+                                                {formatLabel(value, index)}
+                                            </SVGText>
+                                        )
+                                    })
+                                }
+                            </G>
                         </Svg>
                     }
                 </View>

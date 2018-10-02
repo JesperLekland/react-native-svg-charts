@@ -54,7 +54,7 @@
   "peerDependencies": {
     "react": ">=16.0.0-alpha.12",
     "react-native": ">=0.46.0",
-    "react-native-svg": "^6.2.1"
+    "react-native-svg": "^6.2.1||^7.0.3"
   },
   "devDependencies": {
     "date-fns": "^1.28.5",

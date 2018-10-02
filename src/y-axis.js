@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Text, View } from 'react-native'
-import { Svg, Text as SVGText } from 'react-native-svg'
+import { Svg, G, Text as SVGText } from 'react-native-svg'
 import * as d3Scale from 'd3-scale'
 import * as array from 'd3-array'
 
@@ -113,27 +113,29 @@ class YAxis extends PureComponent {
                             height,
                             width,
                         }}>
-                            {children}
-                            {
-                                // don't render labels if width isn't measured yet,
-                                // causes rendering issues
-                                height > 0 &&
-                                ticks.map((value, index) => {
-                                    return (
-                                        <SVGText
-                                            originY={ y(value) }
-                                            textAnchor={ 'middle' }
-                                            x={ '50%' }
-                                            alignmentBaseline={ 'middle' }
-                                            { ...svg }
-                                            key={ index }
-                                            y={ y(value) }
-                                        >
-                                            {formatLabel(value, index)}
-                                        </SVGText>
-                                    )
-                                })
-                            }
+                            <G>
+                                {children}
+                                {
+                                    // don't render labels if width isn't measured yet,
+                                    // causes rendering issues
+                                    height > 0 &&
+                                    ticks.map((value, index) => {
+                                        return (
+                                            <SVGText
+                                                originY={ y(value) }
+                                                textAnchor={ 'middle' }
+                                                x={ '50%' }
+                                                alignmentBaseline={ 'middle' }
+                                                { ...svg }
+                                                key={ index }
+                                                y={ y(value) }
+                                            >
+                                                {formatLabel(value, index)}
+                                            </SVGText>
+                                        )
+                                    })
+                                }
+                            </G>
                         </Svg>
                     }
                 </View>
