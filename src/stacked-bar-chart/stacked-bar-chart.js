@@ -100,7 +100,7 @@ class BarChart extends PureComponent {
             )
         }
 
-        const ret = array.merge(
+        return array.merge(
             series.map((serie, keyIndex) => {
                 return serie.map((entry, entryIndex) => {
                     const path = shape
@@ -118,9 +118,6 @@ class BarChart extends PureComponent {
                 })
             })
         )
-
-        console.log('TEST', ret)
-        return ret
     }
 
     calcExtent(values) {

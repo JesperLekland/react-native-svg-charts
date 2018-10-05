@@ -106,7 +106,7 @@ class StackedBarChartExample extends React.PureComponent {
                         bananas: 480,
                         cherries: 640,
                         dates: 400,
-                        oranges: 200,
+                        oranges: 2500,
                     }],
             },
         ]
