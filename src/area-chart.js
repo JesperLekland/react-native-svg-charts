@@ -1,6 +1,6 @@
 import * as shape from 'd3-shape'
 import PropTypes from 'prop-types'
-import Chart from './chart'
+import Chart from './chart/chart'
 
 class AreaChart extends Chart {
 
