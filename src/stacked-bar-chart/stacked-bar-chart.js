@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
-import Path from './animated-path'
+import Path from '../animated-path'
 
 class BarChart extends PureComponent {
     static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
@@ -100,7 +100,7 @@ class BarChart extends PureComponent {
             )
         }
 
-        return array.merge(
+        const ret = array.merge(
             series.map((serie, keyIndex) => {
                 return serie.map((entry, entryIndex) => {
                     const path = shape
@@ -118,28 +118,44 @@ class BarChart extends PureComponent {
                 })
             })
         )
+
+        console.log('TEST', ret)
+        return ret
     }
 
-    calcIndexes() {
-        const { data } = this.props
-        return data.map((_, index) => index)
+    calcExtent(values) {
+        const {
+            gridMax,
+            gridMin,
+        } = this.props
+
+        return array.extent([ ...values, gridMin, gridMax ])
+    }
+
+    calcIndexes(values) {
+        return values.map((_, index) => index)
+    }
+
+    getSeries() {
+        const { data, keys, offset, order, valueAccessor } = this.props
+
+        return shape
+            .stack()
+            .keys(keys)
+            .value((item, key) => valueAccessor({ item, key }))
+            .order(order)
+            .offset(offset)(data)
     }
 
     render() {
         const {
             data,
-            keys,
-            order,
-            offset,
             animate,
             animationDuration,
             style,
             numberOfTicks,
-            gridMax,
-            gridMin,
             children,
             horizontal,
-            valueAccessor,
         } = this.props
 
         const { height, width } = this.state
@@ -148,18 +164,13 @@ class BarChart extends PureComponent {
             return <View style={ style } />
         }
 
-        const series = shape
-            .stack()
-            .keys(keys)
-            .value((item, key) => valueAccessor({ item, key }))
-            .order(order)
-            .offset(offset)(data)
+        const series = this.getSeries()
 
         //double merge arrays to extract just the values
         const values = array.merge(array.merge(series))
-        const indexes = values.map((_, index) => index)
+        const indexes = this.calcIndexes(values)
 
-        const extent = array.extent([ ...values, gridMin, gridMax ])
+        const extent = this.calcExtent(values)
         const ticks = array.ticks(extent[0], extent[1], numberOfTicks)
 
         const xDomain = horizontal ? extent : indexes
@@ -197,7 +208,7 @@ class BarChart extends PureComponent {
                                 areas.map((bar, index) => {
                                     const keyIndex = index % data.length
                                     const key = `${keyIndex}-${bar.key}`
-                                    const { svg } = data[ keyIndex ][ bar.key ]
+                                    const { svg } = data[keyIndex][bar.key]
 
                                     return (
                                         <Path
