@@ -176,6 +176,8 @@ class BarChart extends PureComponent {
         const x = this.calcXScale(xDomain)
         const y = this.calcYScale(yDomain)
 
+        const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
+
         const areas = this.calcAreas(x, y, series)
 
         const extraProps = {
@@ -185,6 +187,7 @@ class BarChart extends PureComponent {
             height,
             ticks,
             data,
+            bandwidth,
         }
 
         return (
