@@ -5,6 +5,7 @@ import Standard from './standard'
 import Horizontal from './horizontal'
 import WithOnPress from './with-on-press'
 import Grouped from './grouped'
+import HorizontalGrouped from './horizontal-grouped'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('BarStack', module)
@@ -13,3 +14,4 @@ storiesOf('BarStack', module)
     .add('Horizontal', () => <Horizontal />)
     .add('With onPress', () => <WithOnPress />)
     .add('Grouped', () => <Grouped />)
+    .add('Horizontal - grouped', () => <HorizontalGrouped />)
