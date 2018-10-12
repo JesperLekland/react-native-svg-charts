@@ -67,6 +67,7 @@ class YAxis extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
+            return <View style={ style } />
         }
 
         const values = data.map((item, index) => yAccessor({ item, index }))
@@ -125,7 +126,7 @@ class YAxis extends PureComponent {
                                             x={ '50%' }
                                             alignmentBaseline={ 'middle' }
                                             { ...svg }
-                                            key={ index }
+                                            key={ y(value) }
                                             y={ y(value) }
                                         >
                                             {formatLabel(value, index, ticks.length)}
