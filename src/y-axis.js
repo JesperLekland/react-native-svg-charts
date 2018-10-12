@@ -67,7 +67,6 @@ class YAxis extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={ style }/>
         }
 
         const values = data.map((item, index) => yAccessor({ item, index }))
@@ -75,8 +74,8 @@ class YAxis extends PureComponent {
         const extent = array.extent([ ...values, min, max ])
 
         const {
-            min = extent[ 0 ],
-            max = extent[ 1 ],
+            min = extent[0],
+            max = extent[1],
         } = this.props
 
         const domain = scale === d3Scale.scaleBand ? values : [ min, max ]
@@ -89,7 +88,7 @@ class YAxis extends PureComponent {
             y.ticks(numberOfTicks)
 
         const longestValue = ticks
-            .map((value, index) => formatLabel(value, index))
+            .map((value, index) => formatLabel(value, index, ticks.length))
             .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
 
         return (
@@ -129,7 +128,7 @@ class YAxis extends PureComponent {
                                             key={ index }
                                             y={ y(value) }
                                         >
-                                            {formatLabel(value, index)}
+                                            {formatLabel(value, index, ticks.length)}
                                         </SVGText>
                                     )
                                 })
