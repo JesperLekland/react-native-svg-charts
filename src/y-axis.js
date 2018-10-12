@@ -136,10 +136,10 @@ class YAxis extends PureComponent {
                                                 x={ '50%' }
                                                 alignmentBaseline={ 'middle' }
                                                 { ...svg }
-                                                key={ index }
+                                                key={ y(value) }
                                                 y={ y(value) }
                                             >
-                                                {formatLabel(value, index)}
+                                                {formatLabel(value, index, ticks.length)}
                                             </SVGText>
                                         )
                                     })
