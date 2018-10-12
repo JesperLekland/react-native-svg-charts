@@ -100,7 +100,7 @@ class YAxis extends PureComponent {
                 >
                     {/*invisible text to allow for parent resizing*/}
                     <Text
-                        style={{ color: 'transparent', fontSize: svg.fontSize }}
+                        style={{ color: 'transparent', fontSize: svg.fontSize, paddingHorizontal: 2 }}
                     >
                         {longestValue}
                     </Text>
