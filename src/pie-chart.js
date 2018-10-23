@@ -128,7 +128,7 @@ class PieChart extends PureComponent {
                 >
                     {
                         height > 0 && width > 0 &&
-                        <Svg style={{ height, width }}>
+                        <Svg style={{ height, width }} viewBox={`0 0 ${width} ${height}`}>
                             {/* center the progress circle*/}
                             <G
                                 x={ width / 2 }
