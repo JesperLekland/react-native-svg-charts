@@ -58,7 +58,7 @@ class XAxis extends PureComponent {
                     textAnchor="middle"
                     x={ x(value) }
                     dy={ lineIndex ? svg.fontSize * 1.2 : 0 }>
-                    {line.trim()}
+                    {line}
                 </TSpan>
             ))
         }
