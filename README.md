@@ -713,6 +713,7 @@ class XAxisExample extends React.PureComponent {
 | svg | `{}` | Default svg props **for all labels**. Supports all svg props an svg text normally supports. This styles will be overriden if there are specific styles for a given data object  |
 | formatLabel | `value => value` | A utility function to format the text before it is displayed, e.g `value => "day" + value`. Passes back the value provided by the `xAccessor` |
 | contentInset | { left: 0, right: 0 } | Used to sync layout with chart (if same prop used there) |
+| splitOnLineBreaks | false | Forces line breaks on formatted axis labels. |
 
 #### Arguments to children
 
