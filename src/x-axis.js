@@ -26,7 +26,7 @@ class XAxis extends PureComponent {
             spacingInner,
             spacingOuter,
             contentInset: {
-                left  = 0,
+                left = 0,
                 right = 0,
             },
         } = this.props
@@ -68,62 +68,73 @@ class XAxis extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={ style }/>
+            return <View style={ style } />
         }
 
         const values = data.map((item, index) => xAccessor({ item, index }))
-        const extent  = array.extent(values)
+        const extent = array.extent(values)
         const domain = scale === d3Scale.scaleBand ?
             values :
-            [ min || extent[ 0 ], max || extent[ 1 ] ]
+            [ min || extent[0], max || extent[1] ]
 
-        const x     = this._getX(domain)
+        const x = this._getX(domain)
         const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
 
         return (
             <View style={ style }>
                 <View
-                    style={{ flexGrow: 1 }}
-                    onLayout={ event => this._onLayout(event) }
-                >
+                    style={
+                        height && width
+                            ? {
+                                height,
+                                width,
+                            }
+                            : { flexGrow: 1 }
+                    }>
                     {/*invisible text to allow for parent resizing*/}
-                    <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
-                        { formatLabel(ticks[0], 0) }
-                    </Text>
-                    {
-                        height > 0 && width > 0 &&
-                        <Svg style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            height,
-                            width,
-                        }}>
+                    {!height &&
+                        !width && (
+                        <Text
+                            onLayout={ event => this._onLayout(event) }
+                            style={{ color: 'transparent', fontSize: svg.fontSize }}>
+                            {formatLabel(ticks[0], 0)}
+                        </Text>
+                    )}
+                    {height > 0 &&
+                        width > 0 && (
+                        <Svg
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                height,
+                                width,
+                            }}>
                             {children}
                             {
                                 // don't render labels if width isn't measured yet,
                                 // causes rendering issues
                                 width > 0 &&
-                                ticks.map((value, index) => {
-                                    const { svg: valueSvg = {} } = data[ index ] || {}
+                                    ticks.map((value, index) => {
+                                        const { svg: valueSvg = {} } = data[index] || {}
 
-                                    return (
-                                        <SVGText
-                                            textAnchor={ 'middle' }
-                                            originX={ x(value) }
-                                            alignmentBaseline={ 'hanging' }
-                                            { ...svg }
-                                            { ...valueSvg }
-                                            key={ index }
-                                            x={ x(value) }
-                                        >
-                                            {formatLabel(value, index)}
-                                        </SVGText>
-                                    )
-                                })
+                                        return (
+                                            <SVGText
+                                                textAnchor={ 'middle' }
+                                                originX={ x(value) }
+                                                alignmentBaseline={ 'hanging' }
+                                                { ...svg }
+                                                { ...valueSvg }
+                                                key={ index }
+                                                x={ x(value) }
+                                            >
+                                                {formatLabel(value, index)}
+                                            </SVGText>
+                                        )
+                                    })
                             }
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )
