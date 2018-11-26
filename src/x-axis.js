@@ -98,11 +98,24 @@ class XAxis extends PureComponent {
 
         return (
             <View style={ style }>
-                <View style={{ flexGrow: 1 }} onLayout={ event => this._onLayout(event) }>
+                <View
+                    style={
+                        height && width
+                            ? {
+                                height,
+                                width,
+                            }
+                            : { flexGrow: 1 }
+                    }>
                     {/*invisible text to allow for parent resizing*/}
-                    <Text style={{ color: 'transparent', fontSize: svg.fontSize }}>
-                        {formatLabel(ticks[0], 0)}
-                    </Text>
+                    {!height &&
+                        !width && (
+                        <Text
+                            onLayout={ event => this._onLayout(event) }
+                            style={{ color: 'transparent', fontSize: svg.fontSize }}>
+                            {formatLabel(ticks[0], 0)}
+                        </Text>
+                    )}
                     {height > 0 &&
                         width > 0 && (
                         <Svg
