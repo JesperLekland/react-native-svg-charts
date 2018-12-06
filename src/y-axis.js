@@ -67,7 +67,7 @@ class YAxis extends PureComponent {
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={ style }/>
+            return <View style={ style } />
         }
 
         const values = data.map((item, index) => yAccessor({ item, index }))
@@ -75,8 +75,8 @@ class YAxis extends PureComponent {
         const extent = array.extent([ ...values, min, max ])
 
         const {
-            min = extent[ 0 ],
-            max = extent[ 1 ],
+            min = extent[0],
+            max = extent[1],
         } = this.props
 
         const domain = scale === d3Scale.scaleBand ? values : [ min, max ]
@@ -91,6 +91,13 @@ class YAxis extends PureComponent {
         const longestValue = ticks
             .map((value, index) => formatLabel(value, index))
             .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
+
+        const extraProps = {
+            y,
+            ticks,
+            width,
+            formatLabel,
+        }
 
         return (
             <View style={ [ style ] }>
@@ -114,7 +121,9 @@ class YAxis extends PureComponent {
                             width,
                         }}>
                             <G>
-                                {children}
+                                {React.Children.map(children, child => {
+                                    return React.cloneElement(child, extraProps)
+                                })}
                                 {
                                     // don't render labels if width isn't measured yet,
                                     // causes rendering issues
