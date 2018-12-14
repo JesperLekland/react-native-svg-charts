@@ -59,7 +59,7 @@ class StackedBarGrouped extends PureComponent {
     }
 
     calcAreas(x, y, series) {
-        const { horizontal, colors, keys, data } = this.props
+        const { horizontal, colors, keys, data, borderRadius, innerBarSpace } = this.props
         let areas
         let barWidth
 
@@ -69,13 +69,14 @@ class StackedBarGrouped extends PureComponent {
             areas = series.map((stack, stackIndex) => {
                 return stack.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
+                        const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0 ;
                         const path = shape
                             .area()
                             .x0(d => x(d[0]))
                             .x1(d => x(d[1]))
                             .y((d, _index) => (_index === 0 ?
-                                y(entryIndex) + (barWidth * stackIndex) :
-                                y(entryIndex) + barWidth + (barWidth * stackIndex)))
+                                y(entryIndex) + (barWidth * stackIndex) + leftMargin :
+                                y(entryIndex) + barWidth + (barWidth * stackIndex)) - leftMargin)
                             .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
 
                         return {
@@ -92,21 +93,28 @@ class StackedBarGrouped extends PureComponent {
             areas = series.map((stack, stackIndex) => {
                 return stack.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
-                        const path = shape
-                            .area()
-                            .y0(d => y(d[0]))
-                            .y1(d => y(d[1]))
-                            .x((d, _index) => (_index === 0 ?
-                                x(entryIndex) + (barWidth * stackIndex) :
-                                x(entryIndex) + barWidth + (barWidth * stackIndex))
-                            )
-                            .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
+                        const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0;
+                        const x0 = x(entryIndex) + barWidth * stackIndex + leftMargin;
+                        const x1 = x(entryIndex) + barWidth + barWidth * stackIndex - leftMargin;
+                        const y0 = y(entry[1]);
+                        const y1 = y(entry[0]);
+                        const showTopBorder = keyIndex === stack.length - 1;
+                        const showBottomBorder = keyIndex === 0;
+                        const commands = this.coordinatesToPathCommands(
+                        x0,
+                        y0,
+                        x1,
+                        y1,
+                        borderRadius,
+                        showTopBorder,
+                        showBottomBorder,
+                        );
 
                         return {
-                            path,
-                            color: colors[stackIndex][keyIndex],
-                            key: keys[stackIndex][keyIndex],
-                        }
+                        path: this.commandsToSvgPath(commands),
+                        color: colors[stackIndex][keyIndex],
+                        key: keys[stackIndex][keyIndex],
+                        };
                     })
                 })
             })
@@ -114,6 +122,77 @@ class StackedBarGrouped extends PureComponent {
 
         return array.merge(areas)
     }
+
+    coordinatesToPathCommands = (
+        x0,
+        y0,
+        x1,
+        y1,
+        borderRadius,
+        showTopBorder,
+        showBottomBorder,
+      ) => {
+        const commands = [];
+        commands.push({ marker: 'M', values: [x0, y0] });
+
+        if (showTopBorder) {
+            const topLeft1 = [x0 + borderRadius, y0];
+            const topLeft2 = [x0, y0 + borderRadius];
+            commands.push({ marker: 'L', values: topLeft1 });
+            commands.push({
+            marker: 'C',
+            values: [...topLeft1, x0, y0, ...topLeft2],
+            });
+            commands.push({ marker: 'L', values: topLeft2 });
+        } else {
+            commands.push({ marker: 'L', values: [x0, y0] });
+        }
+
+        if (showBottomBorder) {
+            const bottomLeft1 = [x0, y1 - borderRadius];
+            const bottomLeft2 = [x0 + borderRadius, y1];
+            commands.push({ marker: 'L', values: bottomLeft1 });
+            commands.push({
+            marker: 'C',
+            values: [...bottomLeft1, x0, y1, ...bottomLeft2],
+            });
+            commands.push({ marker: 'L', values: bottomLeft2 });
+            const bottomRight1 = [x1 - borderRadius, y1];
+            const bottomRight2 = [x1, y1 - borderRadius];
+            commands.push({ marker: 'L', values: bottomRight1 });
+            commands.push({
+            marker: 'C',
+            values: [...bottomRight1, x1, y1, ...bottomRight2],
+            });
+            commands.push({ marker: 'L', values: bottomRight2 });
+        } else {
+            commands.push({ marker: 'L', values: [x0, y1] });
+            commands.push({ marker: 'L', values: [x1, y1] });
+        }
+
+        if (showTopBorder) {
+            const topRight1 = [x1, y0 + borderRadius];
+            const topRight2 = [x1 - borderRadius, y0];
+            commands.push({ marker: 'L', values: topRight1 });
+            commands.push({
+            marker: 'C',
+            values: [...topRight1, x1, y0, ...topRight2],
+            });
+            commands.push({ marker: 'L', values: topRight2 });
+        } else {
+            commands.push({ marker: 'L', values: [x1, y0] });
+        }
+
+        commands.push({ marker: 'Z', values: [] });
+
+        return commands;
+    };
+    
+    commandsToSvgPath = commands =>
+        commands
+        .map(command => `${command.marker} ${command.values.join(',')}`)
+        .join(' ')
+        .trim();
 
     calcExtent(values) {
         const {
@@ -265,6 +344,8 @@ StackedBarGrouped.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     valueAccessor: PropTypes.func,
+    borderRadius: PropTypes.number,
+    innerBarSpace: PropTypes.number,
 }
 
 StackedBarGrouped.defaultProps = {
@@ -279,6 +360,8 @@ StackedBarGrouped.defaultProps = {
     numberOfTicks: 10,
     showGrid: true,
     valueAccessor: ({ item, key }) => item[key],
+    borderRadius: 0,
+    innerBarSpace: 0,
 }
 
 export default StackedBarGrouped
