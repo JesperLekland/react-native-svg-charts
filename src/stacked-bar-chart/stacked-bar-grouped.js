@@ -59,7 +59,7 @@ class StackedBarGrouped extends PureComponent {
     }
 
     calcAreas(x, y, series) {
-        const { horizontal, colors, keys, data, borderRadius, innerBarSpace } = this.props
+        const { horizontal, colors, keys, data, borderRadius: initialBorderRadius, innerBarSpace } = this.props
         let areas
         let barWidth
 
@@ -98,6 +98,8 @@ class StackedBarGrouped extends PureComponent {
                         const x1 = x(entryIndex) + barWidth + barWidth * stackIndex - leftMargin;
                         const y0 = y(entry[1]);
                         const y1 = y(entry[0]);
+                        const barHeight = y1 - y0;
+                        const borderRadius = initialBorderRadius * 2 > barHeight ? barHeight / 2 : initialBorderRadius;
                         const showTopBorder = keyIndex === stack.length - 1;
                         const showBottomBorder = keyIndex === 0;
                         const commands = this.coordinatesToPathCommands(
