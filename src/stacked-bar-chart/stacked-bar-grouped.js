@@ -1,24 +1,13 @@
+import React, { PureComponent } from 'react'
+import { View } from 'react-native'
+import PropTypes from 'prop-types'
+import Svg from 'react-native-svg'
 import * as array from 'd3-array'
 import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
-import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
-import { View } from 'react-native'
-import Svg from 'react-native-svg'
-import Path from './animated-path'
+import Path from '../animated-path'
 
-class BarChart extends PureComponent {
-    static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
-        const series = shape
-            .stack()
-            .keys(keys)
-            .order(order)
-            .offset(offset)(data)
-
-        //double merge arrays to extract just the values
-        return array.merge(array.merge(series))
-    }
-
+class StackedBarGrouped extends PureComponent {
     state = {
         width: 0,
         height: 0,
@@ -30,8 +19,6 @@ class BarChart extends PureComponent {
     }
 
     calcXScale(domain) {
-        const { data } = this.props
-
         const { horizontal, contentInset: { left = 0, right = 0 }, spacingInner, spacingOuter } = this.props
 
         const { width } = this.state
@@ -43,20 +30,15 @@ class BarChart extends PureComponent {
                 .range([ left, width - right ])
         }
 
-        // use index as domain identifier instead of value since
-        // domain must be same length as number of bars
-        // same value can occur at several places in data
         return scale
             .scaleBand()
-            .domain(data.map((_, index) => index))
+            .domain(domain)
             .range([ left, width - right ])
             .paddingInner([ spacingInner ])
             .paddingOuter([ spacingOuter ])
     }
 
     calcYScale(domain) {
-        const { data } = this.props
-
         const { horizontal, contentInset: { top = 0, bottom = 0 }, spacingInner, spacingOuter } = this.props
 
         const { height } = this.state
@@ -64,7 +46,7 @@ class BarChart extends PureComponent {
         if (horizontal) {
             return scale
                 .scaleBand()
-                .domain(data.map((_, index) => index))
+                .domain(domain)
                 .range([ top, height - bottom ])
                 .paddingInner([ spacingInner ])
                 .paddingOuter([ spacingOuter ])
@@ -77,69 +59,101 @@ class BarChart extends PureComponent {
     }
 
     calcAreas(x, y, series) {
-        const { horizontal, colors, keys } = this.props
+        const { horizontal, colors, keys, data } = this.props
+        let areas
+        let barWidth
 
         if (horizontal) {
-            return array.merge(
-                series.map((serie, keyIndex) => {
+            barWidth = y.bandwidth() / data.length
+
+            areas = series.map((stack, stackIndex) => {
+                return stack.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
                         const path = shape
                             .area()
                             .x0(d => x(d[0]))
                             .x1(d => x(d[1]))
-                            .y((d, _index) => (_index === 0 ? y(entryIndex) : y(entryIndex) + y.bandwidth()))
+                            .y((d, _index) => (_index === 0 ?
+                                y(entryIndex) + (barWidth * stackIndex) :
+                                y(entryIndex) + barWidth + (barWidth * stackIndex)))
                             .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
 
                         return {
                             path,
-                            color: colors[keyIndex],
-                            key: keys[keyIndex],
+                            color: colors[stackIndex][keyIndex],
+                            key: keys[stackIndex][keyIndex],
                         }
                     })
                 })
-            )
-        }
+            })
+        } else {
+            barWidth = x.bandwidth() / data.length
 
-        return array.merge(
-            series.map((serie, keyIndex) => {
-                return serie.map((entry, entryIndex) => {
-                    const path = shape
-                        .area()
-                        .y0(d => y(d[0]))
-                        .y1(d => y(d[1]))
-                        .x((d, _index) => (_index === 0 ? x(entryIndex) : x(entryIndex) + x.bandwidth()))
-                        .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
+            areas = series.map((stack, stackIndex) => {
+                return stack.map((serie, keyIndex) => {
+                    return serie.map((entry, entryIndex) => {
+                        const path = shape
+                            .area()
+                            .y0(d => y(d[0]))
+                            .y1(d => y(d[1]))
+                            .x((d, _index) => (_index === 0 ?
+                                x(entryIndex) + (barWidth * stackIndex) :
+                                x(entryIndex) + barWidth + (barWidth * stackIndex))
+                            )
+                            .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
 
-                    return {
-                        path,
-                        color: colors[keyIndex],
-                        key: keys[keyIndex],
-                    }
+                        return {
+                            path,
+                            color: colors[stackIndex][keyIndex],
+                            key: keys[stackIndex][keyIndex],
+                        }
+                    })
                 })
             })
-        )
+        }
+
+        return array.merge(areas)
+    }
+
+    calcExtent(values) {
+        const {
+            gridMax,
+            gridMin,
+        } = this.props
+
+        // One more merge for stacked groups
+        const mergedValues = array.merge(values)
+
+        return array.extent([ ...mergedValues, gridMin, gridMax ])
     }
 
     calcIndexes() {
         const { data } = this.props
-        return data.map((_, index) => index)
+
+        // Must return an array with indexes for the number of groups to be shown
+        return data[0].data.map((_, index) => index)
+    }
+
+    getSeries() {
+        const { data, keys, offset, order, valueAccessor } = this.props
+
+        return data.map((obj, index) => shape
+            .stack()
+            .keys(keys[index])
+            .value((item, key) => valueAccessor({ item, key }))
+            .order(order)
+            .offset(offset)(obj.data))
     }
 
     render() {
         const {
             data,
-            keys,
-            order,
-            offset,
             animate,
             animationDuration,
             style,
             numberOfTicks,
-            gridMax,
-            gridMin,
             children,
             horizontal,
-            valueAccessor,
         } = this.props
 
         const { height, width } = this.state
@@ -148,18 +162,13 @@ class BarChart extends PureComponent {
             return <View style={ style } />
         }
 
-        const series = shape
-            .stack()
-            .keys(keys)
-            .value((item, key) => valueAccessor({ item, key }))
-            .order(order)
-            .offset(offset)(data)
+        const series = this.getSeries()
 
         //double merge arrays to extract just the values
         const values = array.merge(array.merge(series))
-        const indexes = values.map((_, index) => index)
+        const indexes = this.calcIndexes(values)
 
-        const extent = array.extent([ ...values, gridMin, gridMax ])
+        const extent = this.calcExtent(values)
         const ticks = array.ticks(extent[0], extent[1], numberOfTicks)
 
         const xDomain = horizontal ? extent : indexes
@@ -168,7 +177,9 @@ class BarChart extends PureComponent {
         const x = this.calcXScale(xDomain)
         const y = this.calcYScale(yDomain)
 
-        const areas = this.calcAreas(x, y, series)
+        const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
+
+        const stacks = this.calcAreas(x, y, series)
 
         const extraProps = {
             x,
@@ -177,6 +188,7 @@ class BarChart extends PureComponent {
             height,
             ticks,
             data,
+            bandwidth,
         }
 
         return (
@@ -194,22 +206,28 @@ class BarChart extends PureComponent {
                                 })
                             }
                             {
-                                areas.map((bar, index) => {
-                                    const keyIndex = index % data.length
-                                    const key = `${keyIndex}-${bar.key}`
-                                    const { svg } = data[ keyIndex ][ bar.key ]
+                                stacks.map((areas, indexStack) => {
+                                    const areaIndex = indexStack % data.length
 
-                                    return (
-                                        <Path
-                                            key={ key }
-                                            fill={ bar.color }
-                                            { ...svg }
-                                            d={ bar.path }
-                                            animate={ animate }
-                                            animationDuration={ animationDuration }
-                                        />
-                                    )
+                                    return areas.map((bar, indexArea) => {
+                                        const keyIndex = indexArea % data[areaIndex].data.length
+                                        const key = `${areaIndex}-${keyIndex}-${bar.key}`
+
+                                        const { svg } = data[areaIndex].data[keyIndex][bar.key]
+
+                                        return (
+                                            <Path
+                                                key={ key }
+                                                fill={ bar.color }
+                                                { ...svg }
+                                                d={ bar.path }
+                                                animate={ animate }
+                                                animationDuration={ animationDuration }
+                                            />
+                                        )
+                                    })
                                 })
+
                             }
                             {
                                 React.Children.map(children, child => {
@@ -227,10 +245,10 @@ class BarChart extends PureComponent {
     }
 }
 
-BarChart.propTypes = {
+StackedBarGrouped.propTypes = {
     data: PropTypes.arrayOf(PropTypes.object),
-    keys: PropTypes.arrayOf(PropTypes.string).isRequired,
-    colors: PropTypes.arrayOf(PropTypes.string).isRequired,
+    keys: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+    colors: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
     offset: PropTypes.func,
     order: PropTypes.func,
     style: PropTypes.any,
@@ -249,7 +267,7 @@ BarChart.propTypes = {
     valueAccessor: PropTypes.func,
 }
 
-BarChart.defaultProps = {
+StackedBarGrouped.defaultProps = {
     spacingInner: 0.05,
     spacingOuter: 0.05,
     offset: shape.stackOffsetNone,
@@ -263,4 +281,4 @@ BarChart.defaultProps = {
     valueAccessor: ({ item, key }) => item[key],
 }
 
-export default BarChart
+export default StackedBarGrouped
