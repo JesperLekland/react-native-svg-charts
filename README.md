@@ -7,6 +7,8 @@
 
 Welcome to react-native-svg-charts!
 
+### Looking for maintainers! I alone don't have the time to maintain this library anymore. Preferably looking for somebody who uses this library in their proffesional work (how I originally got the time to maintain). 
+
 ### version 5 is now available!
 A much improved decorator system has been introduced, allowing for greater flexibility and less complexity.
 See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information.
