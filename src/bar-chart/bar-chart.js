@@ -80,7 +80,7 @@ class BarChart extends PureComponent {
         const { horizontal, data, yAccessor } = this.props
 
         const values = data.map((item) => yAccessor({ item }))
-        
+
         if (horizontal) {
             return data.map((bar, index) => ({
                 bar,
