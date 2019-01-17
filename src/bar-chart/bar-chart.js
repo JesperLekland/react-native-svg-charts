@@ -78,7 +78,7 @@ class BarChart extends PureComponent {
 
     calcAreas(x, y) {
         const { horizontal, data, yAccessor } = this.props
-
+        
         const values = data.map((item) => yAccessor({ item }))
 
         if (horizontal) {
