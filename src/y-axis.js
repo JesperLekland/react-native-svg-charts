@@ -129,7 +129,7 @@ class YAxis extends PureComponent {
                                     // causes rendering issues
                                     height > 0 &&
                                     ticks.map((value, index) => {
-                                      const { svg: valueSvg = {} } = data[index] || {}
+                                        const { svg: valueSvg = {} } = data[index] || {}
                                         return (
                                             <SVGText
                                                 originY={ y(value) }
