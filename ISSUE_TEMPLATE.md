@@ -16,6 +16,7 @@ what actions are needed to reproduce the problem? e.g click a button?
 * [ ] Android <!-- specific os version ? -->
 
 React Native version: 0.xx
+react-native-svg-charts-version: x.x.x
 
 ### Code to reproduce
 
