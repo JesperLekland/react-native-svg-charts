@@ -83,6 +83,7 @@ class XAxis extends PureComponent {
         const extraProps = {
             x,
             ticks,
+            width,
             height,
             formatLabel,
         }
