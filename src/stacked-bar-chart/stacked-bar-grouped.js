@@ -69,7 +69,7 @@ class StackedBarGrouped extends PureComponent {
             areas = series.map((stack, stackIndex) => {
                 return stack.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
-                        const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0 ;
+                        const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0
                         const path = shape
                             .area()
                             .x0(d => x(d[0]))
@@ -93,30 +93,30 @@ class StackedBarGrouped extends PureComponent {
             areas = series.map((stack, stackIndex) => {
                 return stack.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
-                        const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0;
-                        const x0 = x(entryIndex) + barWidth * stackIndex + leftMargin;
-                        const x1 = x(entryIndex) + barWidth + barWidth * stackIndex - leftMargin;
-                        const y0 = y(entry[1]);
-                        const y1 = y(entry[0]);
-                        const barHeight = y1 - y0;
-                        const borderRadius = initialBorderRadius * 2 > barHeight ? barHeight / 2 : initialBorderRadius;
-                        const showTopBorder = keyIndex === stack.length - 1;
-                        const showBottomBorder = keyIndex === 0;
+                        const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0
+                        const x0 = x(entryIndex) + barWidth * stackIndex + leftMargin
+                        const x1 = x(entryIndex) + barWidth + barWidth * stackIndex - leftMargin
+                        const y0 = y(entry[1])
+                        const y1 = y(entry[0])
+                        const barHeight = y1 - y0
+                        const borderRadius = initialBorderRadius * 2 > barHeight ? barHeight / 2 : initialBorderRadius
+                        const showTopBorder = keyIndex === stack.length - 1
+                        const showBottomBorder = keyIndex === 0
                         const commands = this.coordinatesToPathCommands(
-                        x0,
-                        y0,
-                        x1,
-                        y1,
-                        borderRadius,
-                        showTopBorder,
-                        showBottomBorder,
-                        );
+                            x0,
+                            y0,
+                            x1,
+                            y1,
+                            borderRadius,
+                            showTopBorder,
+                            showBottomBorder,
+                        )
 
                         return {
-                        path: this.commandsToSvgPath(commands),
-                        color: colors[stackIndex][keyIndex],
-                        key: keys[stackIndex][keyIndex],
-                        };
+                            path: this.commandsToSvgPath(commands),
+                            color: colors[stackIndex][keyIndex],
+                            key: keys[stackIndex][keyIndex],
+                        }
                     })
                 })
             })
@@ -133,68 +133,68 @@ class StackedBarGrouped extends PureComponent {
         borderRadius,
         showTopBorder,
         showBottomBorder,
-      ) => {
-        const commands = [];
-        commands.push({ marker: 'M', values: [x0, y0] });
+    ) => {
+        const commands = []
+        commands.push({ marker: 'M', values: [ x0, y0 ] })
 
         if (showTopBorder) {
-            const topLeft1 = [x0 + borderRadius, y0];
-            const topLeft2 = [x0, y0 + borderRadius];
-            commands.push({ marker: 'L', values: topLeft1 });
+            const topLeft1 = [ x0 + borderRadius, y0 ]
+            const topLeft2 = [ x0, y0 + borderRadius ]
+            commands.push({ marker: 'L', values: topLeft1 })
             commands.push({
-            marker: 'C',
-            values: [...topLeft1, x0, y0, ...topLeft2],
-            });
-            commands.push({ marker: 'L', values: topLeft2 });
+                marker: 'C',
+                values: [ ...topLeft1, x0, y0, ...topLeft2 ],
+            })
+            commands.push({ marker: 'L', values: topLeft2 })
         } else {
-            commands.push({ marker: 'L', values: [x0, y0] });
+            commands.push({ marker: 'L', values: [ x0, y0 ] })
         }
 
         if (showBottomBorder) {
-            const bottomLeft1 = [x0, y1 - borderRadius];
-            const bottomLeft2 = [x0 + borderRadius, y1];
-            commands.push({ marker: 'L', values: bottomLeft1 });
+            const bottomLeft1 = [ x0, y1 - borderRadius ]
+            const bottomLeft2 = [ x0 + borderRadius, y1 ]
+            commands.push({ marker: 'L', values: bottomLeft1 })
             commands.push({
-            marker: 'C',
-            values: [...bottomLeft1, x0, y1, ...bottomLeft2],
-            });
-            commands.push({ marker: 'L', values: bottomLeft2 });
-            const bottomRight1 = [x1 - borderRadius, y1];
-            const bottomRight2 = [x1, y1 - borderRadius];
-            commands.push({ marker: 'L', values: bottomRight1 });
+                marker: 'C',
+                values: [ ...bottomLeft1, x0, y1, ...bottomLeft2 ],
+            })
+            commands.push({ marker: 'L', values: bottomLeft2 })
+            const bottomRight1 = [ x1 - borderRadius, y1 ]
+            const bottomRight2 = [ x1, y1 - borderRadius ]
+            commands.push({ marker: 'L', values: bottomRight1 })
             commands.push({
-            marker: 'C',
-            values: [...bottomRight1, x1, y1, ...bottomRight2],
-            });
-            commands.push({ marker: 'L', values: bottomRight2 });
+                marker: 'C',
+                values: [ ...bottomRight1, x1, y1, ...bottomRight2 ],
+            })
+            commands.push({ marker: 'L', values: bottomRight2 })
         } else {
-            commands.push({ marker: 'L', values: [x0, y1] });
-            commands.push({ marker: 'L', values: [x1, y1] });
+            commands.push({ marker: 'L', values: [ x0, y1 ] })
+            commands.push({ marker: 'L', values: [ x1, y1 ] })
         }
 
         if (showTopBorder) {
-            const topRight1 = [x1, y0 + borderRadius];
-            const topRight2 = [x1 - borderRadius, y0];
-            commands.push({ marker: 'L', values: topRight1 });
+            const topRight1 = [ x1, y0 + borderRadius ]
+            const topRight2 = [ x1 - borderRadius, y0 ]
+            commands.push({ marker: 'L', values: topRight1 })
             commands.push({
-            marker: 'C',
-            values: [...topRight1, x1, y0, ...topRight2],
-            });
-            commands.push({ marker: 'L', values: topRight2 });
+                marker: 'C',
+                values: [ ...topRight1, x1, y0, ...topRight2 ],
+            })
+            commands.push({ marker: 'L', values: topRight2 })
         } else {
-            commands.push({ marker: 'L', values: [x1, y0] });
+            commands.push({ marker: 'L', values: [ x1, y0 ] })
         }
 
-        commands.push({ marker: 'Z', values: [] });
+        commands.push({ marker: 'Z', values: [] })
 
-        return commands;
+        return commands
     };
     
     commandsToSvgPath = commands =>
         commands
-        .map(command => `${command.marker} ${command.values.join(',')}`)
-        .join(' ')
-        .trim();
+            .map(command => `${command.marker} ${command.values.join(',')}`)
+            .join(' ')
+            .trim();
 
     calcExtent(values) {
         const {
