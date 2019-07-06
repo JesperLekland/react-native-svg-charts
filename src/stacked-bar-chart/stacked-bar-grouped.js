@@ -69,7 +69,9 @@ class StackedBarGrouped extends PureComponent {
             areas = series.map((stack, stackIndex) => {
                 return stack.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
+
                         const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0
+                        
                         const path = shape
                             .area()
                             .x0(d => x(d[0]))
@@ -111,6 +113,7 @@ class StackedBarGrouped extends PureComponent {
                             showTopBorder, 
                             showBottomBorder,
                         )
+
                         return {
                             path: this.commandsToSvgPath(commands),
                             color: colors[stackIndex][keyIndex],
@@ -174,6 +177,7 @@ class StackedBarGrouped extends PureComponent {
         if (showTopBorder) {
             const topRight1 = [ x1, y0 + borderRadius ]
             const topRight2 = [  x1 - borderRadius, y0 ]
+
             commands.push({ marker: 'L', values: topRight1 })
             commands.push({
                 marker: 'C',
@@ -193,7 +197,7 @@ class StackedBarGrouped extends PureComponent {
         commands
             .map(command => `${command.marker} ${command.values.join(',')}`)
             .join(' ')
-            .trim()
+            .trim();
 
     calcExtent(values) {
         const {

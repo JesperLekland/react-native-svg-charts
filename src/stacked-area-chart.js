@@ -119,6 +119,7 @@ class AreaStack extends PureComponent {
             width,
             height,
             ticks,
+            areas,
         }
 
         return (
