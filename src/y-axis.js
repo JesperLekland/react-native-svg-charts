@@ -96,6 +96,7 @@ class YAxis extends PureComponent {
             y,
             ticks,
             width,
+            height,
             formatLabel,
         }
 
