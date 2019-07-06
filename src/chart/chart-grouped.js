@@ -7,14 +7,17 @@ import Path from '../animated-path'
 import Chart from './chart'
 
 class ChartGrouped extends PureComponent {
-
     state = {
         width: 0,
         height: 0,
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
+        const {
+            nativeEvent: {
+                layout: { height, width },
+            },
+        } = event
         this.setState({ height, width })
     }
 
@@ -23,7 +26,6 @@ class ChartGrouped extends PureComponent {
     }
 
     render() {
-
         const {
             data,
             xAccessor,
@@ -34,12 +36,7 @@ class ChartGrouped extends PureComponent {
             animate,
             animationDuration,
             numberOfTicks,
-            contentInset: {
-                top = 0,
-                bottom = 0,
-                left = 0,
-                right = 0,
-            },
+            contentInset: { top = 0, bottom = 0, left = 0, right = 0 },
             gridMax,
             gridMin,
             clampX,
@@ -51,36 +48,33 @@ class ChartGrouped extends PureComponent {
         const { width, height } = this.state
 
         if (data.length === 0) {
-            return <View style={ style } />
+            return <View style={style} />
         }
 
-        const mappedData = data.map((dataArray) => dataArray.data.map((item, index) => ({
-            y: yAccessor({ item, index }),
-            x: xAccessor({ item, index }),
-        })))
+        const mappedData = data.map((dataArray) =>
+            dataArray.data.map((item, index) => ({
+                y: yAccessor({ item, index }),
+                x: xAccessor({ item, index }),
+            }))
+        )
 
-        const yValues = array.merge(mappedData).map(item => item.y)
-        const xValues = array.merge(mappedData).map(item => item.x)
+        const yValues = array.merge(mappedData).map((item) => item.y)
+        const xValues = array.merge(mappedData).map((item) => item.x)
 
-        const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
-        const xExtent = array.extent([ ...xValues ])
+        const yExtent = array.extent([...yValues, gridMin, gridMax])
+        const xExtent = array.extent([...xValues])
 
-        const {
-            yMin = yExtent[0],
-            yMax = yExtent[1],
-            xMin = xExtent[0],
-            xMax = xExtent[1],
-        } = this.props
+        const { yMin = yExtent[0], yMax = yExtent[1], xMin = xExtent[0], xMax = xExtent[1] } = this.props
 
         //invert range to support svg coordinate system
         const y = yScale()
-            .domain([ yMin, yMax ])
-            .range([ height - bottom, top ])
+            .domain([yMin, yMax])
+            .range([height - bottom, top])
             .clamp(clampY)
 
         const x = xScale()
-            .domain([ xMin, xMax ])
-            .range([ left, width - right ])
+            .domain([xMin, xMax])
+            .range([left, width - right])
             .clamp(clampX)
 
         const paths = this.createPaths({
@@ -102,42 +96,38 @@ class ChartGrouped extends PureComponent {
         }
 
         return (
-            <View style={ style }>
-                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    {
-                        height > 0 && width > 0 &&
+            <View style={style}>
+                <View style={{ flex: 1 }} onLayout={(event) => this._onLayout(event)}>
+                    {height > 0 && width > 0 && (
                         <Svg style={{ height, width }}>
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                            {React.Children.map(children, (child) => {
+                                if (child && child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                             {paths.path.map((path, index) => {
                                 const { svg: pathSvg } = data[index]
                                 return (
                                     <Path
-                                        key={ path }
-                                        fill={ 'none' }
-                                        { ...svg }
-                                        { ...pathSvg }
-                                        d={ path }
-                                        animate={ animate }
-                                        animationDuration={ animationDuration }
-                                    />)
+                                        key={path}
+                                        fill={'none'}
+                                        {...svg}
+                                        {...pathSvg}
+                                        d={path}
+                                        animate={animate}
+                                        animationDuration={animationDuration}
+                                    />
+                                )
                             })}
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && !child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                            {React.Children.map(children, (child) => {
+                                if (child && !child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )
@@ -146,14 +136,16 @@ class ChartGrouped extends PureComponent {
 
 ChartGrouped.propTypes = {
     ...Chart.propTypes,
-    data: PropTypes.arrayOf(PropTypes.shape({
-        data: PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.object),
-            PropTypes.arrayOf(PropTypes.number),
-            PropTypes.arrayOf(PropTypes.array),
-        ]),
-        svg: PropTypes.object,
-    })).isRequired,
+    data: PropTypes.arrayOf(
+        PropTypes.shape({
+            data: PropTypes.oneOfType([
+                PropTypes.arrayOf(PropTypes.object),
+                PropTypes.arrayOf(PropTypes.number),
+                PropTypes.arrayOf(PropTypes.array),
+            ]),
+            svg: PropTypes.object,
+        })
+    ).isRequired,
 }
 
 ChartGrouped.defaultProps = {

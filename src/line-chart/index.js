@@ -6,10 +6,10 @@ const LineChartGate = (props) => {
     const { data } = props
 
     if (data[0] && data[0].hasOwnProperty('data')) {
-        return <LineChartGrouped { ...props } />
+        return <LineChartGrouped {...props} />
     }
 
-    return <LineChart { ...props } />
+    return <LineChart {...props} />
 }
 
 export default LineChartGate
