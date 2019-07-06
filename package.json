@@ -1,88 +1,90 @@
 {
-  "name": "react-native-svg-charts",
-  "version": "5.2.0",
-  "private": false,
-  "description": "Customizable charts (Line, Bar, Area, Pie, Circle, Progress) for React Native",
-  "main": "src/index.js",
-  "scripts": {
-    "start": "node node_modules/react-native/local-cli/cli.js start",
-    "test": "jest",
-    "storybook": "storybook start -p 7008",
-    "eslint": "./node_modules/.bin/eslint ."
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint-staged"
+    "name": "react-native-svg-charts",
+    "version": "5.2.0",
+    "private": false,
+    "description": "Customizable charts (Line, Bar, Area, Pie, Circle, Progress) for React Native",
+    "main": "src/index.js",
+    "scripts": {
+        "start": "node node_modules/react-native/local-cli/cli.js start",
+        "test": "jest",
+        "storybook": "storybook start -p 7008",
+        "eslint": "./node_modules/.bin/eslint ."
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "pretty-quick --staged"
+        }
+    },
+    "lint-staged": {
+        "*.js": "eslint"
+    },
+    "keywords": [
+        "react-native",
+        "react-component",
+        "react-native-component",
+        "react",
+        "mobile",
+        "ios",
+        "android",
+        "vector",
+        "charts",
+        "chart",
+        "d3"
+    ],
+    "author": {
+        "name": "Jesper Lekland",
+        "email": "jesper.lekland@push2prod.se"
+    },
+    "homepage": "https://github.com/JesperLekland/react-native-svg-charts",
+    "bugs": {
+        "url": "https://github.com/JesperLekland/react-native-svg-charts/issues"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/JesperLekland/react-native-svg-charts.git"
+    },
+    "license": "MIT",
+    "dependencies": {
+        "d3-array": "^1.2.0",
+        "d3-interpolate-path": "2.0.0",
+        "d3-scale": "^1.0.6",
+        "d3-shape": "^1.0.6",
+        "prop-types": "^15.6.0"
+    },
+    "peerDependencies": {
+        "react": ">=16.0.0-alpha.12",
+        "react-native": ">=0.46.0",
+        "react-native-svg": "^6.2.1||^7.0.3"
+    },
+    "devDependencies": {
+        "@storybook/addon-actions": "^3.2.14",
+        "@storybook/addon-knobs": "^3.2.14",
+        "@storybook/addon-links": "^3.2.14",
+        "@storybook/react-native": "^3.2.14",
+        "babel-eslint": "^7.2.3",
+        "babel-jest": "20.0.1",
+        "babel-preset-react-native": "1.9.1",
+        "date-fns": "^1.28.5",
+        "eslint": "^4.19.0",
+        "eslint-config-standard": "^10.2.1",
+        "eslint-plugin-import": "^2.6.0",
+        "eslint-plugin-node": "^5.1.0",
+        "eslint-plugin-promise": "^3.5.0",
+        "eslint-plugin-react": "^7.7.0",
+        "eslint-plugin-react-native": "^2.3.2",
+        "eslint-plugin-standard": "^3.0.1",
+        "husky": "^3.0.0",
+        "jest": "20.0.1",
+        "lint-staged": "^7.1.3",
+        "prettier": "^1.18.2",
+        "pretty-quick": "^1.11.1",
+        "react": "16.2.0",
+        "react-dom": ">=16.0.0-alpha.12",
+        "react-native": "0.52.2",
+        "react-native-svg": "^6.2.1",
+        "react-test-renderer": "16.0.0-alpha.6"
+    },
+    "jest": {
+        "preset": "react-native"
     }
-  },
-  "lint-staged": {
-    "*.js": "eslint"
-  },
-  "keywords": [
-    "react-native",
-    "react-component",
-    "react-native-component",
-    "react",
-    "mobile",
-    "ios",
-    "android",
-    "vector",
-    "charts",
-    "chart",
-    "d3"
-  ],
-  "author": {
-    "name": "Jesper Lekland",
-    "email": "jesper.lekland@push2prod.se"
-  },
-  "homepage": "https://github.com/JesperLekland/react-native-svg-charts",
-  "bugs": {
-    "url": "https://github.com/JesperLekland/react-native-svg-charts/issues"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git://github.com/JesperLekland/react-native-svg-charts.git"
-  },
-  "license": "MIT",
-  "dependencies": {
-    "d3-array": "^1.2.0",
-    "d3-interpolate-path": "2.0.0",
-    "d3-scale": "^1.0.6",
-    "d3-shape": "^1.0.6",
-    "prop-types": "^15.6.0"
-  },
-  "peerDependencies": {
-    "react": ">=16.0.0-alpha.12",
-    "react-native": ">=0.46.0",
-    "react-native-svg": "^6.2.1||^7.0.3"
-  },
-  "devDependencies": {
-    "date-fns": "^1.28.5",
-    "@storybook/addon-actions": "^3.2.14",
-    "@storybook/addon-knobs": "^3.2.14",
-    "@storybook/addon-links": "^3.2.14",
-    "@storybook/react-native": "^3.2.14",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "20.0.1",
-    "babel-preset-react-native": "1.9.1",
-    "eslint": "^4.19.0",
-    "eslint-config-standard": "^10.2.1",
-    "eslint-plugin-import": "^2.6.0",
-    "eslint-plugin-node": "^5.1.0",
-    "eslint-plugin-promise": "^3.5.0",
-    "eslint-plugin-react": "^7.7.0",
-    "eslint-plugin-react-native": "^2.3.2",
-    "eslint-plugin-standard": "^3.0.1",
-    "husky": "^1.0.0-rc.8",
-    "jest": "20.0.1",
-    "lint-staged": "^7.1.3",
-    "react": "16.2.0",
-    "react-dom": ">=16.0.0-alpha.12",
-    "react-native": "0.52.2",
-    "react-native-svg": "^6.2.1",
-    "react-test-renderer": "16.0.0-alpha.6"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
 }
