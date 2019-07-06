@@ -85,6 +85,7 @@ class AnimatedPath extends Component {
             <Path
                 ref={ ref => this.component = ref }
                 { ...this.props }
+                d={this.props.animate ? this.state.d : this.props.d}
             />
         )
     }
