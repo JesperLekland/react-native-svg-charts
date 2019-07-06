@@ -4,7 +4,6 @@ import { View } from 'react-native'
 import * as scale from 'd3-scale'
 
 class XAxisExample extends React.PureComponent {
-
     render() {
         const data = [
             {
@@ -35,22 +34,21 @@ class XAxisExample extends React.PureComponent {
             <View style={{ height: 200, padding: 20 }}>
                 <BarChart
                     style={{ flex: 1 }}
-                    data={ data }
-                    yAccessor={ ({ item }) => item.value }
-                    gridMin={ 0 }
+                    data={data}
+                    yAccessor={({ item }) => item.value}
+                    gridMin={0}
                     svg={{ fill: 'rgb(134, 65, 244)' }}
                 />
                 <XAxis
                     style={{ marginTop: 10 }}
-                    data={ data }
-                    scale={ scale.scaleBand }
-                    xAccessor={ ({ item }) => item.value }
+                    data={data}
+                    scale={scale.scaleBand}
+                    xAccessor={({ item }) => item.value}
                     svg={{ fontWeight: 'bold' }}
                 />
             </View>
         )
     }
-
 }
 
 export default XAxisExample

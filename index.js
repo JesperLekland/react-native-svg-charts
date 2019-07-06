@@ -17,10 +17,7 @@ const App = () => {
                     textAlign: 'center',
                 }}
             >
-                {
-                    'Welcome to "react-native-svg-charts". \n' +
-                    'To see showcases of all our charts\n'
-                }
+                {'Welcome to "react-native-svg-charts". \n' + 'To see showcases of all our charts\n'}
             </Text>
             <Text
                 style={{
@@ -28,15 +25,12 @@ const App = () => {
                     alignSelf: 'center',
                 }}
             >
-                {
-                    '• Stop your packager \n' +
+                {'• Stop your packager \n' +
                     '• run "yarn storybook" \n' +
                     '• Go to "localhost:7008" in your browser\n' +
                     '• reload your device \n' +
-                    '• browse our charts'
-                }
+                    '• browse our charts'}
             </Text>
-
         </View>
     )
 }

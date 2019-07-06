@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import React, { PureComponent } from 'react'
 import { View } from 'react-native'
 import Svg from 'react-native-svg'
-import Path from './animated-path'
+import Path from '../animated-path'
 
 class BarChart extends PureComponent {
     static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
@@ -25,14 +25,23 @@ class BarChart extends PureComponent {
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
+        const {
+            nativeEvent: {
+                layout: { height, width },
+            },
+        } = event
         this.setState({ height, width })
     }
 
     calcXScale(domain) {
         const { data } = this.props
 
-        const { horizontal, contentInset: { left = 0, right = 0 }, spacingInner, spacingOuter } = this.props
+        const {
+            horizontal,
+            contentInset: { left = 0, right = 0 },
+            spacingInner,
+            spacingOuter,
+        } = this.props
 
         const { width } = this.state
 
@@ -40,7 +49,7 @@ class BarChart extends PureComponent {
             return scale
                 .scaleLinear()
                 .domain(domain)
-                .range([ left, width - right ])
+                .range([left, width - right])
         }
 
         // use index as domain identifier instead of value since
@@ -49,15 +58,20 @@ class BarChart extends PureComponent {
         return scale
             .scaleBand()
             .domain(data.map((_, index) => index))
-            .range([ left, width - right ])
-            .paddingInner([ spacingInner ])
-            .paddingOuter([ spacingOuter ])
+            .range([left, width - right])
+            .paddingInner([spacingInner])
+            .paddingOuter([spacingOuter])
     }
 
     calcYScale(domain) {
         const { data } = this.props
 
-        const { horizontal, contentInset: { top = 0, bottom = 0 }, spacingInner, spacingOuter } = this.props
+        const {
+            horizontal,
+            contentInset: { top = 0, bottom = 0 },
+            spacingInner,
+            spacingOuter,
+        } = this.props
 
         const { height } = this.state
 
@@ -65,15 +79,15 @@ class BarChart extends PureComponent {
             return scale
                 .scaleBand()
                 .domain(data.map((_, index) => index))
-                .range([ top, height - bottom ])
-                .paddingInner([ spacingInner ])
-                .paddingOuter([ spacingOuter ])
+                .range([top, height - bottom])
+                .paddingInner([spacingInner])
+                .paddingOuter([spacingOuter])
         }
 
         return scale
             .scaleLinear()
             .domain(domain)
-            .range([ height - bottom, top ])
+            .range([height - bottom, top])
     }
 
     calcAreas(x, y, series) {
@@ -85,10 +99,10 @@ class BarChart extends PureComponent {
                     return serie.map((entry, entryIndex) => {
                         const path = shape
                             .area()
-                            .x0(d => x(d[0]))
-                            .x1(d => x(d[1]))
+                            .x0((d) => x(d[0]))
+                            .x1((d) => x(d[1]))
                             .y((d, _index) => (_index === 0 ? y(entryIndex) : y(entryIndex) + y.bandwidth()))
-                            .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
+                            .defined((d) => !isNaN(d[0]) && !isNaN(d[1]))([entry, entry])
 
                         return {
                             path,
@@ -105,10 +119,10 @@ class BarChart extends PureComponent {
                 return serie.map((entry, entryIndex) => {
                     const path = shape
                         .area()
-                        .y0(d => y(d[0]))
-                        .y1(d => y(d[1]))
+                        .y0((d) => y(d[0]))
+                        .y1((d) => y(d[1]))
                         .x((d, _index) => (_index === 0 ? x(entryIndex) : x(entryIndex) + x.bandwidth()))
-                        .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
+                        .defined((d) => !isNaN(d[0]) && !isNaN(d[1]))([entry, entry])
 
                     return {
                         path,
@@ -120,46 +134,43 @@ class BarChart extends PureComponent {
         )
     }
 
-    calcIndexes() {
-        const { data } = this.props
-        return data.map((_, index) => index)
+    calcExtent(values) {
+        const { gridMax, gridMin } = this.props
+
+        return array.extent([...values, gridMin, gridMax])
     }
 
-    render() {
-        const {
-            data,
-            keys,
-            order,
-            offset,
-            animate,
-            animationDuration,
-            style,
-            numberOfTicks,
-            gridMax,
-            gridMin,
-            children,
-            horizontal,
-            valueAccessor,
-        } = this.props
+    calcIndexes(values) {
+        return values.map((_, index) => index)
+    }
 
-        const { height, width } = this.state
+    getSeries() {
+        const { data, keys, offset, order, valueAccessor } = this.props
 
-        if (data.length === 0) {
-            return <View style={ style } />
-        }
-
-        const series = shape
+        return shape
             .stack()
             .keys(keys)
             .value((item, key) => valueAccessor({ item, key }))
             .order(order)
             .offset(offset)(data)
+    }
+
+    render() {
+        const { data, animate, animationDuration, style, numberOfTicks, children, horizontal } = this.props
+
+        const { height, width } = this.state
+
+        if (data.length === 0) {
+            return <View style={style} />
+        }
+
+        const series = this.getSeries()
 
         //double merge arrays to extract just the values
         const values = array.merge(array.merge(series))
-        const indexes = values.map((_, index) => index)
+        const indexes = this.calcIndexes(values)
 
-        const extent = array.extent([ ...values, gridMin, gridMax ])
+        const extent = this.calcExtent(values)
         const ticks = array.ticks(extent[0], extent[1], numberOfTicks)
 
         const xDomain = horizontal ? extent : indexes
@@ -167,6 +178,8 @@ class BarChart extends PureComponent {
 
         const x = this.calcXScale(xDomain)
         const y = this.calcYScale(yDomain)
+
+        const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
 
         const areas = this.calcAreas(x, y, series)
 
@@ -177,50 +190,44 @@ class BarChart extends PureComponent {
             height,
             ticks,
             data,
+            bandwidth,
         }
 
         return (
-            <View style={ style }>
-                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    {
-                        height > 0 && width > 0 &&
+            <View style={style}>
+                <View style={{ flex: 1 }} onLayout={(event) => this._onLayout(event)}>
+                    {height > 0 && width > 0 && (
                         <Svg style={{ height, width }}>
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
-                            {
-                                areas.map((bar, index) => {
-                                    const keyIndex = index % data.length
-                                    const key = `${keyIndex}-${bar.key}`
-                                    const { svg } = data[ keyIndex ][ bar.key ]
+                            {React.Children.map(children, (child) => {
+                                if (child && child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
+                            {areas.map((bar, index) => {
+                                const keyIndex = index % data.length
+                                const key = `${keyIndex}-${bar.key}`
+                                const { svg } = data[keyIndex][bar.key]
 
-                                    return (
-                                        <Path
-                                            key={ key }
-                                            fill={ bar.color }
-                                            { ...svg }
-                                            d={ bar.path }
-                                            animate={ animate }
-                                            animationDuration={ animationDuration }
-                                        />
-                                    )
-                                })
-                            }
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && !child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                                return (
+                                    <Path
+                                        key={key}
+                                        fill={bar.color}
+                                        {...svg}
+                                        d={bar.path}
+                                        animate={animate}
+                                        animationDuration={animationDuration}
+                                    />
+                                )
+                            })}
+                            {React.Children.map(children, (child) => {
+                                if (child && !child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )

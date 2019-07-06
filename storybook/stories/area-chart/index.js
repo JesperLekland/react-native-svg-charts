@@ -8,8 +8,8 @@ import WithDifferentBase from './with-differen-base'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('AreaChart', module)
-    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('Standard', () => <Regular/>)
-    .add('Partial', () => <Partial/>)
-    .add('With gradient', () => <WithGradient/>)
-    .add('With different base', () => <WithDifferentBase/>)
+    .addDecorator((getStory) => <ShowcaseCard>{getStory()}</ShowcaseCard>)
+    .add('Standard', () => <Regular />)
+    .add('Partial', () => <Partial />)
+    .add('With gradient', () => <WithGradient />)
+    .add('With different base', () => <WithDifferentBase />)

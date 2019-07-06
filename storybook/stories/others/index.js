@@ -7,7 +7,7 @@ import LayeredChart from './layered-charts'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('Others', module)
-    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('YMinMax', () => <YMinMax/>)
-    .add('XMinMax', () => <XMinMax/>)
-    .add('Layered chart', () => <LayeredChart/>)
+    .addDecorator((getStory) => <ShowcaseCard>{getStory()}</ShowcaseCard>)
+    .add('YMinMax', () => <YMinMax />)
+    .add('XMinMax', () => <XMinMax />)
+    .add('Layered chart', () => <LayeredChart />)

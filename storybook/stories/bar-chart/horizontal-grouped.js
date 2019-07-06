@@ -5,9 +5,7 @@ import { Defs, LinearGradient, Stop } from 'react-native-svg'
 import * as scale from 'd3-scale'
 
 class BarChartExample extends React.PureComponent {
-
     render() {
-
         const data = [
             {
                 value: 50,
@@ -27,7 +25,7 @@ class BarChartExample extends React.PureComponent {
                     stroke: 'purple',
                     strokeWidth: 2,
                     fill: 'white',
-                    strokeDasharray: [ 4, 2 ],
+                    strokeDasharray: [4, 2],
                 },
             },
             {
@@ -47,10 +45,10 @@ class BarChartExample extends React.PureComponent {
         ]
 
         const Gradient = () => (
-            <Defs key={ 'gradient' }>
-                <LinearGradient id={ 'gradient' } x1={ '0' } y={ '0%' } x2={ '100%' } y2={ '0%' }>
-                    <Stop offset={ '0%' } stopColor={ 'rgb(134, 65, 244)' }/>
-                    <Stop offset={ '100%' } stopColor={ 'rgb(66, 194, 244)' }/>
+            <Defs key={'gradient'}>
+                <LinearGradient id={'gradient'} x1={'0'} y={'0%'} x2={'100%'} y2={'0%'}>
+                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} />
+                    <Stop offset={'100%'} stopColor={'rgb(66, 194, 244)'} />
                 </LinearGradient>
             </Defs>
         )
@@ -58,42 +56,41 @@ class BarChartExample extends React.PureComponent {
         return (
             <View style={{ flexDirection: 'row', height: 500, paddingVertical: 16 }}>
                 <YAxis
-                    data={ data }
-                    yAccessor={ ({ index }) => index }
-                    scale={ scale.scaleBand }
+                    data={data}
+                    yAccessor={({ index }) => index}
+                    scale={scale.scaleBand}
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacingInner={ 0.2 }
-                    formatLabel={ (_, index) => data[ index ].label }
+                    spacingInner={0.2}
+                    formatLabel={(_, index) => data[index].label}
                 />
                 <BarChart
                     style={{ flex: 1, marginLeft: 8 }}
-                    data={ [
+                    data={[
                         {
                             data,
                             svg: { fill: 'orange' },
                         },
                         {
-                            data: [ ...data ].reverse(),
+                            data: [...data].reverse(),
                             svg: { fill: 'red' },
                         },
                         { data },
-                    ] }
-                    yAccessor={ ({ item }) => item.value }
+                    ]}
+                    yAccessor={({ item }) => item.value}
                     svg={{
                         fill: 'blue',
                     }}
-                    horizontal={ true }
+                    horizontal={true}
                     contentInset={{ top: 10, bottom: 10 }}
-                    spacingInner={ 0.2 }
-                    gridMin={ 0 }
+                    spacingInner={0.2}
+                    gridMin={0}
                 >
-                    <Gradient/>
-                    <Grid direction={ Grid.Direction.VERTICAL }/>
+                    <Gradient />
+                    <Grid direction={Grid.Direction.VERTICAL} />
                 </BarChart>
             </View>
         )
     }
-
 }
 
 export default BarChartExample

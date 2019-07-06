@@ -7,6 +7,8 @@
 
 Welcome to react-native-svg-charts!
 
+### Looking for maintainers! I alone don't have the time to maintain this library anymore. Preferably looking for somebody who uses this library in their proffesional work (how I originally got the time to maintain). 
+
 ### version 5 is now available!
 A much improved decorator system has been introduced, allowing for greater flexibility and less complexity.
 See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases) for more information.
@@ -572,16 +574,6 @@ class ProgressCircleExample extends React.PureComponent {
 | height | the height of the canvas in pixels |
 | data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
 
-
-#### Arguments to children
-
-| Property | Description
-| --- | --- |
-| width | the width of the canvas in pixels |
-| height | the height of the canvas in pixels |
-| data | the same data array provided to the chart, use this to map over your data points if you want decorators on each point |
-
-
 ### YAxis
 
 ![Y-axis](https://raw.githubusercontent.com/jesperlekland/react-native-svg-charts/master/screenshots/y-axis.png)
@@ -742,7 +734,7 @@ Simply place it as child to the chart of your choice and (if necessary) set its 
 | belowChart | true | whether or not to render below the chart |
 
 ### Examples
-There is a ton of examples over at [react-native-svg-chart-exampels](https://github.com/JesperLekland/react-native-svg-charts-examples)
+There are tons of examples over at [react-native-svg-chart-examples](https://github.com/JesperLekland/react-native-svg-charts-examples)
 
 
 ## License

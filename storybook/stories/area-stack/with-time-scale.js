@@ -6,9 +6,7 @@ import * as scale from 'd3-scale'
 import dateFns from 'date-fns'
 
 class AreaStackChartExample extends React.PureComponent {
-
     render() {
-
         const data = [
             {
                 month: new Date(2018, 5, 1),
@@ -40,30 +38,30 @@ class AreaStackChartExample extends React.PureComponent {
             },
         ]
 
-        const colors = [ '#8800cc', '#aa00ff', '#cc66ff', '#eeccff' ]
-        const keys = [ 'apples', 'bananas', 'cherries', 'dates' ]
+        const colors = ['#8800cc', '#aa00ff', '#cc66ff', '#eeccff']
+        const keys = ['apples', 'bananas', 'cherries', 'dates']
 
         return (
             <View style={{ height: 200, paddingVertical: 16 }}>
                 <StackedAreaChart
                     style={{ flex: 1 }}
-                    data={ data }
-                    keys={ keys }
-                    colors={ colors }
-                    curve={ shape.curveNatural }
-                    xScale={ scale.scaleTime }
-                    xAccessor={ ({ item }) => item.month }
+                    data={data}
+                    keys={keys}
+                    colors={colors}
+                    curve={shape.curveNatural}
+                    xScale={scale.scaleTime}
+                    xAccessor={({ item }) => item.month}
                 >
-                    <Grid/>
+                    <Grid />
                 </StackedAreaChart>
                 <XAxis
                     style={{ marginTop: 10, marginHorizontal: -10 }}
                     contentInset={{ left: 10, right: 10 }}
-                    numberOfTicks={ 6 }
-                    data={ data }
-                    xAccessor={ ({ item }) => item.month }
-                    scale={ scale.scaleTime }
-                    formatLabel={ (value) => dateFns.format(value, 'MMM') }
+                    numberOfTicks={6}
+                    data={data}
+                    xAccessor={({ item }) => item.month}
+                    scale={scale.scaleTime}
+                    formatLabel={(value) => dateFns.format(value, 'MMM')}
                 />
             </View>
         )

@@ -2,7 +2,6 @@ import React from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 
 class Card extends React.PureComponent {
-
     state = {
         hasError: false,
     }
@@ -13,18 +12,11 @@ class Card extends React.PureComponent {
     }
 
     render() {
-        const { hasError }        = this.state
+        const { hasError } = this.state
         const { style, children } = this.props
 
         return (
-            <View style={ [ styles.container, style ] }>
-                {
-                    hasError ?
-                        <Text>{'Something went wrong'}</Text> :
-                        children
-
-                }
-            </View>
+            <View style={[styles.container, style]}>{hasError ? <Text>{'Something went wrong'}</Text> : children}</View>
         )
     }
 }
