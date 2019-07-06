@@ -6,14 +6,17 @@ import * as d3Scale from 'd3-scale'
 import * as array from 'd3-array'
 
 class YAxis extends PureComponent {
-
     state = {
         height: 0,
         width: 0,
-    }
+    };
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
+        const {
+            nativeEvent: {
+                layout: { height, width },
+            },
+        } = event
         this.setState({ height, width })
     }
 
@@ -22,10 +25,7 @@ class YAxis extends PureComponent {
             scale,
             spacingInner,
             spacingOuter,
-            contentInset: {
-                top = 0,
-                bottom = 0,
-            },
+            contentInset: { top = 0, bottom = 0 },
         } = this.props
 
         const { height } = this.state
@@ -35,7 +35,6 @@ class YAxis extends PureComponent {
             .range([ height - bottom, top ])
 
         if (scale === d3Scale.scaleBand) {
-
             // use index as domain identifier instead of value since
             // same value can occur at several places in dataPoints
             y
@@ -45,14 +44,13 @@ class YAxis extends PureComponent {
                 .paddingOuter([ spacingOuter ])
 
             //add half a bar to center label
-            return (value) => y(value) + (y.bandwidth() / 2)
+            return value => y(value) + y.bandwidth() / 2
         }
 
         return y
     }
 
     render() {
-
         const {
             style,
             data,
@@ -74,23 +72,22 @@ class YAxis extends PureComponent {
 
         const extent = array.extent(values)
 
-        const {
-            min = extent[0],
-            max = extent[1],
-        } = this.props
+        const { min = extent[0], max = extent[1] } = this.props
 
         const domain = scale === d3Scale.scaleBand ? values : [ min, max ]
 
         //invert range to support svg coordinate system
         const y = this.getY(domain)
 
-        const ticks = scale === d3Scale.scaleBand ?
-            values :
-            y.ticks(numberOfTicks)
+        const ticks = scale === d3Scale.scaleBand ? values : y.ticks(numberOfTicks)
 
         const longestValue = ticks
-            .map((value, index) => formatLabel(value, index))
-            .reduce((prev, curr) => prev.toString().length > curr.toString().length ? prev : curr, 0)
+            .map((value, index) => formatLabel(value, index, ticks.length))
+            .reduce(
+                (prev, curr) =>
+                    prev.toString().length > curr.toString().length ? prev : curr,
+                0
+            )
 
         const extraProps = {
             y,
@@ -101,31 +98,26 @@ class YAxis extends PureComponent {
 
         return (
             <View style={ [ style ] }>
-                <View
-                    style={{ flexGrow: 1 }}
-                    onLayout={ event => this._onLayout(event) }
-                >
+                <View style={{ flexGrow: 1 }} onLayout={ event => this._onLayout(event) }>
                     {/*invisible text to allow for parent resizing*/}
-                    <Text
-                        style={{ opacity: 0, fontSize: svg.fontSize }}
-                    >
+                    <Text style={{ opacity: 0, fontSize: svg.fontSize, paddingHorizontal: Math.floor(svg.x / 2) }}>
                         {longestValue}
                     </Text>
-                    {
-                        height > 0 && width > 0 &&
-                        <Svg style={{
-                            position: 'absolute',
-                            top: 0,
-                            left: 0,
-                            height,
-                            width,
-                        }}>
+                    {height > 0 && width > 0 && (
+                        <Svg
+                            style={{
+                                position: 'absolute',
+                                top: 0,
+                                left: 0,
+                                height,
+                                width,
+                            }}
+                        >
                             <G>
                                 {React.Children.map(children, child => {
                                     return React.cloneElement(child, extraProps)
                                 })}
-                                {
-                                    // don't render labels if width isn't measured yet,
+                                {// don't render labels if width isn't measured yet,
                                     // causes rendering issues
                                     height > 0 &&
                                     ticks.map((value, index) => {
@@ -142,11 +134,10 @@ class YAxis extends PureComponent {
                                                 {formatLabel(value, index, ticks.length)}
                                             </SVGText>
                                         )
-                                    })
-                                }
+                                    })}
                             </G>
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )
