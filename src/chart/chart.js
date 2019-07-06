@@ -8,14 +8,17 @@ import Svg from 'react-native-svg'
 import Path from '../animated-path'
 
 class Chart extends PureComponent {
-
     state = {
         width: 0,
         height: 0,
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
+        const {
+            nativeEvent: {
+                layout: { height, width },
+            },
+        } = event
         this.setState({ height, width })
     }
 
@@ -24,7 +27,6 @@ class Chart extends PureComponent {
     }
 
     render() {
-
         const {
             data,
             xAccessor,
@@ -35,12 +37,7 @@ class Chart extends PureComponent {
             animate,
             animationDuration,
             numberOfTicks,
-            contentInset: {
-                top = 0,
-                bottom = 0,
-                left = 0,
-                right = 0,
-            },
+            contentInset: { top = 0, bottom = 0, left = 0, right = 0 },
             gridMax,
             gridMin,
             clampX,
@@ -52,7 +49,7 @@ class Chart extends PureComponent {
         const { width, height } = this.state
 
         if (data.length === 0) {
-            return <View style={ style }/>
+            return <View style={style} />
         }
 
         const mappedData = data.map((item, index) => ({
@@ -60,28 +57,23 @@ class Chart extends PureComponent {
             x: xAccessor({ item, index }),
         }))
 
-        const yValues = mappedData.map(item => item.y)
-        const xValues = mappedData.map(item => item.x)
+        const yValues = mappedData.map((item) => item.y)
+        const xValues = mappedData.map((item) => item.x)
 
-        const yExtent = array.extent([ ...yValues, gridMin, gridMax ])
-        const xExtent = array.extent([ ...xValues ])
+        const yExtent = array.extent([...yValues, gridMin, gridMax])
+        const xExtent = array.extent([...xValues])
 
-        const {
-            yMin = yExtent[ 0 ],
-            yMax = yExtent[ 1 ],
-            xMin = xExtent[ 0 ],
-            xMax = xExtent[ 1 ],
-        } = this.props
+        const { yMin = yExtent[0], yMax = yExtent[1], xMin = xExtent[0], xMax = xExtent[1] } = this.props
 
         //invert range to support svg coordinate system
         const y = yScale()
-            .domain([ yMin, yMax ])
-            .range([ height - bottom, top ])
+            .domain([yMin, yMax])
+            .range([height - bottom, top])
             .clamp(clampY)
 
         const x = xScale()
-            .domain([ xMin, xMax ])
-            .range([ left, width - right ])
+            .domain([xMin, xMax])
+            .range([left, width - right])
             .clamp(clampX)
 
         const paths = this.createPaths({
@@ -103,36 +95,31 @@ class Chart extends PureComponent {
         }
 
         return (
-            <View style={ style }>
-                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    {
-                        height > 0 && width > 0 &&
+            <View style={style}>
+                <View style={{ flex: 1 }} onLayout={(event) => this._onLayout(event)}>
+                    {height > 0 && width > 0 && (
                         <Svg style={{ height, width }}>
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                            {React.Children.map(children, (child) => {
+                                if (child && child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                             <Path
-                                fill={ 'none' }
-                                { ...svg }
-                                d={ paths.path }
-                                animate={ animate }
-                                animationDuration={ animationDuration }
+                                fill={'none'}
+                                {...svg}
+                                d={paths.path}
+                                animate={animate}
+                                animationDuration={animationDuration}
                             />
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && !child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                            {React.Children.map(children, (child) => {
+                                if (child && !child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )

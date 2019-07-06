@@ -14,12 +14,21 @@ class StackedBarGrouped extends PureComponent {
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
+        const {
+            nativeEvent: {
+                layout: { height, width },
+            },
+        } = event
         this.setState({ height, width })
     }
 
     calcXScale(domain) {
-        const { horizontal, contentInset: { left = 0, right = 0 }, spacingInner, spacingOuter } = this.props
+        const {
+            horizontal,
+            contentInset: { left = 0, right = 0 },
+            spacingInner,
+            spacingOuter,
+        } = this.props
 
         const { width } = this.state
 
@@ -27,19 +36,24 @@ class StackedBarGrouped extends PureComponent {
             return scale
                 .scaleLinear()
                 .domain(domain)
-                .range([ left, width - right ])
+                .range([left, width - right])
         }
 
         return scale
             .scaleBand()
             .domain(domain)
-            .range([ left, width - right ])
-            .paddingInner([ spacingInner ])
-            .paddingOuter([ spacingOuter ])
+            .range([left, width - right])
+            .paddingInner([spacingInner])
+            .paddingOuter([spacingOuter])
     }
 
     calcYScale(domain) {
-        const { horizontal, contentInset: { top = 0, bottom = 0 }, spacingInner, spacingOuter } = this.props
+        const {
+            horizontal,
+            contentInset: { top = 0, bottom = 0 },
+            spacingInner,
+            spacingOuter,
+        } = this.props
 
         const { height } = this.state
 
@@ -47,15 +61,15 @@ class StackedBarGrouped extends PureComponent {
             return scale
                 .scaleBand()
                 .domain(domain)
-                .range([ top, height - bottom ])
-                .paddingInner([ spacingInner ])
-                .paddingOuter([ spacingOuter ])
+                .range([top, height - bottom])
+                .paddingInner([spacingInner])
+                .paddingOuter([spacingOuter])
         }
 
         return scale
             .scaleLinear()
             .domain(domain)
-            .range([ height - bottom, top ])
+            .range([height - bottom, top])
     }
 
     calcAreas(x, y, series) {
@@ -69,17 +83,19 @@ class StackedBarGrouped extends PureComponent {
             areas = series.map((stack, stackIndex) => {
                 return stack.map((serie, keyIndex) => {
                     return serie.map((entry, entryIndex) => {
-
                         const leftMargin = series.length > 1 ? innerBarSpace / 2 : 0
-                        
+
                         const path = shape
                             .area()
-                            .x0(d => x(d[0]))
-                            .x1(d => x(d[1]))
-                            .y((d, _index) => (_index === 0 ?
-                                y(entryIndex) + (barWidth * stackIndex) + leftMargin :
-                                y(entryIndex) + barWidth + (barWidth * stackIndex)) - leftMargin)
-                            .defined(d => !isNaN(d[0]) && !isNaN(d[1]))([ entry, entry ])
+                            .x0((d) => x(d[0]))
+                            .x1((d) => x(d[1]))
+                            .y(
+                                (d, _index) =>
+                                    (_index === 0
+                                        ? y(entryIndex) + barWidth * stackIndex + leftMargin
+                                        : y(entryIndex) + barWidth + barWidth * stackIndex) - leftMargin
+                            )
+                            .defined((d) => !isNaN(d[0]) && !isNaN(d[1]))([entry, entry])
 
                         return {
                             path,
@@ -105,13 +121,13 @@ class StackedBarGrouped extends PureComponent {
                         const showTopBorder = keyIndex === stack.length - 1
                         const showBottomBorder = keyIndex === 0
                         const commands = this.coordinatesToPathCommands(
-                            x0, 
-                            y0, 
-                            x1, 
-                            y1, 
-                            borderRadius, 
-                            showTopBorder, 
-                            showBottomBorder,
+                            x0,
+                            y0,
+                            x1,
+                            y1,
+                            borderRadius,
+                            showTopBorder,
+                            showBottomBorder
                         )
 
                         return {
@@ -127,88 +143,77 @@ class StackedBarGrouped extends PureComponent {
         return array.merge(areas)
     }
 
-    coordinatesToPathCommands = (
-        x0,
-        y0,
-        x1,
-        y1,
-        borderRadius,
-        showTopBorder,
-        showBottomBorder,
-    ) => {
+    coordinatesToPathCommands = (x0, y0, x1, y1, borderRadius, showTopBorder, showBottomBorder) => {
         const commands = []
-        commands.push({ marker: 'M', values: [ x0, y0 ] })
+        commands.push({ marker: 'M', values: [x0, y0] })
 
         if (showTopBorder) {
-            const topLeft1 = [ x0 + borderRadius, y0 ]
-            const topLeft2 = [ x0, y0 + borderRadius ]
+            const topLeft1 = [x0 + borderRadius, y0]
+            const topLeft2 = [x0, y0 + borderRadius]
             commands.push({ marker: 'L', values: topLeft1 })
             commands.push({
                 marker: 'C',
-                values: [ ...topLeft1, x0, y0, ...topLeft2 ],
+                values: [...topLeft1, x0, y0, ...topLeft2],
             })
             commands.push({ marker: 'L', values: topLeft2 })
         } else {
-            commands.push({ marker: 'L', values: [ x0, y0 ] })
+            commands.push({ marker: 'L', values: [x0, y0] })
         }
 
         if (showBottomBorder) {
-            const bottomLeft1 = [ x0, y1 - borderRadius ]
-            const bottomLeft2 = [ x0 + borderRadius, y1 ]
+            const bottomLeft1 = [x0, y1 - borderRadius]
+            const bottomLeft2 = [x0 + borderRadius, y1]
             commands.push({ marker: 'L', values: bottomLeft1 })
             commands.push({
                 marker: 'C',
-                values: [ ...bottomLeft1, x0, y1, ...bottomLeft2 ],
+                values: [...bottomLeft1, x0, y1, ...bottomLeft2],
             })
             commands.push({ marker: 'L', values: bottomLeft2 })
-            const bottomRight1 = [ x1 - borderRadius, y1 ]
-            const bottomRight2 = [ x1, y1 - borderRadius ]
+            const bottomRight1 = [x1 - borderRadius, y1]
+            const bottomRight2 = [x1, y1 - borderRadius]
             commands.push({ marker: 'L', values: bottomRight1 })
             commands.push({
                 marker: 'C',
-                values: [ ...bottomRight1, x1, y1, ...bottomRight2 ],
+                values: [...bottomRight1, x1, y1, ...bottomRight2],
             })
             commands.push({ marker: 'L', values: bottomRight2 })
         } else {
-            commands.push({ marker: 'L', values: [ x0, y1 ] })
-            commands.push({ marker: 'L', values: [ x1, y1 ] })
+            commands.push({ marker: 'L', values: [x0, y1] })
+            commands.push({ marker: 'L', values: [x1, y1] })
         }
 
         if (showTopBorder) {
-            const topRight1 = [ x1, y0 + borderRadius ]
-            const topRight2 = [  x1 - borderRadius, y0 ]
+            const topRight1 = [x1, y0 + borderRadius]
+            const topRight2 = [x1 - borderRadius, y0]
 
             commands.push({ marker: 'L', values: topRight1 })
             commands.push({
                 marker: 'C',
-                values: [ ...topRight1, x1, y0, ...topRight2 ],
+                values: [...topRight1, x1, y0, ...topRight2],
             })
             commands.push({ marker: 'L', values: topRight2 })
         } else {
-            commands.push({ marker: 'L', values: [ x1, y0 ] })
+            commands.push({ marker: 'L', values: [x1, y0] })
         }
 
         commands.push({ marker: 'Z', values: [] })
 
         return commands
-    };
-    
-    commandsToSvgPath = commands =>
+    }
+
+    commandsToSvgPath = (commands) =>
         commands
-            .map(command => `${command.marker} ${command.values.join(',')}`)
+            .map((command) => `${command.marker} ${command.values.join(',')}`)
             .join(' ')
-            .trim();
+            .trim()
 
     calcExtent(values) {
-        const {
-            gridMax,
-            gridMin,
-        } = this.props
+        const { gridMax, gridMin } = this.props
 
         // One more merge for stacked groups
         const mergedValues = array.merge(values)
 
-        return array.extent([ ...mergedValues, gridMin, gridMax ])
+        return array.extent([...mergedValues, gridMin, gridMax])
     }
 
     calcIndexes() {
@@ -221,29 +226,23 @@ class StackedBarGrouped extends PureComponent {
     getSeries() {
         const { data, keys, offset, order, valueAccessor } = this.props
 
-        return data.map((obj, index) => shape
-            .stack()
-            .keys(keys[index])
-            .value((item, key) => valueAccessor({ item, key }))
-            .order(order)
-            .offset(offset)(obj.data))
+        return data.map((obj, index) =>
+            shape
+                .stack()
+                .keys(keys[index])
+                .value((item, key) => valueAccessor({ item, key }))
+                .order(order)
+                .offset(offset)(obj.data)
+        )
     }
 
     render() {
-        const {
-            data,
-            animate,
-            animationDuration,
-            style,
-            numberOfTicks,
-            children,
-            horizontal,
-        } = this.props
+        const { data, animate, animationDuration, style, numberOfTicks, children, horizontal } = this.props
 
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={ style } />
+            return <View style={style} />
         }
 
         const series = this.getSeries()
@@ -276,53 +275,45 @@ class StackedBarGrouped extends PureComponent {
         }
 
         return (
-            <View style={ style }>
-                <View style={{ flex: 1 }} onLayout={ event => this._onLayout(event) }>
-                    {
-                        height > 0 && width > 0 &&
+            <View style={style}>
+                <View style={{ flex: 1 }} onLayout={(event) => this._onLayout(event)}>
+                    {height > 0 && width > 0 && (
                         <Svg style={{ height, width }}>
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
+                            {React.Children.map(children, (child) => {
+                                if (child && child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
+                            {stacks.map((areas, indexStack) => {
+                                const areaIndex = indexStack % data.length
+
+                                return areas.map((bar, indexArea) => {
+                                    const keyIndex = indexArea % data[areaIndex].data.length
+                                    const key = `${areaIndex}-${keyIndex}-${bar.key}`
+
+                                    const { svg } = data[areaIndex].data[keyIndex][bar.key]
+
+                                    return (
+                                        <Path
+                                            key={key}
+                                            fill={bar.color}
+                                            {...svg}
+                                            d={bar.path}
+                                            animate={animate}
+                                            animationDuration={animationDuration}
+                                        />
+                                    )
                                 })
-                            }
-                            {
-                                stacks.map((areas, indexStack) => {
-                                    const areaIndex = indexStack % data.length
-
-                                    return areas.map((bar, indexArea) => {
-                                        const keyIndex = indexArea % data[areaIndex].data.length
-                                        const key = `${areaIndex}-${keyIndex}-${bar.key}`
-
-                                        const { svg } = data[areaIndex].data[keyIndex][bar.key]
-
-                                        return (
-                                            <Path
-                                                key={ key }
-                                                fill={ bar.color }
-                                                { ...svg }
-                                                d={ bar.path }
-                                                animate={ animate }
-                                                animationDuration={ animationDuration }
-                                            />
-                                        )
-                                    })
-                                })
-
-                            }
-                            {
-                                React.Children.map(children, child => {
-                                    if (child && !child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                    return null
-                                })
-                            }
+                            })}
+                            {React.Children.map(children, (child) => {
+                                if (child && !child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                                return null
+                            })}
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )

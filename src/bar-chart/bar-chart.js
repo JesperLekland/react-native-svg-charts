@@ -8,24 +8,24 @@ import Svg from 'react-native-svg'
 import Path from '../animated-path'
 
 class BarChart extends PureComponent {
-
     state = {
         width: 0,
         height: 0,
     }
 
     _onLayout(event) {
-        const { nativeEvent: { layout: { height, width } } } = event
+        const {
+            nativeEvent: {
+                layout: { height, width },
+            },
+        } = event
         this.setState({ height, width })
     }
 
     calcXScale(domain) {
         const {
             horizontal,
-            contentInset: {
-                left = 0,
-                right = 0,
-            },
+            contentInset: { left = 0, right = 0 },
             spacingInner,
             spacingOuter,
             clamp,
@@ -34,26 +34,25 @@ class BarChart extends PureComponent {
         const { width } = this.state
 
         if (horizontal) {
-            return scale.scaleLinear()
+            return scale
+                .scaleLinear()
                 .domain(domain)
-                .range([ left, width - right ])
+                .range([left, width - right])
                 .clamp(clamp)
         }
 
-        return scale.scaleBand()
+        return scale
+            .scaleBand()
             .domain(domain)
-            .range([ left, width - right ])
-            .paddingInner([ spacingInner ])
-            .paddingOuter([ spacingOuter ])
+            .range([left, width - right])
+            .paddingInner([spacingInner])
+            .paddingOuter([spacingOuter])
     }
 
     calcYScale(domain) {
         const {
             horizontal,
-            contentInset: {
-                top = 0,
-                bottom = 0,
-            },
+            contentInset: { top = 0, bottom = 0 },
             spacingInner,
             spacingOuter,
             clamp,
@@ -62,63 +61,58 @@ class BarChart extends PureComponent {
         const { height } = this.state
 
         if (horizontal) {
-            return scale.scaleBand()
+            return scale
+                .scaleBand()
                 .domain(domain)
-                .range([ top, height - bottom ])
-                .paddingInner([ spacingInner ])
-                .paddingOuter([ spacingOuter ])
+                .range([top, height - bottom])
+                .paddingInner([spacingInner])
+                .paddingOuter([spacingOuter])
         }
 
-        return scale.scaleLinear()
+        return scale
+            .scaleLinear()
             .domain(domain)
-            .range([ height - bottom, top ])
+            .range([height - bottom, top])
             .clamp(clamp)
     }
 
     calcAreas(x, y) {
         const { horizontal, data, yAccessor } = this.props
 
-        const values = data.map(item => yAccessor({ item }))
+        const values = data.map((item) => yAccessor({ item }))
 
         if (horizontal) {
             return data.map((bar, index) => ({
                 bar,
-                path: shape.area()
-                    .y((value, _index) => _index === 0 ?
-                        y(index) :
-                        y(index) + y.bandwidth())
+                path: shape
+                    .area()
+                    .y((value, _index) => (_index === 0 ? y(index) : y(index) + y.bandwidth()))
                     .x0(x(0))
-                    .x1(value => x(value))
-                    .defined(value => typeof value === 'number')
-                    ([ values[ index ], values[ index ] ]),
+                    .x1((value) => x(value))
+                    .defined((value) => typeof value === 'number')([values[index], values[index]]),
             }))
         }
 
         return data.map((bar, index) => ({
             bar,
-            path: shape.area()
+            path: shape
+                .area()
                 .y0(y(0))
-                .y1(value => y(value))
-                .x((value, _index) => _index === 0 ?
-                    x(index) :
-                    x(index) + x.bandwidth())
-                .defined(value => typeof value === 'number')
-                ([ values[ index ], values[ index ] ]),
+                .y1((value) => y(value))
+                .x((value, _index) => (_index === 0 ? x(index) : x(index) + x.bandwidth()))
+                .defined((value) => typeof value === 'number')([values[index], values[index]]),
         }))
     }
 
     calcExtent() {
         const { data, gridMin, gridMax, yAccessor } = this.props
-        const values = data.map(obj => yAccessor({ item: obj }))
+        const values = data.map((obj) => yAccessor({ item: obj }))
 
-        const extent = array.extent([ ...values, gridMax, gridMin ])
+        const extent = array.extent([...values, gridMax, gridMin])
 
-        const {
-            yMin = extent[ 0 ],
-            yMax = extent[ 1 ],
-        } = this.props
+        const { yMin = extent[0], yMax = extent[1] } = this.props
 
-        return [ yMin, yMax ]
+        return [yMin, yMax]
     }
 
     calcIndexes() {
@@ -127,26 +121,17 @@ class BarChart extends PureComponent {
     }
 
     render() {
-        const {
-            data,
-            animate,
-            animationDuration,
-            style,
-            numberOfTicks,
-            svg,
-            horizontal,
-            children,
-        } = this.props
+        const { data, animate, animationDuration, style, numberOfTicks, svg, horizontal, children } = this.props
 
         const { height, width } = this.state
 
         if (data.length === 0) {
-            return <View style={ style }/>
+            return <View style={style} />
         }
 
         const extent = this.calcExtent()
         const indexes = this.calcIndexes()
-        const ticks = array.ticks(extent[ 0 ], extent[ 1 ], numberOfTicks)
+        const ticks = array.ticks(extent[0], extent[1], numberOfTicks)
 
         const xDomain = horizontal ? extent : indexes
         const yDomain = horizontal ? indexes : extent
@@ -156,12 +141,9 @@ class BarChart extends PureComponent {
 
         const bandwidth = horizontal ? y.bandwidth() : x.bandwidth()
 
-        const areas = this.calcAreas(x, y)
-            .filter(area => (
-                area.bar !== null &&
-            area.bar !== undefined &&
-            area.path !== null
-            ))
+        const areas = this.calcAreas(x, y).filter(
+            (area) => area.bar !== null && area.bar !== undefined && area.path !== null
+        )
 
         const extraProps = {
             x,
@@ -174,47 +156,39 @@ class BarChart extends PureComponent {
         }
 
         return (
-            <View style={ style }>
-                <View
-                    style={{ flex: 1 }}
-                    onLayout={ event => this._onLayout(event) }
-                >
-                    {
-                        height > 0 && width > 0 &&
+            <View style={style}>
+                <View style={{ flex: 1 }} onLayout={(event) => this._onLayout(event)}>
+                    {height > 0 && width > 0 && (
                         <Svg style={{ height, width }}>
-                            {
-                                React.Children.map(children, child => {
-                                    if(child && child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                })
-                            }
-                            {
-                                areas.map((area, index) => {
+                            {React.Children.map(children, (child) => {
+                                if (child && child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                            })}
+                            {areas.map((area, index) => {
+                                const {
+                                    bar: { svg: barSvg = {} },
+                                    path,
+                                } = area
 
-                                    const { bar: { svg: barSvg = {} }, path } = area
-
-                                    return (
-                                        <Path
-                                            key={ index }
-                                            { ...svg }
-                                            { ...barSvg }
-                                            d={ path }
-                                            animate={ animate }
-                                            animationDuration={ animationDuration }
-                                        />
-                                    )
-                                })
-                            }
-                            {
-                                React.Children.map(children, child => {
-                                    if(child && !child.props.belowChart) {
-                                        return React.cloneElement(child, extraProps)
-                                    }
-                                })
-                            }
+                                return (
+                                    <Path
+                                        key={index}
+                                        {...svg}
+                                        {...barSvg}
+                                        d={path}
+                                        animate={animate}
+                                        animationDuration={animationDuration}
+                                    />
+                                )
+                            })}
+                            {React.Children.map(children, (child) => {
+                                if (child && !child.props.belowChart) {
+                                    return React.cloneElement(child, extraProps)
+                                }
+                            })}
                         </Svg>
-                    }
+                    )}
                 </View>
             </View>
         )
@@ -222,10 +196,7 @@ class BarChart extends PureComponent {
 }
 
 BarChart.propTypes = {
-    data: PropTypes.arrayOf(PropTypes.oneOfType([
-        PropTypes.number,
-        PropTypes.object,
-    ])).isRequired,
+    data: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.object])).isRequired,
     style: PropTypes.any,
     spacingInner: PropTypes.number,
     spacingOuter: PropTypes.number,
