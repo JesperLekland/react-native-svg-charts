@@ -72,7 +72,7 @@ class YAxis extends PureComponent {
 
         const values = data.map((item, index) => yAccessor({ item, index }))
 
-        const extent = array.extent([ ...values, min, max ])
+        const extent = array.extent(values)
 
         const {
             min = extent[0],
@@ -96,6 +96,7 @@ class YAxis extends PureComponent {
             y,
             ticks,
             width,
+            height,
             formatLabel,
         }
 
