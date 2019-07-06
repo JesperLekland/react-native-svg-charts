@@ -3,9 +3,7 @@ import { StackedAreaChart, Grid } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 
 class AreaStackChartExample extends React.PureComponent {
-
     render() {
-
         const data = [
             {
                 month: new Date(2015, 0, 1),
@@ -37,8 +35,8 @@ class AreaStackChartExample extends React.PureComponent {
             },
         ]
 
-        const colors = [ '#8800cc', '#aa00ff', '#cc66ff', '#eeccff' ]
-        const keys   = [ 'apples', 'bananas', 'cherries', 'dates' ]
+        const colors = ['#8800cc', '#aa00ff', '#cc66ff', '#eeccff']
+        const keys = ['apples', 'bananas', 'cherries', 'dates']
         const svgs = [
             { onPress: () => console.log('apples') },
             { onPress: () => console.log('bananas') },
@@ -49,13 +47,13 @@ class AreaStackChartExample extends React.PureComponent {
         return (
             <StackedAreaChart
                 style={{ height: 200, paddingVertical: 16 }}
-                data={ data }
-                keys={ keys }
-                colors={ colors }
-                curve={ shape.curveNatural }
-                svgs={ svgs }
+                data={data}
+                keys={keys}
+                colors={colors}
+                curve={shape.curveNatural}
+                svgs={svgs}
             >
-                <Grid/>
+                <Grid />
             </StackedAreaChart>
         )
     }

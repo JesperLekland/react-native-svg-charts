@@ -37,7 +37,8 @@ class StackedBarChartExample extends React.PureComponent {
                         cherries: 640,
                         dates: 650,
                         oranges: 2000,
-                    }],
+                    },
+                ],
             },
             {
                 data: [
@@ -72,7 +73,8 @@ class StackedBarChartExample extends React.PureComponent {
                         cherries: 640,
                         dates: 650,
                         oranges: 2000,
-                    }],
+                    },
+                ],
             },
             {
                 data: [
@@ -107,25 +109,26 @@ class StackedBarChartExample extends React.PureComponent {
                         cherries: 640,
                         dates: 650,
                         oranges: 2000,
-                    }],
+                    },
+                ],
             },
         ]
 
-        const colors = [[ '#8800cc', '#aa00ff', '#dd99ff' ], [ '#cc66ff' ], [ '#eeccff' ]]
-        const keys = [[ 'apples', 'cherries', 'bananas' ], [ 'dates' ], [ 'oranges' ]]
+        const colors = [['#8800cc', '#aa00ff', '#dd99ff'], ['#cc66ff'], ['#eeccff']]
+        const keys = [['apples', 'cherries', 'bananas'], ['dates'], ['oranges']]
 
         return (
             <StackedBarChart
                 style={{ height: 200 }}
-                keys={ keys }
-                colors={ colors }
-                data={ data }
-                showGrid={ false }
+                keys={keys}
+                colors={colors}
+                data={data}
+                showGrid={false}
                 contentInset={{ top: 30, bottom: 30 }}
                 horizontal
             >
-                <Grid direction={ Grid.Direction.VERTICAL } />
-            </StackedBarChart >
+                <Grid direction={Grid.Direction.VERTICAL} />
+            </StackedBarChart>
         )
     }
 }

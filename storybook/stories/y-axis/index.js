@@ -5,5 +5,5 @@ import Standard from './standard'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('YAxis', module)
-    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('Standard', () => <Standard/>)
+    .addDecorator((getStory) => <ShowcaseCard>{getStory()}</ShowcaseCard>)
+    .add('Standard', () => <Standard />)

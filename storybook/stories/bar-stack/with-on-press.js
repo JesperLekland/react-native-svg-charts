@@ -1,7 +1,7 @@
 import React from 'react'
 import { Grid, StackedBarChart } from 'react-native-svg-charts'
 
-const colors = [ '#33691E', '#689F38', '#9CCC65', '#DCEDC8' ]
+const colors = ['#33691E', '#689F38', '#9CCC65', '#DCEDC8']
 const data = [
     {
         broccoli: {
@@ -109,19 +109,18 @@ const data = [
     },
 ]
 
-const keys = [ 'broccoli', 'celery', 'onions', 'tomato' ]
+const keys = ['broccoli', 'celery', 'onions', 'tomato']
 
 class StackedBarChartWithOnPressExample extends React.PureComponent {
-
     render() {
         return (
             <StackedBarChart
                 style={{ height: 300 }}
-                colors={ colors }
+                colors={colors}
                 contentInset={{ top: 30, bottom: 30 }}
-                data={ data }
-                keys={ keys }
-                valueAccessor={ ({ item, key }) => item[ key ].value }
+                data={data}
+                keys={keys}
+                valueAccessor={({ item, key }) => item[key].value}
             >
                 <Grid />
             </StackedBarChart>

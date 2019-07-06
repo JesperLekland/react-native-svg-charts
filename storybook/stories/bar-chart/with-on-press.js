@@ -2,9 +2,7 @@ import React from 'react'
 import { BarChart, Grid } from 'react-native-svg-charts'
 
 class BarChartExample extends React.PureComponent {
-
     render() {
-
         const data = [
             {
                 value: 10,
@@ -32,15 +30,14 @@ class BarChartExample extends React.PureComponent {
         return (
             <BarChart
                 style={{ height: 200 }}
-                data={ data }
-                yAccessor={ ({ item }) => item.value }
+                data={data}
+                yAccessor={({ item }) => item.value}
                 contentInset={{ top: 30, bottom: 30 }}
             >
-                <Grid/>
+                <Grid />
             </BarChart>
         )
     }
-
 }
 
 export default BarChartExample

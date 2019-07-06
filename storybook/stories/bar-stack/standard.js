@@ -35,19 +35,19 @@ class StackedBarChartExample extends React.PureComponent {
             },
         ]
 
-        const colors = [ '#8800cc', '#aa00ff', '#cc66ff', '#eeccff' ]
-        const keys = [ 'apples', 'bananas', 'cherries', 'dates' ]
+        const colors = ['#8800cc', '#aa00ff', '#cc66ff', '#eeccff']
+        const keys = ['apples', 'bananas', 'cherries', 'dates']
 
         return (
             <StackedBarChart
                 style={{ height: 200 }}
-                keys={ keys }
-                colors={ colors }
-                data={ data }
-                showGrid={ false }
+                keys={keys}
+                colors={colors}
+                data={data}
+                showGrid={false}
                 contentInset={{ top: 30, bottom: 30 }}
             >
-                <Grid/>
+                <Grid />
             </StackedBarChart>
         )
     }

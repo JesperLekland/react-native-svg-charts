@@ -7,7 +7,7 @@ import Gauge from './gauge'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('ProgressCircle', module)
-    .addDecorator(getStory => <ShowcaseCard>{ getStory() }</ShowcaseCard>)
-    .add('Standard', () => <Standard/>)
-    .add('Gauge', () => <Gauge/>)
-    .add('With centered text', () => <WithCenteredText/>)
+    .addDecorator((getStory) => <ShowcaseCard>{getStory()}</ShowcaseCard>)
+    .add('Standard', () => <Standard />)
+    .add('Gauge', () => <Gauge />)
+    .add('With centered text', () => <WithCenteredText />)

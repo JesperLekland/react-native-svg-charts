@@ -8,7 +8,7 @@ import Grouped from './grouped'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('LineChart')
-    .addDecorator(getStory => <ShowcaseCard>{getStory()}</ShowcaseCard>)
+    .addDecorator((getStory) => <ShowcaseCard>{getStory()}</ShowcaseCard>)
     .add('Standard', () => <Standard />)
     .add('Partial', () => <Partial />)
     .add('With gradient', () => <WithGradient />)

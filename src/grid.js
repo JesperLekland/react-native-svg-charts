@@ -5,20 +5,18 @@ import { G, Line } from 'react-native-svg'
 const Horizontal = ({ ticks = [], y, svg }) => {
     return (
         <G>
-            {
-                ticks.map(tick => (
-                    <Line
-                        key={ tick }
-                        x1={ '0%' }
-                        x2={ '100%' }
-                        y1={ y(tick) }
-                        y2={ y(tick) }
-                        strokeWidth={ 1 }
-                        stroke={ 'rgba(0,0,0,0.2)' }
-                        { ...svg }
-                    />
-                ))
-            }
+            {ticks.map((tick) => (
+                <Line
+                    key={tick}
+                    x1={'0%'}
+                    x2={'100%'}
+                    y1={y(tick)}
+                    y2={y(tick)}
+                    strokeWidth={1}
+                    stroke={'rgba(0,0,0,0.2)'}
+                    {...svg}
+                />
+            ))}
         </G>
     )
 }
@@ -26,21 +24,18 @@ const Horizontal = ({ ticks = [], y, svg }) => {
 const Vertical = ({ ticks = [], x, svg }) => {
     return (
         <G>
-            {
-                ticks.map((tick, index) => (
-                    <Line
-                        key={ index }
-                        y1={ '0%' }
-                        y2={ '100%' }
-                        x1={ x(tick) }
-                        x2={ x(tick) }
-                        strokeWidth={ 1 }
-                        stroke={ 'rgba(0,0,0,0.2)' }
-                        { ...svg }
-                    />
-                ))
-
-            }
+            {ticks.map((tick, index) => (
+                <Line
+                    key={index}
+                    y1={'0%'}
+                    y2={'100%'}
+                    x1={x(tick)}
+                    x2={x(tick)}
+                    strokeWidth={1}
+                    stroke={'rgba(0,0,0,0.2)'}
+                    {...svg}
+                />
+            ))}
         </G>
     )
 }
@@ -48,8 +43,8 @@ const Vertical = ({ ticks = [], x, svg }) => {
 const Both = (props) => {
     return (
         <G>
-            <Horizontal { ...props }/>
-            <Vertical { ...props }/>
+            <Horizontal {...props} />
+            <Vertical {...props} />
         </G>
     )
 }
@@ -78,11 +73,11 @@ const Direction = {
 
 const Grid = ({ direction, ...props }) => {
     if (direction === Direction.VERTICAL) {
-        return <Vertical { ...props } />
+        return <Vertical {...props} />
     } else if (direction === Direction.HORIZONTAL) {
-        return <Horizontal { ...props } />
+        return <Horizontal {...props} />
     } else if (direction === Direction.BOTH) {
-        return <Both { ...props } />
+        return <Both {...props} />
     }
 
     return null
