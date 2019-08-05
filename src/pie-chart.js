@@ -125,8 +125,13 @@ class PieChart extends PureComponent {
         }
 
         return (
-            <View style={style}>
-                <View style={{ flex: 1 }} onLayout={(event) => this._onLayout(event)}>
+            <View
+                pointerEvents={ 'box-none' }
+                style={style}>
+                <View
+                    pointerEvents={ 'box-none' }
+                    style={{ flex: 1 }}
+                    onLayout={(event) => this._onLayout(event)}>
                     {height > 0 && width > 0 && (
                         <Svg style={{ height, width }}>
                             {/* center the progress circle*/}
