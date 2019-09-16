@@ -110,7 +110,7 @@ class ChartGrouped extends PureComponent {
                                 const { svg: pathSvg } = data[index]
                                 return (
                                     <Path
-                                        key={path}
+                                        key={index}
                                         fill={'none'}
                                         {...svg}
                                         {...pathSvg}
