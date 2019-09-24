@@ -128,7 +128,7 @@ XAxis.propTypes = {
         left: PropTypes.number,
         right: PropTypes.number,
     }),
-    scale: PropTypes.oneOf([d3Scale.scaleTime, d3Scale.scaleLinear, d3Scale.scaleBand]),
+    scale: PropTypes.func,
     numberOfTicks: PropTypes.number,
     xAccessor: PropTypes.func,
     svg: PropTypes.object,
