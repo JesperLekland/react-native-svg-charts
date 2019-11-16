@@ -11,6 +11,10 @@ class YAxis extends PureComponent {
         width: 0,
     }
 
+    _isScaleBand(scale) {
+        return scale.name === 'band'
+    }
+
     _onLayout(event) {
         const {
             nativeEvent: {
@@ -34,7 +38,7 @@ class YAxis extends PureComponent {
             .domain(domain)
             .range([height - bottom, top])
 
-        if (scale === d3Scale.scaleBand) {
+        if (_isScaleBand(scale)) {
             // use index as domain identifier instead of value since
             // same value can occur at several places in dataPoints
             y
@@ -65,12 +69,12 @@ class YAxis extends PureComponent {
 
         const { min = extent[0], max = extent[1] } = this.props
 
-        const domain = scale === d3Scale.scaleBand ? values : [min, max]
+        const domain = _isScaleBand(scale) ? values : [min, max]
 
         //invert range to support svg coordinate system
         const y = this.getY(domain)
 
-        const ticks = scale === d3Scale.scaleBand ? values : y.ticks(numberOfTicks)
+        const ticks = _isScaleBand(scale) ? values : y.ticks(numberOfTicks)
 
         const longestValue = ticks
             .map((value, index) => formatLabel(value, index))
