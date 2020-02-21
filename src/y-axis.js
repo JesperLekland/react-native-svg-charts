@@ -88,7 +88,16 @@ class YAxis extends PureComponent {
             <View style={[style]}>
                 <View style={{ flexGrow: 1 }} onLayout={(event) => this._onLayout(event)}>
                     {/*invisible text to allow for parent resizing*/}
-                    <Text style={{ opacity: 0, fontSize: svg.fontSize }}>{longestValue}</Text>
+                    <Text
+                        style={{
+                            opacity: 0,
+                            fontSize: svg.fontSize,
+                            fontFamily: svg.fontFamily,
+                            fontWeight: svg.fontWeight,
+                        }}
+                    >
+                        {longestValue}
+                    </Text>
                     {height > 0 && width > 0 && (
                         <Svg
                             style={{
