@@ -6,6 +6,8 @@
 
 Welcome to react-native-svg-charts!
 
+`react-native-svg-charts` provides SVG Charts support to React Native on iOS and Android, and a compatibility layer for the web.
+
 ### Looking for maintainers! I alone don't have the time to maintain this library anymore. Preferably looking for somebody who uses this library in their proffesional work (how I originally got the time to maintain).
 
 ### version 5 is now available!
