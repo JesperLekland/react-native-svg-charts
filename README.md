@@ -17,7 +17,7 @@ See [releases](https://github.com/JesperLekland/react-native-svg-charts/releases
 
 ---
 
-In order to not bloat this README to much we've moved some examples over to
+In order to not bloat this README too much we've moved some examples over to
 [`react-native-svg-charts-examples`](https://github.com/JesperLekland/react-native-svg-charts-examples).
 There we will try to showcase the really cool things you can do with this library.
 This README will try to keep things as simple as possible so that everybody can get up and running as fast as possible.
