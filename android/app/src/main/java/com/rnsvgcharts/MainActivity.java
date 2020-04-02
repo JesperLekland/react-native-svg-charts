@@ -10,6 +10,6 @@ public class MainActivity extends ReactActivity {
    */
   @Override
   protected String getMainComponentName() {
-    return "RnSvgCharts";
+    return "react-native-svg-charts";
   }
 }
