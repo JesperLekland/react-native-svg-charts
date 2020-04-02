@@ -1,25 +1,28 @@
 /* eslint-disable global-require */
-import React, { Component } from 'react'
-import { AppRegistry } from 'react-native'
-import { configure, getStorybookUI } from '@storybook/react-native'
+import React, {Component} from 'react';
+import {AppRegistry} from 'react-native';
+import {configure, getStorybookUI} from '@storybook/react-native';
 
 // import stories
 configure(() => {
-    require('./stories')
-}, module)
+  require('./stories');
+}, module);
 
 // This assumes that storybook is running on the same host as your RN packager,
 // to set manually use, e.g. host: 'localhost' option
-const StorybookUIRoot = getStorybookUI({ port: 7008, onDeviceUI: false })
+const StorybookUIRoot = getStorybookUI({port: 7008, onDeviceUI: false});
 
 // react-native hot module loader must take in a Class - https://github.com/facebook/react-native/issues/10991
 // https://github.com/storybooks/storybook/issues/2081
 // eslint-disable-next-line react/prefer-stateless-function
 class StorybookUIHMRRoot extends Component {
-    render() {
-        return <StorybookUIRoot/>
-    }
+  render() {
+    return <StorybookUIRoot />;
+  }
 }
 
-AppRegistry.registerComponent('react-native-svg-charts', () => StorybookUIHMRRoot)
-export default StorybookUIHMRRoot
+AppRegistry.registerComponent(
+  'react-native-svg-charts',
+  () => StorybookUIHMRRoot,
+);
+export default StorybookUIHMRRoot;
