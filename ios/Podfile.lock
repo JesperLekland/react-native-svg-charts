@@ -294,7 +294,7 @@ PODS:
     - ReactCommon/callinvoker (= 0.62.0)
   - RNCAsyncStorage (1.9.0):
     - React
-  - RNSVG (12.0.3):
+  - RNSVG (9.13.6):
     - React
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
@@ -445,7 +445,7 @@ SPEC CHECKSUMS:
   React-RCTVibration: 0630aeb11e22f87c180ca9c0c3a0a0aba780cc62
   ReactCommon: d22162ab8f1358c53dfcd0f9c4d82d38facdbc48
   RNCAsyncStorage: 453cd7c335ec9ba3b877e27d02238956b76f3268
-  RNSVG: 7e16ddfc6e00d5aa69c9eb83e699bcce5dcb85d4
+  RNSVG: 8ba35cbeb385a52fd960fd28db9d7d18b4c2974f
   Yoga: 9db9ff2025ad21d1ac0a8b3c85d5ac4e7c29d525
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 
