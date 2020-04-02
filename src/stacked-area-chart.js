@@ -19,135 +19,92 @@ class AreaStack extends PureComponent {
         return array.merge(array.merge(series))
     }
 
-    state = {
-        height: 0,
-        width: 0,
-    }
+    const series = shape.stack().keys(keys).order(order).offset(offset)(data);
 
-    _onLayout(event) {
-        const {
-            nativeEvent: {
-                layout: { height, width },
-            },
-        } = event
-        this.setState({ height, width })
-    }
+    //double merge arrays to extract just the yValues
+    const yValues = array.merge(array.merge(series));
+    const xValues = data.map((item, index) => xAccessor({item, index}));
 
-    render() {
-        const {
-            data,
-            keys,
-            colors,
-            animate,
-            animationDuration,
-            style,
-            curve,
-            numberOfTicks,
-            contentInset: { top = 0, bottom = 0, left = 0, right = 0 },
-            gridMin,
-            gridMax,
-            children,
-            offset,
-            order,
-            svgs,
-            xAccessor,
-            xScale,
-            clampY,
-            clampX,
-        } = this.props
+    const yExtent = array.extent([...yValues, gridMin, gridMax]);
+    const xExtent = array.extent(xValues);
 
-        const { height, width } = this.state
+    const {
+      yMin = yExtent[0],
+      yMax = yExtent[1],
+      xMin = xExtent[0],
+      xMax = xExtent[1],
+    } = this.props;
 
-        if (data.length === 0) {
-            return <View style={style} />
-        }
+    //invert range to support svg coordinate system
+    const y = scale
+      .scaleLinear()
+      .domain([yMin, yMax])
+      .range([height - bottom, top])
+      .clamp(clampY);
 
-        const series = shape
-            .stack()
-            .keys(keys)
-            .order(order)
-            .offset(offset)(data)
+    const x = xScale()
+      .domain([xMin, xMax])
+      .range([left, width - right])
+      .clamp(clampX);
 
-        //double merge arrays to extract just the yValues
-        const yValues = array.merge(array.merge(series))
-        const xValues = data.map((item, index) => xAccessor({ item, index }))
+    const ticks = y.ticks(numberOfTicks);
 
-        const yExtent = array.extent([...yValues, gridMin, gridMax])
-        const xExtent = array.extent(xValues)
+    const areas = series.map((serie, index) => {
+      const path = shape
+        .area()
+        .x((d, idx) => x(xAccessor({item: d.data, idx})))
+        .y0((d) => y(d[0]))
+        .y1((d) => y(d[1]))
+        .curve(curve)(data.map((_, idx) => serie[idx]));
 
-        const { yMin = yExtent[0], yMax = yExtent[1], xMin = xExtent[0], xMax = xExtent[1] } = this.props
+      return {
+        path,
+        key: keys[index],
+        color: colors[index],
+      };
+    });
 
-        //invert range to support svg coordinate system
-        const y = scale
-            .scaleLinear()
-            .domain([yMin, yMax])
-            .range([height - bottom, top])
-            .clamp(clampY)
+    const extraProps = {
+      x,
+      y,
+      width,
+      height,
+      ticks,
+    };
 
-        const x = xScale()
-            .domain([xMin, xMax])
-            .range([left, width - right])
-            .clamp(clampX)
-
-        const ticks = y.ticks(numberOfTicks)
-
-        const areas = series.map((serie, index) => {
-            const path = shape
-                .area()
-                .x((d, index) => x(xAccessor({ item: d.data, index })))
-                .y0((d) => y(d[0]))
-                .y1((d) => y(d[1]))
-                .curve(curve)(data.map((_, index) => serie[index]))
-
-            return {
-                path,
-                key: keys[index],
-                color: colors[index],
-            }
-        })
-
-        const extraProps = {
-            x,
-            y,
-            width,
-            height,
-            ticks,
-            areas,
-        }
-
-        return (
-            <View style={style}>
-                <View style={{ flex: 1 }} onLayout={(event) => this._onLayout(event)}>
-                    {height > 0 && width > 0 && (
-                        <Svg style={{ height, width }}>
-                            {React.Children.map(children, (child) => {
-                                if (child && child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })}
-                            {areas.map((area, index) => (
-                                <Path
-                                    key={area.key}
-                                    fill={area.color}
-                                    {...svgs[index]}
-                                    animate={animate}
-                                    animationDuration={animationDuration}
-                                    d={area.path}
-                                />
-                            ))}
-                            {React.Children.map(children, (child) => {
-                                if (child && !child.props.belowChart) {
-                                    return React.cloneElement(child, extraProps)
-                                }
-                                return null
-                            })}
-                        </Svg>
-                    )}
-                </View>
-            </View>
-        )
-    }
+    return (
+      <View style={style}>
+        <View style={{flex: 1}} onLayout={(event) => this._onLayout(event)}>
+          {height > 0 && width > 0 && (
+            <Svg style={{height, width}}>
+              {React.Children.map(children, (child) => {
+                if (child && child.props.belowChart) {
+                  return React.cloneElement(child, extraProps);
+                }
+                return null;
+              })}
+              {areas.map((area, index) => (
+                <Path
+                  key={area.key}
+                  fill={area.color}
+                  {...svgs[index]}
+                  animate={animate}
+                  animationDuration={animationDuration}
+                  d={area.path}
+                />
+              ))}
+              {React.Children.map(children, (child) => {
+                if (child && !child.props.belowChart) {
+                  return React.cloneElement(child, extraProps);
+                }
+                return null;
+              })}
+            </Svg>
+          )}
+        </View>
+      </View>
+    );
+  }
 }
 
 AreaStack.propTypes = {

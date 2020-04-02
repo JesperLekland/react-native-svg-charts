@@ -53,20 +53,19 @@ class BarChartExample extends React.PureComponent {
             </Defs>
         )
 
-        const CUT_OFF = 50
-        const Labels = ({ x, y, bandwidth, data }) =>
-            data.map((item, index) => (
-                <Text
-                    key={item.label}
-                    x={item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10}
-                    y={y(index) + bandwidth / 2}
-                    fontSize={14}
-                    fill={item.value > CUT_OFF ? 'white' : 'black'}
-                    alignmentBaseline={'middle'}
-                >
-                    {item.label}
-                </Text>
-            ))
+    const CUT_OFF = 50;
+    const Labels = ({x, y, bandwidth, ...rest}) =>
+      rest.data.map((item, index) => (
+        <Text
+          key={item.label}
+          x={item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10}
+          y={y(index) + bandwidth / 2}
+          fontSize={14}
+          fill={item.value > CUT_OFF ? 'white' : 'black'}
+          alignmentBaseline={'middle'}>
+          {item.label}
+        </Text>
+      ));
 
         return (
             <View style={{ flexDirection: 'row', height: 200, paddingVertical: 16 }}>
