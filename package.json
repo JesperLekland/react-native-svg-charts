@@ -48,9 +48,6 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@react-native-community/async-storage": "^1.9.0",
-    "@storybook/react-native-server": "^5.3.18",
-    "babel-loader": "^8.1.0",
     "d3-array": "^1.2.0",
     "d3-interpolate-path": "2.0.0",
     "d3-scale": "^1.0.6",
@@ -60,18 +57,21 @@
   "peerDependencies": {
     "react": ">=16.0.0-alpha.12",
     "react-native": ">=0.46.0",
-    "react-native-svg": "^6.2.1||^7.0.3"
+    "react-native-svg": "^9.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.9.2",
+    "@react-native-community/async-storage": "^1.9.0",
     "@react-native-community/eslint-config": "^1.0.0",
     "@storybook/addon-actions": "^5.3.18",
     "@storybook/addon-knobs": "^5.3.18",
     "@storybook/addon-links": "^5.3.18",
     "@storybook/react-native": "^5.3.18",
+    "@storybook/react-native-server": "^5.3.18",
     "babel-eslint": "^10.1.0",
     "babel-jest": "^25.2.6",
+    "babel-loader": "^8.1.0",
     "date-fns": "^2.11.1",
     "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
@@ -88,7 +88,7 @@
     "react": "16.11.0",
     "react-dom": ">=16.11.1",
     "react-native": "0.62.0",
-    "react-native-svg": "^6.2.1",
+    "react-native-svg": "^9.0.7",
     "react-test-renderer": "16.11.0"
   },
   "jest": {
