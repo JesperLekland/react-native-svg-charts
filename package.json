@@ -1,6 +1,6 @@
 {
   "name": "react-native-svg-charts",
-  "version": "5.2.0",
+  "version": "5.3.1",
   "private": false,
   "description": "Customizable charts (Line, Bar, Area, Pie, Circle, Progress) for React Native",
   "main": "src/index.js",
@@ -11,7 +11,8 @@
     "test": "jest",
     "lint": "eslint .",
     "storybook": "(adb reverse tcp:7008 tcp:7008 || true) && start-storybook -p 7008",
-    "eslint": "./node_modules/.bin/eslint ."
+    "eslint": "./node_modules/.bin/eslint .",
+    "prepare": "bob build"
   },
   "husky": {
     "hooks": {
@@ -60,6 +61,7 @@
     "react-native-svg": "^9.0.0"
   },
   "devDependencies": {
+    "@react-native-community/bob": "^0.10.0",
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.9.2",
     "@react-native-community/async-storage": "^1.9.0",
@@ -92,6 +94,24 @@
     "react-test-renderer": "16.11.0"
   },
   "jest": {
-    "preset": "react-native"
-  }
+    "preset": "react-native",
+    "modulePathIgnorePatterns": [
+        "<rootDir>/lib/"
+    ]
+  },
+  "files": [
+      "src",
+      "lib"
+  ],
+  "@react-native-community/bob": {
+      "source": "src",
+      "output": "lib",
+      "targets": [
+          "module"
+      ]
+  },
+  "eslintIgnore": [
+      "node_modules/",
+      "lib/"
+  ]
 }
