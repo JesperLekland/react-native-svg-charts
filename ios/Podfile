@@ -65,16 +65,9 @@ target 'react-native-svg-charts' do
   pod 'Yoga', :path => '../node_modules/react-native/ReactCommon/yoga', :modular_headers => true
   pod 'DoubleConversion', :podspec => '../node_modules/react-native/third-party-podspecs/DoubleConversion.podspec'
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
-  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'
-  
+  pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'  
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
-
-
-  target 'react-native-svg-chartsTests' do
-    inherit! :complete
-    # Pods for testing
-  end
 
   use_native_modules!
   
@@ -86,13 +79,4 @@ target 'react-native-svg-charts' do
   post_install do |installer|
     flipper_post_install(installer)
   end
-end
-
-target 'react-native-svg-charts-tvOS' do
-  # Pods for react-native-svg-charts-tvOS
-  target 'react-native-svg-charts-tvOSTests' do
-    inherit! :search_paths
-    # Pods for testing
-  end
-
 end
