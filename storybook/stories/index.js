@@ -1,10 +1,10 @@
-import './area-chart';
-import './area-stack';
-import './bar-chart';
-import './bar-stack';
+// import './area-chart';
+// import './area-stack';
+// import './bar-chart';
+// import './bar-stack';
 import './line-chart';
-import './pie-chart';
-import './progress-circle';
+// import './pie-chart';
+// import './progress-circle';
 import './x-axis';
 import './y-axis';
 import './decorators';

@@ -12,7 +12,7 @@
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint .",
-    "storybook": "storybook start -p 7008",
+    "storybook": "(adb reverse tcp:7008 tcp:7008 || true) && start-storybook -p 7008",
     "eslint": "./node_modules/.bin/eslint ."
   },
   "husky": {
@@ -50,6 +50,9 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@react-native-community/async-storage": "^1.9.0",
+    "@storybook/react-native-server": "^5.3.18",
+    "babel-loader": "^8.1.0",
     "d3-array": "^1.2.0",
     "d3-interpolate-path": "2.0.0",
     "d3-scale": "^1.0.6",
@@ -64,12 +67,15 @@
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/runtime": "^7.9.2",
-    "@storybook/addon-actions": "^3.2.14",
-    "@storybook/addon-knobs": "^3.2.14",
-    "@storybook/addon-links": "^3.2.14",
-    "@storybook/react-native": "^3.2.14",
+    "@react-native-community/eslint-config": "^1.0.0",
+    "@storybook/addon-actions": "^5.3.18",
+    "@storybook/addon-knobs": "^5.3.18",
+    "@storybook/addon-links": "^5.3.18",
+    "@storybook/react-native": "^5.3.18",
     "babel-eslint": "^10.1.0",
+    "babel-jest": "^25.2.6",
     "date-fns": "^2.11.1",
+    "eslint": "^6.8.0",
     "eslint-config-standard": "^14.1.1",
     "eslint-plugin-import": "^2.20.2",
     "eslint-plugin-node": "^11.1.0",
@@ -78,17 +84,14 @@
     "eslint-plugin-react-native": "^3.8.1",
     "eslint-plugin-standard": "^4.0.1",
     "husky": "4.2.3",
-    "lint-staged": "10.1.1",
-    "react-dom": ">=16.11.1",
-    "react-native-svg": "^6.2.1",
-    "@react-native-community/eslint-config": "^1.0.0",
-    "babel-jest": "^25.2.6",
-    "eslint": "^6.8.0",
     "jest": "^25.2.6",
+    "lint-staged": "10.1.1",
     "metro-react-native-babel-preset": "^0.58.0",
-    "react-test-renderer": "16.11.0",
     "react": "16.11.0",
-    "react-native": "0.62.0"
+    "react-dom": ">=16.11.1",
+    "react-native": "0.62.0",
+    "react-native-svg": "^6.2.1",
+    "react-test-renderer": "16.11.0"
   },
   "jest": {
     "preset": "react-native"
