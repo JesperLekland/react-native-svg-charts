@@ -1,5 +1,5 @@
-import React from 'react'
-import { BarChart, Grid } from 'react-native-svg-charts'
+import React from 'react';
+import {BarChart, Grid} from 'react-native-svg-charts';
 
 class GroupedBarChartExample extends React.PureComponent {
     render() {
@@ -38,4 +38,4 @@ class GroupedBarChartExample extends React.PureComponent {
     }
 }
 
-export default GroupedBarChartExample
+export default GroupedBarChartExample;

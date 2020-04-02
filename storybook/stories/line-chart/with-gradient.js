@@ -1,6 +1,6 @@
-import React from 'react'
-import { Defs, LinearGradient, Stop } from 'react-native-svg'
-import { LineChart } from 'react-native-svg-charts'
+import React from 'react';
+import {Defs, LinearGradient, Stop} from 'react-native-svg';
+import {LineChart} from 'react-native-svg-charts';
 
 class GradientLineExample extends React.PureComponent {
     render() {
@@ -31,4 +31,4 @@ class GradientLineExample extends React.PureComponent {
     }
 }
 
-export default GradientLineExample
+export default GradientLineExample;

@@ -28,7 +28,8 @@ class AnimatedPath extends Component {
         this.newD = newD
         this.interpolator = interpolate.interpolatePath(oldD, newD)
 
-        this._animate()
+    if (newD === oldD) {
+      return;
     }
 
     componentWillUnmount() {
@@ -91,16 +92,16 @@ class AnimatedPath extends Component {
 }
 
 AnimatedPath.propTypes = {
-    animate: PropTypes.bool,
-    animationDuration: PropTypes.number,
-    renderPlaceholder: PropTypes.func,
-    ...Path.propTypes,
-}
+  animate: PropTypes.bool,
+  animationDuration: PropTypes.number,
+  renderPlaceholder: PropTypes.func,
+  ...Path.propTypes,
+};
 
 AnimatedPath.defaultProps = {
-    animate: false,
-    animationDuration: 300,
-    renderPlaceholder: () => null,
-}
+  animate: false,
+  animationDuration: 300,
+  renderPlaceholder: () => null,
+};
 
-export default AnimatedPath
+export default AnimatedPath;

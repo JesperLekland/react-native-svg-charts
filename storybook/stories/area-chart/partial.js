@@ -1,12 +1,12 @@
-import React from 'react'
-import { ClipPath, Defs, LinearGradient, Rect, Stop } from 'react-native-svg'
-import { AreaChart, Path } from 'react-native-svg-charts'
+import React from 'react';
+import {ClipPath, Defs, LinearGradient, Rect, Stop} from 'react-native-svg';
+import {AreaChart, Path} from 'react-native-svg-charts';
 
 class PartialAreaChartExample extends React.PureComponent {
     render() {
         const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
 
-        const indexToClipFrom = 10
+    const indexToClipFrom = 10;
 
         const Gradient = () => (
             <Defs key={'defs'}>
@@ -62,4 +62,4 @@ class PartialAreaChartExample extends React.PureComponent {
     }
 }
 
-export default PartialAreaChartExample
+export default PartialAreaChartExample;

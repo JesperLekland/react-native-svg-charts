@@ -1,5 +1,5 @@
-import React from 'react'
-import { Line } from 'react-native-svg'
+import React from 'react';
+import {Line} from 'react-native-svg';
 
 class HorizontalLine extends React.Component {
     render() {
@@ -9,7 +9,7 @@ class HorizontalLine extends React.Component {
 }
 
 HorizontalLine.defaultProps = {
-    stroke: 'black',
-}
+  stroke: 'black',
+};
 
-export default HorizontalLine
+export default HorizontalLine;

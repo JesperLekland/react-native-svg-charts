@@ -1,5 +1,5 @@
-import React from 'react'
-import { PieChart } from 'react-native-svg-charts'
+import React from 'react';
+import {PieChart} from 'react-native-svg-charts';
 
 class PieChartExample extends React.PureComponent {
     render() {
@@ -22,4 +22,4 @@ class PieChartExample extends React.PureComponent {
     }
 }
 
-export default PieChartExample
+export default PieChartExample;

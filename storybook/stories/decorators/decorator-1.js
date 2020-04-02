@@ -1,6 +1,6 @@
-import React from 'react'
-import { AreaChart, Grid } from 'react-native-svg-charts'
-import { Circle, Path } from 'react-native-svg'
+import React from 'react';
+import {AreaChart, Grid} from 'react-native-svg-charts';
+import {Circle, Path} from 'react-native-svg';
 
 class DecoratorExample extends React.PureComponent {
     render() {
@@ -29,4 +29,4 @@ class DecoratorExample extends React.PureComponent {
     }
 }
 
-export default DecoratorExample
+export default DecoratorExample;

@@ -1,6 +1,6 @@
-import React from 'react'
-import { Text, G } from 'react-native-svg'
-import { PieChart } from 'react-native-svg-charts'
+import React from 'react';
+import {Text, G} from 'react-native-svg';
+import {PieChart} from 'react-native-svg-charts';
 
 class PieChartWithCenterTextExample extends React.PureComponent {
     render() {
@@ -38,4 +38,4 @@ class PieChartWithCenterTextExample extends React.PureComponent {
     }
 }
 
-export default PieChartWithCenterTextExample
+export default PieChartWithCenterTextExample;

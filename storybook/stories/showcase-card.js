@@ -1,5 +1,5 @@
-import React from 'react'
-import { SafeAreaView, View } from 'react-native'
+import React from 'react';
+import {SafeAreaView, View} from 'react-native';
 
 const ShowcaseCard = ({ children }) => (
     <SafeAreaView>
@@ -22,4 +22,4 @@ const ShowcaseCard = ({ children }) => (
     </SafeAreaView>
 )
 
-export default ShowcaseCard
+export default ShowcaseCard;

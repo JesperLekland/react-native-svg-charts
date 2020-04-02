@@ -1,7 +1,7 @@
-import React from 'react'
-import { LineChart, Grid } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
-import { Circle, G, Line, Rect, Text } from 'react-native-svg'
+import React from 'react';
+import {LineChart, Grid} from 'react-native-svg-charts';
+import * as shape from 'd3-shape';
+import {Circle, G, Line, Rect, Text} from 'react-native-svg';
 
 class ExtrasExample extends React.PureComponent {
     render() {
@@ -64,4 +64,4 @@ class ExtrasExample extends React.PureComponent {
     }
 }
 
-export default ExtrasExample
+export default ExtrasExample;

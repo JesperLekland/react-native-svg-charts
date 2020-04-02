@@ -1,9 +1,9 @@
-import React from 'react'
-import { AreaChart, XAxis, Grid } from 'react-native-svg-charts'
-import { View } from 'react-native'
-import * as scale from 'd3-scale'
-import * as shape from 'd3-shape'
-import dateFns from 'date-fns'
+import React from 'react';
+import {AreaChart, XAxis, Grid} from 'react-native-svg-charts';
+import {View} from 'react-native';
+import * as scale from 'd3-scale';
+import * as shape from 'd3-shape';
+import dateFns from 'date-fns';
 
 class XAxisScaleTimeExample extends React.PureComponent {
     render() {
@@ -70,4 +70,4 @@ class XAxisScaleTimeExample extends React.PureComponent {
     }
 }
 
-export default XAxisScaleTimeExample
+export default XAxisScaleTimeExample;

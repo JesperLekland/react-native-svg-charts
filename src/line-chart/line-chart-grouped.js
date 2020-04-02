@@ -1,5 +1,5 @@
-import * as shape from 'd3-shape'
-import ChartGrouped from '../chart/chart-grouped'
+import * as shape from 'd3-shape';
+import ChartGrouped from '../chart/chart-grouped';
 
 class LineChartGrouped extends ChartGrouped {
     createPaths({ data, x, y }) {
@@ -22,11 +22,11 @@ class LineChartGrouped extends ChartGrouped {
 }
 
 LineChartGrouped.propTypes = {
-    ...ChartGrouped.propTypes,
-}
+  ...ChartGrouped.propTypes,
+};
 
 LineChartGrouped.defaultProps = {
-    ...ChartGrouped.defaultProps,
-}
+  ...ChartGrouped.defaultProps,
+};
 
-export default LineChartGrouped
+export default LineChartGrouped;

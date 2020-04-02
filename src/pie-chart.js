@@ -17,7 +17,10 @@ class PieChart extends PureComponent {
             },
         } = event
 
-        this.setState({ height, width })
+    if (Math.min(...data.map((obj) => valueAccessor({item: obj}))) < 0) {
+      console.error(
+        "don't pass negative numbers to pie-chart, it makes no sense!",
+      );
     }
 
     _calculateRadius(arg, max, defaultVal) {
@@ -186,14 +189,14 @@ PieChart.propTypes = {
 }
 
 PieChart.defaultProps = {
-    width: 100,
-    height: 100,
-    padAngle: 0.05,
-    startAngle: 0,
-    endAngle: Math.PI * 2,
-    valueAccessor: ({ item }) => item.value,
-    innerRadius: '50%',
-    sort: (a, b) => b.value - a.value,
-}
+  width: 100,
+  height: 100,
+  padAngle: 0.05,
+  startAngle: 0,
+  endAngle: Math.PI * 2,
+  valueAccessor: ({item}) => item.value,
+  innerRadius: '50%',
+  sort: (a, b) => b.value - a.value,
+};
 
-export default PieChart
+export default PieChart;

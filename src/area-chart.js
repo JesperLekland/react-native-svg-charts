@@ -1,6 +1,6 @@
-import * as shape from 'd3-shape'
-import PropTypes from 'prop-types'
-import Chart from './chart/chart'
+import * as shape from 'd3-shape';
+import PropTypes from 'prop-types';
+import Chart from './chart/chart';
 
 class AreaChart extends Chart {
     createPaths({ data, x, y }) {
@@ -30,13 +30,13 @@ class AreaChart extends Chart {
 }
 
 AreaChart.propTypes = {
-    ...Chart.propTypes,
-    start: PropTypes.number,
-}
+  ...Chart.propTypes,
+  start: PropTypes.number,
+};
 
 AreaChart.defaultProps = {
-    ...Chart.defaultProps,
-    start: 0,
-}
+  ...Chart.defaultProps,
+  start: 0,
+};
 
-export default AreaChart
+export default AreaChart;

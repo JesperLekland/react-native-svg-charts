@@ -1,7 +1,7 @@
-import React from 'react'
-import { LineChart } from 'react-native-svg-charts'
-import { View } from 'react-native'
-import { G, Line } from 'react-native-svg'
+import React from 'react';
+import {LineChart} from 'react-native-svg-charts';
+import {View} from 'react-native';
+import {G, Line} from 'react-native-svg';
 
 class CustomGridExample extends React.PureComponent {
     render() {
@@ -37,4 +37,4 @@ class CustomGridExample extends React.PureComponent {
     }
 }
 
-export default CustomGridExample
+export default CustomGridExample;

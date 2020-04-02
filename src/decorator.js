@@ -1,5 +1,5 @@
-import React from 'react'
-import { G } from 'react-native-svg'
+import React from 'react';
+import {G} from 'react-native-svg';
 
 const Decorator = ({ children, data, ...props }) => {
     return (
@@ -11,4 +11,4 @@ const Decorator = ({ children, data, ...props }) => {
     )
 }
 
-export default Decorator
+export default Decorator;

@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types'
-import React from 'react'
-import { Circle, G, Line, Rect, Text } from 'react-native-svg'
+import PropTypes from 'prop-types';
+import React from 'react';
+import {Circle, G, Line, Rect, Text} from 'react-native-svg';
 
 const Tooltip = ({ x, y, value, index, height, text, stroke, pointStroke }) => {
     return (
@@ -19,14 +19,14 @@ const Tooltip = ({ x, y, value, index, height, text, stroke, pointStroke }) => {
 }
 
 Tooltip.propTypes = {
-    x: PropTypes.func.isRequired,
-    y: PropTypes.func.isRequired,
-    value: PropTypes.number,
-    index: PropTypes.number,
-    height: PropTypes.number,
-    stroke: PropTypes.string,
-    pointStroke: PropTypes.string,
-    text: PropTypes.string,
-}
+  x: PropTypes.func.isRequired,
+  y: PropTypes.func.isRequired,
+  value: PropTypes.number,
+  index: PropTypes.number,
+  height: PropTypes.number,
+  stroke: PropTypes.string,
+  pointStroke: PropTypes.string,
+  text: PropTypes.string,
+};
 
-export default Tooltip
+export default Tooltip;

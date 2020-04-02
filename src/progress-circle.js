@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react'
-import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import * as shape from 'd3-shape'
-import Path from './animated-path'
-import Svg, { G } from 'react-native-svg'
+import React, {PureComponent} from 'react';
+import {View} from 'react-native';
+import PropTypes from 'prop-types';
+import * as shape from 'd3-shape';
+import Path from './animated-path';
+import Svg, {G} from 'react-native-svg';
 
 class ProgressCircle extends PureComponent {
     state = {
@@ -120,25 +120,25 @@ class ProgressCircle extends PureComponent {
 }
 
 ProgressCircle.propTypes = {
-    progress: PropTypes.number.isRequired,
-    style: PropTypes.any,
-    progressColor: PropTypes.any,
-    backgroundColor: PropTypes.any,
-    strokeWidth: PropTypes.number,
-    startAngle: PropTypes.number,
-    endAngle: PropTypes.number,
-    animate: PropTypes.bool,
-    cornerRadius: PropTypes.number,
-    animateDuration: PropTypes.number,
-}
+  progress: PropTypes.number.isRequired,
+  style: PropTypes.any,
+  progressColor: PropTypes.any,
+  backgroundColor: PropTypes.any,
+  strokeWidth: PropTypes.number,
+  startAngle: PropTypes.number,
+  endAngle: PropTypes.number,
+  animate: PropTypes.bool,
+  cornerRadius: PropTypes.number,
+  animateDuration: PropTypes.number,
+};
 
 ProgressCircle.defaultProps = {
-    progressColor: 'black',
-    backgroundColor: '#ECECEC',
-    strokeWidth: 5,
-    startAngle: 0,
-    endAngle: Math.PI * 2,
-    cornerRadius: 45,
-}
+  progressColor: 'black',
+  backgroundColor: '#ECECEC',
+  strokeWidth: 5,
+  startAngle: 0,
+  endAngle: Math.PI * 2,
+  cornerRadius: 45,
+};
 
-export default ProgressCircle
+export default ProgressCircle;

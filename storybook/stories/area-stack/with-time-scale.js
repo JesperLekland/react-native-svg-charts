@@ -1,9 +1,9 @@
-import React from 'react'
-import { View } from 'react-native'
-import { StackedAreaChart, Grid, XAxis } from 'react-native-svg-charts'
-import * as shape from 'd3-shape'
-import * as scale from 'd3-scale'
-import dateFns from 'date-fns'
+import React from 'react';
+import {View} from 'react-native';
+import {StackedAreaChart, Grid, XAxis} from 'react-native-svg-charts';
+import * as shape from 'd3-shape';
+import * as scale from 'd3-scale';
+import dateFns from 'date-fns';
 
 class AreaStackChartExample extends React.PureComponent {
     render() {
@@ -68,4 +68,4 @@ class AreaStackChartExample extends React.PureComponent {
     }
 }
 
-export default AreaStackChartExample
+export default AreaStackChartExample;

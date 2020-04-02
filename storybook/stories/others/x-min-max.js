@@ -1,8 +1,8 @@
-import React from 'react'
-import { View } from 'react-native'
-import { AreaChart, XAxis } from 'react-native-svg-charts'
-import * as scale from 'd3-scale'
-import dateFns from 'date-fns'
+import React from 'react';
+import {View} from 'react-native';
+import {AreaChart, XAxis} from 'react-native-svg-charts';
+import * as scale from 'd3-scale';
+import dateFns from 'date-fns';
 
 class GridMinMaxExample extends React.PureComponent {
     render() {
@@ -63,4 +63,4 @@ class GridMinMaxExample extends React.PureComponent {
     }
 }
 
-export default GridMinMaxExample
+export default GridMinMaxExample;

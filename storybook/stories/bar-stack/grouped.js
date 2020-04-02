@@ -1,5 +1,5 @@
-import React from 'react'
-import { StackedBarChart, Grid } from 'react-native-svg-charts'
+import React from 'react';
+import {StackedBarChart, Grid} from 'react-native-svg-charts';
 
 class StackedBarChartExample extends React.PureComponent {
     render() {
@@ -132,4 +132,4 @@ class StackedBarChartExample extends React.PureComponent {
     }
 }
 
-export default StackedBarChartExample
+export default StackedBarChartExample;

@@ -1,11 +1,11 @@
-import * as array from 'd3-array'
-import * as scale from 'd3-scale'
-import * as shape from 'd3-shape'
-import PropTypes from 'prop-types'
-import React, { PureComponent } from 'react'
-import { View } from 'react-native'
-import Svg from 'react-native-svg'
-import Path from '../animated-path'
+import * as array from 'd3-array';
+import * as scale from 'd3-scale';
+import * as shape from 'd3-shape';
+import PropTypes from 'prop-types';
+import React, {PureComponent} from 'react';
+import {View} from 'react-native';
+import Svg from 'react-native-svg';
+import Path from '../animated-path';
 
 class Chart extends PureComponent {
     state = {
@@ -127,55 +127,55 @@ class Chart extends PureComponent {
 }
 
 Chart.propTypes = {
-    data: PropTypes.oneOfType([
-        PropTypes.arrayOf(PropTypes.object),
-        PropTypes.arrayOf(PropTypes.number),
-        PropTypes.arrayOf(PropTypes.array),
-    ]).isRequired,
-    svg: PropTypes.object,
+  data: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.object),
+    PropTypes.arrayOf(PropTypes.number),
+    PropTypes.arrayOf(PropTypes.array),
+  ]).isRequired,
+  svg: PropTypes.object,
 
-    style: PropTypes.any,
+  style: PropTypes.any,
 
-    animate: PropTypes.bool,
-    animationDuration: PropTypes.number,
+  animate: PropTypes.bool,
+  animationDuration: PropTypes.number,
 
-    curve: PropTypes.func,
-    contentInset: PropTypes.shape({
-        top: PropTypes.number,
-        left: PropTypes.number,
-        right: PropTypes.number,
-        bottom: PropTypes.number,
-    }),
-    numberOfTicks: PropTypes.number,
+  curve: PropTypes.func,
+  contentInset: PropTypes.shape({
+    top: PropTypes.number,
+    left: PropTypes.number,
+    right: PropTypes.number,
+    bottom: PropTypes.number,
+  }),
+  numberOfTicks: PropTypes.number,
 
-    gridMin: PropTypes.number,
-    gridMax: PropTypes.number,
+  gridMin: PropTypes.number,
+  gridMax: PropTypes.number,
 
-    yMin: PropTypes.any,
-    yMax: PropTypes.any,
-    xMin: PropTypes.any,
-    xMax: PropTypes.any,
-    clampX: PropTypes.bool,
-    clampY: PropTypes.bool,
+  yMin: PropTypes.any,
+  yMax: PropTypes.any,
+  xMin: PropTypes.any,
+  xMax: PropTypes.any,
+  clampX: PropTypes.bool,
+  clampY: PropTypes.bool,
 
-    xScale: PropTypes.func,
-    yScale: PropTypes.func,
+  xScale: PropTypes.func,
+  yScale: PropTypes.func,
 
-    xAccessor: PropTypes.func,
-    yAccessor: PropTypes.func,
-}
+  xAccessor: PropTypes.func,
+  yAccessor: PropTypes.func,
+};
 
 Chart.defaultProps = {
-    svg: {},
-    width: 100,
-    height: 100,
-    curve: shape.curveLinear,
-    contentInset: {},
-    numberOfTicks: 10,
-    xScale: scale.scaleLinear,
-    yScale: scale.scaleLinear,
-    xAccessor: ({ index }) => index,
-    yAccessor: ({ item }) => item,
-}
+  svg: {},
+  width: 100,
+  height: 100,
+  curve: shape.curveLinear,
+  contentInset: {},
+  numberOfTicks: 10,
+  xScale: scale.scaleLinear,
+  yScale: scale.scaleLinear,
+  xAccessor: ({index}) => index,
+  yAccessor: ({item}) => item,
+};
 
-export default Chart
+export default Chart;

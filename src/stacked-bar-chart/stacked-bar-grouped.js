@@ -1,16 +1,42 @@
-import React, { PureComponent } from 'react'
-import { View } from 'react-native'
-import PropTypes from 'prop-types'
-import Svg from 'react-native-svg'
-import * as array from 'd3-array'
-import * as scale from 'd3-scale'
-import * as shape from 'd3-shape'
-import Path from '../animated-path'
+import React, {PureComponent} from 'react';
+import {View} from 'react-native';
+import PropTypes from 'prop-types';
+import Svg from 'react-native-svg';
+import * as array from 'd3-array';
+import * as scale from 'd3-scale';
+import * as shape from 'd3-shape';
+import Path from '../animated-path';
 
 class StackedBarGrouped extends PureComponent {
-    state = {
-        width: 0,
-        height: 0,
+  state = {
+    width: 0,
+    height: 0,
+  };
+
+  _onLayout(event) {
+    const {
+      nativeEvent: {
+        layout: {height, width},
+      },
+    } = event;
+    this.setState({height, width});
+  }
+
+  calcXScale(domain) {
+    const {
+      horizontal,
+      contentInset: {left = 0, right = 0},
+      spacingInner,
+      spacingOuter,
+    } = this.props;
+
+    const {width} = this.state;
+
+    if (horizontal) {
+      return scale
+        .scaleLinear()
+        .domain(domain)
+        .range([left, width - right]);
     }
 
     _onLayout(event) {
@@ -216,11 +242,53 @@ class StackedBarGrouped extends PureComponent {
         return array.extent([...mergedValues, gridMin, gridMax])
     }
 
-    calcIndexes() {
-        const { data } = this.props
+    return array.merge(areas);
+  }
 
-        // Must return an array with indexes for the number of groups to be shown
-        return data[0].data.map((_, index) => index)
+  calcExtent(values) {
+    const {gridMax, gridMin} = this.props;
+
+    // One more merge for stacked groups
+    const mergedValues = array.merge(values);
+
+    return array.extent([...mergedValues, gridMin, gridMax]);
+  }
+
+  calcIndexes() {
+    const {data} = this.props;
+
+    // Must return an array with indexes for the number of groups to be shown
+    return data[0].data.map((_, index) => index);
+  }
+
+  getSeries() {
+    const {data, keys, offset, order, valueAccessor} = this.props;
+
+    return data.map((obj, index) =>
+      shape
+        .stack()
+        .keys(keys[index])
+        .value((item, key) => valueAccessor({item, key}))
+        .order(order)
+        .offset(offset)(obj.data),
+    );
+  }
+
+  render() {
+    const {
+      data,
+      animate,
+      animationDuration,
+      style,
+      numberOfTicks,
+      children,
+      horizontal,
+    } = this.props;
+
+    const {height, width} = this.state;
+
+    if (data.length === 0) {
+      return <View style={style} />;
     }
 
     getSeries() {

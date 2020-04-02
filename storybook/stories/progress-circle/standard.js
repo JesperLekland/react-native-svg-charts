@@ -1,5 +1,5 @@
-import React from 'react'
-import { ProgressCircle } from 'react-native-svg-charts'
+import React from 'react';
+import {ProgressCircle} from 'react-native-svg-charts';
 
 class ProgressCircleExample extends React.PureComponent {
     render() {
@@ -7,4 +7,4 @@ class ProgressCircleExample extends React.PureComponent {
     }
 }
 
-export default ProgressCircleExample
+export default ProgressCircleExample;

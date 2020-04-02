@@ -1,5 +1,5 @@
-import * as shape from 'd3-shape'
-import Chart from '../chart/chart'
+import * as shape from 'd3-shape';
+import Chart from '../chart/chart';
 
 class LineChart extends Chart {
     createPaths({ data, x, y }) {
@@ -20,11 +20,11 @@ class LineChart extends Chart {
 }
 
 LineChart.propTypes = {
-    ...Chart.propTypes,
-}
+  ...Chart.propTypes,
+};
 
 LineChart.defaultProps = {
-    ...Chart.defaultProps,
-}
+  ...Chart.defaultProps,
+};
 
-export default LineChart
+export default LineChart;

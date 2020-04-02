@@ -23,4 +23,4 @@ class DifferentBaseExample extends React.PureComponent {
     }
 }
 
-export default DifferentBaseExample
+export default DifferentBaseExample;

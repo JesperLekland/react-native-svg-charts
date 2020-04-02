@@ -1,7 +1,7 @@
-import React from 'react'
-import { BarChart, XAxis } from 'react-native-svg-charts'
-import { View } from 'react-native'
-import * as scale from 'd3-scale'
+import React from 'react';
+import {BarChart, XAxis} from 'react-native-svg-charts';
+import {View} from 'react-native';
+import * as scale from 'd3-scale';
 
 class XAxisExample extends React.PureComponent {
     render() {
@@ -51,4 +51,4 @@ class XAxisExample extends React.PureComponent {
     }
 }
 
-export default XAxisExample
+export default XAxisExample;
