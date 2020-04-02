@@ -1,7 +1,7 @@
-import React from 'react';
-import {StackedAreaChart, YAxis, Grid} from 'react-native-svg-charts';
-import * as shape from 'd3-shape';
-import {View} from 'react-native';
+import React from 'react'
+import { StackedAreaChart, YAxis, Grid } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
+import { View } from 'react-native'
 
 class AreaStackWithAxisExample extends React.PureComponent {
     render() {
@@ -74,4 +74,4 @@ class AreaStackWithAxisExample extends React.PureComponent {
     }
 }
 
-export default AreaStackWithAxisExample;
+export default AreaStackWithAxisExample

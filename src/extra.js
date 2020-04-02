@@ -1,5 +1,5 @@
-import React from 'react';
-import {G} from 'react-native-svg';
+import React from 'react'
+import { G } from 'react-native-svg'
 
 const Extra = ({ children, ...props }) => {
     return (
@@ -11,4 +11,4 @@ const Extra = ({ children, ...props }) => {
     )
 }
 
-export default Extra;
+export default Extra

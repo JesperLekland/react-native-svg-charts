@@ -1,6 +1,6 @@
-import React from 'react';
-import {AreaChart, Grid} from 'react-native-svg-charts';
-import * as shape from 'd3-shape';
+import React from 'react'
+import { AreaChart, Grid } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 
 class AreaChartExample extends React.PureComponent {
     render() {
@@ -20,4 +20,4 @@ class AreaChartExample extends React.PureComponent {
     }
 }
 
-export default AreaChartExample;
+export default AreaChartExample

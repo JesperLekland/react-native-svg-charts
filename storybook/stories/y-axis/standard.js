@@ -1,6 +1,6 @@
-import React from 'react';
-import {LineChart, YAxis, Grid} from 'react-native-svg-charts';
-import {View} from 'react-native';
+import React from 'react'
+import { LineChart, YAxis, Grid } from 'react-native-svg-charts'
+import { View } from 'react-native'
 
 class YAxisExample extends React.PureComponent {
     render() {
@@ -33,4 +33,4 @@ class YAxisExample extends React.PureComponent {
     }
 }
 
-export default YAxisExample;
+export default YAxisExample

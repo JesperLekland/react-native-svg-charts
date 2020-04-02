@@ -1,5 +1,5 @@
-import React from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import React from 'react'
+import { StyleSheet, Text, View } from 'react-native'
 
 class Card extends React.PureComponent {
     state = {
@@ -22,17 +22,17 @@ class Card extends React.PureComponent {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    backgroundColor: 'white',
-    shadowOffset: {
-      height: 2,
-      width: 2,
+    container: {
+        backgroundColor: 'white',
+        shadowOffset: {
+            height: 2,
+            width: 2,
+        },
+        elevation: 4,
+        shadowColor: 'black',
+        shadowOpacity: 0.5,
+        padding: 16,
     },
-    elevation: 4,
-    shadowColor: 'black',
-    shadowOpacity: 0.5,
-    padding: 16,
-  },
-});
+})
 
-export default Card;
+export default Card

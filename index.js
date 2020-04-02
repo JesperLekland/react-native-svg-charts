@@ -1,1 +1,1 @@
-export default from './storybook';
+export default from './storybook'

@@ -1,10 +1,10 @@
-import * as array from 'd3-array';
-import PropTypes from 'prop-types';
-import React, {PureComponent} from 'react';
-import {View} from 'react-native';
-import Svg from 'react-native-svg';
-import Path from '../animated-path';
-import Chart from './chart';
+import * as array from 'd3-array'
+import PropTypes from 'prop-types'
+import React, { PureComponent } from 'react'
+import { View } from 'react-native'
+import Svg from 'react-native-svg'
+import Path from '../animated-path'
+import Chart from './chart'
 
 class ChartGrouped extends PureComponent {
     state = {
@@ -150,7 +150,7 @@ ChartGrouped.propTypes = {
 }
 
 ChartGrouped.defaultProps = {
-  ...Chart.defaultProps,
-};
+    ...Chart.defaultProps,
+}
 
-export default ChartGrouped;
+export default ChartGrouped

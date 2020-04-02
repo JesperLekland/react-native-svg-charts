@@ -17,10 +17,7 @@ class PieChart extends PureComponent {
             },
         } = event
 
-    if (Math.min(...data.map((obj) => valueAccessor({item: obj}))) < 0) {
-      console.error(
-        "don't pass negative numbers to pie-chart, it makes no sense!",
-      );
+        this.setState({ height, width })
     }
 
     _calculateRadius(arg, max, defaultVal) {
@@ -54,7 +51,7 @@ class PieChart extends PureComponent {
         const { height, width } = this.state
 
         if (!data && dataPoints) {
-            throw `"dataPoints" have been renamed to "data" to better reflect the fact that it's an array of objects`
+            throw '"dataPoints" have been renamed to "data" to better reflect the fact that it\'s an array of objects'
         }
 
         if (data.length === 0) {
@@ -76,11 +73,7 @@ class PieChart extends PureComponent {
         }
 
         const arcs = data.map((item) => {
-            const arc = shape
-                .arc()
-                .outerRadius(_outerRadius)
-                .innerRadius(_innerRadius)
-                .padAngle(padAngle) // Angle between sections
+            const arc = shape.arc().outerRadius(_outerRadius).innerRadius(_innerRadius).padAngle(padAngle) // Angle between sections
 
             item.arc &&
                 Object.entries(item.arc).forEach(([key, value]) => {
@@ -98,11 +91,7 @@ class PieChart extends PureComponent {
 
         const labelArcs = data.map((item, index) => {
             if (labelRadius) {
-                return shape
-                    .arc()
-                    .outerRadius(_labelRadius)
-                    .innerRadius(_labelRadius)
-                    .padAngle(padAngle)
+                return shape.arc().outerRadius(_labelRadius).innerRadius(_labelRadius).padAngle(padAngle)
             }
             return arcs[index]
         })
@@ -189,14 +178,14 @@ PieChart.propTypes = {
 }
 
 PieChart.defaultProps = {
-  width: 100,
-  height: 100,
-  padAngle: 0.05,
-  startAngle: 0,
-  endAngle: Math.PI * 2,
-  valueAccessor: ({item}) => item.value,
-  innerRadius: '50%',
-  sort: (a, b) => b.value - a.value,
-};
+    width: 100,
+    height: 100,
+    padAngle: 0.05,
+    startAngle: 0,
+    endAngle: Math.PI * 2,
+    valueAccessor: ({ item }) => item.value,
+    innerRadius: '50%',
+    sort: (a, b) => b.value - a.value,
+}
 
-export default PieChart;
+export default PieChart

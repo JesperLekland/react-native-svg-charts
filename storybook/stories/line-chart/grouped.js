@@ -1,5 +1,5 @@
-import React from 'react';
-import {LineChart, Grid} from 'react-native-svg-charts';
+import React from 'react'
+import { LineChart, Grid } from 'react-native-svg-charts'
 
 class GroupedLineChartExample extends React.PureComponent {
     render() {
@@ -25,4 +25,4 @@ class GroupedLineChartExample extends React.PureComponent {
     }
 }
 
-export default GroupedLineChartExample;
+export default GroupedLineChartExample

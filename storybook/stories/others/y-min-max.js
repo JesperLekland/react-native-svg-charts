@@ -1,6 +1,6 @@
-import React from 'react';
-import {AreaChart, Path} from 'react-native-svg-charts';
-import * as shape from 'd3-shape';
+import React from 'react'
+import { AreaChart, Path } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
 
 class GridMinMaxExample extends React.PureComponent {
     render() {
@@ -23,4 +23,4 @@ class GridMinMaxExample extends React.PureComponent {
     }
 }
 
-export default GridMinMaxExample;
+export default GridMinMaxExample

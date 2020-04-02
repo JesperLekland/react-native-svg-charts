@@ -1,11 +1,11 @@
-import React from 'react';
-import {storiesOf} from '@storybook/react-native';
+import React from 'react'
+import { storiesOf } from '@storybook/react-native'
 
-import Regular from './standard';
-import WithTimeScale from './with-time-scale';
-import WithGradient from './with-gradient';
-import WithYAxis from './with-y-axis';
-import ShowcaseCard from '../showcase-card';
+import Regular from './standard'
+import WithTimeScale from './with-time-scale'
+import WithGradient from './with-gradient'
+import WithYAxis from './with-y-axis'
+import ShowcaseCard from '../showcase-card'
 
 storiesOf('StackedAreaChart', module)
     .addDecorator((getStory) => <ShowcaseCard>{getStory()}</ShowcaseCard>)

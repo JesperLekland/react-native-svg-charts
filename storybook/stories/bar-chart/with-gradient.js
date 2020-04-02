@@ -1,6 +1,6 @@
-import React from 'react';
-import {LinearGradient, Stop, Defs} from 'react-native-svg';
-import {BarChart} from 'react-native-svg-charts';
+import React from 'react'
+import { LinearGradient, Stop, Defs } from 'react-native-svg'
+import { BarChart } from 'react-native-svg-charts'
 
 class GradientBarExample extends React.PureComponent {
     render() {
@@ -31,4 +31,4 @@ class GradientBarExample extends React.PureComponent {
     }
 }
 
-export default GradientBarExample;
+export default GradientBarExample

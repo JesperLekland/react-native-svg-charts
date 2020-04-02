@@ -1,6 +1,6 @@
-import React from 'react';
-import StackedBarChart from './stacked-bar-chart';
-import StackedBarChartGrouped from './stacked-bar-grouped';
+import React from 'react'
+import StackedBarChart from './stacked-bar-chart'
+import StackedBarChartGrouped from './stacked-bar-grouped'
 
 const StackedBarChartGate = (props) => {
     const { data } = props
@@ -12,4 +12,4 @@ const StackedBarChartGate = (props) => {
     return <StackedBarChart {...props} />
 }
 
-export default StackedBarChartGate;
+export default StackedBarChartGate

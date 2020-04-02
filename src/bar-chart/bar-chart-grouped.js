@@ -1,8 +1,8 @@
-import PropTypes from 'prop-types';
-import * as array from 'd3-array';
-import * as scale from 'd3-scale';
-import * as shape from 'd3-shape';
-import BarChart from './bar-chart';
+import PropTypes from 'prop-types'
+import * as array from 'd3-array'
+import * as scale from 'd3-scale'
+import * as shape from 'd3-shape'
+import BarChart from './bar-chart'
 
 class GroupedBarChart extends BarChart {
     calcXScale(domain) {
@@ -144,8 +144,11 @@ class GroupedBarChart extends BarChart {
         return [yMin, yMax]
     }
 
-    return [yMin, yMax];
-  }
+    calcIndexes() {
+        const { data } = this.props
+        return data[0].data.map((_, index) => index)
+    }
+}
 
 GroupedBarChart.propTypes = {
     ...BarChart.propTypes,
@@ -157,14 +160,4 @@ GroupedBarChart.propTypes = {
     ).isRequired,
 }
 
-GroupedBarChart.propTypes = {
-  ...BarChart.propTypes,
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      data: PropTypes.array.isRequired,
-      svg: PropTypes.object,
-    }),
-  ).isRequired,
-};
-
-export default GroupedBarChart;
+export default GroupedBarChart

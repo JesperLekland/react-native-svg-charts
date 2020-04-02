@@ -1,7 +1,7 @@
-import React from 'react';
-import {AreaChart, Grid} from 'react-native-svg-charts';
-import * as shape from 'd3-shape';
-import {StyleSheet, View} from 'react-native';
+import React from 'react'
+import { AreaChart, Grid } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
+import { StyleSheet, View } from 'react-native'
 
 class LayeredChartsExample extends React.PureComponent {
     render() {
@@ -31,4 +31,4 @@ class LayeredChartsExample extends React.PureComponent {
     }
 }
 
-export default LayeredChartsExample;
+export default LayeredChartsExample

@@ -1,19 +1,22 @@
-import React from 'react';
-import {View} from 'react-native';
-import {BarChart, Grid, YAxis} from 'react-native-svg-charts';
-import {Defs, LinearGradient, Stop} from 'react-native-svg';
-import * as scale from 'd3-scale';
+import React from 'react'
+import { View } from 'react-native'
+import { BarChart, Grid, YAxis } from 'react-native-svg-charts'
+import { Defs, LinearGradient, Stop } from 'react-native-svg'
+import * as scale from 'd3-scale'
 
 class BarChartExample extends React.PureComponent {
     render() {
         const data = [
             {
-              data,
-              svg: {fill: 'orange'},
+                value: 50,
+                label: 'Default',
             },
             {
-              data: [...data].reverse(),
-              svg: {fill: 'red'},
+                value: 10,
+                label: 'PurpleOpacity',
+                svg: {
+                    fill: 'rgba(134, 65, 244, 0.5)',
+                },
             },
             {
                 value: 40,
@@ -90,4 +93,4 @@ class BarChartExample extends React.PureComponent {
     }
 }
 
-export default BarChartExample;
+export default BarChartExample

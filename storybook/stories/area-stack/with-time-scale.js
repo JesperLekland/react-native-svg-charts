@@ -1,9 +1,9 @@
-import React from 'react';
-import {View} from 'react-native';
-import {StackedAreaChart, Grid, XAxis} from 'react-native-svg-charts';
-import * as shape from 'd3-shape';
-import * as scale from 'd3-scale';
-import {format} from 'date-fns';
+import React from 'react'
+import { View } from 'react-native'
+import { StackedAreaChart, Grid, XAxis } from 'react-native-svg-charts'
+import * as shape from 'd3-shape'
+import * as scale from 'd3-scale'
+import { format } from 'date-fns'
 
 class AreaStackChartExample extends React.PureComponent {
     render() {
@@ -41,30 +41,31 @@ class AreaStackChartExample extends React.PureComponent {
         const colors = ['#8800cc', '#aa00ff', '#cc66ff', '#eeccff']
         const keys = ['apples', 'bananas', 'cherries', 'dates']
 
-    return (
-      <View style={{height: 200, paddingVertical: 16}}>
-        <StackedAreaChart
-          style={{flex: 1}}
-          data={data}
-          keys={keys}
-          colors={colors}
-          curve={shape.curveNatural}
-          xScale={scale.scaleTime}
-          xAccessor={({item}) => item.month}>
-          <Grid />
-        </StackedAreaChart>
-        <XAxis
-          style={{marginTop: 10, marginHorizontal: -10}}
-          contentInset={{left: 10, right: 10}}
-          numberOfTicks={6}
-          data={data}
-          xAccessor={({item}) => item.month}
-          scale={scale.scaleTime}
-          formatLabel={(value) => format(value, 'MMM')}
-        />
-      </View>
-    );
-  }
+        return (
+            <View style={{ height: 200, paddingVertical: 16 }}>
+                <StackedAreaChart
+                    style={{ flex: 1 }}
+                    data={data}
+                    keys={keys}
+                    colors={colors}
+                    curve={shape.curveNatural}
+                    xScale={scale.scaleTime}
+                    xAccessor={({ item }) => item.month}
+                >
+                    <Grid />
+                </StackedAreaChart>
+                <XAxis
+                    style={{ marginTop: 10, marginHorizontal: -10 }}
+                    contentInset={{ left: 10, right: 10 }}
+                    numberOfTicks={6}
+                    data={data}
+                    xAccessor={({ item }) => item.month}
+                    scale={scale.scaleTime}
+                    formatLabel={(value) => format(value, 'MMM')}
+                />
+            </View>
+        )
+    }
 }
 
-export default AreaStackChartExample;
+export default AreaStackChartExample

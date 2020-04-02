@@ -67,8 +67,6 @@ target 'react-native-svg-charts' do
   pod 'glog', :podspec => '../node_modules/react-native/third-party-podspecs/glog.podspec'
   pod 'Folly', :podspec => '../node_modules/react-native/third-party-podspecs/Folly.podspec'  
 
-  pod 'RNSVG', :path => '../node_modules/react-native-svg'
-
   use_native_modules!
   
   # Enables Flipper.

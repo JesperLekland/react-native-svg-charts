@@ -1,11 +1,11 @@
-import React from 'react';
-import {storiesOf} from '@storybook/react-native';
+import React from 'react'
+import { storiesOf } from '@storybook/react-native'
 
-import Regular from './standard';
-import Partial from './partial';
-import WithGradient from './with-gradient';
-import WithDifferentBase from './with-differen-base';
-import ShowcaseCard from '../showcase-card';
+import Regular from './standard'
+import Partial from './partial'
+import WithGradient from './with-gradient'
+import WithDifferentBase from './with-differen-base'
+import ShowcaseCard from '../showcase-card'
 
 storiesOf('AreaChart', module)
     .addDecorator((getStory) => <ShowcaseCard>{getStory()}</ShowcaseCard>)
