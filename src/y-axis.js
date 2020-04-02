@@ -89,6 +89,8 @@ class YAxis extends PureComponent {
         0,
       );
 
+    console.log('longestValue :', longestValue);
+
     const extraProps = {
       y,
       ticks,
