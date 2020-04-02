@@ -58,7 +58,7 @@
   },
   "peerDependencies": {
     "react": ">=16.0.0-alpha.12",
-    "react-native": ">=0.46.0",
+    "react-native": ">=0.57.4",
     "react-native-svg": "^9.0.0"
   },
   "devDependencies": {
@@ -90,7 +90,7 @@
     "react": "16.11.0",
     "react-dom": ">=16.11.1",
     "react-native": "0.62.0",
-    "react-native-svg": "^9.13.6",
+    "react-native-svg": "^11.0.1",
     "react-test-renderer": "16.11.0"
   },
   "jest": {
