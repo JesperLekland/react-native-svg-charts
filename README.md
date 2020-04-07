@@ -486,7 +486,7 @@ class PieChartExample extends React.PureComponent {
                 key: `pie-${index}`,
             }))
 
-        return <PieChart style={{ height: 200 }} data={pieData} />
+        return <PieChart style={{ height: 200, width: 200 }} data={pieData} />
     }
 }
 ```
