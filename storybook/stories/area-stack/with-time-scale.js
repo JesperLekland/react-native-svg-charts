@@ -3,7 +3,7 @@ import { View } from 'react-native'
 import { StackedAreaChart, Grid, XAxis } from 'react-native-svg-charts'
 import * as shape from 'd3-shape'
 import * as scale from 'd3-scale'
-import dateFns from 'date-fns'
+import { format } from 'date-fns'
 
 class AreaStackChartExample extends React.PureComponent {
     render() {
@@ -61,7 +61,7 @@ class AreaStackChartExample extends React.PureComponent {
                     data={data}
                     xAccessor={({ item }) => item.month}
                     scale={scale.scaleTime}
-                    formatLabel={(value) => dateFns.format(value, 'MMM')}
+                    formatLabel={(value) => format(value, 'MMM')}
                 />
             </View>
         )

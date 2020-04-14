@@ -1,31 +1,73 @@
 import React from 'react'
-import { AreaChart } from 'react-native-svg-charts'
-import { Defs, LinearGradient, Stop } from 'react-native-svg'
+import { StackedAreaChart, Grid } from 'react-native-svg-charts'
+import { Defs, Stop, LinearGradient } from 'react-native-svg'
+import * as shape from 'd3-shape'
 
-class GradientExample extends React.PureComponent {
+class AreaStackChartExample extends React.PureComponent {
     render() {
-        const data = [50, 10, 40, 95, -4, -24, 85, 91, 35, 53, -53, 24, 50, -20, -80]
+        const data = [
+            {
+                month: new Date(2015, 0, 1),
+                apples: 3840,
+                bananas: 1920,
+                cherries: 960,
+                dates: 400,
+            },
+            {
+                month: new Date(2015, 1, 1),
+                apples: 1600,
+                bananas: 1440,
+                cherries: 960,
+                dates: 400,
+            },
+            {
+                month: new Date(2015, 2, 1),
+                apples: 640,
+                bananas: 960,
+                cherries: 3640,
+                dates: 400,
+            },
+            {
+                month: new Date(2015, 3, 1),
+                apples: 3320,
+                bananas: 480,
+                cherries: 640,
+                dates: 400,
+            },
+        ]
 
         const Gradient = ({ index }) => (
             <Defs key={index}>
-                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'0%'} y2={'100%'}>
-                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.8} />
-                    <Stop offset={'100%'} stopColor={'rgb(134, 65, 244)'} stopOpacity={0.2} />
+                <LinearGradient id={'gradient'} x1={'0%'} y={'0%'} x2={'100%'} y2={'0%'}>
+                    <Stop offset={'0%'} stopColor={'rgb(134, 65, 244)'} />
+                    <Stop offset={'100%'} stopColor={'#eeccff'} />
                 </LinearGradient>
             </Defs>
         )
 
+        const colors = ['#8800cc', '#aa00ff', '#cc66ff', '#eeccff']
+        const keys = ['apples', 'bananas', 'cherries', 'dates']
+        const svgs = [
+            { fill: 'url(#gradient)' },
+            { onPress: () => console.log('bananas') },
+            { onPress: () => console.log('cherries') },
+            { onPress: () => console.log('dates') },
+        ]
+
         return (
-            <AreaChart
-                style={{ height: 200 }}
+            <StackedAreaChart
+                style={{ height: 200, paddingVertical: 16 }}
                 data={data}
-                contentInset={{ top: 20, bottom: 20 }}
-                svg={{ fill: 'url(#gradient)' }}
+                keys={keys}
+                colors={colors}
+                curve={shape.curveNatural}
+                svgs={svgs}
             >
+                <Grid />
                 <Gradient />
-            </AreaChart>
+            </StackedAreaChart>
         )
     }
 }
 
-export default GradientExample
+export default AreaStackChartExample

@@ -2,38 +2,38 @@ import React from 'react'
 import { View } from 'react-native'
 import { AreaChart, XAxis } from 'react-native-svg-charts'
 import * as scale from 'd3-scale'
-import dateFns from 'date-fns'
+import { setHours, format } from 'date-fns'
 
 class GridMinMaxExample extends React.PureComponent {
     render() {
         const data = [
             {
                 value: 50,
-                date: dateFns.setHours(new Date(2018, 0, 0), 6),
+                date: setHours(new Date(2018, 0, 0), 6),
             },
             {
                 value: 10,
-                date: dateFns.setHours(new Date(2018, 0, 0), 9),
+                date: setHours(new Date(2018, 0, 0), 9),
             },
             {
                 value: 150,
-                date: dateFns.setHours(new Date(2018, 0, 0), 15),
+                date: setHours(new Date(2018, 0, 0), 15),
             },
             {
                 value: 10,
-                date: dateFns.setHours(new Date(2018, 0, 0), 18),
+                date: setHours(new Date(2018, 0, 0), 18),
             },
             {
                 value: 100,
-                date: dateFns.setHours(new Date(2018, 0, 0), 21),
+                date: setHours(new Date(2018, 0, 0), 21),
             },
             {
                 value: 20,
-                date: dateFns.setHours(new Date(2018, 0, 0), 24),
+                date: setHours(new Date(2018, 0, 0), 24),
             },
         ]
 
-        const xMin = dateFns.setHours(new Date(2018, 0, 0), 0)
+        const xMin = setHours(new Date(2018, 0, 0), 0)
 
         return (
             <View style={{ height: 200 }}>
@@ -55,7 +55,7 @@ class GridMinMaxExample extends React.PureComponent {
                     scale={scale.scaleTime}
                     numberOfTicks={12}
                     xAccessor={({ item }) => item.date}
-                    formatLabel={(value) => dateFns.format(value, 'HH')}
+                    formatLabel={(value) => format(value, 'HH')}
                     min={xMin}
                 />
             </View>

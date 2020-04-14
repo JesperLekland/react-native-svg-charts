@@ -54,8 +54,8 @@ class BarChartExample extends React.PureComponent {
         )
 
         const CUT_OFF = 50
-        const Labels = ({ x, y, bandwidth, data }) =>
-            data.map((item, index) => (
+        const Labels = ({ x, y, bandwidth, ...rest }) =>
+            rest.data.map((item, index) => (
                 <Text
                     key={item.label}
                     x={item.value > CUT_OFF ? x(0) + 10 : x(item.value) + 10}

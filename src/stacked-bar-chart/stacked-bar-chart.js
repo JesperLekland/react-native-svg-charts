@@ -9,11 +9,7 @@ import Path from '../animated-path'
 
 class BarChart extends PureComponent {
     static extractDataPoints(data, keys, order = shape.stackOrderNone, offset = shape.stackOffsetNone) {
-        const series = shape
-            .stack()
-            .keys(keys)
-            .order(order)
-            .offset(offset)(data)
+        const series = shape.stack().keys(keys).order(order).offset(offset)(data)
 
         //double merge arrays to extract just the values
         return array.merge(array.merge(series))

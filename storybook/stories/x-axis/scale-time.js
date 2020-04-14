@@ -3,34 +3,34 @@ import { AreaChart, XAxis, Grid } from 'react-native-svg-charts'
 import { View } from 'react-native'
 import * as scale from 'd3-scale'
 import * as shape from 'd3-shape'
-import dateFns from 'date-fns'
+import { setHours, format } from 'date-fns'
 
 class XAxisScaleTimeExample extends React.PureComponent {
     render() {
         const data = [
             {
                 value: 50,
-                date: dateFns.setHours(new Date(2018, 0, 0), 6),
+                date: setHours(new Date(2018, 0, 0), 6),
             },
             {
                 value: 10,
-                date: dateFns.setHours(new Date(2018, 0, 0), 9),
+                date: setHours(new Date(2018, 0, 0), 9),
             },
             {
                 value: 150,
-                date: dateFns.setHours(new Date(2018, 0, 0), 15),
+                date: setHours(new Date(2018, 0, 0), 15),
             },
             {
                 value: 10,
-                date: dateFns.setHours(new Date(2018, 0, 0), 18),
+                date: setHours(new Date(2018, 0, 0), 18),
             },
             {
                 value: 100,
-                date: dateFns.setHours(new Date(2018, 0, 0), 21),
+                date: setHours(new Date(2018, 0, 0), 21),
             },
             {
                 value: 20,
-                date: dateFns.setHours(new Date(2018, 0, 0), 24),
+                date: setHours(new Date(2018, 0, 0), 24),
             },
         ]
 
@@ -63,7 +63,7 @@ class XAxisScaleTimeExample extends React.PureComponent {
                     numberOfTicks={6}
                     style={{ marginHorizontal: -15, height: 20 }}
                     contentInset={{ left: 10, right: 25 }}
-                    formatLabel={(value) => dateFns.format(value, 'HH:mm')}
+                    formatLabel={(value) => format(value, 'HH:mm')}
                 />
             </View>
         )
