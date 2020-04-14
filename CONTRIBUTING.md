@@ -10,3 +10,4 @@ In order for this to be maintainable we ask you to follow these rules when contr
 * make sure your implementation doesn't break anything, step through all the StoryBook stories and make sure everything look as expected. Also make sure that the circleci builds are passing.
 * create one (or several) new story/stories that showcases your new feature
 * fork [`react-native-svg-charts-examples`](https://github.com/JesperLekland/react-native-svg-charts-examples) and make a PR with your newly implementes stories (include screenshots).
+* bundle the library using `npm run prepare` to make it compatible with web if you are publishing a new release to npm.
