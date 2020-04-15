@@ -116,6 +116,13 @@ class YAxis extends PureComponent {
                                 // causes rendering issues
                                 height > 0 &&
                                     ticks.map((value, index) => {
+                                        const label = formatLabel(value, index, ticks.length)
+                                        
+                                        // don't render empty labels
+                                        if(!label || label === '') {
+                                            return null
+                                        }
+                                        
                                         return (
                                             <SVGText
                                                 originY={y(value)}
@@ -126,7 +133,7 @@ class YAxis extends PureComponent {
                                                 key={y(value)}
                                                 y={y(value)}
                                             >
-                                                {formatLabel(value, index, ticks.length)}
+                                                {label}
                                             </SVGText>
                                         )
                                     })}

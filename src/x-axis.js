@@ -104,7 +104,13 @@ class XAxis extends PureComponent {
                                 width > 0 &&
                                     ticks.map((value, index) => {
                                         const { svg: valueSvg = {} } = data[index] || {}
+                                        const label = formatLabel(value, index)
 
+                                        // don't render empty labels
+                                        if(!label || label === '') {
+                                            return null
+                                        }
+                                        
                                         return (
                                             <SVGText
                                                 textAnchor={'middle'}
@@ -115,7 +121,7 @@ class XAxis extends PureComponent {
                                                 key={index}
                                                 x={x(value)}
                                             >
-                                                {formatLabel(value, index)}
+                                                {label}
                                             </SVGText>
                                         )
                                     })}
