@@ -3,14 +3,22 @@ import Chart from '../chart/chart'
 
 class LineChart extends Chart {
     createPaths({ data, x, y }) {
-        const { curve } = this.props
-
-        const line = shape
-            .line()
-            .x((d) => x(d.x))
-            .y((d) => y(d.y))
-            .defined((item) => typeof item.y === 'number')
-            .curve(curve)(data)
+        const { curve, continuousLine } = this.props
+        let line
+        if (continuousLine) {
+            line = shape
+                .line()
+                .x((d) => x(d.x))
+                .y((d) => y(d.y))
+                .curve(curve)(data.filter((item) => item.y))
+        } else {
+            line = shape
+                .line()
+                .x((d) => x(d.x))
+                .y((d) => y(d.y))
+                .defined((item) => typeof item.y === 'number')
+                .curve(curve)(data)
+        }
 
         return {
             path: line,

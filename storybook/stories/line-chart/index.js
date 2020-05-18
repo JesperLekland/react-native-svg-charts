@@ -5,6 +5,7 @@ import Standard from './standard'
 import Partial from './partial'
 import WithGradient from './with-gradient'
 import Grouped from './grouped'
+import ContinuousLine from './continuous-line'
 import ShowcaseCard from '../showcase-card'
 
 storiesOf('LineChart')
@@ -13,3 +14,4 @@ storiesOf('LineChart')
     .add('Partial', () => <Partial />)
     .add('With gradient', () => <WithGradient />)
     .add('Grouped', () => <Grouped />)
+    .add('Continuous line', () => <ContinuousLine />)
