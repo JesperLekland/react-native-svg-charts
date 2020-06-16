@@ -5,7 +5,7 @@ import { G, Line } from 'react-native-svg'
 const Horizontal = ({ ticks = [], y, svg }) => {
     return (
         <G>
-            {ticks.map((tick) => (
+            {y.ticks(ticks.length).map((tick) => (
                 <Line
                     key={tick}
                     x1={'0%'}
@@ -24,7 +24,7 @@ const Horizontal = ({ ticks = [], y, svg }) => {
 const Vertical = ({ ticks = [], x, svg }) => {
     return (
         <G>
-            {ticks.map((tick, index) => (
+            {x.ticks(ticks.length).map((tick, index) => (
                 <Line
                     key={index}
                     y1={'0%'}
