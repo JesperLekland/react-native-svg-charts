@@ -10,6 +10,9 @@ class XAxis extends PureComponent {
         width: 0,
         height: 0,
     }
+    _isScaleBand(scale) {
+        return scale.name === 'band'
+    }
 
     _onLayout(event) {
         const {
@@ -37,7 +40,7 @@ class XAxis extends PureComponent {
             .domain(domain)
             .range([left, width - right])
 
-        if (scale === d3Scale.scaleBand) {
+        if (this._isScaleBand(scale)) {
             x.paddingInner([spacingInner]).paddingOuter([spacingOuter])
 
             //add half a bar to center label
@@ -58,7 +61,7 @@ class XAxis extends PureComponent {
 
         const values = data.map((item, index) => xAccessor({ item, index }))
         const extent = array.extent(values)
-        const domain = scale === d3Scale.scaleBand ? values : [min || extent[0], max || extent[1]]
+        const domain = this._isScaleBand(scale) ? values : [min || extent[0], max || extent[1]]
 
         const x = this._getX(domain)
         const ticks = numberOfTicks ? x.ticks(numberOfTicks) : values
