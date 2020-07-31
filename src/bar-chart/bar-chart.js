@@ -121,7 +121,7 @@ class BarChart extends PureComponent {
     }
 
     render() {
-        const { data, animate, animationDuration, style, numberOfTicks, svg, horizontal, children } = this.props
+        const { data, animate, animationDuration, style, numberOfTicks, svg, horizontal, children, radiusX, radiusY, heightPlaceholderView, showPlaceholderView, showCustomRect } = this.props
 
         const { height, width } = this.state
 
@@ -173,6 +173,11 @@ class BarChart extends PureComponent {
 
                                 return (
                                     <Path
+                                        radiusX={radiusX}
+                                        radiusY={radiusY}
+                                        showPlaceholderView={showPlaceholderView}
+                                        heightPlaceholderView={heightPlaceholderView}
+                                        showCustomRect={showCustomRect}
                                         key={index}
                                         {...svg}
                                         {...barSvg}
@@ -212,10 +217,14 @@ BarChart.propTypes = {
     gridMin: PropTypes.number,
     gridMax: PropTypes.number,
     svg: PropTypes.object,
-
     yMin: PropTypes.any,
     yMax: PropTypes.any,
     clamp: PropTypes.bool,
+    radiusX: PropTypes.number,
+    radiusY: PropTypes.number,
+    showPlaceholderView: PropTypes.bool,
+    heightPlaceholderView: PropTypes.number,
+    showCustomRect: PropTypes.bool,
 }
 
 BarChart.defaultProps = {

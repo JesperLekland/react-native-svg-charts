@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { InteractionManager } from 'react-native'
 import PropTypes from 'prop-types'
-import { Path } from 'react-native-svg'
+import { Path, Rect } from 'react-native-svg'
 import * as interpolate from 'd3-interpolate-path'
 
 class AnimatedPath extends Component {
@@ -80,26 +80,70 @@ class AnimatedPath extends Component {
     }
 
     render() {
+        const { radiusX, radiusY, showPlaceholderView, heightPlaceholderView, showCustomRect } = this.props
+        if (showCustomRect) {
+  
+        var commands = this.state.d.split(/(?=[LMC])/);
+
+        var pointArrays = commands.map(function (d) {
+            var pointsArray = d.slice(1, d.length).split(',');
+            var pairsArray = [];
+            for (var i = 0; i < pointsArray.length; i += 2) {
+                pairsArray.push([+pointsArray[i], +pointsArray[i + 1]]);
+            }
+            return pairsArray;
+        });
+
+        const width = Math.abs(pointArrays[1][0][0] - pointArrays[0][0][0]);
+        const height = Math.abs(pointArrays[2][0][1] - pointArrays[1][0][1]);
+        const x = Math.abs(pointArrays[0][0][0]);
+        const y = Math.abs(pointArrays[0][0][1]);
+
         return (
-            <Path
+            <>
+            {showPlaceholderView && <Rect
+                x={x} rx={radiusX} ry={radiusY} y={0} width={width} height={heightPlaceholderView}
+                fill='#f4f4f4'
+            />}
+            <Rect
+                x={x} rx={radiusX} ry={radiusY} y={y} width={width} height={height}
                 ref={(ref) => (this.component = ref)}
                 {...this.props}
-                d={this.props.animate ? this.state.d : this.props.d}
             />
+            </>
         )
+    } else {
+            return (
+                <Path
+                    ref={(ref) => (this.component = ref)}
+                    {...this.props}
+                    d={this.props.animate ? this.state.d : this.props.d}
+                />
+            )
     }
+}
 }
 
 AnimatedPath.propTypes = {
     animate: PropTypes.bool,
     animationDuration: PropTypes.number,
     renderPlaceholder: PropTypes.func,
+    radiusX: PropTypes.number,
+    radiusY: PropTypes.number,
+    showPlaceholderView: PropTypes.bool,
+    heightPlaceholderView: PropTypes.number,
+    showCustomRect: PropTypes.bool,
     ...Path.propTypes,
 }
 
 AnimatedPath.defaultProps = {
     animate: false,
     animationDuration: 300,
+    radiusX: 10,
+    radiusY: 10,
+    showPlaceholderView: true,
+    showCustomRect: true,
+    heightPlaceholderView: 220,
     renderPlaceholder: () => null,
 }
 
