@@ -2,7 +2,7 @@
 
 [![version](https://img.shields.io/npm/v/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
 [![downloads](https://img.shields.io/npm/dm/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
-[![license](https://img.shields.io/npm/l/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts)
+[![license](https://img.shields.io/npm/l/react-native-svg-charts.svg)](https://www.npmjs.com/package/react-native-svg-charts) [![Meercode CI Score](https://meercode.io/badge/JesperLekland/react-native-svg-charts?type=ci-score&branch=dev)](https://meercode.io/JesperLekland/react-native-svg-charts)
 
 Welcome to react-native-svg-charts!
 
