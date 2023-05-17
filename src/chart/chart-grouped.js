@@ -51,10 +51,11 @@ class ChartGrouped extends PureComponent {
             return <View style={style} />
         }
 
+        // temporarily removing x and y accessors 
         const mappedData = data.map((dataArray) =>
             dataArray.data.map((item, index) => ({
-                y: yAccessor({ item, index }),
-                x: xAccessor({ item, index }),
+                y: item.y,
+                x: item.x,
             }))
         )
 
