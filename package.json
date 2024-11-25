@@ -1,6 +1,6 @@
 {
-    "name": "react-native-svg-charts",
-    "version": "5.3.0",
+    "name": "@thejoggle/react-native-svg-charts",
+    "version": "6.0.0",
     "private": false,
     "description": "Customizable charts (Line, Bar, Area, Pie, Circle, Progress) for React Native",
     "main": "lib/module/index.js",
@@ -34,17 +34,14 @@
         "chart",
         "d3"
     ],
-    "author": {
-        "name": "Jesper Lekland",
-        "email": "jesper.lekland@push2prod.se"
-    },
-    "homepage": "https://github.com/JesperLekland/react-native-svg-charts",
+    "author": "The Joggle",
+    "homepage": "https://github.com/TheJoggle/react-native-svg-charts",
     "bugs": {
-        "url": "https://github.com/JesperLekland/react-native-svg-charts/issues"
+        "url": "https://github.com/TheJoggle/react-native-svg-charts/issues"
     },
     "repository": {
         "type": "git",
-        "url": "git://github.com/JesperLekland/react-native-svg-charts.git"
+        "url": "git://github.com/TheJoggle/react-native-svg-charts.git"
     },
     "license": "MIT",
     "dependencies": {
@@ -57,9 +54,11 @@
     "peerDependencies": {
         "react": ">=16.0.0-alpha.12",
         "react-native": ">=0.46.0",
-        "react-native-svg": "^6.2.1||^7.0.3"
+        "react-native-svg": "*"
     },
     "devDependencies": {
+        "@babel/compat-data": "^7.26.2",
+        "@babel/preset-env": "^7.26.0",
         "@react-native-community/bob": "^0.10.0",
         "@storybook/addon-actions": "^3.2.14",
         "@storybook/addon-knobs": "^3.2.14",
@@ -108,5 +107,8 @@
     "eslintIgnore": [
         "node_modules/",
         "lib/"
-    ]
+    ],
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com/"
+    }
 }
