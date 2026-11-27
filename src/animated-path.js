@@ -1,8 +1,19 @@
 import React, { Component } from 'react'
-import { InteractionManager } from 'react-native'
 import PropTypes from 'prop-types'
 import { Path } from 'react-native-svg'
 import * as interpolate from 'd3-interpolate-path'
+
+// React Native removed `InteractionManager` from core in 0.88. Reading the property raises an
+// invariant in development and is plain `undefined` in a release build, so a plain import crashes
+// every chart that animates. Resolve it once, defensively, and treat its absence as "there is no
+// interaction to register" -- the animation itself is unaffected, since the handle only ever asked
+// `runAfterInteractions` callers to wait for it.
+let InteractionManager
+try {
+    InteractionManager = require('react-native').InteractionManager
+} catch (e) {
+    InteractionManager = undefined
+}
 
 class AnimatedPath extends Component {
     constructor(props) {
@@ -41,7 +52,7 @@ class AnimatedPath extends Component {
         this.animation = requestAnimationFrame((timestamp) => {
             if (!start) {
                 this._clearInteraction()
-                this.handle = InteractionManager.createInteractionHandle()
+                this.handle = InteractionManager ? InteractionManager.createInteractionHandle() : null
 
                 start = timestamp
             }
